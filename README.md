@@ -26,9 +26,21 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Tailwind 4
 - shadcn/ui
 
+## Branch Strategy
+
+| Branch | Purpose | Vercel |
+|--------|---------|--------|
+| `main` | Active development | — |
+| `staging` | Review & testing | Preview URL |
+| `prod` | Live site | Production domain |
+
+**Workflow:** `main` → `staging` (test) → `prod` (ship)
+
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com)
+1. Import `fractalframedesign-commits/fractalframe-portfolio` on [Vercel](https://vercel.com)
+2. Set **Production Branch** to `prod` in Project Settings → Git
+3. `staging` gets an automatic preview URL on every push
 
 ## Static Export Support
 
