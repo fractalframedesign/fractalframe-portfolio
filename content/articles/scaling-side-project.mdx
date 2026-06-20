@@ -1,0 +1,67 @@
+---
+title: Scaling a side project to 10k users
+slug: scaling-side-project
+description: What started as a weekend idea slowly turned into a product used by thousands. Here's what I learned about infrastructure, patience, and why "just ship it" only works when you're ready to handle what comes next.
+date: 2025-11-04
+pinned: true
+---
+
+What started as a weekend idea slowly turned into a product used by thousands. Here&apos;s what I learned along the way.
+
+The first version was embarrassingly simple — a single page app with a JSON file as a database. I deployed it on a free tier and shared it with a few friends. That was supposed to be the end of it.
+
+But then it got picked up on Twitter. And suddenly, my "weekend project" had real users with real expectations.
+
+## The First 100 Users
+
+The first hundred users were easy. They were patient, forgiving, and mostly just curious. They sent feedback, reported bugs, and stuck around even when things broke.
+
+At this stage, I made one critical decision: **I listened more than I built.**
+
+Instead of adding features I thought were cool, I focused on what users actually needed. A simpler onboarding. Faster load times. Better error messages. Small things that made a big difference.
+
+```js
+// My first "analytics" — just logging to console
+window.addEventListener('error', (e) => {
+  console.log('User hit an error:', e.message);
+  // Later replaced with proper error tracking
+});
+```
+
+## The 1,000 User Problem
+
+At around 1,000 users, everything started to break. The JSON file approach wasn&apos;t cutting it anymore. Response times climbed. The free tier hit its limits.
+
+I had to make real infrastructure decisions:
+
+- **Database:** Moved from JSON to PostgreSQL
+- **Hosting:** Upgraded to a paid tier with auto-scaling
+- **Caching:** Added Redis for frequently accessed data
+- **Monitoring:** Set up alerts for downtime and slow queries
+
+The hardest part wasn&apos;t the technical migration — it was doing it without disrupting existing users. I learned to deploy changes incrementally, always with a rollback plan.
+
+## What 10,000 Users Taught Me
+
+Reaching 10k users changed my perspective entirely. At this scale, you stop thinking about features and start thinking about **systems**.
+
+- **Reliability matters more than novelty.** Users don&apos;t care about your new feature if the app is down.
+- **Performance is a feature.** Every 100ms of latency costs you engagement.
+- **Documentation saves time.** When others join, they need to understand your decisions.
+- **Automation is essential.** Manual deployments don&apos;t scale. CI/CD pipelines do.
+
+## The Unexpected Challenges
+
+Some things surprised me:
+
+- **Support requests multiply fast.** Even a 1% issue rate means 100 tickets at 10k users.
+- **Edge cases become common cases.** That bug you ignored? Someone will find it daily.
+- **People will use your product in ways you never imagined.** Build for flexibility.
+
+## Looking Back
+
+Scaling from 0 to 10k wasn&apos;t about being clever — it was about being consistent. Showing up every day, fixing bugs, listening to feedback, and making incremental improvements.
+
+The weekend project is now a real product. And the biggest lesson? **Start simple, but build foundations that can grow.**
+
+If you&apos;re working on something small right now, don&apos;t over-engineer it — but don&apos;t ignore the future either. The best time to think about scale is before you need it.

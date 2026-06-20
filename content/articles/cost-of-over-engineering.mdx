@@ -1,0 +1,104 @@
+---
+title: The cost of over-engineering
+slug: cost-of-over-engineering
+description: Sometimes we build systems so flexible that no one can understand them later — including ourselves. This post is a reminder that clarity often scales better than cleverness.
+date: 2025-10-20
+---
+
+Sometimes we build systems so flexible that no one can understand them later — including ourselves. I&apos;ve been guilty of this more times than I&apos;d like to admit.
+
+It usually starts with good intentions. "What if we need to support multiple databases?" "What if the requirements change?" "What if we scale to millions of users?"
+
+So we add abstraction layers. Configuration options. Plugin systems. And before we know it, a simple feature takes three days to implement because we have to navigate a maze of our own creation.
+
+## The Abstraction Trap
+
+Abstractions are powerful, but they have a cost. Every layer you add is a layer someone has to understand.
+
+```tsx
+// Simple and clear
+function getUser(id) {
+  return db.query('SELECT * FROM users WHERE id = ?', [id]);
+}
+
+// Over-engineered
+function getUser(id) {
+  return EntityManager.getInstance()
+    .getRepository('User')
+    .createQueryBuilder()
+    .withStrategy(new EagerLoadingStrategy())
+    .where({ id })
+    .useCache(CacheConfig.default)
+    .execute();
+}
+```
+
+The second version might be "more flexible," but ask yourself: do you actually need that flexibility? Or are you solving problems that don&apos;t exist yet?
+
+## YAGNI: You Aren&apos;t Gonna Need It
+
+One of the most valuable principles I&apos;ve learned is YAGNI — You Aren&apos;t Gonna Need It. It&apos;s a reminder that the features we imagine we&apos;ll need rarely match reality.
+
+I once spent two weeks building a plugin system for a project. It supported dynamic loading, versioning, sandboxed execution — the works. Know how many plugins we ended up creating? Zero.
+
+Those two weeks could have been spent on features users actually wanted.
+
+## Signs You&apos;re Over-Engineering
+
+Watch out for these patterns:
+
+- **You&apos;re solving hypothetical problems.** "What if someday..." is a red flag.
+- **Simple changes require touching many files.** Abstractions should reduce complexity, not spread it.
+- **You need documentation to understand your own code.** If you wrote it last month and can&apos;t follow it today, it&apos;s too complex.
+- **New team members struggle to contribute.** If onboarding takes weeks, your architecture might be the problem.
+- **You&apos;re proud of how clever it is.** Clever code is often fragile code.
+
+## The Cost is Real
+
+Over-engineering isn&apos;t free. It costs:
+
+- **Development time.** Building abstractions takes longer than building features.
+- **Maintenance burden.** More code means more bugs, more updates, more cognitive load.
+- **Team velocity.** Complex systems slow everyone down.
+- **Opportunity cost.** Time spent on architecture is time not spent on users.
+
+## When Abstraction Makes Sense
+
+I&apos;m not saying never abstract. Abstraction is essential — but it should be earned, not assumed.
+
+Good reasons to abstract:
+
+- You&apos;ve written the same code three times (the Rule of Three)
+- The pattern is stable and well-understood
+- The abstraction simplifies more than it complicates
+- You have concrete, present needs — not hypothetical future ones
+
+```tsx
+// Earned abstraction — we actually have multiple data sources
+function fetchData(source, query) {
+  const adapter = adapters[source]; // postgres, mongodb, api
+  return adapter.fetch(query);
+}
+```
+
+## Simplicity Scales
+
+Here&apos;s the counterintuitive truth: simple code often scales better than clever code.
+
+Simple code is easier to debug when things go wrong. Simple code is easier to optimize when performance matters. Simple code is easier to refactor when requirements change.
+
+The most maintainable systems I&apos;ve worked on weren&apos;t impressive architecturally. They were boring. Predictable. Easy to understand.
+
+And that&apos;s exactly what made them reliable.
+
+## A Challenge
+
+Next time you&apos;re tempted to add an abstraction layer, ask yourself:
+
+- What concrete problem am I solving today?
+- Is this the simplest solution that works?
+- Will my future self (or a new teammate) understand this?
+
+If you can&apos;t answer confidently, consider doing the simpler thing. You can always add complexity later — but removing it is much harder.
+
+Build for today. Refactor for tomorrow. And remember: clarity scales better than cleverness.

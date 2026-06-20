@@ -1,0 +1,41 @@
+---
+title: Why I still love writing vanilla JavaScript
+slug: vanilla-javascript
+description: Even with frameworks evolving every month, I keep coming back to plain JavaScript. There's something pure about writing logic that runs instantly in the browser — no setup, no build step, just you and the code.
+date: 2025-11-01
+---
+
+There&apos;s something deeply satisfying about writing plain JavaScript — no build tools, no dependencies, just a `<script>` tag and an idea.
+
+In an age of complex frameworks and bundlers, it feels refreshing to open a blank file and start typing logic that runs everywhere. Vanilla JS reminds me why I started coding in the first place: **to make things move, react, and feel alive on a screen.**
+
+When you work without abstractions, you&apos;re forced to really understand what&apos;s happening — the DOM, events, timing, scope. Every click handler or API call becomes a direct conversation with the browser. It sharpens your intuition for how the web actually works.
+
+Here&apos;s a simple example I always come back to — no React, no frameworks, just JavaScript doing what it does best:
+
+```js
+const button = document.querySelector('#btn');
+const counter = document.querySelector('#count');
+
+let count = 0;
+
+button.addEventListener('click', () => {
+  count++;
+  counter.textContent = `Clicked ${count} times`;
+});
+```
+
+No setup, no imports — just open your browser and it works.
+
+## Why it&apos;s still matters
+
+- **Speed:** Nothing loads faster than code without dependencies.
+- **Control:** You know exactly what&apos;s happening under the hood.
+- **Learning:** Every line teaches you something about the browser.
+- **Freedom:** No need to wait for library updates or deal with breaking changes.
+
+Frameworks are amazing, but they often blur the line between how and why. Vanilla JavaScript keeps that line visible.
+
+It&apos;s simple, lightweight, and endlessly capable.
+
+Sometimes, I think the best way to level up as a developer is to go back to the basics — and write a few hundred lines of pure JavaScript, just for the joy of it.

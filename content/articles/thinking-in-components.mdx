@@ -1,0 +1,130 @@
+---
+title: Thinking in components
+slug: thinking-in-components
+description: Building modern interfaces isn't about pages anymore — it's about systems. Thinking in components changes how you design, code, and even debug. Once you get it, you'll never build the same way again.
+date: 2025-10-25
+---
+
+Building modern interfaces isn&apos;t about pages anymore — it&apos;s about systems. Once you start thinking in components, everything changes.
+
+I remember the first time it clicked for me. I was staring at a complex dashboard, trying to figure out why a small change broke three different sections. The code was tangled — styles leaked everywhere, logic was duplicated, and updating one thing meant hunting through dozens of files.
+
+Then I rebuilt it as components. Suddenly, the chaos had structure.
+
+## What Is a Component, Really?
+
+A component is a self-contained piece of UI that manages its own logic, styles, and state. It&apos;s like a LEGO brick — simple on its own, but powerful when combined with others.
+
+```tsx
+function Button({ children, onClick, variant = 'primary' }) {
+  return (
+    <button className={`btn btn-${variant}`} onClick={onClick}>
+      {children}
+    </button>
+  );
+}
+```
+
+This button doesn&apos;t care where it lives. It works in a modal, a form, or a navigation bar. That&apos;s the power of encapsulation.
+
+## The Mental Shift
+
+Thinking in components requires a different mindset:
+
+- **Break down the UI.** Every interface is a tree of smaller pieces.
+- **Identify patterns.** If you&apos;re building something twice, it should probably be a component.
+- **Define boundaries.** Each component should have a single responsibility.
+- **Design for reuse.** Build components that work in multiple contexts.
+
+## Composition Over Configuration
+
+The best components are composable. Instead of cramming every option into props, let components work together:
+
+```tsx
+// Instead of one massive Card component with 20 props...
+<Card
+  title="Hello"
+  subtitle="World"
+  image="/photo.jpg"
+  footer="Read more"
+  variant="outlined"
+/>
+
+// ...compose smaller, focused components
+<Card>
+  <CardImage src="/photo.jpg" />
+  <CardContent>
+    <CardTitle>Hello</CardTitle>
+    <CardSubtitle>World</CardSubtitle>
+  </CardContent>
+  <CardFooter>Read more</CardFooter>
+</Card>
+```
+
+The second approach is more flexible. Need a card without an image? Just don&apos;t include `CardImage`. Want a custom footer? Replace `CardFooter` with anything you want.
+
+## State Lives Where It&apos;s Needed
+
+One of the hardest parts of component thinking is deciding where state belongs. Here&apos;s a simple rule:
+
+- **Local state:** Only this component needs it (e.g., whether a dropdown is open)
+- **Lifted state:** Multiple siblings need it (lift to the parent)
+- **Global state:** Many unrelated components need it (use context or a store)
+
+```tsx
+// Local state — only the dropdown cares
+function Dropdown() {
+  const [isOpen, setIsOpen] = useState(false);
+  // ...
+}
+
+// Lifted state — form needs to know all input values
+function Form() {
+  const [values, setValues] = useState({});
+  return (
+    <>
+      <Input value={values.name} onChange={...} />
+      <Input value={values.email} onChange={...} />
+    </>
+  );
+}
+```
+
+## Components as Documentation
+
+Well-designed components are self-documenting. When you read a component tree, you should understand the UI structure:
+
+```tsx
+<Page>
+  <Header>
+    <Logo />
+    <Navigation />
+    <UserMenu />
+  </Header>
+  <Main>
+    <Sidebar />
+    <Content />
+  </Main>
+  <Footer />
+</Page>
+```
+
+No comments needed. The structure tells the story.
+
+## The Debugging Advantage
+
+When something breaks in a component-based system, you know exactly where to look. The bug is either:
+
+- Inside the component (check its logic)
+- In the props being passed (check the parent)
+- In the state management (check where state lives)
+
+Compare this to debugging a 2,000-line file where everything is connected. Components give you isolation, and isolation gives you clarity.
+
+## Start Small
+
+You don&apos;t need to refactor your entire codebase overnight. Start with one component. Extract it, give it clear props, and see how it feels.
+
+Then do another. And another.
+
+Before long, you&apos;ll stop seeing pages — you&apos;ll see systems of reusable, composable pieces. And that&apos;s when building interfaces becomes genuinely fun.
