@@ -17,5 +17,9 @@
   "devDependencies": {
     "turbo": "^2.5.4"
   },
+  "optionalDependencies": {
+    "lightningcss-linux-x64-gnu": "*",
+    "lightningcss-linux-x64-musl": "*"
+  },
   "packageManager": "npm@10.9.2"
 }
