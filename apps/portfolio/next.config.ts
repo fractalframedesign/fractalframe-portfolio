@@ -1,13 +1,14 @@
-import type { NextConfig } from "next";
-import path from "path";
-import { fileURLToPath } from "url";
+import type { NextConfig } from 'next';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-/** Pin Turbopack root when another lockfile exists above this project (e.g. in $HOME). */
 const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(projectRoot, '../..');
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: repoRoot,
   turbopack: {
-    root: projectRoot,
+    root: repoRoot,
   },
 };
 
