@@ -1,5 +1,7 @@
-import ProjectsTabs from '@/components/sections/projects-tabs';
-import { getAllProjects } from '@/lib/projects';
+import { Suspense } from ‘react’;
+
+import ProjectsTabs from ‘@/components/sections/projects-tabs’;
+import { getAllProjects } from ‘@/lib/projects’;
 
 export default async function ProjectsPage() {
   const projects = await getAllProjects();
@@ -14,7 +16,9 @@ export default async function ProjectsPage() {
         </p>
       </div>
 
-      <ProjectsTabs projects={projects} />
+      <Suspense>
+        <ProjectsTabs projects={projects} />
+      </Suspense>
     </section>
   );
 }
