@@ -1,0 +1,6 @@
+/* Shared Tailwind base config — import in each app's globals.css */
+@import "tw-animate-css";
+
+:root {
+  --font-funnel-sans: "Funnel Sans", sans-serif;
+}
