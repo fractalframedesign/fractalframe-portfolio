@@ -17,6 +17,19 @@ interface ArticlesListProps {
   className?: string;
 }
 
+const rowVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.08 } },
+};
+
+const rowItemVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const },
+  },
+};
+
 export function ArticlesList({
   articles,
   showHeader = false,
@@ -32,23 +45,34 @@ export function ArticlesList({
       className={cn('section-padding bigger-container space-y-10', className)}
     >
       {showHeader && (
-        <div className="flex items-center justify-between md:container">
+        <motion.div
+          className="flex items-center justify-between md:container"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+        >
           <h2 className="text-2xl leading-none">{headerTitle}</h2>
           {showReadAllLink && (
             <Link href="/articles" className="link-underline text-lg">
               Read all
             </Link>
           )}
-        </div>
+        </motion.div>
       )}
 
-      <ul
+      <motion.ul
         className="divide-y rounded-3xl border shadow-xs"
+        variants={rowVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: '-60px' }}
         onMouseLeave={() => setHoveredIndex(null)}
       >
         {articles.map((article, index) => (
           <motion.li
             key={article.slug}
+            variants={rowItemVariants}
             initial="idle"
             whileHover="hover"
             className={cn('relative first:rounded-t-3xl last:rounded-b-3xl')}
@@ -82,11 +106,7 @@ export function ArticlesList({
                         idle: { rotate: 0 },
                         hover: { rotate: -20 },
                       }}
-                      transition={{
-                        type: 'spring',
-                        stiffness: 300,
-                        damping: 20,
-                      }}
+                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     >
                       <Pin className="text-foreground size-5" />
                     </motion.div>
@@ -115,7 +135,7 @@ export function ArticlesList({
             </Link>
           </motion.li>
         ))}
-      </ul>
+      </motion.ul>
     </section>
   );
 }

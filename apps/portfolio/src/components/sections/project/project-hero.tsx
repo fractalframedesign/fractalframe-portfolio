@@ -10,9 +10,16 @@ interface ProjectHeroProps {
   sourceUrl: string;
   coverImage: string;
   longDescription: string;
+  category?: string;
   wrapperClassName?: string;
   imageClassName?: string;
 }
+
+const categoryLabel: Record<string, string> = {
+  featured: 'Featured Project',
+  'open-source': 'Open Source',
+  personal: 'Personal Project',
+};
 
 const ProjectHero = ({
   name,
@@ -20,18 +27,28 @@ const ProjectHero = ({
   sourceUrl,
   coverImage,
   longDescription,
+  category,
   wrapperClassName,
   imageClassName,
 }: ProjectHeroProps) => {
   return (
     <section className="hero-padding">
-      <div className="container space-y-8 md:space-y-10">
-        <h1 className="text-3xl md:text-4xl">{name}</h1>
+      <div className="container space-y-6 md:space-y-8">
+        {category && (
+          <div className="text-success text-xs font-semibold tracking-[0.12em] uppercase">
+            {categoryLabel[category] ?? category}
+          </div>
+        )}
+        <h1 className="text-4xl leading-[1.05] md:text-5xl">{name}</h1>
 
-        <div className="flex items-center gap-4">
+        <p className="font-serif text-muted-foreground text-xl leading-relaxed max-w-2xl">
+          {longDescription}
+        </p>
+
+        <div className="flex items-center gap-4 pt-2">
           <Link
             href={liveUrl}
-            className="link-underline text-lg leading-none"
+            className="link-underline text-base leading-none"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -40,7 +57,7 @@ const ProjectHero = ({
           <div className="bg-border h-4 w-px" />
           <Link
             href={sourceUrl}
-            className="link-underline text-lg leading-none"
+            className="link-underline text-base leading-none"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -48,6 +65,7 @@ const ProjectHero = ({
           </Link>
         </div>
       </div>
+
       <div className="bigger-container my-15 md:my-18">
         <Card className="flex aspect-video items-center justify-center overflow-hidden p-0">
           <div className={cn('relative size-full', wrapperClassName)}>
@@ -61,10 +79,6 @@ const ProjectHero = ({
           </div>
         </Card>
       </div>
-
-      <p className="text-muted-foreground container text-lg leading-7">
-        {longDescription}
-      </p>
     </section>
   );
 };

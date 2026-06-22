@@ -1,14 +1,26 @@
 import './globals.css';
 
-import type { Metadata } from 'next';
 import { GeistSans } from 'geist/font/sans';
+import type { Metadata } from 'next';
+import { Source_Serif_4 } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/navbar';
+import { NavigationProvider } from '@/components/providers/navigation-provider';
 import { StyleGlideProvider } from '@/components/providers/styleglide-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
+
+const sourceSerif4 = Source_Serif_4({
+  subsets: ['latin'],
+  variable: '--font-source-serif',
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  display: 'optional',   // don't swap — use fallback if font not ready on first paint
+  preload: true,
+  adjustFontFallback: true, // size-adjust the fallback to match Source Serif 4 metrics
+});
 
 const siteTitle = 'Kiran Pingle';
 const siteDescription =
@@ -82,7 +94,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable}`}
+        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable}`}
       >
         {/* Global dot grid background */}
         <div className="bg-dot-grid pointer-events-none fixed inset-0 -z-10" aria-hidden="true" />
@@ -107,21 +119,21 @@ export default async function RootLayout({
         >
           <NuqsAdapter>
             <TooltipProvider delayDuration={300}>
-              {/* <NavigationProvider> */}
-              <StyleGlideProvider />
+              <NavigationProvider>
+                <StyleGlideProvider />
 
-              <Navbar />
-              <main className="flex-1">{children}</main>
-              <Footer />
+                <Navbar />
+                <main className="flex-1">{children}</main>
+                <Footer />
 
-              {/* Fixed bottom blur overlay for premium feel */}
-              <div
-                className="pointer-events-none fixed right-0 bottom-0 left-0 z-30 h-10 md:h-16"
-                aria-hidden="true"
-              >
-                <div className="from-background/50 h-full w-full bg-gradient-to-top to-transparent backdrop-blur-[2px]" />
-              </div>
-              {/* </NavigationProvider> */}
+                {/* Fixed bottom blur overlay for premium feel */}
+                <div
+                  className="pointer-events-none fixed right-0 bottom-0 left-0 z-30 h-10 md:h-16"
+                  aria-hidden="true"
+                >
+                  <div className="from-background/50 h-full w-full bg-gradient-to-top to-transparent backdrop-blur-[2px]" />
+                </div>
+              </NavigationProvider>
             </TooltipProvider>
           </NuqsAdapter>
         </ThemeProvider>

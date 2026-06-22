@@ -97,39 +97,51 @@ const About = () => {
   return (
     <section className="section-padding bigger-container space-y-11 md:space-y-21">
       <div className="space-y-10 md:container">
-        <h2 className="text-2xl leading-none">About</h2>
+        <motion.h2
+          className="text-2xl leading-none"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+        >
+          About
+        </motion.h2>
         <div className="text-muted-foreground space-y-8 text-lg md:space-y-11">
-          <p>
-            I started coding out of curiosity — building small browser games and
-            landing pages — and over time grew into developing complete products
-            that balance design and engineering.
-          </p>
-          <p>
-            My stack includes TypeScript, React, Next.js, Node, and PostgreSQL,
-            but I love exploring new technologies that make the web better.
-          </p>
-          <p>
-            Outside of coding, I enjoy writing, contributing to open source, and
-            teaching others what I&apos;ve learned.
-          </p>
+          {[
+            'I started coding out of curiosity — building small browser games and landing pages — and over time grew into developing complete products that balance design and engineering.',
+            'My stack includes TypeScript, React, Next.js, Node, and PostgreSQL, but I love exploring new technologies that make the web better.',
+            'Outside of coding, I enjoy writing, contributing to open source, and teaching others what I’ve learned.',
+          ].map((text, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1], delay: i * 0.1 }}
+            >
+              {text}
+            </motion.p>
+          ))}
         </div>
       </div>
 
       <div className="relative">
         <ul className="flex flex-wrap justify-center gap-8 lg:justify-between">
-          {images.map((item) => (
+          {images.map((item, index) => (
             <motion.li
               key={item.image.src}
               className="relative"
-              initial="idle"
+              initial={{ opacity: 0, rotate: item.image.rotation }}
+              whileInView={{ opacity: 1, rotate: item.image.rotation }}
               whileHover="hover"
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ type: 'spring', stiffness: 180, damping: 22, delay: index * 0.12 }}
               onHoverStart={handleHoverStart}
               onHoverEnd={handleHoverEnd}
             >
               <motion.div
-                className="relative size-[250px] overflow-hidden rounded-3xl"
+                className="relative size-62.5 overflow-hidden rounded-3xl"
                 variants={{
-                  idle: { rotate: item.image.rotation },
                   hover: { rotate: -item.image.rotation },
                 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 20 }}

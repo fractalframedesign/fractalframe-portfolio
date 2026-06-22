@@ -48,6 +48,7 @@ export default async function ProjectPage({
         sourceUrl={frontmatter.sourceUrl}
         coverImage={frontmatter.image}
         longDescription={frontmatter.longDescription}
+        category={frontmatter.category}
         wrapperClassName={frontmatter.wrapperClassName}
         imageClassName={frontmatter.imageClassName}
       />

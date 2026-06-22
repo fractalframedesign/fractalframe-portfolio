@@ -2,28 +2,18 @@
 
 import { motion, useScroll, useTransform } from 'motion/react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRef } from 'react';
 
-import { CONTACT_EMAIL } from '@/lib/constants';
-
 const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-    },
-  },
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 20, filter: 'blur(10px)' },
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    y: 0,
-    filter: 'blur(0px)',
-    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const },
+    transition: { duration: 0.55, ease: [0.23, 1, 0.32, 1] as const },
   },
 };
 
@@ -34,59 +24,61 @@ const Hero = () => {
     offset: ['start start', 'end start'],
   });
 
-  const avatarY = useTransform(scrollYProgress, [0, 1], [0, -50]);
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -30]);
-  const emailY = useTransform(scrollYProgress, [0, 1], [0, -15]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  // Scroll-parallax on the inner wrapper only — keeps entrance animation clean
+  const y = useTransform(scrollYProgress, [0, 1], [0, -40]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <motion.section
-      ref={sectionRef}
-      className="hero-padding container relative space-y-10"
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-      style={{ opacity }}
-    >
+    <section ref={sectionRef} className="hero-padding container">
       <motion.div
-        className="relative size-16 overflow-hidden rounded-full"
-        variants={itemVariants}
-        style={{ y: avatarY }}
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+        className="space-y-8"
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        style={{ y, opacity }}
       >
-        <Image
-          src="/images/home/avatar.webp"
-          alt="Kiran Pingle's avatar"
-          fill
-          className="rounded-full object-cover"
-          priority
-        />
-      </motion.div>
+        {/* Avatar + identity row */}
+        <motion.div className="flex items-center gap-4" variants={itemVariants}>
+          <motion.div
+            className="relative size-18 shrink-0 overflow-hidden rounded-full"
+            whileHover={{ scale: 1.08, rotate: 4 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
+          >
+            <Image
+              src="/images/home/avatar.webp"
+              alt="Kiran Pingle"
+              fill
+              className="object-cover"
+              priority
+            />
+          </motion.div>
+          <div className="flex flex-col gap-1">
+            <span className="text-foreground text-base font-medium">
+              Hi, I&apos;m Kiran 👋
+            </span>
+            <span className="text-muted-foreground text-sm">
+              Product Designer and Design Engineer
+            </span>
+          </div>
+        </motion.div>
 
-      {/* Text content */}
-      <motion.div
-        className="flex flex-col gap-5"
-        variants={itemVariants}
-        style={{ y: textY }}
-      >
-        <h1 className="text-3xl md:text-4xl">Hi, I&apos;m Kiran</h1>on
-        <p className="text-muted-foreground text-lg leading-none">
-          Full-stack developer who loves building things from idea to launch.
-        </p>
-      </motion.div>
-
-      {/* Email link */}
-      <motion.div variants={itemVariants} style={{ y: emailY }}>
-        <Link
-          href={`mailto:${CONTACT_EMAIL}`}
-          className="link-underline text-lg leading-none"
+        {/* Headline */}
+        <motion.h1
+          className="text-4xl leading-[1.08] text-balance md:text-5xl lg:text-[3.25rem]"
+          variants={itemVariants}
         >
-          {CONTACT_EMAIL}
-        </Link>
+          Building better products, leading calmly, and making smarter decisions in the age of AI.
+        </motion.h1>
+
+        {/* Serif lead */}
+        <motion.p
+          className="font-serif text-muted-foreground max-w-xl text-xl leading-relaxed"
+          variants={itemVariants}
+        >
+          Two decades of product design, distilled into notes on clarity, craft, and clear thinking.
+        </motion.p>
       </motion.div>
-    </motion.section>
+    </section>
   );
 };
 

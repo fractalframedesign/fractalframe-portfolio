@@ -6,7 +6,7 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "turbo dev",
+    "dev": "turbo dev --filter=portfolio",
     "build": "turbo build",
     "lint": "turbo lint",
     "dev:portfolio": "turbo dev --filter=portfolio",
