@@ -2,10 +2,11 @@ import { ProjectCard } from '@/components/project-card';
 import { SelectedWorkHeader } from '@/components/selected-work-header';
 import { getAllProjects } from '@/lib/projects';
 
+const STAGGER_DELAY = 0.1;
+
 const SelectedWork = async () => {
   const allProjects = await getAllProjects();
 
-  // Filter to show only selected projects (IDs: 1, 2, 3, 4)
   const selectedProjectIds = ['1', '2', '3', '4'];
   const projects = allProjects.filter((project) =>
     selectedProjectIds.includes(project.id),
@@ -16,8 +17,12 @@ const SelectedWork = async () => {
       <SelectedWorkHeader />
 
       <ul className="grid gap-x-5 gap-y-10 md:grid-cols-2">
-        {projects.map((project) => (
-          <ProjectCard key={project.slug} project={project} />
+        {projects.map((project, i) => (
+          <ProjectCard
+            key={project.slug}
+            project={project}
+            delay={i * STAGGER_DELAY}
+          />
         ))}
       </ul>
     </section>

@@ -116,8 +116,12 @@ export default async function ArticlePage({
   return (
     <>
       <article className="section-padding pt-0!">
-        <ArticleHero title={article.frontmatter.title} />
-        <div className="prose prose-lg prose-neutral dark:prose-invert prose-a:link-underline prose-a:no-underline prose-lead:text-muted-foreground prose-li:marker:text-foreground prose-h2:text-2xl prose-h2:font-display prose-h2:mt-12 prose-h2:mb-4 max-w-none space-y-6">
+        <ArticleHero
+          title={article.frontmatter.title}
+          date={article.frontmatter.date}
+          description={article.frontmatter.description}
+        />
+        <div className="prose prose-lg prose-neutral dark:prose-invert prose-a:link-underline prose-a:no-underline prose-lead:text-muted-foreground prose-li:marker:text-foreground prose-h2:text-2xl prose-h2:font-display prose-h2:mt-12 prose-h2:mb-4 prose-p:font-serif prose-p:text-xl prose-p:leading-[1.75] prose-li:font-serif prose-li:text-xl prose-blockquote:font-serif prose-blockquote:not-italic prose-blockquote:text-[1.3rem] max-w-none space-y-6">
           {content}
         </div>
       </article>

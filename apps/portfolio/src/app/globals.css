@@ -6,10 +6,11 @@
 
 @theme inline {
   /* StyleGlide */
-  --display-weight: 500;
+  --display-weight: 600;
   --text-weight: 500;
   --font-display: var(--font-geist-sans);
   --font-text: var(--font-geist-sans);
+  --font-serif: var(--font-source-serif, 'Georgia', serif);
 
   --breakpoint-xs: 40rem;
   --breakpoint-3xl: 112.5rem;
@@ -154,10 +155,11 @@
     @apply border-border outline-ring/50;
   }
 
-  html.page-transition {
-    scroll-behavior: auto;
+  ::selection {
+    background: color-mix(in oklch, var(--success) 26%, transparent);
   }
-  body {
+
+body {
     @apply bg-background text-foreground font-text font-weight-text;
   }
   h1,
@@ -167,6 +169,10 @@
   h5,
   h6 {
     @apply font-display font-weight-display;
+    letter-spacing: -0.02em;
+  }
+  h1 {
+    letter-spacing: -0.03em;
   }
 }
 
@@ -225,6 +231,10 @@
 
 @utility font-weight-text {
   font-weight: var(--text-weight);
+}
+
+@utility font-serif {
+  font-family: var(--font-serif);
 }
 
 @utility container {
@@ -313,4 +323,31 @@ html.theme-transition::view-transition-old(root) {
 html.theme-transition::view-transition-new(root) {
   z-index: 2;
   animation: theme-blur-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ── Page transitions — opacity fade only, no position/blur/scale ─────────── */
+@keyframes page-fade-out {
+  to { opacity: 0; }
+}
+@keyframes page-fade-in {
+  from { opacity: 0; }
+}
+
+html.page-transition-forward::view-transition-old(root),
+html.page-transition-forward::view-transition-new(root),
+html.page-transition-back::view-transition-old(root),
+html.page-transition-back::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html.page-transition-forward::view-transition-old(root),
+html.page-transition-back::view-transition-old(root) {
+  z-index: 1;
+  animation: page-fade-out 0.15s ease-in forwards;
+}
+html.page-transition-forward::view-transition-new(root),
+html.page-transition-back::view-transition-new(root) {
+  z-index: 2;
+  animation: page-fade-in 0.2s ease-out forwards;
 }

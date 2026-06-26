@@ -12,16 +12,17 @@ import { cn } from '@/lib/utils';
 type ProjectCardProps = {
   project: ProjectFrontmatter;
   icon?: LucideIcon;
+  delay?: number;
 };
 
-export const ProjectCard = ({ project, icon: Icon }: ProjectCardProps) => {
+export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps) => {
   return (
     <motion.li
-      layout
-      initial={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-      exit={{ opacity: 0, scale: 0.95, filter: 'blur(10px)' }}
-      transition={{ duration: 0.3 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1], delay }}
     >
       <Link
         href={`/projects/${project.slug}`}
@@ -34,7 +35,7 @@ export const ProjectCard = ({ project, icon: Icon }: ProjectCardProps) => {
               alt={project.name}
               fill
               className={cn(
-                'object-cover transition-all duration-300 group-hover:scale-105',
+                'object-cover transition-all duration-500 group-hover:scale-105',
                 project.imageClassName,
               )}
             />

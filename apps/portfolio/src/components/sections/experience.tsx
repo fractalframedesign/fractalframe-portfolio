@@ -26,42 +26,82 @@ const experiences = [
     href: 'https://cactusplant.com',
     role: 'Full-stack developer',
     period: '2024 - Present',
-    skills: [0, 1, 2, 4, 6, 7, 8, 9, 10], // Full-stack: most skills
+    skills: [0, 1, 2, 4, 6, 7, 8, 9, 10],
   },
   {
     company: 'Happy Stats',
     href: 'https://happystats.io',
     role: 'Full-stack developer',
     period: '2023 - 2024',
-    skills: [0, 1, 5, 6, 7, 8, 9], // Full-stack: API, DB, Auth
+    skills: [0, 1, 5, 6, 7, 8, 9],
   },
   {
     company: 'JustOS',
     href: 'https://justos.dev',
     role: 'Frontend developer',
     period: '2021 - 2023',
-    skills: [0, 1, 2, 3, 4, 5], // Frontend focused
+    skills: [0, 1, 2, 3, 4, 5],
   },
   {
     company: 'Freelance',
     href: 'https://upwork.com',
     role: 'Frontend developer',
     period: '2019 - 2021',
-    skills: [0, 1, 3, 4, 5], // Frontend basics
+    skills: [0, 1, 3, 4, 5],
   },
 ];
+
+const listVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.09 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] as const },
+  },
+};
+
+const skillListVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.04 } },
+};
+
+const skillItemVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as const },
+  },
+};
 
 const Experience = () => {
   const [hoveredSkills, setHoveredSkills] = useState<number[] | null>(null);
 
   return (
     <section className="section-padding container space-y-10">
-      <h2 className="text-2xl leading-none">Experience</h2>
+      <motion.h2
+        className="text-2xl leading-none"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+      >
+        Experience
+      </motion.h2>
 
       <div className="grid gap-10 md:grid-cols-2">
-        <ul className="space-y-10">
+        <motion.ul
+          className="space-y-10"
+          variants={listVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-60px' }}
+        >
           {experiences.map((exp) => (
-            <li key={exp.company} className="text-lg leading-none">
+            <motion.li key={exp.company} className="text-lg leading-none" variants={itemVariants}>
               <motion.div
                 className="pointer-events-none"
                 initial="idle"
@@ -92,12 +132,7 @@ const Experience = () => {
                     idle: { x: 0, opacity: 0.7 },
                     hover: { x: 8, opacity: 1 },
                   }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 300,
-                    damping: 25,
-                    delay: 0.02,
-                  }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.02 }}
                 >
                   {exp.role}
                 </motion.p>
@@ -107,28 +142,37 @@ const Experience = () => {
                     idle: { x: 0, opacity: 0.7 },
                     hover: { x: 8, opacity: 1 },
                   }}
-                  transition={{
-                    type: 'spring',
-                    stiffness: 300,
-                    damping: 25,
-                    delay: 0.04,
-                  }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.04 }}
                 >
                   {exp.period}
                 </motion.p>
               </motion.div>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </motion.ul>
 
         <div className="space-y-4 text-lg leading-none">
-          <p>Skills</p>
-          <ul className="space-y-4">
+          <motion.p
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.4, ease: [0.23, 1, 0.32, 1] }}
+          >
+            Skills
+          </motion.p>
+          <motion.ul
+            className="space-y-4"
+            variants={skillListVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: '-60px' }}
+          >
             {skills.map((skill, index) => (
-              <li
+              <motion.li
                 key={skill}
+                variants={skillItemVariants}
                 className={cn(
-                  'transition-all duration-300',
+                  'transition-colors duration-300',
                   hoveredSkills === null
                     ? 'text-muted-foreground'
                     : hoveredSkills.includes(index)
@@ -137,9 +181,9 @@ const Experience = () => {
                 )}
               >
                 {skill}
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </div>
       </div>
     </section>

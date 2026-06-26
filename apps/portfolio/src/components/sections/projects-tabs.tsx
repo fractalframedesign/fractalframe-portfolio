@@ -1,7 +1,7 @@
 'use client';
 
 import { Code, Heart, Layers, type LucideIcon, Star } from 'lucide-react';
-import { AnimatePresence, LayoutGroup } from 'motion/react';
+import { AnimatePresence } from 'motion/react';
 import { parseAsString, useQueryState } from 'nuqs';
 
 import { ProjectCard } from '@/components/project-card';
@@ -60,19 +60,17 @@ const ProjectsTabs = ({ projects }: ProjectsTabsProps) => {
         </TabsList>
       </div>
 
-      <LayoutGroup>
-        <ul className="grid gap-x-5 gap-y-10 md:grid-cols-2">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => (
-              <ProjectCard
-                key={project.slug}
-                project={project}
-                icon={currentIcon}
-              />
-            ))}
-          </AnimatePresence>
-        </ul>
-      </LayoutGroup>
+      <ul className="grid gap-x-5 gap-y-10 md:grid-cols-2">
+        <AnimatePresence mode="sync">
+          {filteredProjects.map((project) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              icon={currentIcon}
+            />
+          ))}
+        </AnimatePresence>
+      </ul>
     </Tabs>
   );
 };
