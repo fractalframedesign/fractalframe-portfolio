@@ -1,0 +1,42 @@
+name: Auto-Promote Staging to Main
+
+# This robot runs when a pull request to 'main' is approved
+on:
+  pull_request:
+    types: [review_requested, synchronize]
+    branches:
+      - main
+
+jobs:
+  auto_merge:
+    # Only run if the PR comes from 'staging' branch
+    if: github.head_ref == 'staging'
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Check if PR is approved
+      - name: Check if PR has approvals
+        id: check_approval
+        run: |
+          # This checks if the PR has at least 1 approval
+          APPROVALS=$(gh pr view ${{ github.event.pull_request.number }} --json reviews --jq '[.reviews[] | select(.state=="APPROVED")] | length')
+          echo "approval_count=$APPROVALS" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 3: Auto-merge if approved
+      - name: Auto-merge PR
+        if: steps.check_approval.outputs.approval_count >= 1
+        run: |
+          gh pr merge ${{ github.event.pull_request.number }} --auto --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 4: Success message
+      - name: Success
+        if: steps.check_approval.outputs.approval_count >= 1
+        run: echo "✅ PR auto-merged! staging → main is live!"
