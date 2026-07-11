@@ -29,7 +29,7 @@ const Hero = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <section ref={sectionRef} className="hero-padding container">
+    <section ref={sectionRef} className="pt-15 pb-6 md:pt-20 md:pb-8 lg:pt-30 lg:pb-10 container">
       <motion.div
         className="space-y-8"
         variants={containerVariants}

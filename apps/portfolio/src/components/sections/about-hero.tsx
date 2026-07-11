@@ -39,10 +39,10 @@ const AboutHero = () => {
           </p>
 
           <p>
-            Hey — I&apos;m Kiran Pingle, a full-stack developer who loves
-            turning ideas into real, working products. I enjoy the craft of
-            building — the small details that make software feel thoughtful,
-            fast, and alive.
+            Hey — I&apos;m Kiran Pingle. For over two decades I&apos;ve been
+            designing products that people actually want to use. I bridge the
+            gap between design and engineering — equally at home in Figma and
+            a codebase, and obsessed with the details that make the difference.
           </p>
         </div>
       </div>

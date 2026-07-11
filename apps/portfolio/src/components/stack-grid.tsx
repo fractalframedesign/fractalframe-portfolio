@@ -16,25 +16,13 @@ interface StackGridProps {
   className?: string;
 }
 
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.055 } },
-};
-
-const tileVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: { duration: 0.4, ease: [0.23, 1, 0.32, 1] as const },
-  },
-};
-
 export function StackGrid({
   stack,
   title = 'My stack',
   className,
 }: StackGridProps) {
   const stackItems = getStackItems(stack);
+  const doubled = [...stackItems, ...stackItems];
 
   return (
     <section
@@ -50,33 +38,54 @@ export function StackGrid({
         {title}
       </motion.h2>
 
-      <motion.ul
-        className="flex flex-wrap items-center gap-4.25 lg:justify-between"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: '-60px' }}
-      >
-        {stackItems.map((item) => (
-          <Tooltip key={item.name}>
-            <TooltipTrigger asChild>
-              <motion.li
-                variants={tileVariants}
-                className="group bg-muted flex size-25 shrink-0 items-center justify-center rounded-3xl"
-                style={{ '--brand-color': item.color } as React.CSSProperties}
-                whileHover={{ scale: 1.08 }}
-                whileTap={{ scale: 0.94 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 18 }}
-              >
-                <item.Icon
-                  className="text-muted-foreground size-9 transition-colors group-hover:text-(--brand-color)"
-                />
-              </motion.li>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{item.name}</TooltipContent>
-          </Tooltip>
-        ))}
-      </motion.ul>
+      <div className="relative overflow-hidden">
+        <div className="from-background pointer-events-none absolute top-0 left-0 z-10 h-full w-20 bg-linear-to-r to-transparent" />
+        <div className="from-background pointer-events-none absolute top-0 right-0 z-10 h-full w-20 bg-linear-to-l to-transparent" />
+
+        <motion.ul
+          className="flex gap-4"
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ duration: 32, ease: 'linear', repeat: Infinity }}
+        >
+          {doubled.map((item, i) => {
+            const Icon = item.Icon;
+            return (
+              <Tooltip key={`${item.name}-${i}`}>
+                <TooltipTrigger asChild>
+                  <motion.li
+                    className={cn(
+                      'group flex size-25 shrink-0 cursor-default list-none items-center justify-center rounded-3xl',
+                      item.lightSrc ? 'overflow-hidden' : 'bg-muted',
+                    )}
+                    style={{ '--brand-color': item.color } as React.CSSProperties}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.94 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+                  >
+                    {item.lightSrc && item.darkSrc ? (
+                      <>
+                        <img
+                          src={item.lightSrc}
+                          alt={item.name}
+                          className="size-full dark:hidden"
+                        />
+                        <img
+                          src={item.darkSrc}
+                          alt={item.name}
+                          className="hidden size-full dark:block"
+                        />
+                      </>
+                    ) : Icon ? (
+                      <Icon className="text-muted-foreground size-9 transition-colors group-hover:text-(--brand-color)" />
+                    ) : null}
+                  </motion.li>
+                </TooltipTrigger>
+                <TooltipContent side="bottom">{item.name}</TooltipContent>
+              </Tooltip>
+            );
+          })}
+        </motion.ul>
+      </div>
     </section>
   );
 }

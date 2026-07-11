@@ -8,6 +8,7 @@ import {
   UserRound,
 } from 'lucide-react';
 import { LayoutGroup, motion } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -46,6 +47,14 @@ const Navbar = () => {
       <nav className="container relative flex w-full items-center justify-center py-2 md:mt-4 md:pb-6">
         <LayoutGroup id="navbar">
           <div className="glass-pill flex items-center gap-1 rounded-full p-1">
+            <div className="relative mx-1 size-9 shrink-0 overflow-hidden rounded-full">
+              <Image
+                src="/images/home/avatar.webp"
+                alt="Profile photo"
+                fill
+                className="object-cover"
+              />
+            </div>
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
@@ -74,17 +83,17 @@ const Navbar = () => {
                   )}
 
                   {/* Content: icon always shown, label fades in alongside pill */}
-                  <span className="relative z-10 flex items-center gap-2 px-3 py-2.5">
+                  <span className="relative z-10 flex items-center gap-2 px-3 py-3">
                     <motion.span
                       animate={{ opacity: isActive ? 1 : 0.5 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <Icon className="size-4 shrink-0" />
+                      <Icon className="size-[22px] md:size-4 shrink-0" />
                     </motion.span>
 
                     {/* Label: overflow-hidden clip — no layout change, width is CSS not animated */}
                     <span
-                      className="overflow-hidden text-sm leading-none font-medium whitespace-nowrap transition-[max-width,opacity] duration-300 ease-out"
+                      className="overflow-hidden text-[17px] md:text-sm leading-none font-medium whitespace-nowrap transition-[max-width,opacity] duration-300 ease-out"
                       style={{
                         maxWidth: isActive ? '5rem' : '0px',
                         opacity: isActive ? 1 : 0,
