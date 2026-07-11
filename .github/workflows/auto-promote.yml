@@ -1,0 +1,26 @@
+name: Auto-Promote Staging to Main
+
+on:
+  push:
+    branches:
+      - staging
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Open or update PR from staging to main
+        run: |
+          gh pr create \
+            --base main \
+            --head staging \
+            --title "chore: promote staging to main" \
+            --body "Automated promotion from staging." \
+            || echo "PR already exists, skipping creation."
+          gh pr merge --base main --head staging --merge --auto || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

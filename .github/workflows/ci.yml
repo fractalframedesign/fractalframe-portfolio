@@ -20,6 +20,14 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Cache Turbo
+        uses: actions/cache@v4
+        with:
+          path: .turbo
+          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-turbo-
+
       - name: Install Dependencies
         run: npm ci
 
@@ -29,5 +37,5 @@ jobs:
       - name: Run Tests
         run: npm test --if-present
 
-      - name: Build Project
+      - name: Build
         run: npm run build

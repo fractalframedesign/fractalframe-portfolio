@@ -62,7 +62,7 @@ export function ArticlesList({
       )}
 
       <motion.ul
-        className="divide-y rounded-3xl border shadow-xs"
+        className="rounded-3xl shadow-xs overflow-hidden"
         variants={rowVariants}
         initial="hidden"
         whileInView="visible"
@@ -75,18 +75,14 @@ export function ArticlesList({
             variants={rowItemVariants}
             initial="idle"
             whileHover="hover"
-            className={cn('relative first:rounded-t-3xl last:rounded-b-3xl')}
+            className="relative"
             onMouseEnter={() => setHoveredIndex(index)}
           >
             <AnimatePresence>
               {hoveredIndex === index && (
                 <motion.div
                   layoutId="article-hover-bg"
-                  className={cn(
-                    'bg-muted/30 absolute inset-0',
-                    index === 0 && 'rounded-t-3xl',
-                    index === articles.length - 1 && 'rounded-b-3xl',
-                  )}
+                  className="bg-muted/30 absolute inset-0 rounded-2xl"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -113,16 +109,16 @@ export function ArticlesList({
                   )}
                   <h3 className="text-lg leading-none">{article.title}</h3>
                 </div>
-                <p className="text-muted-foreground text-base leading-7">
-                  {article.description}
-                </p>
-                <span className="text-base leading-6">
+                <span className="text-muted-foreground block text-sm">
                   {new Date(article.date).toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
                     year: 'numeric',
                   })}
                 </span>
+                <p className="text-muted-foreground text-base leading-7">
+                  {article.description}
+                </p>
               </div>
               <motion.div
                 variants={{

@@ -24,7 +24,7 @@ const sourceSerif4 = Source_Serif_4({
 
 const siteTitle = 'Kiran Pingle';
 const siteDescription =
-  'Portfolio of Kiran Pingle, a full-stack developer building thoughtful products from idea to launch.';
+  'Portfolio of Kiran Pingle — Product Designer and Design Engineer with 20 years of experience building products that are as clear to use as they are to look at.';
 
 
 export const metadata: Metadata = {
@@ -40,7 +40,8 @@ export const metadata: Metadata = {
     'TypeScript',
     'TailwindCSS',
     'Portfolio',
-    'Full-stack Developer',
+    'Product Designer',
+    'Design Engineer',
     'Web Development',
   ],
   authors: [{ name: 'Kiran Pingle' }],
@@ -114,7 +115,7 @@ export default async function RootLayout({
         />
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
+          defaultTheme="system"
           disableTransitionOnChange
         >
           <NuqsAdapter>

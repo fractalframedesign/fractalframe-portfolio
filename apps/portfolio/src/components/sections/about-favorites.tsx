@@ -200,7 +200,7 @@ const FavoriteSection = ({
 
 const AboutFavorites = () => {
   return (
-    <section className="section-padding container space-y-15 md:space-y-20">
+    <section className="section-padding container space-y-15 md:space-y-20 hero-padding ">
       {FAVORITES.map((favorite) => (
         <FavoriteSection
           key={favorite.title}
