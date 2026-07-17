@@ -1,7 +1,14 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import ProjectsTabs from '@/components/sections/projects-tabs';
 import { getAllProjects } from '@/lib/projects';
+
+export const metadata: Metadata = {
+  title: 'Projects & experiments',
+  description:
+    'Selected work, open-source projects, and design experiments by Kiran Pingle.',
+};
 
 export default async function ProjectsPage() {
   const projects = await getAllProjects();
