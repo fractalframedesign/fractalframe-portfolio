@@ -39,6 +39,7 @@ export interface ArticleFrontmatter {
   slug: string;
   description: string;
   date: string;
+  image?: string;
   pinned?: boolean;
 }
 

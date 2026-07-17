@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import {
@@ -18,6 +19,39 @@ export const dynamicParams = false;
 export async function generateStaticParams() {
   const slugs = await getProjectSlugs();
   return slugs.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const project = await getProjectBySlug(slug);
+
+  if (!project) {
+    return {};
+  }
+
+  const { name, description, image } = project.frontmatter;
+
+  return {
+    title: name,
+    description,
+    openGraph: {
+      title: name,
+      description,
+      type: 'website',
+      url: `/projects/${slug}`,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: name,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function ProjectPage({

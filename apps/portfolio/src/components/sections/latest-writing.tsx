@@ -2,6 +2,7 @@
 
 import { ArrowRight, Pin } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -62,7 +63,7 @@ export function ArticlesList({
       )}
 
       <motion.ul
-        className="divide-y rounded-3xl border shadow-xs"
+        className="rounded-3xl shadow-xs overflow-hidden"
         variants={rowVariants}
         initial="hidden"
         whileInView="visible"
@@ -75,18 +76,14 @@ export function ArticlesList({
             variants={rowItemVariants}
             initial="idle"
             whileHover="hover"
-            className={cn('relative first:rounded-t-3xl last:rounded-b-3xl')}
+            className="relative"
             onMouseEnter={() => setHoveredIndex(index)}
           >
             <AnimatePresence>
               {hoveredIndex === index && (
                 <motion.div
                   layoutId="article-hover-bg"
-                  className={cn(
-                    'bg-muted/30 absolute inset-0',
-                    index === 0 && 'rounded-t-3xl',
-                    index === articles.length - 1 && 'rounded-b-3xl',
-                  )}
+                  className="bg-muted/30 absolute inset-0 rounded-2xl"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -98,7 +95,7 @@ export function ArticlesList({
               href={`/articles/${article.slug}`}
               className="relative z-10 flex items-start justify-between gap-6 p-10"
             >
-              <div className="space-y-5">
+              <div className="flex-1 space-y-5">
                 <div className="flex items-center gap-3">
                   {showPinIcon && article.pinned && (
                     <motion.div
@@ -113,17 +110,28 @@ export function ArticlesList({
                   )}
                   <h3 className="text-lg leading-none">{article.title}</h3>
                 </div>
-                <p className="text-muted-foreground text-base leading-7">
-                  {article.description}
-                </p>
-                <span className="text-base leading-6">
+                <span className="text-muted-foreground block text-sm">
                   {new Date(article.date).toLocaleDateString('en-US', {
                     month: 'short',
                     day: 'numeric',
                     year: 'numeric',
                   })}
                 </span>
+                <p className="text-muted-foreground text-base leading-7">
+                  {article.description}
+                </p>
               </div>
+              {article.image && (
+                <div className="bg-muted relative hidden aspect-video w-64 shrink-0 self-center overflow-hidden rounded-xl md:block">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    sizes="256px"
+                    className="object-cover"
+                  />
+                </div>
+              )}
               <motion.div
                 variants={{
                   idle: { x: 0 },

@@ -48,6 +48,40 @@ const images = [
 
 const HOVER_THRESHOLD = 3000; // 3 seconds total
 
+const STORY_PARAGRAPHS = [
+  "I'm Kiran Pingle, a Product Designer based in Tokyo, known for integrating design, frontend engineering, and product strategy to create seamless user experiences for over 15 years.",
+  'I lead Digital Product Design at Rakuten, focusing on design systems and workflows that let design and engineering scale together. Before Rakuten, I designed large-scale digital experiences for hundreds of millions of users at Reliance Jio. That taught me that great design relies on strong systems, close teamwork, and consistent execution.',
+  'My work bridges design craftsmanship, frontend development, and AI. What sets me apart is my ability to translate complex ideas into products that are not only functional but so intuitive that the right choice feels obvious.',
+];
+
+const PRINCIPLES = [
+  {
+    title: 'Clarity Over Complexity',
+    description:
+      'Complexity often appears naturally; clarity must be designed intentionally. My goal is to simplify without oversimplifying, removing friction, reducing cognitive load, and helping people focus on what matters most.',
+  },
+  {
+    title: 'Systems Over Screens',
+    description:
+      'Individual interfaces solve immediate problems. Systems solve them repeatedly. I invest in patterns, design systems, and scalable foundations that create consistency, speed delivery, and improve product quality as teams grow.',
+  },
+  {
+    title: 'Collaboration Over Handoffs',
+    description:
+      'The strongest products are built when design, engineering, and product teams work together rather than as separate functions. Shared ownership leads to better decisions, faster learning, and stronger outcomes.',
+  },
+  {
+    title: 'Progress Over Perfection',
+    description:
+      'Perfection can delay learning. I believe in delivering value early, gathering feedback quickly, and continuously improving through iteration. Great products evolve through evidence, not assumptions.',
+  },
+  {
+    title: 'People First',
+    description:
+      'Technology changes rapidly, but human needs remain remarkably consistent. Every design decision should ultimately serve the people using the product, making their work easier, their goals clearer, and their experiences more meaningful.',
+  },
+];
+
 const About = () => {
   const [showPopup, setShowPopup] = useState(false);
   /** Bump when opening so HireMePopup remounts and picks a fresh random message. */
@@ -97,6 +131,48 @@ const About = () => {
   return (
     <section className="section-padding bigger-container space-y-11 md:space-y-21">
       <div className="space-y-10 md:container">
+        <motion.div
+          className="relative size-18 shrink-0 overflow-hidden rounded-full"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          whileHover={{ scale: 1.08, rotate: 4 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+        >
+          <Image
+            src="/images/home/avatar.webp"
+            alt="Kiran Pingle"
+            fill
+            className="object-cover"
+          />
+        </motion.div>
+        <div className="max-w-2xl space-y-8 md:space-y-10">
+          <motion.p
+            className="text-foreground text-xl leading-relaxed md:text-2xl"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: '-40px' }}
+            transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1] }}
+          >
+            {STORY_PARAGRAPHS[0]}
+          </motion.p>
+          <div className="text-muted-foreground space-y-6 text-lg leading-relaxed md:space-y-8">
+            {STORY_PARAGRAPHS.slice(1).map((text, i) => (
+              <motion.p
+                key={text}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-40px' }}
+                transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1], delay: (i + 1) * 0.1 }}
+              >
+                {text}
+              </motion.p>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-10 md:container">
         <motion.h2
           className="text-2xl leading-none"
           initial={{ opacity: 0 }}
@@ -104,25 +180,31 @@ const About = () => {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
         >
-          About
+          Principles
         </motion.h2>
-        <div className="text-muted-foreground space-y-8 text-lg md:space-y-11">
-          {[
-            'I started coding out of curiosity — building small browser games and landing pages — and over time grew into developing complete products that balance design and engineering.',
-            'My stack includes TypeScript, React, Next.js, Node, and PostgreSQL, but I love exploring new technologies that make the web better.',
-            'Outside of coding, I enjoy writing, contributing to open source, and teaching others what I’ve learned.',
-          ].map((text, i) => (
-            <motion.p
-              key={i}
+        <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed">
+          5 principles guide how I approach the design engineering.
+        </p>
+        <ul className="max-w-2xl space-y-10 md:space-y-14">
+          {PRINCIPLES.map((principle, i) => (
+            <motion.li
+              key={principle.title}
+              className="space-y-3"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1], delay: i * 0.1 }}
+              transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1], delay: i * 0.08 }}
             >
-              {text}
-            </motion.p>
+              <span className="text-muted-foreground block text-sm">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 className="text-xl leading-snug md:text-2xl">{principle.title}</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                {principle.description}
+              </p>
+            </motion.li>
           ))}
-        </div>
+        </ul>
       </div>
 
       <div className="relative">

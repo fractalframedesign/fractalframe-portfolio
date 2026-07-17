@@ -1,6 +1,7 @@
 import './globals.css';
 
 import { GeistSans } from 'geist/font/sans';
+import { MotionConfig } from 'motion/react';
 import type { Metadata } from 'next';
 import { Source_Serif_4 } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
@@ -24,11 +25,16 @@ const sourceSerif4 = Source_Serif_4({
 
 const siteTitle = 'Kiran Pingle';
 const siteDescription =
-  'Portfolio of Kiran Pingle, a full-stack developer building thoughtful products from idea to launch.';
+  'Portfolio of Kiran Pingle — Product Designer and Design Engineer with 20 years of experience building products that are as clear to use as they are to look at.';
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ??
+      (process.env.VERCEL_URL
+        ? `https://${process.env.VERCEL_URL}`
+        : 'http://localhost:3000'),
+  ),
   title: {
     default: siteTitle,
     template: `%s | ${siteTitle}`,
@@ -40,7 +46,8 @@ export const metadata: Metadata = {
     'TypeScript',
     'TailwindCSS',
     'Portfolio',
-    'Full-stack Developer',
+    'Product Designer',
+    'Design Engineer',
     'Web Development',
   ],
   authors: [{ name: 'Kiran Pingle' }],
@@ -117,25 +124,27 @@ export default async function RootLayout({
           defaultTheme="system"
           disableTransitionOnChange
         >
-          <NuqsAdapter>
-            <TooltipProvider delayDuration={300}>
-              <NavigationProvider>
-                <StyleGlideProvider />
+          <MotionConfig reducedMotion="user">
+            <NuqsAdapter>
+              <TooltipProvider delayDuration={300}>
+                <NavigationProvider>
+                  <StyleGlideProvider />
 
-                <Navbar />
-                <main className="flex-1">{children}</main>
-                <Footer />
+                  <Navbar />
+                  <main className="flex-1">{children}</main>
+                  <Footer />
 
-                {/* Fixed bottom blur overlay for premium feel */}
-                <div
-                  className="pointer-events-none fixed right-0 bottom-0 left-0 z-30 h-10 md:h-16"
-                  aria-hidden="true"
-                >
-                  <div className="from-background/50 h-full w-full bg-gradient-to-top to-transparent backdrop-blur-[2px]" />
-                </div>
-              </NavigationProvider>
-            </TooltipProvider>
-          </NuqsAdapter>
+                  {/* Fixed bottom blur overlay for premium feel */}
+                  <div
+                    className="pointer-events-none fixed right-0 bottom-0 left-0 z-30 h-10 md:h-16"
+                    aria-hidden="true"
+                  >
+                    <div className="from-background/50 h-full w-full bg-gradient-to-top to-transparent backdrop-blur-[2px]" />
+                  </div>
+                </NavigationProvider>
+              </TooltipProvider>
+            </NuqsAdapter>
+          </MotionConfig>
         </ThemeProvider>
       </body>
     </html>
