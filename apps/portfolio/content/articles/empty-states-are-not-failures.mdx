@@ -1,0 +1,92 @@
+---
+title: 'Empty states are not failures. They''re underused design real estate.'
+slug: empty-states-are-not-failures
+description: The screens that appear when there's nothing to show are moments of maximum user attention. Four types of empty states, what each one owes the user, and a three-point audit before sign-off.
+date: 2026-07-17
+image: /images/articles/empty-states-are-not-failures/hero.jpg
+---
+
+![The blank screen is a missed conversation. The good empty state is the product introducing itself.](/images/articles/empty-states-are-not-failures/hero.jpg)
+
+Every interface has them. The first time a user opens a task manager with no tasks. The inbox before the first message. The dashboard of a product trial with no data yet loaded. These are empty states — the screens that appear when there&apos;s nothing to show — and they are among the most consistently neglected surfaces in digital product design.
+
+The typical treatment: a grey placeholder, a vague label like &ldquo;No results found,&rdquo; and the implicit expectation that the user will figure out what to do next. Sometimes a small icon. Rarely anything useful.
+
+This is a significant missed opportunity. Empty states are not interface failures to be minimised. They are moments of maximum user attention — and how a product behaves in those moments shapes what users believe the product is for.
+
+## Why empty states matter more than they look
+
+The relationship between empty states and user retention is well-documented in product analytics, even when it&apos;s rarely discussed in design reviews. Users who encounter a thoughtful empty state — one that explains the context, shows a clear next step, and makes taking that step feel low-friction — complete initial setup at significantly higher rates than users who land on a blank or cryptic screen.
+
+The reason is simple: empty states often appear at exactly the moments when a user&apos;s mental model of the product is most fragile. They&apos;ve just signed up, or just been added to a new team, or just cleared a backlog for the first time. They don&apos;t yet know how the product behaves. The empty state is their first real signal of whether the product is going to guide them or abandon them.
+
+## The four types of empty states
+
+Not all empty states are the same situation, and they shouldn&apos;t all be designed the same way. There are four distinct scenarios, each with a different emotional context and a different design priority.
+
+### 1. First-use empty states
+
+![The user is new and curious. The job of this empty state is to translate curiosity into a first action.](/images/articles/empty-states-are-not-failures/first-use.jpg)
+
+The first-use empty state appears when a user has never put data into a space. It&apos;s the most opportunity-rich type. The user is still forming their mental model — still figuring out what the product is for and how it organises their world.
+
+The design goal here is to be a guide, not just a placeholder. A good first-use empty state does three things: it names the space and briefly explains what belongs here, it shows the user a concrete starting action, and it communicates the value they&apos;ll get once that action is taken. The voice should feel welcoming and confident, not apologetic.
+
+What to avoid: illustrations that are cute but don&apos;t communicate anything about the product&apos;s function. Visual charm without contextual clarity is just distraction.
+
+### 2. User-cleared empty states
+
+![The user just accomplished something. Acknowledge it before moving on.](/images/articles/empty-states-are-not-failures/cleared.jpg)
+
+The user-cleared empty state appears when the user themselves has emptied a space — finished a to-do list, cleared an inbox, resolved all open tickets. This is a completion moment, and it deserves different treatment than a first-use state.
+
+The emotional register here is accomplishment. The design should briefly acknowledge what just happened — &ldquo;All done. Nothing left to action.&rdquo; — before moving the user forward. Celebratory micro-interactions work well here: a brief animation, an affirming message. Keep it proportionate — this isn&apos;t a confetti moment, it&apos;s a quiet acknowledgment.
+
+What to avoid: using the same empty state design for completion states and first-use states. The user who just cleared their inbox and the user who never had an inbox don&apos;t need the same message.
+
+### 3. Search and filter empty states
+
+Search and filter empty states appear when the user has applied criteria that return nothing. These are frequent and often handled poorly — typically with a bare &ldquo;No results&rdquo; message that provides no path forward.
+
+The design priority here is recovery. The user has a goal — they were looking for something. The empty state should help them find it. This means: show them what they searched for (so they can edit it), suggest a broadened or alternative search, and if the context allows, offer to create the thing they searched for if it doesn&apos;t exist.
+
+The tone should be neutral and practical — this is a problem-solving moment, not an emotional one.
+
+### 4. Error-driven empty states
+
+Error-driven empty states appear when data should be there but isn&apos;t — a failed API call, a permission issue, a timeout. These are the most consequential type to get wrong, because users who don&apos;t understand why a space is empty will often assume they did something wrong.
+
+The design priority is clarity and agency. Explain what happened (briefly and in plain language), make it clear the user is not at fault if they&apos;re not, and give them a way to resolve it or report it. Never show a blank screen for an error state — that ambiguity costs more in user trust than a clearly worded error message ever would.
+
+## What all good empty states share
+
+Across all four types, the best-designed empty states have three things in common:
+
+**A clear spatial identity** — The user knows where they are and what this space is for, even before any content exists in it. This is accomplished through label clarity, a brief contextual explanation, and visual cues that match the content that will eventually live here.
+
+**A single, obvious next step** — The action the user should take is clear and immediately reachable. Not three options, not a general navigation — one specific, relevant action that moves them forward. If there are secondary options, they can exist, but they should be visually subordinate to the primary call.
+
+**A tone that matches the moment** — First-use states should feel welcoming. Completion states should feel affirming. Search states should feel practical. Error states should feel honest and helpful. Empty states are not all the same emotional situation, and the copy and visual treatment should reflect that.
+
+## The practical design audit
+
+Before shipping any empty state, three checks surface most of the common failures:
+
+1. **Does the user know where they are?** Name the space explicitly. Don&apos;t assume context carries from the previous screen.
+2. **Is there one clear action?** If you&apos;re offering more than one next step, ask which one matters most and subordinate the others.
+3. **Does the tone match the context?** Read the copy out loud in the emotional register of the user who will see it. A completion message should feel different from a first-use message.
+
+## Key takeaways
+
+- Empty states are not edge cases to minimise — they&apos;re high-attention moments that shape a user&apos;s early mental model of the product
+- Four distinct empty state types require different design priorities: first-use (guide), user-cleared (acknowledge), search/filter (recover), error-driven (clarify and empower)
+- Good empty states share three properties: spatial clarity, a single obvious next step, and a tone calibrated to the emotional context
+- The gap between a thoughtful empty state and a bare placeholder is not design effort — it&apos;s design intention
+
+## Conclusion
+
+![The product is always talking to the user. Empty states are where most products go quiet at exactly the wrong moment.](/images/articles/empty-states-are-not-failures/conclusion.jpg)
+
+The most underused real estate in most digital products is the screen that appears when there&apos;s nothing to show. Every team knows this intellectually. Few teams treat it as a design priority in practice.
+
+The user standing in front of an empty screen is not a burden to be managed. They&apos;re someone deciding whether this product is for them. The empty state is your answer.
