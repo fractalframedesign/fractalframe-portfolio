@@ -2,6 +2,7 @@
 
 import { ArrowRight, Pin } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -94,7 +95,7 @@ export function ArticlesList({
               href={`/articles/${article.slug}`}
               className="relative z-10 flex items-start justify-between gap-6 p-10"
             >
-              <div className="space-y-5">
+              <div className="flex-1 space-y-5">
                 <div className="flex items-center gap-3">
                   {showPinIcon && article.pinned && (
                     <motion.div
@@ -120,6 +121,17 @@ export function ArticlesList({
                   {article.description}
                 </p>
               </div>
+              {article.image && (
+                <div className="bg-muted relative hidden aspect-video w-64 shrink-0 self-center overflow-hidden rounded-xl md:block">
+                  <Image
+                    src={article.image}
+                    alt={article.title}
+                    fill
+                    sizes="256px"
+                    className="object-cover"
+                  />
+                </div>
+              )}
               <motion.div
                 variants={{
                   idle: { x: 0 },

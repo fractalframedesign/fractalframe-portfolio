@@ -1,6 +1,8 @@
 'use client';
 
+import { ArrowLeft } from 'lucide-react';
 import { AnimatePresence, motion, useScroll } from 'motion/react';
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 
 interface ArticleHeroProps {
@@ -39,6 +41,13 @@ export function ArticleHero({ title, date, description }: ArticleHeroProps) {
       />
 
       <section className="hero-padding container space-y-7 pb-7! md:pb-10!">
+        <Link
+          href="/articles"
+          className="link-underline text-muted-foreground hover:text-foreground flex w-fit items-center gap-2 text-sm transition-colors"
+        >
+          <ArrowLeft className="size-4" />
+          All articles
+        </Link>
         <h1 className="text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
           {title}
         </h1>
