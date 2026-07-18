@@ -1,94 +1,63 @@
 ---
 title: Why agent experiences will define the next decade of digital design
 slug: agent-experiences
-description: When an AI agent acts on your behalf, the action happens before you see a screen. The interface has a new job — not facilitating action, but creating trust in action that already occurred.
+description: When an AI agent acts on your behalf, the action happens before you see a screen. The interface has a new job. Not making action easy, but making finished action trustworthy.
 date: 2026-07-16
 image: /images/articles/agent-experiences/hero.jpg
 ---
 
 ![The interface is no longer where the work happens. It&apos;s where the work gets reviewed.](/images/articles/agent-experiences/hero.jpg)
 
-For most of the history of digital product design, the interface was where the action was. The user opened an app, found a screen, made a decision, tapped a button. The interface was the channel through which everything happened. Designing it well meant understanding what the user needed to do and making that action as clear and low-friction as possible.
+*The action happens before you see a screen. Everything in this article follows from that one sentence.*
 
-Agent experiences break that model. When an AI agent books a flight, drafts a proposal, coordinates a handoff, or routes a support ticket — the action has already happened before the user sees a screen. What they see is a report, a log, a summary of decisions made on their behalf. The interface&apos;s job is no longer to facilitate action. It&apos;s to create trust in action that has already occurred.
+For the whole history of digital product design, the interface was where the action was. The user opened an app, found a screen, made a decision, tapped a button. Designing well meant understanding what the user needed to do and making that action clear and cheap. Every pattern we have, from forms to flows to confirmation dialogs, assumes the user is the one acting.
 
-This is a fundamental inversion, and it requires design thinking that the field is only beginning to develop.
+Agents break that assumption. When an agent books a flight, drafts a proposal, or routes a support ticket, the action already happened by the time the user sees anything. What the user sees is a report. A log. A summary of decisions made on their behalf. The interface&apos;s job is no longer to make action easy. It is to make finished action trustworthy.
 
-## What an agent experience actually is
+The user&apos;s main cognitive task shifts from deciding to evaluating. That one sentence changes most of what good design means.
 
-An agent experience is one where an AI system acts autonomously or semi-autonomously on behalf of a user to accomplish a goal. The defining characteristic is initiative: the agent doesn&apos;t wait for instructions at each step — it interprets a goal and pursues it through a sequence of actions.
-
-The user&apos;s interaction with this system is fundamentally different from traditional UX. Instead of a series of choices that progressively build toward an outcome, the user articulates an intention, waits, and then reviews what happened. Their primary cognitive task shifts from *deciding* to *evaluating*.
-
-This changes almost everything about what good design looks like.
-
-## The design challenges unique to agent experiences
-
-### Trust without transparency — the core tension
+## The trust problem
 
 ![Trust requires legibility. Legibility requires decisions about what to surface and how.](/images/articles/agent-experiences/trust.jpg)
 
-The central tension in agent experience design is between capability and comprehensibility. An agent that explains every micro-action it takes would be unbearably noisy. An agent that acts with no explanation creates anxiety and distrust.
+The central tension is between capability and comprehensibility. An agent that explains every micro-step is unbearable. An agent that explains nothing is frightening. Both fail, just in different directions.
 
-Good design here isn&apos;t about quantity of information — it&apos;s about the right information at the right time. Users need to know:
+What the user actually needs is narrow. They need to know the agent is working. They need to know what goal it is pursuing. They need to hear about the consequential things it did, the decisions where there were real alternatives, and the places where it got stuck or made an assumption. Everything outside that list is noise, and noise is not neutral. Noise trains the user to stop reading, which is the last thing an oversight surface can afford.
 
-- That the agent is working (activity signal)
-- What goal it&apos;s pursuing (intent confirmation)
-- When it has done something consequential (milestone surfacing)
-- What it decided when a decision had alternatives (reasoning trace)
-- Where it got stuck or made an assumption that needs validation (exception handling)
+The hard design work is deciding where those thresholds sit for your product. Nobody can hand you that. It depends on what the agent can do and what it costs when the agent is wrong.
 
-Everything else is noise. The design challenge is identifying where those thresholds are and building interfaces that surface signal, not status.
-
-### The scope problem
+## The scope problem
 
 ![Open-ended instructions produce unexpected scope. The interface needs to establish shared understanding before the agent runs.](/images/articles/agent-experiences/scope.jpg)
 
-Agents operate on instructions that are almost always underspecified. &ldquo;Write a summary of this report&rdquo; is a different task if the agent assumes a two-paragraph executive brief versus a ten-page structured document. &ldquo;Schedule time with the team&rdquo; is ambiguous about duration, frequency, who&apos;s in scope, and whether existing commitments can be moved.
+Agents run on instructions that are almost always underspecified. &ldquo;Write a summary of this report&rdquo; could mean two paragraphs or ten pages. &ldquo;Schedule time with the team&rdquo; says nothing about duration, frequency, who counts as the team, or whether existing meetings can move.
 
-Design in this space has to do the work of **goal clarification before execution**. Not by asking twenty questions — users chose agents specifically to reduce overhead — but by quickly surfacing the key ambiguities that would most likely produce wrong results, getting fast confirmation, and proceeding.
+The user does not notice the ambiguity, because inside their head the instruction is complete. They know what they meant. The agent does not, and the gap only becomes visible when the wrong version comes back.
 
-The interaction model here looks less like a traditional form and more like a capable assistant asking one well-chosen question before starting.
+So the design has to clarify goals before execution. Not with twenty questions. People chose an agent to reduce overhead, and a wall of clarifying questions gives the overhead right back. The pattern that works looks like a capable colleague: one well-chosen question about the ambiguity most likely to produce a wrong result, then go.
 
-### Oversight that doesn&apos;t feel like supervision
+Picking that one question is a design decision. It might be the hardest one in the whole flow.
 
-Once an agent is running, users need oversight capability — the ability to understand what happened, catch errors, and course-correct — without being required to supervise every action.
+## Oversight without supervision
 
-This is a design pattern with no direct precedent in traditional UX. The closest analogy is a well-designed audit log: structured, filterable, with good defaults that surface what matters and make the rest accessible without overwhelming.
+Once the agent runs, the user needs to be able to see what happened, catch errors, and course-correct, without being forced to watch every step. If oversight requires supervision, the agent has saved nothing.
 
-But audit logs are designed for retrospective review. Agent oversight surfaces need to work for both retrospective review and active monitoring — and they need to make it visually clear which mode the user is in.
+The closest existing pattern is the audit log, and it is not close enough. Audit logs assume you look backwards after something went wrong. Agent oversight has to serve both the backwards look and the live glance, and it has to make clear which mode the user is in right now. That distinction sounds small until someone reviews a live log thinking it is finished, or ignores a finished one thinking it is still running.
 
-### When the agent gets it wrong
+## When the agent gets it wrong
 
 ![Mistakes in agent experiences are different from mistakes in traditional UX. They often have downstream effects that can&apos;t be simply reversed.](/images/articles/agent-experiences/recovery.jpg)
 
-In a traditional interface, a user error is usually contained: a wrong entry can be corrected, a deleted file can be recovered, a mis-tapped button triggers a confirmation dialog. Agent errors are different. An agent that sent a reply, made a booking, or updated a record may have triggered downstream effects that can&apos;t be cleanly undone.
+In a traditional interface, user errors are mostly contained. Wrong entry, corrected. Deleted file, restored. Mis-tap, confirmation dialog. Agent errors are different in kind. An agent that sent the reply, made the booking, or updated the record has set off downstream effects that do not cleanly undo. The email was read. The other calendar moved.
 
-This changes the design stakes significantly. Error prevention becomes more important than error recovery. Consequential actions — ones with downstream effects or that are hard to reverse — need explicit checkpoints before execution, not after. The interaction design for &ldquo;are you sure about this?&rdquo; becomes one of the most important surfaces in the whole product.
+That flips the priority from error recovery to error prevention. Consequential actions need checkpoints before execution, not apologies after. Which means someone has to map, before the interface is designed, what the agent can do, which of those actions are reversible, and which are not. That map is a design artifact. In my experience nobody owns it by default, and the designer who takes it ends up shaping the entire product.
 
-## What agent experience design requires of practitioners
+## What this asks of designers
 
-Agent experience design requires capabilities that traditional UX practice doesn&apos;t teach directly:
+The skills this work needs are not the ones traditional UX practice teaches. Mapping consequences before screens. Designing the one clarifying question. Building logs that read at a glance and reward a deep look. Deciding how much autonomy an agent earns on day one versus day thirty, because trust between a user and an agent is built over time, and a static capability set ignores that entirely.
 
-**Consequence mapping** — Before designing the interface, designers need to understand the action space of the agent: what can it do, what are the downstream effects of each action, and which actions are reversible. This is a design artefact, not a technical document.
+![The product map for agent experiences looks nothing like a traditional user flow. That&apos;s not a problem. It&apos;s the work.](/images/articles/agent-experiences/conclusion.jpg)
 
-**Goal clarification design** — The pattern of asking one well-chosen question before starting is harder to design well than it looks. It requires understanding which ambiguities actually matter and which can be resolved with reasonable defaults.
+None of this has settled patterns yet. That is not a reason to wait. It is the opposite.
 
-**Oversight interface design** — This is its own discipline. The information architecture of an activity log that serves both retrospective review and active monitoring requires careful thought about hierarchy, filtering, and progressive disclosure.
-
-**Trust progression design** — How much autonomy should an agent have on day one versus day thirty? Users and agents need to develop trust over time, and the interface should reflect and support that progression — not just present a static capability set.
-
-## Key takeaways
-
-- Agent experiences invert the traditional UX model — the interface is no longer where action happens, it&apos;s where action is reviewed and trusted
-- The central tension is between capability and comprehensibility: enough visibility to build trust, not so much that it overwhelms
-- Four design challenges are unique to this space: trust without transparency, the scope problem, oversight without supervision, and high-consequence error recovery
-- Agent experience design requires new practitioner skills: consequence mapping, goal clarification design, oversight interface design, and trust progression design
-
-## Conclusion
-
-![The product map for agent experiences looks nothing like a traditional user flow. That&apos;s not a problem — it&apos;s the challenge.](/images/articles/agent-experiences/conclusion.jpg)
-
-The interfaces that will matter most in the next decade won&apos;t be the ones that do the most — they&apos;ll be the ones that make it easiest to trust something else doing the most. That&apos;s a different design problem than anything the field has faced before.
-
-The designers who recognise that early enough to develop real fluency in it will not lack for work.
+The interfaces that matter most in the next decade will not be the ones that do the most. They will be the ones that make it easiest to trust something else doing the most.
