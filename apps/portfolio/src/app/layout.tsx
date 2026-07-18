@@ -101,6 +101,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable}`}
       >
         {/* Global dot grid background */}

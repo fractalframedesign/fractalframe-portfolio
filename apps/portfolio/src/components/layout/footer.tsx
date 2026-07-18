@@ -16,6 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { CONTACT_EMAIL } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 // Seeded random number generator for consistent SSR/client rendering
@@ -125,8 +126,8 @@ const Footer = () => {
       </TooltipProvider>
 
       <div className="flex justify-center">
-        <Link href="mailto:hi@john.me" className="link-underline text-lg">
-          hi@john.me
+        <Link href={`mailto:${CONTACT_EMAIL}`} className="link-underline text-lg">
+          {CONTACT_EMAIL}
         </Link>
       </div>
     </footer>
