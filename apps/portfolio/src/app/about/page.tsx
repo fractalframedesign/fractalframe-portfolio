@@ -1,6 +1,9 @@
 // import Link from 'next/link';
 
 // import { ProjectCard } from '@/components/project-card';
+// import { getAllProjects } from '@/lib/projects';
+import type { Metadata } from 'next';
+
 import About from '@/components/sections/about';
 // import AboutFavorites from '@/components/sections/about-favorites';
 // import AboutHero from '@/components/sections/about-hero';
@@ -9,8 +12,6 @@ import Experience from '@/components/sections/experience';
 import { ArticlesList } from '@/components/sections/latest-writing';
 import { StackGrid } from '@/components/stack-grid';
 import { getAllArticles } from '@/lib/articles';
-// import { getAllProjects } from '@/lib/projects';
-import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'About',

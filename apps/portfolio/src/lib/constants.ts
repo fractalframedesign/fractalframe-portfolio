@@ -23,4 +23,4 @@ export const SOCIAL_LINKS = [
   },
 ];
 
-export const CONTACT_EMAIL = 'hi@john.me';
+export const CONTACT_EMAIL = 'kiranspingle@gmail.com';

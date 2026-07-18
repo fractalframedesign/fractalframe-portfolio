@@ -1,106 +1,73 @@
 ---
 title: 'Beyond the screen: designing for human-AI systems'
 slug: designing-for-human-ai-systems
-description: For the first time, the system itself is an actor — it initiates, decides, and executes. Five design patterns for calibrating shared agency between people and AI, and the new process phases design practice needs.
+description: For the first time, the system itself is an actor. It initiates, decides, and executes. Five patterns for sharing agency between people and AI, and the process steps design practice is missing.
 date: 2026-07-15
 image: /images/articles/designing-for-human-ai-systems/hero.jpg
 ---
 
 ![The interface isn&apos;t a screen anymore. It&apos;s a relationship between a person and a system that acts.](/images/articles/designing-for-human-ai-systems/hero.jpg)
 
-Every major paradigm shift in digital design has had a forcing function. The web forced designers to think in pages. Mobile forced them to think in gestures and thumb zones. Both of those shifts, significant as they were, still kept the human firmly in control of every action.
+Every major shift in digital design had a forcing function. The web forced designers to think in pages. Mobile forced them to think in gestures and thumb zones. Both shifts were hard, and both left one thing untouched: the human made every move. The interface was territory. The user drove through it.
 
-The human-AI paradigm is different. For the first time, the system itself becomes an actor — something that initiates, decides, and executes, not just responds. That changes the fundamental shape of the design problem. And most design practice is not yet equipped to handle it.
+Human-AI systems break that. The AI does not just present options. It drafts, filters, prioritizes, schedules. The user&apos;s role shifts from driver to collaborator, reviewer, and occasional override. The question changes from &ldquo;how does the user get to their goal&rdquo; to &ldquo;how do the user and the system share responsibility for getting there.&rdquo;
 
-## What makes this shift different
+Most design practice is not equipped for that question. Mine was not either. The first time I worked on a flow where the system moved first, I kept reaching for patterns that assumed a user-initiated action, and none of them fit.
 
-The web-to-mobile transition required designers to rethink layout, input methods, and context. That was genuinely hard. But the user model stayed the same: a person with an intent, navigating to a destination, completing a task. The interface was the territory the user moved through. The user always drove.
-
-In a human-AI system, that model breaks down. The AI doesn&apos;t just present options — it acts. It drafts, it filters, it prioritises, it schedules. The user&apos;s role shifts from driver to collaborator, reviewer, and occasional override. The design question changes from &ldquo;how does the user get to their goal?&rdquo; to &ldquo;how do the user and the system share responsibility for getting to the goal?&rdquo;
-
-This is a fundamentally different shape of problem. It requires new vocabulary, new design patterns, and a new understanding of what good interaction looks like.
-
-## The central design challenge: shared agency
+## Shared agency is the whole problem
 
 ![The interesting design space isn&apos;t at either end of the spectrum. It&apos;s in the middle.](/images/articles/designing-for-human-ai-systems/shared-agency.jpg)
 
-The core design challenge of human-AI systems is **calibrating shared agency** — deciding, moment to moment, who is acting and who is watching, and making that legible to the user.
+The core challenge is deciding, moment to moment, who is acting and who is watching, and making that legible to the user.
 
-Too much AI agency, and users feel bypassed. The system acts without them understanding why, and trust erodes quickly. Too little, and the AI adds overhead without adding value — the user is still doing all the work, just confirming steps they didn&apos;t need to see.
+Give the AI too much agency and users feel bypassed. The system acts without them understanding why, and trust erodes fast. Give it too little and the AI is overhead. The user still does all the work, now with extra confirmation steps for decisions they never needed to see.
 
-The sweet spot is a moving target. It depends on the stakes of the decision, the user&apos;s expertise in that domain, how much time pressure they&apos;re under, and how much they&apos;ve previously trusted the system&apos;s judgements. Good design in this space means building interfaces that can flex across that range — and that tell users clearly where on the spectrum any given action sits.
+The right point between those two is not fixed. It moves with the stakes of the decision, the user&apos;s own expertise, how much time pressure they are under, and how the system has performed for them before. Good design here means building interfaces that flex across that range and always tell the user where on the range this particular action sits.
 
-## Five design patterns for human-AI interfaces
+Five patterns cover most of what I have seen work.
 
-### 1. Legible reasoning
+## 1. Legible reasoning
 
 ![Users don&apos;t need to see the model weights. They need to understand the logic at the level they operate.](/images/articles/designing-for-human-ai-systems/reasoning.jpg)
 
-When an AI system makes a recommendation or takes an action, users need to understand why at a level that makes sense for their context. Not the statistical mechanics — but the reasoning that maps to how they think about the domain.
+When the system recommends or acts, the user needs to know why, at the level they think about their own domain. &ldquo;Flagged as unusual because this vendor has not been paid this amount before&rdquo; is legible reasoning. &ldquo;Confidence: 0.83&rdquo; is not. The design work is translation, from the model&apos;s language into the user&apos;s.
 
-&ldquo;Flagged as unusual because this vendor hasn&apos;t been paid in this amount before&rdquo; is legible reasoning. &ldquo;Confidence: 0.83&rdquo; is not. The design work here is translating system behaviour into the user&apos;s language, not the model&apos;s.
+This is what lets people calibrate. Without it they do one of two things: defer to everything or ignore everything. I have watched both, sometimes in the same team. Neither is a relationship. Both are the absence of one.
 
-Legible reasoning is what allows users to calibrate trust appropriately — to know when to follow the AI and when to override it. Without it, users either blindly defer or reflexively ignore. Neither builds the collaborative relationship that makes AI systems valuable.
+## 2. Graduated automation
 
-### 2. Graduated automation
+Different tasks deserve different amounts of AI initiative, and different users want different amounts of control. Three levels cover most cases. The system can notify, surfacing information while the user decides everything. It can suggest, preparing an action and waiting for approval. Or it can act and report back, with the user reviewing after the fact.
 
-Different tasks warrant different levels of AI initiative, and different users want different amounts of control. A graduated automation model lets users set (or the system infer) the appropriate level of AI agency for each context.
+High stakes or deep user expertise pushes toward notify. Low-stakes, high-frequency work pushes toward act and report, because the interruption costs more than the occasional correction. The principle underneath: make the current level visible, make it adjustable, and default conservative when you are not sure. A system that guesses high on autonomy spends trust it has not earned yet.
 
-Three levels cover most cases:
-
-**Notify** — the AI surfaces information but takes no action. The user decides everything. Appropriate when stakes are high or user expertise is deep.
-
-**Suggest** — the AI prepares an action and waits for approval. The user reviews and confirms. Appropriate for moderate-stakes decisions where speed matters but the user should stay informed.
-
-**Act and notify** — the AI executes and reports back. The user can review and reverse if needed. Appropriate for low-stakes, high-frequency tasks where interruption costs more than the occasional correction.
-
-The design principle: make the automation level visible and adjustable, and default conservatively when stakes are unclear.
-
-### 3. Graceful override
+## 3. Graceful override
 
 ![Reversibility isn&apos;t just a safety net. It&apos;s what makes trust possible.](/images/articles/designing-for-human-ai-systems/override.jpg)
 
-Every AI action needs a clear, accessible override path. This isn&apos;t just about error recovery — it&apos;s about the psychological contract between the user and the system. Users will only delegate to an AI if they know they can take back control without friction.
+Every AI action needs an obvious way back. This is not only error recovery. It is the psychological contract that makes delegation possible in the first place. People hand work to a system when they know they can take it back without a fight.
 
-Graceful override means: actions are reversible, reversal is always accessible (not buried in settings), and reversal doesn&apos;t require the user to understand what the AI did internally — just to say &ldquo;not that.&rdquo;
+Override works when reversal is always reachable, not buried in settings, and when it does not require understanding what the AI did internally. The user should be able to say &ldquo;not that&rdquo; and have it mean something.
 
-The harder design challenge is undo for actions that have downstream effects. If the AI sent an email, scheduled a meeting, or updated a record, reversal is not always clean. Design needs to account for this — surfacing the downstream effects before execution, not just offering undo after.
+The hard case is actions with downstream effects. If the AI sent the email or booked the meeting, undo is not clean. Which means the real design work happens before execution: surfacing the downstream effects while there is still a choice, instead of offering a hollow undo after.
 
-### 4. Calibrated confidence display
+## 4. Calibrated confidence
 
-AI systems are not uniformly reliable across all domains and edge cases. A well-designed interface should reflect that — surfacing signals about where the AI is on solid ground and where it&apos;s operating at the edge of its capability.
+AI systems are not equally reliable everywhere, and the interface should not pretend they are. This does not mean printing probability scores. It means cues in the user&apos;s language: this is routine, the system handles it well, versus this looks unusual, look closer.
 
-This doesn&apos;t mean displaying probability scores. It means visual and contextual cues that tell the user: &ldquo;this is a type of decision the system handles well&rdquo; versus &ldquo;this looks unusual — you might want to review this one more carefully.&rdquo;
+Without those cues you get both failure modes at once. Users lean on the system exactly where it is weakest and double-check it exactly where it is strongest. The trust ends up distributed backwards.
 
-Calibrated confidence display prevents two failure modes: over-reliance on high-stakes edge cases the system handles poorly, and under-use on routine tasks the system handles well.
+## 5. Ambient awareness
 
-### 5. Persistent context transparency
+When the AI acts continuously, filtering, scheduling, flagging, the user needs a peripheral sense of what has been handled. Not a full audit log. Peripheral vision. You do not consciously process everything at the edge of your sight, but you notice when something moves.
 
-In systems where the AI acts continuously — filtering emails, scheduling tasks, flagging items — users need ambient awareness of what has been handled on their behalf. Not a detailed audit log (too much noise), but enough context to notice when something seems off.
+The activity surface should work the same way. Present, scannable, easy to ignore while everything looks right, and immediately visible when something does not.
 
-This is analogous to peripheral vision in physical navigation. You don&apos;t consciously process everything in your periphery, but you notice when something changes. AI action logs should work the same way: present, scannable, and easy to ignore when everything looks right — but immediately visible when something needs attention.
+## What this changes in the process
 
-## What this means for how designers work
-
-Designing for human-AI systems requires some practices that traditional UX workflows don&apos;t include:
-
-**Agency mapping** — Before wireframing, map every point in the flow where the AI acts vs. where the user acts. Unexamined agency decisions become design debt.
-
-**Trust calibration testing** — User research needs to include explicit probes about when users feel comfortable delegating and when they don&apos;t. These answers vary significantly by user, domain, and stakes.
-
-**Handoff legibility review** — Every point where control shifts between user and AI needs a legibility check: is it clear who just acted and why? Is it clear what happens next and who decides it?
-
-## Key takeaways
-
-- Human-AI systems introduce shared agency as the central design challenge — the locus of control is no longer fixed with the user
-- Good design in this space means calibrating AI initiative to stakes, user expertise, and context — and making that calibration visible and adjustable
-- Five patterns cover the core needs: legible reasoning, graduated automation, graceful override, calibrated confidence display, and persistent context transparency
-- Designers need new process phases — agency mapping, trust calibration testing, and handoff legibility review — that traditional UX workflows don&apos;t include
-
-## Conclusion
+Three steps that traditional UX process does not include become mandatory. Before wireframing, map every point in the flow where the AI acts versus where the user acts, because unexamined agency decisions turn into design debt. In research, probe directly for when users feel comfortable delegating and when they do not, because the answers vary more than teams expect. And review every handoff point between user and system with one standard: is it clear who just acted, why, and who decides what happens next.
 
 ![The design challenge isn&apos;t building a better tool. It&apos;s designing a credible collaborator.](/images/articles/designing-for-human-ai-systems/conclusion.jpg)
 
-Every previous design paradigm asked designers to build a better tool for a person to use. The human-AI paradigm asks something different: design a credible collaborator that earns the trust it needs to be useful.
+Every previous paradigm asked designers to build a better tool. This one asks for something different: a collaborator credible enough to earn the trust it needs to be useful. That is a harder problem, and a more interesting one.
 
-That&apos;s a harder problem. It requires designers to think about relationship dynamics, trust development, and shared accountability in ways that screen-and-interaction design never demanded. But it&apos;s also the most interesting design challenge of the next decade — and the teams that start building fluency now will define what it looks like.
+A tool is judged by what it does. A collaborator is judged by whether you can stop watching it.

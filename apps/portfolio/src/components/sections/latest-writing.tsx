@@ -108,7 +108,7 @@ export function ArticlesList({
                       <Pin className="text-foreground size-5" />
                     </motion.div>
                   )}
-                  <h3 className="text-lg leading-none">{article.title}</h3>
+                  <h3 className="text-xl leading-snug md:text-2xl">{article.title}</h3>
                 </div>
                 <span className="text-muted-foreground block text-sm">
                   {new Date(article.date).toLocaleDateString('en-US', {
