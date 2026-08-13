@@ -1,0 +1,61 @@
+---
+title: 'Proactive UX: designing for what users need before they know they need it'
+slug: proactive-ux
+description: Reactive design waits for the user to arrive. Proactive design meets them on the way, reading patterns, context, and timing well enough to be useful before being asked.
+date: 2026-07-18
+image: /images/articles/proactive-ux/hero.jpg
+---
+
+![Reactive design waits for the user to arrive. Proactive design meets them on the way.](/images/articles/proactive-ux/hero.jpg)
+
+There is a version of good UX that most teams have mastered. Make every screen clear, every flow obvious, every action cheap. Remove the obstacles between the user and what they want to do. This is reactive design. It responds to intent. It is necessary, and it is not sufficient.
+
+The next level is proactive design: interfaces that surface what users need before users have said what they need. Not mind reading. Pattern reading. The system already knows the time, the calendar, the location, the recent activity. The question is whether the design uses any of it.
+
+The difference sounds subtle. The experience gap is enormous. It is the difference between a product that answers and a product that anticipates.
+
+## What proactive actually means
+
+Proactive UX is not a feature you add. It is a question you start asking: given what we know about this user&apos;s context, goals, and patterns, what would be most useful right now, without them having to navigate to it.
+
+The operative words are right now. The same piece of information that is noise at 2pm can be exactly what someone needs at 9am on a Tuesday. Timing is not packaging around the content. Timing is part of the content. Which changes the designer&apos;s question from &ldquo;what does the user want to do&rdquo; to &ldquo;what is the user about to need, and how small can we make the gap between the need arising and the need being met.&rdquo;
+
+## Context-triggered surfacing
+
+![The best suggestion is the one the user didn&apos;t have to ask for because it was already there.](/images/articles/proactive-ux/context.jpg)
+
+The strongest pattern is surfacing content based on signals the system already has. A travel app that shows check-in two hours before the flight. A project tool that opens on yesterday&apos;s unfinished item. A document editor that loads the style guide when the new file is a marketing brief. In each case the interface used what it knew to delete a navigational step the user would have taken anyway.
+
+The requirement hiding inside this pattern: the context signal has to actually predict intent, not just correlate with it loosely. A proactive surface that is wrong too often stops feeling helpful and starts feeling presumptuous, and users do not give it many chances. In my experience the calibration work matters more than the idea. Every team can name ten proactive features. Few can name the accuracy at which each one flips from useful to annoying.
+
+## Anticipatory loading
+
+![Eliminating wait time is one thing. Eliminating the experience of waiting is more interesting.](/images/articles/proactive-ux/loading.jpg)
+
+The second pattern is invisible. Instead of surfacing content, the system prepares what comes next before the user asks. Checkout flows, onboarding sequences, review queues, anywhere the user reliably moves from A to B, the arrival at B can feel instant if the system started preparing B while the user finished A.
+
+The condition is the same as before, just quieter. The prediction has to be reliable, and the failure has to be graceful. A system that aggressively pre-loaded the wrong next step creates more friction than one that loaded nothing at all.
+
+## Notifications, the pattern everyone gets wrong
+
+![The difference between a useful nudge and notification fatigue is precision. Most apps choose fatigue.](/images/articles/proactive-ux/alerts.jpg)
+
+Notifications are proactive UX&apos;s most common implementation and its most damaged one. The concept is right. Tell users things before they come looking. The execution is almost universally wrong: high volume, low specificity, sent because the system can, not because the user benefits at that moment. The appearance of helpfulness running on the mechanics of interruption.
+
+A notification earns its interruption when it clears four bars. It is about something this user actually needs to know, triggered by real context rather than a generic timer. It arrives when it is actionable, not when the system generated it. It leads one tap to something specific, because an alert that makes the user go hunting for the relevant context has already failed. And it can be turned down precisely, this type less often, without nuking the whole category. Miss any of the four and the notification is spending trust, not building it.
+
+## The line between helpful and presumptuous
+
+Everyone understands this failure mode in the abstract. The system assumes wrong, and what was designed to feel helpful feels presumptuous instead. Three things keep a product on the right side of the line.
+
+Say why. &ldquo;Because your flight is in 2 hours&rdquo; is one clause, and it converts a spooky guess into a legible service. Users forgive a wrong suggestion with a visible reason far more easily than a right one with no reason at all.
+
+Make dismissal effortless. Every proactive surface needs a one-gesture way to say not this, not now. A user who cannot easily wave off a suggestion stops trusting all of them.
+
+Learn from the dismissal. A dismissed suggestion is data. Systems that adjust get more useful over time. Systems that ignore the correction get progressively more annoying, and the user can feel which kind they are holding within a week.
+
+![The best UX is the one the user doesn&apos;t notice. Not because it&apos;s invisible, but because it&apos;s already given them what they needed.](/images/articles/proactive-ux/conclusion.jpg)
+
+The aspiration is an interface that behaves like an excellent colleague. Not one who waits to be asked, and not one who interrupts constantly, but one who notices what you are about to need and has it ready. That is a high bar. It demands signal quality and restraint that most teams have not built yet.
+
+The reactive product answers the question. The proactive product makes the question unnecessary. Users cannot tell you the difference, but they never go back.

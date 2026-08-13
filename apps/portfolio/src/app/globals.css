@@ -303,7 +303,7 @@ body {
     @apply py-15 md:py-20 lg:py-30;
   }
   .link-underline {
-    @apply decoration-border hover:decoration-foreground underline decoration-dotted underline-offset-4 transition-all duration-300 hover:underline-offset-6;
+    @apply decoration-border hover:decoration-foreground underline decoration-dotted underline-offset-4 transition-all duration-300 hover:underline-offset-6 rounded-xs outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 }
 

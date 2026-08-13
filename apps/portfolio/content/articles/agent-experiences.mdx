@@ -1,0 +1,63 @@
+---
+title: Why agent experiences will define the next decade of digital design
+slug: agent-experiences
+description: When an AI agent acts on your behalf, the action happens before you see a screen. The interface has a new job. Not making action easy, but making finished action trustworthy.
+date: 2026-07-16
+image: /images/articles/agent-experiences/hero.jpg
+---
+
+![The interface is no longer where the work happens. It&apos;s where the work gets reviewed.](/images/articles/agent-experiences/hero.jpg)
+
+*The action happens before you see a screen. Everything in this article follows from that one sentence.*
+
+For the whole history of digital product design, the interface was where the action was. The user opened an app, found a screen, made a decision, tapped a button. Designing well meant understanding what the user needed to do and making that action clear and cheap. Every pattern we have, from forms to flows to confirmation dialogs, assumes the user is the one acting.
+
+Agents break that assumption. When an agent books a flight, drafts a proposal, or routes a support ticket, the action already happened by the time the user sees anything. What the user sees is a report. A log. A summary of decisions made on their behalf. The interface&apos;s job is no longer to make action easy. It is to make finished action trustworthy.
+
+The user&apos;s main cognitive task shifts from deciding to evaluating. That one sentence changes most of what good design means.
+
+## The trust problem
+
+![Trust requires legibility. Legibility requires decisions about what to surface and how.](/images/articles/agent-experiences/trust.jpg)
+
+The central tension is between capability and comprehensibility. An agent that explains every micro-step is unbearable. An agent that explains nothing is frightening. Both fail, just in different directions.
+
+What the user actually needs is narrow. They need to know the agent is working. They need to know what goal it is pursuing. They need to hear about the consequential things it did, the decisions where there were real alternatives, and the places where it got stuck or made an assumption. Everything outside that list is noise, and noise is not neutral. Noise trains the user to stop reading, which is the last thing an oversight surface can afford.
+
+The hard design work is deciding where those thresholds sit for your product. Nobody can hand you that. It depends on what the agent can do and what it costs when the agent is wrong.
+
+## The scope problem
+
+![Open-ended instructions produce unexpected scope. The interface needs to establish shared understanding before the agent runs.](/images/articles/agent-experiences/scope.jpg)
+
+Agents run on instructions that are almost always underspecified. &ldquo;Write a summary of this report&rdquo; could mean two paragraphs or ten pages. &ldquo;Schedule time with the team&rdquo; says nothing about duration, frequency, who counts as the team, or whether existing meetings can move.
+
+The user does not notice the ambiguity, because inside their head the instruction is complete. They know what they meant. The agent does not, and the gap only becomes visible when the wrong version comes back.
+
+So the design has to clarify goals before execution. Not with twenty questions. People chose an agent to reduce overhead, and a wall of clarifying questions gives the overhead right back. The pattern that works looks like a capable colleague: one well-chosen question about the ambiguity most likely to produce a wrong result, then go.
+
+Picking that one question is a design decision. It might be the hardest one in the whole flow.
+
+## Oversight without supervision
+
+Once the agent runs, the user needs to be able to see what happened, catch errors, and course-correct, without being forced to watch every step. If oversight requires supervision, the agent has saved nothing.
+
+The closest existing pattern is the audit log, and it is not close enough. Audit logs assume you look backwards after something went wrong. Agent oversight has to serve both the backwards look and the live glance, and it has to make clear which mode the user is in right now. That distinction sounds small until someone reviews a live log thinking it is finished, or ignores a finished one thinking it is still running.
+
+## When the agent gets it wrong
+
+![Mistakes in agent experiences are different from mistakes in traditional UX. They often have downstream effects that can&apos;t be simply reversed.](/images/articles/agent-experiences/recovery.jpg)
+
+In a traditional interface, user errors are mostly contained. Wrong entry, corrected. Deleted file, restored. Mis-tap, confirmation dialog. Agent errors are different in kind. An agent that sent the reply, made the booking, or updated the record has set off downstream effects that do not cleanly undo. The email was read. The other calendar moved.
+
+That flips the priority from error recovery to error prevention. Consequential actions need checkpoints before execution, not apologies after. Which means someone has to map, before the interface is designed, what the agent can do, which of those actions are reversible, and which are not. That map is a design artifact. In my experience nobody owns it by default, and the designer who takes it ends up shaping the entire product.
+
+## What this asks of designers
+
+The skills this work needs are not the ones traditional UX practice teaches. Mapping consequences before screens. Designing the one clarifying question. Building logs that read at a glance and reward a deep look. Deciding how much autonomy an agent earns on day one versus day thirty, because trust between a user and an agent is built over time, and a static capability set ignores that entirely.
+
+![The product map for agent experiences looks nothing like a traditional user flow. That&apos;s not a problem. It&apos;s the work.](/images/articles/agent-experiences/conclusion.jpg)
+
+None of this has settled patterns yet. That is not a reason to wait. It is the opposite.
+
+The interfaces that matter most in the next decade will not be the ones that do the most. They will be the ones that make it easiest to trust something else doing the most.

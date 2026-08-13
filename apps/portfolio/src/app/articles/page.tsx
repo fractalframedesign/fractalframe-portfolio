@@ -1,5 +1,13 @@
+import type { Metadata } from 'next';
+
 import { ArticlesList } from '@/components/sections/latest-writing';
 import { getAllArticles } from '@/lib/articles';
+
+export const metadata: Metadata = {
+  title: 'Articles & notes',
+  description:
+    'Notes on product design, design systems, and clear thinking.',
+};
 
 export default async function ArticlesPage() {
   const articles = await getAllArticles();

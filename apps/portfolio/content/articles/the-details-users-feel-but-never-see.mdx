@@ -1,0 +1,120 @@
+---
+title: The details users feel but never see
+slug: the-details-users-feel-but-never-see
+description: Users never say an interface is well-crafted. They say it feels right. Every principle in this article is interactive — press, toggle, and feel each one.
+date: 2026-07-12
+image: /images/articles/the-details-users-feel-but-never-see/card.jpg
+pinned: true
+---
+
+Users almost never say "this interface is well-crafted." They say it feels fast. It feels solid. It feels right.
+
+That feeling is not one decision. It is the sum of dozens of small ones — most of them invisible on a static screen. You only notice them when they are missing.
+
+After years of shipping products, these are the details I now refuse to skip. I&apos;ve grouped them the way I think about them: how an interface *responds*, how it *moves*, how it *waits*, how it *forgives*, and how it *holds together*. This article is interactive — every principle below is something you can press, toggle, and feel for yourself.
+
+## I — How it responds
+
+### Every interactive element has five states
+
+Rest, hover, focus, active, disabled. Most interfaces design one, maybe two. The gap shows up in small ways: a button that doesn&apos;t acknowledge the press, a card that&apos;s clickable but gives no signal.
+
+<FiveStatesDemo />
+
+The press state includes a two-percent shrink. Nobody consciously sees it. Everybody feels the press.
+
+### Design the focus state, don&apos;t just keep it
+
+Teams either delete the browser&apos;s focus outline — an accessibility failure — or leave the default ring floating awkwardly on brand components — a craft failure. The third option: design it like any other state, using `focus-visible` so it appears for keyboard users without flashing on every click.
+
+<FocusRingsDemo />
+
+A designed focus state tells keyboard users they were considered. That is trust, built silently.
+
+### Hit areas are bigger than the visuals
+
+A 16px close icon with a 16px hit area is a usability bug, especially on mobile. The target should be at least 44px — even if the icon stays small. Padding grows the target; a negative margin keeps the layout untouched.
+
+<HitAreaDemo />
+
+## II — How it moves
+
+### Nothing moves linearly
+
+Linear motion reads as mechanical because nothing in the physical world moves that way. Objects accelerate and decelerate. My defaults: ease-out for anything entering, durations between 150 and 300ms. Below 100ms, motion isn&apos;t perceived. Above 400ms, the interface starts making the user wait.
+
+<EasingDemo />
+
+### Entrances are louder than exits
+
+When something appears, the user needs to notice it. When something leaves, they&apos;ve already moved on. So this notification enters with movement, a fade, and a touch of blur over 250ms — and leaves with a plain 150ms fade. Exits earn less attention than entrances, the same way you leave a conversation quietly.
+
+<EnterExitDemo />
+
+### Motion is a preference, not a given
+
+Some users get motion sickness. Some just find animation noisy. The `prefers-reduced-motion` media query exists for them, and respecting it costs almost nothing — this page does. If your system has reduced motion enabled, every demo here becomes instant. That&apos;s not a bug. That&apos;s the point.
+
+## III — How it waits
+
+### Skeletons over spinners
+
+A spinner says "wait." A skeleton says "here is what&apos;s coming." Skeleton screens shorten *perceived* time because the layout arrives immediately and content simply fills in. One rule: the skeleton must match the real layout — a mismatch creates a jump that feels worse than the spinner it replaced.
+
+<LoadingDemo />
+
+### Numbers should not dance
+
+Timers, prices, counters — anything that updates in place needs equal-width digits, or the layout shivers on every tick. In Tailwind it&apos;s one utility: `tabular-nums`. Ten seconds of work that would otherwise irritate users forever without any of them being able to name why.
+
+<TabularNumbersDemo />
+
+### Reserve space before content arrives
+
+Layout shift is the most hostile form of waiting. The user aims at a button, an image loads above it, and they tap something else entirely. Give images explicit dimensions, give async content a placeholder, and treat layout stability as a design metric — not just a performance one.
+
+<LayoutShiftDemo />
+
+## IV — How it forgives
+
+### Errors should say what to do next
+
+"Something went wrong" transfers the problem to the user without giving them a way to solve it. Every error message I write has three parts: what happened, why (if we know), and the next step. The same failure — but the system carries the burden instead of the user.
+
+<ErrorCopyDemo />
+
+### Keep the user&apos;s work sacred
+
+If a user types into a form, that text survives everything — a failed submit, an accidental navigation, a dropped connection. Losing user input is the fastest way to teach someone not to trust your product. The implementation varies. The principle doesn&apos;t: *their* effort is more valuable than *our* convenience.
+
+### Don&apos;t disable — explain
+
+A disabled submit button with no explanation is a puzzle: the user scans the form wondering what they missed. I increasingly prefer keeping the button enabled and validating on submit, with inline messages pointing to exactly what needs attention. The interface stops being a gatekeeper and starts being a guide.
+
+## V — How it holds together
+
+### Depth comes from light, not lines
+
+Heavy 1px borders everywhere make an interface feel like a wireframe that shipped. For elevation, I lean on layered, low-opacity shadows — they adapt to any background because they&apos;re transparent, where solid border colors only work on the background they were mixed for.
+
+<BorderShadowDemo />
+
+### Align by eye, not by math
+
+Geometry says a play triangle is centered. Your eye says it&apos;s drifting left. Optical alignment — nudging elements until they *look* right rather than *measure* right — separates interfaces that feel considered from interfaces that were merely assembled. Mathematical centering is the starting point. The eye gets the final vote.
+
+<OpticalAlignmentDemo />
+
+### Nested corners share a center
+
+When a card sits inside a card, their radii should feel related — the outer radius roughly equals the inner radius plus the padding between them. Get it wrong and the corners fight each other. Nobody can articulate the problem. Everybody senses it.
+
+<ConcentricRadiiDemo />
+
+## Why any of this matters
+
+Individually, each of these is small enough to cut from a sprint. That&apos;s exactly how interfaces lose their quality — not through one bad decision, but through fifty reasonable compromises.
+
+Users can&apos;t name these details. But they act on them. They trust the product a little more, hesitate a little less, return a little more often. Craft compounds quietly — the same way it erodes.
+
+The details users never see are the ones they feel most.
