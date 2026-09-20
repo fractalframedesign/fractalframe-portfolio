@@ -1,6 +1,13 @@
 'use client';
 
-import { Code, Heart, Layers, type LucideIcon, Star } from 'lucide-react';
+import {
+  Code,
+  Heart,
+  Layers,
+  type LucideIcon,
+  Rocket,
+  Star,
+} from 'lucide-react';
 import { AnimatePresence } from 'motion/react';
 import { parseAsString, useQueryState } from 'nuqs';
 
@@ -21,6 +28,7 @@ const tabIcons: Record<string, LucideIcon> = {
   featured: Star,
   'open-source': Code,
   personal: Heart,
+  upcoming: Rocket,
 };
 
 const ProjectsTabs = ({ projects }: ProjectsTabsProps) => {
@@ -56,6 +64,10 @@ const ProjectsTabs = ({ projects }: ProjectsTabsProps) => {
           <TabsTrigger value="personal">
             <Heart className="size-4" />
             Personal
+          </TabsTrigger>
+          <TabsTrigger value="upcoming">
+            <Rocket className="size-4" />
+            Upcoming
           </TabsTrigger>
         </TabsList>
       </div>
