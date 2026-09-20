@@ -19,6 +19,7 @@ const categoryLabel: Record<string, string> = {
   featured: 'Featured Project',
   'open-source': 'Open Source',
   personal: 'Personal Project',
+  upcoming: 'Upcoming Project',
 };
 
 const ProjectHero = ({

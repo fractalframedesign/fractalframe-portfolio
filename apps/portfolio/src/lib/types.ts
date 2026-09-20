@@ -16,7 +16,7 @@ export interface ProjectFrontmatter {
   image: string;
   wrapperClassName?: string;
   imageClassName?: string;
-  category: 'featured' | 'open-source' | 'personal';
+  category: 'featured' | 'open-source' | 'personal' | 'upcoming';
   // Extended fields for project detail page
   liveUrl: string;
   sourceUrl: string;
