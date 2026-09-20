@@ -128,7 +128,7 @@ export default async function RootLayout({
                   <StyleGlideProvider />
 
                   <Navbar />
-                  <main className="flex-1">{children}</main>
+                  <main className="flex-1 pt-16 md:pt-0">{children}</main>
                   <Footer />
 
                   {/* Fixed bottom blur overlay for premium feel */}
