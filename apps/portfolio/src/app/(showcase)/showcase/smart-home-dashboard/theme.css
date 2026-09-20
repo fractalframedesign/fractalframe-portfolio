@@ -1,0 +1,14 @@
+/* Smart home dashboard palette, scoped to this project only. */
+[data-project='smart-home'] {
+  --canvas: #e9eaec;
+  --ink: #0b0b0d;
+  --accent-1: #5b6bf5;
+  --accent-1-soft: #c7ccfb;
+  --accent-2: #e2ff4d;
+  --accent-2-soft: #eaffa0;
+  --accent-4: #93a4f7;
+}
+
+.dark [data-project='smart-home'] {
+  --canvas: #0b0b0d;
+}

@@ -16,7 +16,7 @@ type ProjectCardProps = {
 };
 
 export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps) => {
-  // Projects with an internal href (e.g. a components page) link there directly
+  // Projects with an internal href (e.g. a showcase page) link there directly
   const href = project.href.startsWith('/')
     ? project.href
     : `/projects/${project.slug}`;
@@ -31,6 +31,10 @@ export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps
     >
       <Link
         href={href}
+        {...(project.openInNewTab && {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        })}
         className="group block space-y-6"
       >
         <Card className="xs:h-80 group flex h-62 items-center justify-center overflow-hidden p-0">

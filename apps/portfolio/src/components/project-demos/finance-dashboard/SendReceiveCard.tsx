@@ -31,7 +31,7 @@ export function SendReceiveCard({ onSend, onReceive }: SendReceiveCardProps) {
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="text-[11px] font-medium text-accent-lime"
+              className="text-[11px] font-medium text-accent-2"
             >
               {status}
             </motion.span>
@@ -46,7 +46,7 @@ export function SendReceiveCard({ onSend, onReceive }: SendReceiveCardProps) {
           onClick={() => trigger('send')}
           className="flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-2.5 text-left transition-colors hover:bg-white/10"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-violet">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-1">
             <ArrowUpRight className="h-3.5 w-3.5" />
           </span>
           <span className="text-xs font-semibold tracking-wide">SEND</span>
@@ -58,7 +58,7 @@ export function SendReceiveCard({ onSend, onReceive }: SendReceiveCardProps) {
           onClick={() => trigger('receive')}
           className="flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-2.5 text-left transition-colors hover:bg-white/10"
         >
-          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-rose">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-3">
             <ArrowDownLeft className="h-3.5 w-3.5" />
           </span>
           <span className="text-xs font-semibold tracking-wide">RECEIVE</span>

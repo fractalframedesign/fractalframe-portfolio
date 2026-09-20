@@ -14,9 +14,9 @@ type SpendingBreakdownCardProps = {
 }
 
 const defaultSegments: Segment[] = [
-  { label: 'Groceries', percent: 40, color: 'bg-accent-rose' },
-  { label: 'Clothes', percent: 18, color: 'bg-accent-violet' },
-  { label: 'Leisure', percent: 10, color: 'bg-accent-lime' },
+  { label: 'Groceries', percent: 40, color: 'bg-accent-3' },
+  { label: 'Clothes', percent: 18, color: 'bg-accent-1' },
+  { label: 'Leisure', percent: 10, color: 'bg-accent-2' },
   { label: 'Car', percent: 8, color: 'bg-white/30' },
 ]
 

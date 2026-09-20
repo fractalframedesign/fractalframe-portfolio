@@ -60,7 +60,7 @@ export function YesterdayEarningCard({
                   initial={{ height: 0 }}
                   animate={{ height: `${day.value}%` }}
                   transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-                  className={cn('w-full rounded-full', isSelected ? 'bg-accent-lime' : 'bg-white/25')}
+                  className={cn('w-full rounded-full', isSelected ? 'bg-accent-2' : 'bg-white/25')}
                 />
               </div>
               <span className={cn('text-[10px]', isSelected ? 'text-white' : 'text-ink-muted')}>

@@ -38,7 +38,7 @@ export function SavingsOverviewCard({
       <div className="flex flex-wrap items-baseline gap-x-10 gap-y-3">
         <div>
           <p className="flex items-baseline gap-1.5 text-2xl font-semibold">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent-lime" />
+            <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />
             {monthlySave}
           </p>
           <p className="mt-1 text-xs tracking-wide text-ink-muted">MONTHLY SAVE</p>
@@ -69,7 +69,7 @@ export function SavingsOverviewCard({
                   transition={{ type: 'spring', stiffness: 120, damping: 18, delay: 0.05 }}
                   className={cn(
                     'w-full rounded-full',
-                    isActive ? 'bg-accent-lime' : 'bg-accent-lime/70',
+                    isActive ? 'bg-accent-2' : 'bg-accent-2/70',
                   )}
                 />
               </div>

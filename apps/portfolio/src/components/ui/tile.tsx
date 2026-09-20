@@ -10,10 +10,10 @@ type TileProps = {
 }
 
 const toneClasses: Record<NonNullable<TileProps['tone']>, string> = {
-  dark: 'bg-tile border border-tile-border',
+  dark: 'bg-surface border border-surface-border',
   violet:
-    'bg-gradient-to-br from-accent-violet to-accent-violet-deep border border-accent-violet/40',
-  rose: 'bg-gradient-to-br from-accent-rose to-accent-rose-deep border border-accent-rose/40',
+    'bg-gradient-to-br from-accent-1 to-accent-1-deep border border-accent-1/40',
+  rose: 'bg-gradient-to-br from-accent-3 to-accent-3-deep border border-accent-3/40',
 }
 
 export function Tile({ children, className, tone = 'dark', as = 'div', onClick }: TileProps) {

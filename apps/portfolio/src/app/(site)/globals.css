@@ -102,40 +102,6 @@
   }
 }
 
-/* Finance dashboard demo tokens (src/components/project-demos/finance-dashboard) */
-@theme {
-  --color-app-bg: #0a0a0a;
-  --color-tile: #17171a;
-  --color-tile-border: #262629;
-  --color-ink: #f5f5f5;
-  --color-ink-muted: #8a8a8f;
-  --color-accent-violet: #7c5cfc;
-  --color-accent-violet-deep: #5a3fe0;
-  --color-accent-lime: #a3e635;
-  --color-accent-rose: #fb4570;
-  --color-accent-rose-deep: #e0224e;
-}
-
-/* Smart home dashboard demo tokens (src/components/project-demos/smart-home-dashboard) */
-@theme {
-  --color-home-ink: #0b0b0d;
-  --color-home-lime: #e2ff4d;
-  --color-home-lime-dim: #eaffa0;
-  --color-home-dial-blue: #5b6bf5;
-  --color-home-dial-blue-soft: #c7ccfb;
-  --color-home-scene-blue: #93a4f7;
-  --animate-cctv-scan: cctv-scan 5s linear infinite;
-
-  @keyframes cctv-scan {
-    0% {
-      transform: translateY(-100%);
-    }
-    100% {
-      transform: translateY(220%);
-    }
-  }
-}
-
 :root {
   --radius: 0.375rem;
   --background: oklch(1 0 0);

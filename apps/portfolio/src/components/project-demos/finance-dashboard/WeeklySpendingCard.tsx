@@ -50,13 +50,13 @@ export function WeeklySpendingCard({
                   initial={{ height: 0 }}
                   animate={{ height: `${day.value}%` }}
                   transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-                  className={cn('w-full rounded-full', isSelected ? 'bg-accent-rose' : 'bg-white/25')}
+                  className={cn('w-full rounded-full', isSelected ? 'bg-accent-3' : 'bg-white/25')}
                 />
               </div>
               <span
                 className={cn(
                   'flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold transition-colors',
-                  isSelected ? 'bg-accent-rose text-white' : 'text-ink-muted',
+                  isSelected ? 'bg-accent-3 text-white' : 'text-ink-muted',
                 )}
               >
                 {day.label}

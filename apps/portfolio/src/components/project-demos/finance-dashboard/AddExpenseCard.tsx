@@ -46,12 +46,12 @@ export function AddExpenseCard({ onAddExpense }: AddExpenseCardProps) {
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
               placeholder="AED 0.00"
-              className="w-full rounded-xl border border-tile-border bg-white/5 px-3 py-2 text-center text-sm outline-none focus:border-accent-violet"
+              className="w-full rounded-xl border border-surface-border bg-white/5 px-3 py-2 text-center text-sm outline-none focus:border-accent-1"
             />
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="rounded-full bg-accent-violet px-4 py-1.5 text-xs font-semibold"
+                className="rounded-full bg-accent-1 px-4 py-1.5 text-xs font-semibold"
               >
                 Add
               </button>

@@ -139,12 +139,12 @@ export function SecurityCamerasCard({
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-full bg-home-ink/5 text-home-ink dark:bg-white/10 dark:text-white">
+          <div className="flex size-10 items-center justify-center rounded-full bg-ink/5 text-ink dark:bg-white/10 dark:text-white">
             <CameraIcon className="size-[18px]" />
           </div>
           <div>
-            <p className="text-base font-bold tracking-tight text-home-ink dark:text-white">{title}</p>
-            <p className="text-sm text-home-ink/45 dark:text-white/40">{computedSubtitle}</p>
+            <p className="text-base font-bold tracking-tight text-ink dark:text-white">{title}</p>
+            <p className="text-sm text-ink/45 dark:text-white/40">{computedSubtitle}</p>
           </div>
         </div>
 
@@ -153,7 +153,7 @@ export function SecurityCamerasCard({
           aria-label="View all cameras"
           whileHover={{ scale: 1.08, rotate: 6 }}
           whileTap={{ scale: 0.9 }}
-          className="flex size-10 items-center justify-center rounded-full bg-home-ink text-white outline-none focus-visible:ring-2 focus-visible:ring-home-ink focus-visible:ring-offset-2 dark:bg-white dark:text-home-ink dark:focus-visible:ring-white dark:focus-visible:ring-offset-[#17181c]"
+          className="flex size-10 items-center justify-center rounded-full bg-ink text-white outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 dark:bg-white dark:text-ink dark:focus-visible:ring-white dark:focus-visible:ring-offset-[#17181c]"
         >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
             <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />

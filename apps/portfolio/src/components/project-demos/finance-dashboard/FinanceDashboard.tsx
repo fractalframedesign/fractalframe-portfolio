@@ -15,7 +15,7 @@ import { YesterdayEarningCard } from '@/components/project-demos/finance-dashboa
 
 export function FinanceDashboard() {
   return (
-    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 bg-app-bg p-6 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 bg-canvas p-6 sm:grid-cols-2 lg:grid-cols-4">
       <div className="sm:col-span-2">
         <SavingsOverviewCard />
       </div>

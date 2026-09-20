@@ -40,7 +40,7 @@ export function ShoppingBudgetCard({
             stroke="currentColor"
             strokeWidth="8"
             strokeLinecap="round"
-            className="text-accent-violet"
+            className="text-accent-1"
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: offset }}
@@ -48,7 +48,7 @@ export function ShoppingBudgetCard({
           />
         </svg>
         <div className="absolute bottom-1 flex flex-col items-center gap-1">
-          <ShoppingBag className="h-4 w-4 text-accent-violet" />
+          <ShoppingBag className="h-4 w-4 text-accent-1" />
           <span className="text-[10px] tracking-wide text-ink-muted">REMAIN</span>
         </div>
       </div>

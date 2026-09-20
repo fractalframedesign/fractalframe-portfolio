@@ -3,7 +3,7 @@
 import { motion } from 'motion/react'
 import { useTheme } from 'next-themes'
 
-import { useIsDark } from './use-is-dark'
+import { useIsDark } from '@/components/showcase/use-is-dark'
 
 interface ThemeToggleProps {
   className?: string
@@ -43,18 +43,18 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
       aria-checked={isDark}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       onClick={toggle}
-      className={`relative flex h-10 w-[74px] shrink-0 items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-home-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/40 ${className}`}
+      className={`relative flex h-10 w-[74px] shrink-0 items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/40 ${className}`}
     >
-      <span className="pointer-events-none absolute left-2.5 flex text-home-ink/35 dark:text-white/30">
+      <span className="pointer-events-none absolute left-2.5 flex text-ink/35 dark:text-white/30">
         <SunIcon />
       </span>
-      <span className="pointer-events-none absolute right-2.5 flex text-home-ink/25 dark:text-white/70">
+      <span className="pointer-events-none absolute right-2.5 flex text-ink/25 dark:text-white/70">
         <MoonIcon />
       </span>
       <motion.span
         layout
         transition={{ type: 'spring', duration: 0.4, bounce: 0.35 }}
-        className="z-10 flex size-8 items-center justify-center rounded-full bg-white text-home-ink shadow-[0_4px_10px_-2px_rgba(0,0,0,0.3)] dark:bg-home-ink dark:text-white"
+        className="z-10 flex size-8 items-center justify-center rounded-full bg-white text-ink shadow-[0_4px_10px_-2px_rgba(0,0,0,0.3)] dark:bg-ink dark:text-white"
         style={{ marginLeft: isDark ? 'auto' : 0 }}
       >
         {isDark ? <MoonIcon /> : <SunIcon />}

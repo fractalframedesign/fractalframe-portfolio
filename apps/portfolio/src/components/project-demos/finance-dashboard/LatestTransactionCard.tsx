@@ -23,7 +23,7 @@ export function LatestTransactionCard({
           <br />
           TRANSACTION
         </span>
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-violet">
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-accent-1">
           <Split className="h-4 w-4 rotate-90 text-white" />
         </span>
       </div>
@@ -33,19 +33,19 @@ export function LatestTransactionCard({
           {merchant.slice(0, 2)}
         </span>
         <div className="flex items-center">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-tile bg-orange-300 text-[9px]">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-orange-300 text-[9px]">
             🙂
           </span>
-          <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-tile bg-pink-300 text-[9px]">
+          <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-pink-300 text-[9px]">
             🙂
           </span>
           {extraPeople > 0 && (
-            <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-tile bg-white/20 text-[9px] font-semibold">
+            <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-white/20 text-[9px] font-semibold">
               +{extraPeople}
             </span>
           )}
         </div>
-        <span className="text-sm font-medium text-accent-violet">Splitted</span>
+        <span className="text-sm font-medium text-accent-1">Splitted</span>
       </div>
 
       <div>

@@ -44,7 +44,7 @@ export function EarningsRingCard({
             stroke="currentColor"
             strokeWidth="8"
             strokeLinecap="round"
-            className="text-accent-rose"
+            className="text-accent-3"
             strokeDasharray={circumference}
             initial={false}
             animate={{ strokeDashoffset: offset }}
@@ -52,7 +52,7 @@ export function EarningsRingCard({
           />
         </svg>
         <div className="absolute flex flex-col items-center gap-1">
-          <ArrowUpRight className="h-4 w-4 text-accent-rose" />
+          <ArrowUpRight className="h-4 w-4 text-accent-3" />
           <span className="text-xs font-semibold tracking-widest text-ink-muted">SHARE</span>
         </div>
       </div>
@@ -60,7 +60,7 @@ export function EarningsRingCard({
       <div className="flex flex-1 flex-col gap-3">
         <div>
           <p className="text-xs tracking-wide text-ink-muted">EARNING</p>
-          <p className="text-2xl font-semibold text-accent-rose">{earning}</p>
+          <p className="text-2xl font-semibold text-accent-3">{earning}</p>
         </div>
 
         <div className="flex gap-1 rounded-full bg-white/5 p-1 text-[11px]">

@@ -53,13 +53,13 @@ export function GreetingHeader({
         initial={{ opacity: 0, x: -16 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: 'spring', duration: 0.6, bounce: 0.3, delay: 0.08 }}
-        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[28px] bg-gradient-to-br from-(--color-home-lime) to-(--color-home-lime-dim) px-7 py-5 shadow-[0_16px_36px_-16px_rgba(180,200,20,0.65)]"
+        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[28px] bg-gradient-to-br from-(--color-accent-2) to-(--color-accent-2-soft) px-7 py-5 shadow-[0_16px_36px_-16px_rgba(180,200,20,0.65)]"
       >
         <div>
-          <p className="text-xl font-bold tracking-tight text-home-ink">
+          <p className="text-xl font-bold tracking-tight text-ink">
             Hi, {name.split(' ')[0]} {name.split(' ').slice(1).join(' ')}
           </p>
-          <p className="mt-1 text-sm font-medium text-home-ink/60">
+          <p className="mt-1 text-sm font-medium text-ink/60">
             {deviceCount} devices active
           </p>
         </div>
@@ -73,7 +73,7 @@ export function GreetingHeader({
             onClick={() => setMenuOpen((v) => !v)}
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.92 }}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-home-ink text-white shadow-[0_6px_16px_-4px_rgba(0,0,0,0.5)] outline-none focus-visible:ring-2 focus-visible:ring-home-ink focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-home-lime)"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink text-white shadow-[0_6px_16px_-4px_rgba(0,0,0,0.5)] outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-accent-2)"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="2.5" r="1.5" fill="currentColor" />
@@ -98,7 +98,7 @@ export function GreetingHeader({
                     role="menuitem"
                     type="button"
                     onClick={() => setMenuOpen(false)}
-                    className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-home-ink/80 transition-colors hover:bg-home-ink/5 hover:text-home-ink dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white"
+                    className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-ink/80 transition-colors hover:bg-ink/5 hover:text-ink dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white"
                   >
                     {item}
                   </button>

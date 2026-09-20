@@ -3,7 +3,7 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
 
-import { useIsDark } from './use-is-dark';
+import { useIsDark } from '@/components/showcase/use-is-dark';
 
 interface Scene {
   id: string
@@ -89,13 +89,13 @@ export function ScenesPanel({
                 <span
                   className={`flex size-9 items-center justify-center rounded-full transition-colors ${
                     active
-                      ? 'bg-white text-(--color-home-scene-blue)'
-                      : 'bg-black/5 text-home-ink/50 dark:bg-white/10 dark:text-white/60'
+                      ? 'bg-white text-(--color-accent-4)'
+                      : 'bg-black/5 text-ink/50 dark:bg-white/10 dark:text-white/60'
                   }`}
                 >
                   <SceneIcon icon={scene.icon} />
                 </span>
-                <span className={active ? 'text-white/80' : 'text-home-ink/30 dark:text-white/30'}>
+                <span className={active ? 'text-white/80' : 'text-ink/30 dark:text-white/30'}>
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="2.5" r="1.3" fill="currentColor" />
                     <circle cx="8" cy="8" r="1.3" fill="currentColor" />
@@ -104,8 +104,8 @@ export function ScenesPanel({
                 </span>
               </div>
               <div>
-                <p className={`font-bold ${active ? 'text-white' : 'text-home-ink dark:text-white'}`}>{scene.name}</p>
-                <p className={`text-sm ${active ? 'text-white/70' : 'text-home-ink/40 dark:text-white/40'}`}>
+                <p className={`font-bold ${active ? 'text-white' : 'text-ink dark:text-white'}`}>{scene.name}</p>
+                <p className={`text-sm ${active ? 'text-white/70' : 'text-ink/40 dark:text-white/40'}`}>
                   {scene.deviceCount} Devices
                 </p>
               </div>
@@ -119,7 +119,7 @@ export function ScenesPanel({
           <motion.span
             whileHover={{ rotate: 90 }}
             transition={{ type: 'spring', duration: 0.4 }}
-            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-black/5 text-home-ink/60 dark:bg-white/10 dark:text-white/60"
+            className="flex size-11 shrink-0 items-center justify-center rounded-full bg-black/5 text-ink/60 dark:bg-white/10 dark:text-white/60"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
@@ -127,14 +127,14 @@ export function ScenesPanel({
             </svg>
           </motion.span>
           <div className="min-w-0 flex-1">
-            <p className="truncate font-bold text-home-ink dark:text-white">You created {scenesCreated} scenes</p>
-            <p className="text-sm text-home-ink/40 tabular-nums dark:text-white/40">{devicesInUse} devices in use</p>
+            <p className="truncate font-bold text-ink dark:text-white">You created {scenesCreated} scenes</p>
+            <p className="text-sm text-ink/40 tabular-nums dark:text-white/40">{devicesInUse} devices in use</p>
           </div>
           <motion.button
             type="button"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.95 }}
-            className="shrink-0 rounded-full bg-home-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-home-ink/85 dark:bg-white dark:text-home-ink dark:hover:bg-white/85"
+            className="shrink-0 rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-ink/85 dark:bg-white dark:text-ink dark:hover:bg-white/85"
           >
             See All
           </motion.button>

@@ -12,6 +12,7 @@ import { NavigationProvider } from '@/components/providers/navigation-provider';
 import { StyleGlideProvider } from '@/components/providers/styleglide-provider';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
+import { getSiteUrl } from '@/lib/site';
 
 const sourceSerif4 = Source_Serif_4({
   subsets: ['latin'],
@@ -29,12 +30,7 @@ const siteDescription =
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ??
-      (process.env.VERCEL_URL
-        ? `https://${process.env.VERCEL_URL}`
-        : 'http://localhost:3000'),
-  ),
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: siteTitle,
     template: `%s | ${siteTitle}`,
@@ -71,7 +67,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'http://localhost:3000',
+    url: getSiteUrl(),
     siteName: siteTitle,
     title: siteTitle,
     description: siteDescription,

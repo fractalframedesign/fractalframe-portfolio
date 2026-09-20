@@ -25,7 +25,7 @@ export function BudgetUsedCard({
           initial={{ width: 0 }}
           animate={{ width: `${usedPercent}%` }}
           transition={{ type: 'spring', stiffness: 80, damping: 20 }}
-          className="h-full rounded-full bg-accent-lime"
+          className="h-full rounded-full bg-accent-2"
         />
       </div>
 

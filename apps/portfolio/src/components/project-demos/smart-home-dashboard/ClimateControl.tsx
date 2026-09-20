@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 
-import { useIsDark } from './use-is-dark';
+import { useIsDark } from '@/components/showcase/use-is-dark';
 
 interface ClimateControlProps {
   label?: string
@@ -148,7 +148,7 @@ export function ClimateControl({
 
       <div className="relative flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-full bg-home-ink/5 dark:bg-white/10">
+          <div className="flex size-10 items-center justify-center rounded-full bg-ink/5 dark:bg-white/10">
             {mode === 'cooling' ? (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path
@@ -171,8 +171,8 @@ export function ClimateControl({
             )}
           </div>
           <div>
-            <p className="text-base font-bold tracking-tight text-home-ink dark:text-white">{label}</p>
-            <p className="text-sm text-home-ink/45 dark:text-white/40">{subtitle}</p>
+            <p className="text-base font-bold tracking-tight text-ink dark:text-white">{label}</p>
+            <p className="text-sm text-ink/45 dark:text-white/40">{subtitle}</p>
           </div>
         </div>
 
@@ -182,17 +182,17 @@ export function ClimateControl({
           aria-checked={on}
           aria-label={`Turn ${label} ${on ? 'off' : 'on'}`}
           onClick={() => setOn((v) => !v)}
-          className="relative flex h-10 w-[74px] items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-home-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/30"
+          className="relative flex h-10 w-[74px] items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/30"
         >
           <span
-            className={`pointer-events-none absolute left-3 text-xs font-semibold transition-opacity ${on ? 'opacity-100 text-home-ink/70 dark:text-white/70' : 'opacity-0'}`}
+            className={`pointer-events-none absolute left-3 text-xs font-semibold transition-opacity ${on ? 'opacity-100 text-ink/70 dark:text-white/70' : 'opacity-0'}`}
           >
             On
           </span>
           <motion.span
             layout
             transition={{ type: 'spring', duration: 0.4, bounce: 0.35 }}
-            className="ml-auto flex size-8 items-center justify-center rounded-full bg-home-ink text-white shadow-sm dark:bg-white dark:text-home-ink"
+            className="ml-auto flex size-8 items-center justify-center rounded-full bg-ink text-white shadow-sm dark:bg-white dark:text-ink"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <path d="M12 2v9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
@@ -213,7 +213,7 @@ export function ClimateControl({
             type="button"
             onClick={() => setTimerIndex((i) => (i + 1) % TIMER_STEPS.length)}
             whileTap={{ scale: 0.94 }}
-            className="flex items-center gap-1.5 rounded-full bg-(--color-home-dial-blue-soft) px-3.5 py-1.5 text-sm font-semibold text-[#3a45c2] transition-colors hover:brightness-105 dark:bg-[#2b2f63] dark:text-[#c7ccfb]"
+            className="flex items-center gap-1.5 rounded-full bg-(--color-accent-1-soft) px-3.5 py-1.5 text-sm font-semibold text-[#3a45c2] transition-colors hover:brightness-105 dark:bg-[#2b2f63] dark:text-[#c7ccfb]"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.6" />
@@ -282,18 +282,18 @@ export function ClimateControl({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10, scale: 0.9 }}
               transition={{ type: 'spring', duration: 0.35, bounce: 0.35 }}
-              className="tabular-nums text-5xl font-extrabold tracking-tight text-home-ink dark:text-white"
+              className="tabular-nums text-5xl font-extrabold tracking-tight text-ink dark:text-white"
             >
               {value}°
             </motion.span>
           </AnimatePresence>
-          <p className="mt-1 text-sm font-medium text-home-ink/40 dark:text-white/40">Temperature</p>
+          <p className="mt-1 text-sm font-medium text-ink/40 dark:text-white/40">Temperature</p>
         </div>
 
-        <span className="pointer-events-none absolute bottom-1 left-2 text-sm font-medium text-home-ink/35 tabular-nums dark:text-white/35">
+        <span className="pointer-events-none absolute bottom-1 left-2 text-sm font-medium text-ink/35 tabular-nums dark:text-white/35">
           {min}°
         </span>
-        <span className="pointer-events-none absolute right-2 bottom-1 text-sm font-medium text-home-ink/35 tabular-nums dark:text-white/35">
+        <span className="pointer-events-none absolute right-2 bottom-1 text-sm font-medium text-ink/35 tabular-nums dark:text-white/35">
           {max}°
         </span>
       </div>

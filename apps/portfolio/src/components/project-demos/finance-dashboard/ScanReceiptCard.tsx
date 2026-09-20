@@ -62,7 +62,7 @@ export function ScanReceiptCard({ onScan }: ScanReceiptCardProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
             >
-              <Check className="h-6 w-6 text-accent-lime" />
+              <Check className="h-6 w-6 text-accent-2" />
             </motion.span>
           )}
         </AnimatePresence>
