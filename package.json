@@ -10,9 +10,8 @@
     "build": "turbo build",
     "lint": "turbo lint",
     "dev:portfolio": "turbo dev --filter=portfolio",
-    "dev:stories": "turbo dev --filter=stories",
     "build:portfolio": "turbo build --filter=portfolio",
-    "build:stories": "turbo build --filter=stories"
+    "typecheck": "turbo typecheck"
   },
   "devDependencies": {
     "turbo": "^2.5.4"
