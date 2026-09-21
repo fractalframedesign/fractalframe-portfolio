@@ -35,7 +35,7 @@ export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps
           target: '_blank',
           rel: 'noopener noreferrer',
         })}
-        className="group block space-y-6"
+        className="group block max-w-120 space-y-6"
       >
         <Card className="xs:h-80 group flex h-62 items-center justify-center overflow-hidden p-0">
           <div className={cn('relative size-full', project.wrapperClassName)}>

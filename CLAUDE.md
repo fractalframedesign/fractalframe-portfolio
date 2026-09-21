@@ -86,7 +86,7 @@ To add a showcase project:
 1. Components go in `src/components/project-demos/<slug>/`. Use only the semantic tokens (`canvas`, `surface`, `surface-border`, `ink`, `ink-muted`, `accent-1..4`), never hex values.
 2. Create `src/app/(showcase)/showcase/<slug>/` with `layout.tsx`, `page.tsx`, `docs/page.tsx`, `case-study/page.tsx` and `theme.css` (copy an existing project).
 3. In `theme.css`, define the token values under `[data-project='<scope>']` only. No global `body` or `html` rules, no `@theme`.
-4. Register the project in `src/lib/showcase.ts`.
+4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page from `ComponentSection` bands (see `fintech-components`); widgets that read `var(--color-*)` need a `data-preview` scope and their palette in `theme.css`.
 5. Add the portfolio card as `content/projects/<slug>.mdx` with `category: upcoming`, `liveUrl: /showcase/<slug>` and `sourceUrl: /showcase/<slug>/docs`.
 
 ### Checks
