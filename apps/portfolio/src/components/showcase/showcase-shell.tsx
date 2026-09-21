@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { getComponentCount, type ShowcaseProject } from '@/lib/showcase';
+import { cn } from '@/lib/utils';
 
 type ShowcaseShellProps = {
   project: ShowcaseProject;
@@ -39,6 +40,8 @@ export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
   const currentSection = tabs.find(
     (tab) => tab.path && pathname === `${base}${tab.path}`,
   );
+  // Only the Components page uses full-width bands; Docs and Case study stay in the container
+  const fullBleed = project.layout === 'sections' && !currentSection;
 
   return (
     <div className="min-h-screen">
@@ -48,10 +51,13 @@ export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
         className="sticky top-0"
       />
 
-      <main
-        data-project={project.scope}
-        className="mx-auto max-w-7xl space-y-10 px-4 pt-6 pb-10 md:px-8 md:pt-8 md:pb-14"
-      >
+      <main data-project={project.scope}>
+        <div
+          className={cn(
+            'mx-auto max-w-7xl space-y-10 px-4 pt-6 md:px-8 md:pt-8',
+            fullBleed ? 'pb-16 md:pb-20' : 'pb-10 md:pb-14',
+          )}
+        >
         <div className="space-y-6 md:space-y-8">
         <Breadcrumb>
           <BreadcrumbList>
@@ -159,7 +165,9 @@ export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
         </section>
         </div>
 
-        {children}
+        {!fullBleed && children}
+        </div>
+        {fullBleed && children}
       </main>
     </div>
   );

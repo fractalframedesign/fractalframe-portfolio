@@ -1,3 +1,8 @@
+import {
+  fintechSections,
+  fintechWidgetCount,
+} from '@/components/project-demos/fintech-components/sections';
+
 export type ShowcaseComponent = {
   name: string;
   file: string;
@@ -16,6 +21,10 @@ export type ShowcaseProject = {
   description: string;
   /** Tech shown as chips under the title */
   tags: string[];
+  /** 'sections' = full-width alternating bands (children bring their own containers) */
+  layout?: 'contained' | 'sections';
+  /** Overrides the count of non-layout components shown in the header */
+  componentCount?: number;
   components: ShowcaseComponent[];
 };
 
@@ -46,10 +55,10 @@ export const showcaseProjects: ShowcaseProject[] = [
     slug: 'finance-dashboard',
     scope: 'finance',
     name: 'Finance Dashboard',
-    eyebrow: 'Banking Widgets',
+    eyebrow: 'Finance Widgets',
     tags: ['React', 'Tailwind CSS', 'shadcn/ui'],
     description:
-      'Interactive fintech dashboard widgets — light & dark, skeleton loading, and real interactions.',
+      'Interactive bento-grid finance cards built on a shared tile shell.',
     components: [
       finance('FinanceDashboard', 'Composes every card into the responsive bento grid', true),
       finance('SavingsOverviewCard', 'Monthly save and spending with a weekday bar chart'),
@@ -86,6 +95,31 @@ export const showcaseProjects: ShowcaseProject[] = [
       home('ThemeToggle', 'Light and dark switch wired to the site theme'),
     ],
   },
+  {
+    slug: 'fintech-components',
+    scope: 'fintech',
+    name: 'Fintech Components',
+    eyebrow: 'Banking Widgets',
+    description:
+      'Interactive fintech dashboard widgets — light & dark, skeleton loading, and real interactions.',
+    tags: ['React', 'Tailwind CSS', 'shadcn/ui', 'Recharts'],
+    layout: 'sections',
+    componentCount: fintechWidgetCount,
+    components: [
+      ...fintechSections.flatMap((section) =>
+        section.widgets.map((widget) => ({
+          name: widget.name,
+          file: `fintech-components/widgets/${widget.file}`,
+          description: section.eyebrow,
+        })),
+      ),
+      {
+        name: 'FigmaBankingWidgets',
+        file: 'fintech-components/widgets/FigmaBankingWidgets',
+        description: 'The Figma widget set, adapted to the theme tokens',
+      },
+    ],
+  },
 ];
 
 export function getShowcaseProject(slug: string) {
@@ -93,5 +127,8 @@ export function getShowcaseProject(slug: string) {
 }
 
 export function getComponentCount(project: ShowcaseProject) {
-  return project.components.filter((component) => !component.isLayout).length;
+  return (
+    project.componentCount ??
+    project.components.filter((component) => !component.isLayout).length
+  );
 }
