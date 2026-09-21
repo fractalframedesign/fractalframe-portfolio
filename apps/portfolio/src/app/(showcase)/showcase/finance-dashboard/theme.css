@@ -1,0 +1,13 @@
+/* Finance dashboard palette, scoped to this project only. */
+[data-project='finance'] {
+  --canvas: #0a0a0a;
+  --surface: #17171a;
+  --surface-border: #262629;
+  --ink: #f5f5f5;
+  --ink-muted: #8a8a8f;
+  --accent-1: #7c5cfc;
+  --accent-1-deep: #5a3fe0;
+  --accent-2: #a3e635;
+  --accent-3: #fb4570;
+  --accent-3-deep: #e0224e;
+}

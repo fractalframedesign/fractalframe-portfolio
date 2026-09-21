@@ -16,6 +16,11 @@ type ProjectCardProps = {
 };
 
 export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps) => {
+  // Projects with an internal href (e.g. a showcase page) link there directly
+  const href = project.href.startsWith('/')
+    ? project.href
+    : `/projects/${project.slug}`;
+
   return (
     <motion.li
       initial={{ opacity: 0 }}
@@ -25,8 +30,12 @@ export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps
       transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1], delay }}
     >
       <Link
-        href={`/projects/${project.slug}`}
-        className="group block space-y-6"
+        href={href}
+        {...(project.openInNewTab && {
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        })}
+        className="group block max-w-120 space-y-6"
       >
         <Card className="xs:h-80 group flex h-62 items-center justify-center overflow-hidden p-0">
           <div className={cn('relative size-full', project.wrapperClassName)}>

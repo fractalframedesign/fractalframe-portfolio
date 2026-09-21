@@ -61,6 +61,38 @@
 - Use `not-prose` class to exclude elements from typography plugin styling
 - MDX components should pass through `className` prop to allow custom styling per article
 
+## Architecture
+
+### Two isolated apps in one Next.js project
+
+`apps/portfolio/src/app` has two route groups, each with its **own root layout and stylesheet**, so themes never leak between them:
+
+- `(site)/` is the portfolio (home, about, articles, projects). Styles: `(site)/globals.css`.
+- `(showcase)/showcase/` is the component showcase that opens in a new window. Styles: `(showcase)/showcase.css`.
+
+Moving between the groups is a full page load. Never import one group's CSS from the other.
+
+### Content
+
+- MDX lives in `apps/portfolio/content/{articles,projects}/`. The file name is the slug.
+- Frontmatter is validated with zod in `src/lib/schemas.ts` via the generic loader in `src/lib/content.ts`. Invalid frontmatter, or a `slug` that differs from the file name, fails the build with the file and field named.
+- Add a frontmatter field in the schema first; the TypeScript types are derived from it (`src/lib/types.ts`).
+- `src/app/sitemap.ts` and `robots.ts` are generated from the same content, so nothing needs registering by hand.
+
+### Showcase projects
+
+To add a showcase project:
+
+1. Components go in `src/components/project-demos/<slug>/`. Use only the semantic tokens (`canvas`, `surface`, `surface-border`, `ink`, `ink-muted`, `accent-1..4`), never hex values.
+2. Create `src/app/(showcase)/showcase/<slug>/` with `layout.tsx`, `page.tsx`, `docs/page.tsx`, `case-study/page.tsx` and `theme.css` (copy an existing project).
+3. In `theme.css`, define the token values under `[data-project='<scope>']` only. No global `body` or `html` rules, no `@theme`.
+4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page from `ComponentSection` bands (see `fintech-components`); widgets that read `var(--color-*)` need a `data-preview` scope and their palette in `theme.css`.
+5. Add the portfolio card as `content/projects/<slug>.mdx` with `category: upcoming`, `liveUrl: /showcase/<slug>` and `sourceUrl: /showcase/<slug>/docs`.
+
+### Checks
+
+`npm run lint`, `npm run typecheck` and `npm run build` all run in CI on PRs to `staging` and `main`.
+
 ## Code Style
 
 - Use `&apos;` for apostrophes in JSX text

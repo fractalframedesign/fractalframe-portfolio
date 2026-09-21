@@ -35,7 +35,7 @@ const ProjectDetails = ({
           ))}
         </div>
         {/* Second row: full width */}
-        <ImageCard image={middleImages[2]} />
+        {middleImages[2] && <ImageCard image={middleImages[2]} />}
       </div>
 
       {/* Highlights */}

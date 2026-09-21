@@ -1,46 +1,19 @@
-export interface ProjectImage {
-  src: string;
-  caption?: string;
-  className?: string;
-  wrapperClassName?: string;
-  width: number;
-  height: number;
-}
+import type { z } from 'zod';
 
-export interface ProjectFrontmatter {
-  id: string;
-  name: string;
-  slug: string;
-  description: string;
-  href: string;
-  image: string;
-  wrapperClassName?: string;
-  imageClassName?: string;
-  category: 'featured' | 'open-source' | 'personal';
-  // Extended fields for project detail page
-  liveUrl: string;
-  sourceUrl: string;
-  longDescription: string;
-  additionalDescription: string;
-  stack: string[];
-  images: ProjectImage[];
-  highlights: string[];
-  moreProjects: string[];
-}
+import type {
+  articleSchema,
+  projectImageSchema,
+  projectSchema,
+} from '@/lib/schemas';
+
+export type ProjectImage = z.output<typeof projectImageSchema>;
+export type ProjectFrontmatter = z.output<typeof projectSchema>;
+export type ArticleFrontmatter = z.output<typeof articleSchema>;
 
 export interface Project {
   slug: string;
   content: string;
   frontmatter: ProjectFrontmatter;
-}
-
-export interface ArticleFrontmatter {
-  title: string;
-  slug: string;
-  description: string;
-  date: string;
-  image?: string;
-  pinned?: boolean;
 }
 
 export interface Article {
