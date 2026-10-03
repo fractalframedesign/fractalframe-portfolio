@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useCallback, useRef, useState } from 'react';
 
 import { HireMePopup } from '@/components/hire-me-popup';
+import { Principles } from '@/components/sections/principles';
 import { cn } from '@/lib/utils';
 
 const images = [
@@ -49,37 +50,9 @@ const images = [
 const HOVER_THRESHOLD = 3000; // 3 seconds total
 
 const STORY_PARAGRAPHS = [
-  "I'm Kiran Pingle, a Product Designer based in Tokyo, known for integrating design, frontend engineering, and product strategy to create seamless user experiences for over 15 years.",
+  "I'm Kiran, a Digital Product Designer based in Tokyo, known for integrating design, frontend engineering, and product strategy to create seamless user experiences for over 15 years.",
   'I lead Digital Product Design at Rakuten, focusing on design systems and workflows that let design and engineering scale together. Before Rakuten, I designed large-scale digital experiences for hundreds of millions of users at Reliance Jio. That taught me that great design relies on strong systems, close teamwork, and consistent execution.',
   'My work bridges design craftsmanship, frontend development, and AI. What sets me apart is my ability to translate complex ideas into products that are not only functional but so intuitive that the right choice feels obvious.',
-];
-
-const PRINCIPLES = [
-  {
-    title: 'Clarity Over Complexity',
-    description:
-      'Complexity often appears naturally; clarity must be designed intentionally. My goal is to simplify without oversimplifying, removing friction, reducing cognitive load, and helping people focus on what matters most.',
-  },
-  {
-    title: 'Systems Over Screens',
-    description:
-      'Individual interfaces solve immediate problems. Systems solve them repeatedly. I invest in patterns, design systems, and scalable foundations that create consistency, speed delivery, and improve product quality as teams grow.',
-  },
-  {
-    title: 'Collaboration Over Handoffs',
-    description:
-      'The strongest products are built when design, engineering, and product teams work together rather than as separate functions. Shared ownership leads to better decisions, faster learning, and stronger outcomes.',
-  },
-  {
-    title: 'Progress Over Perfection',
-    description:
-      'Perfection can delay learning. I believe in delivering value early, gathering feedback quickly, and continuously improving through iteration. Great products evolve through evidence, not assumptions.',
-  },
-  {
-    title: 'People First',
-    description:
-      'Technology changes rapidly, but human needs remain remarkably consistent. Every design decision should ultimately serve the people using the product, making their work easier, their goals clearer, and their experiences more meaningful.',
-  },
 ];
 
 const About = () => {
@@ -172,40 +145,7 @@ const About = () => {
         </div>
       </div>
 
-      <div className="space-y-10 md:container">
-        <motion.h2
-          className="text-2xl leading-none"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-        >
-          Principles
-        </motion.h2>
-        <p className="text-muted-foreground max-w-2xl text-lg leading-relaxed">
-          5 principles guide how I approach the design engineering.
-        </p>
-        <ul className="max-w-2xl space-y-10 md:space-y-14">
-          {PRINCIPLES.map((principle, i) => (
-            <motion.li
-              key={principle.title}
-              className="space-y-3"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1], delay: i * 0.08 }}
-            >
-              <span className="text-muted-foreground block text-sm">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <h3 className="text-xl leading-snug md:text-2xl">{principle.title}</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                {principle.description}
-              </p>
-            </motion.li>
-          ))}
-        </ul>
-      </div>
+      <Principles />
 
       <div className="relative">
         <ul className="flex flex-wrap justify-center gap-8 lg:justify-between">

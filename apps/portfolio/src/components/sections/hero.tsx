@@ -1,8 +1,12 @@
 'use client';
 
+import { ArrowRight } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRef } from 'react';
+
+import { Button } from '@/components/ui/button';
 
 const containerVariants = {
   hidden: {},
@@ -29,9 +33,12 @@ const Hero = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <section ref={sectionRef} className="pt-15 pb-6 md:pt-20 md:pb-8 lg:pt-30 lg:pb-10 container">
+    <section
+      ref={sectionRef}
+      className="border-border/60 border-b pt-15 pb-6 md:pt-20 md:pb-8 lg:pt-30 lg:pb-10"
+    >
       <motion.div
-        className="space-y-8"
+        className="container space-y-8"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
@@ -57,7 +64,7 @@ const Hero = () => {
               Hi, I&apos;m Kiran 👋
             </span>
             <span className="text-muted-foreground text-sm">
-              Product Designer and Design Engineer
+              Digital Product Designer and Design Engineer
             </span>
           </div>
         </motion.div>
@@ -67,15 +74,33 @@ const Hero = () => {
           className="text-4xl leading-[1.08] text-balance md:text-5xl lg:text-[3.25rem]"
           variants={itemVariants}
         >
-          Building better products, leading calmly, and making smarter decisions in the age of AI.
+          I lead product design and build the systems that make complex products feel clear.
         </motion.h1>
 
         {/* Serif lead */}
         <motion.p
-          className="font-serif text-muted-foreground max-w-xl text-xl leading-relaxed"
+          className="font-serif text-muted-foreground max-w-2xl text-xl leading-relaxed"
           variants={itemVariants}
         >
-          Two decades of product design, distilled into notes on clarity, craft, and clear thinking.
+          I bring product strategy, design systems, and frontend engineering together to shape clear, scalable digital experiences.
+        </motion.p>
+
+        <motion.div className="flex flex-wrap items-center gap-3" variants={itemVariants}>
+          <Button asChild size="lg">
+            <Link href="/projects">
+              Explore projects <ArrowRight aria-hidden="true" />
+            </Link>
+          </Button>
+          <Button asChild variant="outline" size="lg">
+            <Link href="/about">Read my profile</Link>
+          </Button>
+        </motion.div>
+
+        <motion.p
+          className="text-muted-foreground text-sm"
+          variants={itemVariants}
+        >
+          Tokyo · Product Design Director at Rakuten Mobile · Previously at Reliance Jio
         </motion.p>
       </motion.div>
     </section>

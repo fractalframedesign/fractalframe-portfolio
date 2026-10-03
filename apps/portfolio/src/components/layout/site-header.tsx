@@ -49,6 +49,8 @@ type SiteHeaderProps = {
   activePath: string;
   themeToggle: React.ReactNode;
   className?: string;
+  /** Width and side padding of the inner row; match it to the page content below */
+  widthClassName?: string;
 };
 
 /**
@@ -59,6 +61,7 @@ export function SiteHeader({
   activePath,
   themeToggle,
   className,
+  widthClassName = 'max-w-7xl px-4 md:px-8',
 }: SiteHeaderProps) {
   return (
     <header
@@ -69,7 +72,10 @@ export function SiteHeader({
     >
       <nav
         aria-label="Main"
-        className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 md:gap-4 md:px-8"
+        className={cn(
+          'mx-auto flex items-center gap-2 py-3 md:gap-4',
+          widthClassName,
+        )}
       >
         <Link
           href="/"
