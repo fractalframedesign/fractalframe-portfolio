@@ -86,7 +86,7 @@ export function SiteHeader({
               src="/images/home/Kiran-Pingle.png"
               alt="Kiran Pingle"
               fill
-              className="object-cover"
+              className="-scale-x-100 object-cover"
             />
           </span>
           <span className="hidden text-sm whitespace-nowrap sm:inline">

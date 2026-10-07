@@ -72,7 +72,7 @@ const Hero = () => {
             </Link>
           </Button>
           <Button asChild variant="outline" size="lg">
-            <Link href="/about">Read my profile</Link>
+            <Link href="/about"> Know More </Link>
           </Button>
         </motion.div>
 
