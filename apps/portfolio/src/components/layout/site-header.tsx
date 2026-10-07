@@ -83,10 +83,9 @@ export function SiteHeader({
         >
           <span className="relative size-9 shrink-0 overflow-hidden rounded-full">
             <Image
-              src="/images/home/avatar-sm.png"
+              src="/images/home/Kiran-Pingle.png"
               alt="Kiran Pingle"
               fill
-              unoptimized
               className="object-cover"
             />
           </span>

@@ -49,20 +49,18 @@ export const metadata: Metadata = {
   authors: [{ name: 'Kiran Pingle' }],
   creator: 'Kiran Pingle',
   publisher: 'Kiran Pingle',
+  manifest: '/favicon/site.webmanifest',
   robots: {
     index: true,
     follow: true,
   },
   icons: {
     icon: [
-      { url: '/favicon/favicon.ico', sizes: '48x48' },
-      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon/favicon.ico' },
+      { url: '/favicon/kiran-pingle-512.svg', sizes: '512x512', type: 'image/svg+xml' },
+      { url: '/favicon/kiran-pingle-96.jpg', sizes: '96x96', type: 'image/jpeg' },
     ],
-    apple: [{ url: '/favicon/apple-touch-icon.png', sizes: '180x180' }],
-    shortcut: [{ url: '/favicon/favicon.ico' }],
+    apple: [{ url: '/favicon/kiran-pingle-180.jpg', sizes: '180x180', type: 'image/jpeg' }],
+    shortcut: [{ url: '/favicon/kiran-pingle-96.jpg', type: 'image/jpeg' }],
   },
   openGraph: {
     type: 'website',

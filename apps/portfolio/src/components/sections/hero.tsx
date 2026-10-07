@@ -2,7 +2,6 @@
 
 import { ArrowRight } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRef } from 'react';
 
@@ -28,14 +27,13 @@ const Hero = () => {
     offset: ['start start', 'end start'],
   });
 
-  // Scroll-parallax on the inner wrapper only — keeps entrance animation clean
   const y = useTransform(scrollYProgress, [0, 1], [0, -40]);
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
     <section
       ref={sectionRef}
-      className="border-border/60 border-b pt-15 pb-6 md:pt-20 md:pb-8 lg:pt-30 lg:pb-10"
+      className="border-border/60 relative overflow-hidden border-b pt-15 pb-6 md:pt-20 md:pb-8 lg:pt-30 lg:pb-10"
     >
       <motion.div
         className="container space-y-8"
@@ -44,42 +42,24 @@ const Hero = () => {
         animate="visible"
         style={{ y, opacity }}
       >
-        {/* Avatar + identity row */}
-        <motion.div className="flex items-center gap-4" variants={itemVariants}>
-          <motion.div
-            className="relative size-18 shrink-0 overflow-hidden rounded-full"
-            whileHover={{ scale: 1.08, rotate: 4 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 17 }}
-          >
-            <Image
-              src="/images/home/avatar.webp"
-              alt="Kiran Pingle"
-              fill
-              className="object-cover"
-              priority
-            />
-          </motion.div>
-          <div className="flex flex-col gap-1">
-            <span className="text-foreground text-base font-medium">
-              Hi, I&apos;m Kiran 👋
-            </span>
-            <span className="text-muted-foreground text-sm">
-              Digital Product Designer and Design Engineer
-            </span>
-          </div>
+        <motion.div className="flex flex-col gap-1" variants={itemVariants}>
+          <span className="text-2xl">
+            👋 Hi! I am Kiran Pingle
+          </span>
+          <span className="text-muted-foreground text-xl">
+            Digital Product Designer and Design Engineer
+          </span>
         </motion.div>
 
-        {/* Headline */}
         <motion.h1
-          className="text-4xl leading-[1.08] text-balance md:text-5xl lg:text-[3.25rem]"
+          className="max-w-3xl text-4xl leading-[1.08] text-balance md:text-5xl lg:text-[3.25rem]"
           variants={itemVariants}
         >
           I lead product design and build the systems that make complex products feel clear.
         </motion.h1>
 
-        {/* Serif lead */}
         <motion.p
-          className="font-serif text-muted-foreground max-w-2xl text-xl leading-relaxed"
+          className="text-muted-foreground max-w-2xl text-xl leading-relaxed"
           variants={itemVariants}
         >
           I bring product strategy, design systems, and frontend engineering together to shape clear, scalable digital experiences.
@@ -96,10 +76,7 @@ const Hero = () => {
           </Button>
         </motion.div>
 
-        <motion.p
-          className="text-muted-foreground text-sm"
-          variants={itemVariants}
-        >
+        <motion.p className="text-muted-foreground text-sm" variants={itemVariants}>
           Tokyo · Product Design Director at Rakuten Mobile · Previously at Reliance Jio
         </motion.p>
       </motion.div>
