@@ -21,6 +21,30 @@ export const stackConfig: Record<string, StackItem> = {
     darkSrc: '/images/stack/figma-dark.svg',
     color: '#F24E1E',
   },
+  framer: {
+    name: 'Framer',
+    lightSrc: '/images/stack/framer-light.svg',
+    darkSrc: '/images/stack/framer-dark.svg',
+    color: '#0055FF',
+  },
+  miro: {
+    name: 'Miro',
+    lightSrc: '/images/stack/miro-light.svg',
+    darkSrc: '/images/stack/miro-dark.svg',
+    color: '#FFD02F',
+  },
+  rive: {
+    name: 'Rive',
+    lightSrc: '/images/stack/rive-light.svg',
+    darkSrc: '/images/stack/rive-dark.svg',
+    color: '#1D1D1D',
+  },
+  lottie: {
+    name: 'LottieFiles',
+    lightSrc: '/images/stack/lottie-light.svg',
+    darkSrc: '/images/stack/lottie-dark.svg',
+    color: '#00DDB3',
+  },
   js: {
     name: 'JavaScript',
     lightSrc: '/images/stack/js-light.svg',

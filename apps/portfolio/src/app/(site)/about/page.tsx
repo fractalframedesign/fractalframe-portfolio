@@ -13,11 +13,12 @@ const MY_STACK = [
   'typescript',
   'nextjs',
   'figma',
+  'framer',
+  'miro',
+  'rive',
+  'lottie',
   'nodejs',
-  'vercel',
   'tailwind',
-  'docker',
-  'flyio',
 ];
 
 export default async function AboutPage() {
