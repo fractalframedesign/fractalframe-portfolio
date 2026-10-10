@@ -1,9 +1,17 @@
 import type { ShowcaseProject } from '@/lib/showcase';
 
-export function ProjectDocs({ project }: { project: ShowcaseProject }) {
+export function ProjectDocs({
+  project,
+  showTheming = true,
+}: {
+  project: ShowcaseProject;
+  /** Hide the generic theming note when a project documents its own tokens */
+  showTheming?: boolean;
+}) {
   return (
-    <div className="max-w-3xl space-y-10">
-      <section className="space-y-3">
+    <div className="space-y-10">
+      {showTheming && (
+      <section className="max-w-3xl space-y-3">
         <h2 className="text-xl font-semibold">Theming</h2>
         <p className="text-muted-foreground">
           Colours come from semantic tokens (canvas, surface, ink, accent-1 to
@@ -15,12 +23,13 @@ export function ProjectDocs({ project }: { project: ShowcaseProject }) {
           never affect the portfolio or other projects.
         </p>
       </section>
+      )}
 
-      <section className="space-y-4">
+      <section id="components" className="scroll-mt-24 space-y-4">
         <h2 className="text-xl font-semibold">Components</h2>
-        <ul className="divide-border divide-y">
+        <ul className="grid gap-x-12 md:grid-cols-2">
           {project.components.map((component) => (
-            <li key={component.name} className="space-y-1 py-4">
+            <li key={component.name} className="border-border space-y-1 border-b py-4">
               <h3 className="font-medium">{component.name}</h3>
               <p className="text-muted-foreground text-sm">
                 {component.description}

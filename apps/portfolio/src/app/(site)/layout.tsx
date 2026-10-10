@@ -49,20 +49,18 @@ export const metadata: Metadata = {
   authors: [{ name: 'Kiran Pingle' }],
   creator: 'Kiran Pingle',
   publisher: 'Kiran Pingle',
+  manifest: '/favicon/site.webmanifest',
   robots: {
     index: true,
     follow: true,
   },
   icons: {
     icon: [
-      { url: '/favicon/favicon.ico', sizes: '48x48' },
-      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon/favicon-96x96.png', sizes: '96x96', type: 'image/png' },
-      { url: '/favicon/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon/favicon.ico' },
+      { url: '/favicon/kiran-pingle-512.svg', sizes: '512x512', type: 'image/svg+xml' },
+      { url: '/favicon/kiran-pingle-96.jpg', sizes: '96x96', type: 'image/jpeg' },
     ],
-    apple: [{ url: '/favicon/apple-touch-icon.png', sizes: '180x180' }],
-    shortcut: [{ url: '/favicon/favicon.ico' }],
+    apple: [{ url: '/favicon/kiran-pingle-180.jpg', sizes: '180x180', type: 'image/jpeg' }],
+    shortcut: [{ url: '/favicon/kiran-pingle-96.jpg', type: 'image/jpeg' }],
   },
   openGraph: {
     type: 'website',
@@ -102,20 +100,6 @@ export default async function RootLayout({
       >
         {/* Global dot grid background */}
         <div className="bg-dot-grid pointer-events-none fixed inset-0 -z-10" aria-hidden="true" />
-        {/* Global spinning conic gradient — centered top */}
-        <div
-          className="bg-conic-spin pointer-events-none fixed -z-10"
-          aria-hidden="true"
-          style={{
-            top: '-40vh',
-            left: '50%',
-            width: '140vw',
-            height: '140vw',
-            transform: 'translateX(-50%)',
-            animation: 'hero-spin 30s linear infinite',
-            filter: 'blur(60px)',
-          }}
-        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -128,15 +112,15 @@ export default async function RootLayout({
                   <StyleGlideProvider />
 
                   <Navbar />
-                  <main className="flex-1">{children}</main>
+                  <main className="flex-1 pt-16 md:pt-0">{children}</main>
                   <Footer />
 
-                  {/* Fixed bottom blur overlay for premium feel */}
+                  {/* Fixed bottom fade for premium feel */}
                   <div
                     className="pointer-events-none fixed right-0 bottom-0 left-0 z-30 h-10 md:h-16"
                     aria-hidden="true"
                   >
-                    <div className="from-background/50 h-full w-full bg-gradient-to-top to-transparent backdrop-blur-[2px]" />
+                    <div className="from-background/50 h-full w-full bg-linear-to-t to-transparent" />
                   </div>
                 </NavigationProvider>
               </TooltipProvider>

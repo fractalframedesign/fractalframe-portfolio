@@ -1,10 +1,9 @@
 'use client';
 
 import { ArrowRight, Pin } from 'lucide-react';
-import { AnimatePresence, motion } from 'motion/react';
+import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
 
 import { ArticleFrontmatter } from '@/lib/types';
 import { cn } from '@/lib/utils';
@@ -16,6 +15,7 @@ interface ArticlesListProps {
   showReadAllLink?: boolean;
   headerTitle?: string;
   className?: string;
+  containerSize?: 'standard' | 'wide';
 }
 
 const rowVariants = {
@@ -38,16 +38,23 @@ export function ArticlesList({
   showReadAllLink = true,
   headerTitle = 'Latest writing',
   className,
+  containerSize = 'wide',
 }: ArticlesListProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <section
-      className={cn('section-padding bigger-container space-y-10', className)}
+      className={cn(
+        'section-padding space-y-10',
+        containerSize === 'standard' ? 'container' : 'bigger-container',
+        className,
+      )}
     >
       {showHeader && (
         <motion.div
-          className="flex items-center justify-between md:container"
+          className={cn(
+            'flex items-center justify-between',
+            containerSize === 'wide' && 'md:container',
+          )}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: '-60px' }}
@@ -55,7 +62,7 @@ export function ArticlesList({
         >
           <h2 className="text-2xl leading-none">{headerTitle}</h2>
           {showReadAllLink && (
-            <Link href="/articles" className="link-underline text-lg">
+            <Link href="/articles" className="link-underline text-base leading-none">
               Read all
             </Link>
           )}
@@ -63,50 +70,26 @@ export function ArticlesList({
       )}
 
       <motion.ul
-        className="rounded-3xl shadow-xs overflow-hidden"
+        className="divide-border divide-y"
         variants={rowVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: '-60px' }}
-        onMouseLeave={() => setHoveredIndex(null)}
       >
-        {articles.map((article, index) => (
+        {articles.map((article) => (
           <motion.li
             key={article.slug}
             variants={rowItemVariants}
-            initial="idle"
-            whileHover="hover"
             className="relative"
-            onMouseEnter={() => setHoveredIndex(index)}
           >
-            <AnimatePresence>
-              {hoveredIndex === index && (
-                <motion.div
-                  layoutId="article-hover-bg"
-                  className="bg-muted/30 absolute inset-0 rounded-2xl"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                />
-              )}
-            </AnimatePresence>
             <Link
               href={`/articles/${article.slug}`}
-              className="relative z-10 flex items-start justify-between gap-6 p-10"
+              className="relative z-10 flex items-start justify-between gap-6 py-10"
             >
               <div className="flex-1 space-y-5">
                 <div className="flex items-center gap-3">
                   {showPinIcon && article.pinned && (
-                    <motion.div
-                      variants={{
-                        idle: { rotate: 0 },
-                        hover: { rotate: -20 },
-                      }}
-                      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    >
-                      <Pin className="text-foreground size-5" />
-                    </motion.div>
+                    <Pin className="text-foreground size-5" />
                   )}
                   <h3 className="text-xl leading-snug md:text-2xl">{article.title}</h3>
                 </div>
@@ -117,12 +100,12 @@ export function ArticlesList({
                     year: 'numeric',
                   })}
                 </span>
-                <p className="text-muted-foreground text-base leading-7">
+                <p className="text-muted-foreground text-base leading-relaxed">
                   {article.description}
                 </p>
               </div>
               {article.image && (
-                <div className="bg-muted relative hidden aspect-video w-64 shrink-0 self-center overflow-hidden rounded-xl md:block">
+                <div className="bg-muted relative hidden aspect-video w-64 shrink-0 self-start overflow-hidden rounded-xl md:block">
                   <Image
                     src={article.image}
                     alt={article.title}
@@ -132,14 +115,7 @@ export function ArticlesList({
                   />
                 </div>
               )}
-              <motion.div
-                variants={{
-                  idle: { x: 0 },
-                  hover: { x: 6 },
-                }}
-              >
-                <ArrowRight className="size-5 shrink-0" />
-              </motion.div>
+              <ArrowRight className="size-5 shrink-0 text-muted-foreground" />
             </Link>
           </motion.li>
         ))}

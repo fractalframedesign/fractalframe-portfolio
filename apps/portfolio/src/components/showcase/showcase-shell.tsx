@@ -5,17 +5,23 @@ import {
   Boxes,
   FileText,
   LayoutGrid,
-  Moon,
-  Sun,
 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTheme } from 'next-themes';
 
-import { useIsDark } from '@/components/showcase/use-is-dark';
+import { SiteHeader } from '@/components/layout/site-header';
+import { ThemeToggle } from '@/components/theme-toggle';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
 import { Button } from '@/components/ui/button';
 import { getComponentCount, type ShowcaseProject } from '@/lib/showcase';
+import { cn } from '@/lib/utils';
 
 type ShowcaseShellProps = {
   project: ShowcaseProject;
@@ -30,70 +36,57 @@ const tabs = [
 
 export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
   const pathname = usePathname();
-  const { setTheme } = useTheme();
-  const isDark = useIsDark();
   const base = `/showcase/${project.slug}`;
+  const currentSection = tabs.find(
+    (tab) => tab.path && pathname === `${base}${tab.path}`,
+  );
+  // Only the Components page uses full-width bands; Docs and Case study stay in the container
+  const fullBleed = project.layout === 'sections' && !currentSection;
 
   return (
     <div className="min-h-screen">
-      <header className="bg-background/80 border-border sticky top-0 z-40 border-b backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-3 md:gap-4 md:px-8">
-          <Link
-            href="/"
-            className="flex shrink-0 items-center gap-3 font-medium"
-          >
-            <span className="relative size-9 shrink-0 overflow-hidden rounded-full">
-              <Image
-                src="/images/home/avatar-sm.png"
-                alt="Kiran Pingle"
-                fill
-                unoptimized
-                className="object-cover"
-              />
-            </span>
-            <span className="text-sm whitespace-nowrap">Kiran Pingle</span>
-          </Link>
+      <SiteHeader
+        activePath="/projects"
+        themeToggle={<ThemeToggle />}
+        className="sticky top-0"
+      />
 
-          <span aria-hidden="true" className="text-muted-foreground shrink-0">
-            /
-          </span>
+      <main data-project={project.scope}>
+        <div
+          className={cn(
+            'mx-auto max-w-7xl space-y-10 px-4 pt-6 md:px-8 md:pt-8',
+            fullBleed ? 'pb-16 md:pb-20' : 'pb-10 md:pb-14',
+          )}
+        >
+        <div className="space-y-6 md:space-y-8">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink asChild>
+                <Link href="/projects">Projects</Link>
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>/</BreadcrumbSeparator>
+            <BreadcrumbItem>
+              {currentSection ? (
+                <BreadcrumbLink asChild>
+                  <Link href={base}>{project.name}</Link>
+                </BreadcrumbLink>
+              ) : (
+                <BreadcrumbPage>{project.name}</BreadcrumbPage>
+              )}
+            </BreadcrumbItem>
+            {currentSection && (
+              <>
+                <BreadcrumbSeparator>/</BreadcrumbSeparator>
+                <BreadcrumbItem>
+                  <BreadcrumbPage>{currentSection.label}</BreadcrumbPage>
+                </BreadcrumbItem>
+              </>
+            )}
+          </BreadcrumbList>
+        </Breadcrumb>
 
-          <Button
-            asChild
-            variant="ghost"
-            size="sm"
-            className="-mx-1 shrink-0 md:-mx-2"
-          >
-            <Link href="/projects">Projects</Link>
-          </Button>
-
-          <span aria-hidden="true" className="text-muted-foreground shrink-0">
-            /
-          </span>
-
-          <span
-            aria-current="page"
-            className="min-w-0 truncate text-sm font-medium"
-          >
-            {project.name}
-          </span>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            className="ml-auto shrink-0"
-            aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-            onClick={() => setTheme(isDark ? 'light' : 'dark')}
-          >
-            {isDark ? <Sun /> : <Moon />}
-          </Button>
-        </div>
-      </header>
-
-      <main
-        data-project={project.scope}
-        className="mx-auto max-w-7xl space-y-10 px-4 py-10 md:px-8 md:py-14"
-      >
         <section className="border-border bg-card relative isolate overflow-hidden rounded-3xl border px-6 py-10 md:px-12 md:py-16">
           {/* Project-coloured glow and dot grid, driven by the scoped tokens */}
           <div
@@ -170,8 +163,11 @@ export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
             </nav>
           </div>
         </section>
+        </div>
 
-        {children}
+        {!fullBleed && children}
+        </div>
+        {fullBleed && children}
       </main>
     </div>
   );

@@ -1,18 +1,16 @@
 {
-  "name": "MyWebSite",
-  "short_name": "MySite",
+  "name": "Kiran Pingle",
+  "short_name": "Kiran Pingle",
   "icons": [
     {
-      "src": "/web-app-manifest-192x192.png",
+      "src": "/favicon/kiran-pingle-192.jpg",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/jpeg"
     },
     {
-      "src": "/web-app-manifest-512x512.png",
+      "src": "/favicon/kiran-pingle-512.jpg",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "maskable"
+      "type": "image/jpeg"
     }
   ],
   "theme_color": "#ffffff",
