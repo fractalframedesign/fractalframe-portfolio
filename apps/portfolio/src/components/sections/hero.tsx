@@ -33,7 +33,7 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="border-border/60 relative overflow-hidden border-b pt-15 pb-6 md:pt-20 md:pb-8 lg:pt-30 lg:pb-10"
+      className="border-border/60 relative overflow-hidden border-b pt-15 pb-12.5 md:pt-20 md:pb-15 lg:pt-30 lg:pb-18.75"
     >
       <motion.div
         className="container space-y-8"
@@ -43,16 +43,16 @@ const Hero = () => {
         style={{ y, opacity }}
       >
         <motion.div className="flex flex-col gap-1" variants={itemVariants}>
-          <span className="text-2xl">
+          <span className="text-xl leading-snug">
             👋 Hi! I am Kiran Pingle
           </span>
-          <span className="text-muted-foreground text-xl">
+          <span className="text-muted-foreground text-lg">
             Digital Product Designer and Design Engineer
           </span>
         </motion.div>
 
         <motion.h1
-          className="max-w-3xl text-4xl leading-[1.08] text-balance md:text-5xl lg:text-[3.25rem]"
+          className="max-w-3xl text-4xl leading-[1.08] text-balance md:text-5xl"
           variants={itemVariants}
         >
           I lead product design and build the systems that make complex products feel clear.

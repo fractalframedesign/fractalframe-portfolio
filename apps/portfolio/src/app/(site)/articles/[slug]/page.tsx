@@ -183,7 +183,7 @@ export default async function ArticlePage({
           date={article.frontmatter.date}
           description={article.frontmatter.description}
         />
-        <div className="prose prose-lg prose-neutral dark:prose-invert prose-a:link-underline prose-a:no-underline prose-lead:text-muted-foreground prose-li:marker:text-foreground prose-h2:text-2xl prose-h2:font-display prose-h2:mt-12 prose-h2:mb-0 prose-h2:text-wrap-balance prose-p:font-serif prose-p:font-normal prose-p:text-2xl prose-p:leading-[1.58] prose-p:tracking-[-0.003em] prose-p:mt-0 prose-p:text-wrap-pretty prose-li:font-serif prose-li:font-normal prose-li:text-2xl prose-li:leading-[1.58] prose-blockquote:font-serif prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:text-xl max-w-none space-y-6">
+        <div className="prose prose-lg prose-neutral dark:prose-invert prose-a:link-underline prose-a:no-underline prose-lead:text-muted-foreground prose-li:marker:text-foreground prose-h2:text-2xl prose-h2:font-display prose-h2:font-weight-display prose-h2:mt-12 prose-h2:mb-0 prose-h2:text-wrap-balance prose-h3:text-xl prose-h3:font-display prose-p:font-serif prose-p:font-normal prose-p:text-xl prose-p:leading-[1.58] prose-p:tracking-[-0.003em] prose-p:mt-0 prose-p:text-wrap-pretty prose-li:font-serif prose-li:font-normal prose-li:text-xl prose-li:leading-[1.58] prose-blockquote:font-serif prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:text-xl max-w-none space-y-6">
           {content}
         </div>
       </article>

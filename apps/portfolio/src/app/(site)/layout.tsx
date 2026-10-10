@@ -100,20 +100,6 @@ export default async function RootLayout({
       >
         {/* Global dot grid background */}
         <div className="bg-dot-grid pointer-events-none fixed inset-0 -z-10" aria-hidden="true" />
-        {/* Global spinning conic gradient — centered top */}
-        <div
-          className="bg-conic-spin pointer-events-none fixed -z-10"
-          aria-hidden="true"
-          style={{
-            top: '-40vh',
-            left: '50%',
-            width: '140vw',
-            height: '140vw',
-            transform: 'translateX(-50%)',
-            animation: 'hero-spin 30s linear infinite',
-            filter: 'blur(60px)',
-          }}
-        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -129,12 +115,12 @@ export default async function RootLayout({
                   <main className="flex-1 pt-16 md:pt-0">{children}</main>
                   <Footer />
 
-                  {/* Fixed bottom blur overlay for premium feel */}
+                  {/* Fixed bottom fade for premium feel */}
                   <div
                     className="pointer-events-none fixed right-0 bottom-0 left-0 z-30 h-10 md:h-16"
                     aria-hidden="true"
                   >
-                    <div className="from-background/50 h-full w-full bg-gradient-to-top to-transparent backdrop-blur-[2px]" />
+                    <div className="from-background/50 h-full w-full bg-linear-to-t to-transparent" />
                   </div>
                 </NavigationProvider>
               </TooltipProvider>

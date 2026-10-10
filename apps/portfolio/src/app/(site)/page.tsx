@@ -21,7 +21,7 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <div className="border-border/60 border-y">
+      <div className="border-border/60 border-b">
         <ArticlesList
           articles={recentStories}
           showHeader

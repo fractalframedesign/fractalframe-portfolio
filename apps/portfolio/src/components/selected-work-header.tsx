@@ -34,7 +34,7 @@ export const SelectedWorkHeader = () => {
     >
       <div className="space-y-2">
         <motion.p
-          className="text-primary text-xs font-semibold uppercase"
+          className="text-primary text-xs font-semibold tracking-widest uppercase"
           variants={itemVariants}
         >
           Work
@@ -44,7 +44,7 @@ export const SelectedWorkHeader = () => {
         </motion.h2>
       </div>
       <motion.div variants={itemVariants}>
-        <Link href="/projects" className="link-underline text-sm leading-none">
+        <Link href="/projects" className="link-underline text-base leading-none">
           View all
         </Link>
       </motion.div>

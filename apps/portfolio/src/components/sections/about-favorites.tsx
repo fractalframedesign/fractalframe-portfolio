@@ -135,14 +135,14 @@ const FavoriteSection = ({
       ref={containerRef}
       className="relative grid gap-10 select-none md:grid-cols-2 md:gap-20"
     >
-      <h2 className="text-2xl">{title}</h2>
+      <h2 className="text-2xl leading-none">{title}</h2>
 
       <ul ref={listRef} className="space-y-4">
         {items.map((item, index) => (
           <motion.li
             key={item.name}
             className={cn(
-              'link-underline cursor-pointer text-lg leading-none transition-opacity duration-300',
+              'link-underline cursor-pointer text-base leading-none transition-opacity duration-300',
               activeIndex !== null && activeIndex !== index && 'opacity-40',
             )}
             whileHover={{ x: 8 }}

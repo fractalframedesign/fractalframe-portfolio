@@ -62,7 +62,7 @@ export function ArticlesList({
         >
           <h2 className="text-2xl leading-none">{headerTitle}</h2>
           {showReadAllLink && (
-            <Link href="/articles" className="link-underline text-lg">
+            <Link href="/articles" className="link-underline text-base leading-none">
               Read all
             </Link>
           )}
@@ -70,7 +70,7 @@ export function ArticlesList({
       )}
 
       <motion.ul
-        className="space-y-0 divide-y divide-border  pl-6"
+        className="divide-border divide-y"
         variants={rowVariants}
         initial="hidden"
         whileInView="visible"
@@ -84,7 +84,7 @@ export function ArticlesList({
           >
             <Link
               href={`/articles/${article.slug}`}
-              className="relative z-10 flex items-start justify-between gap-6 p-10"
+              className="relative z-10 flex items-start justify-between gap-6 py-10"
             >
               <div className="flex-1 space-y-5">
                 <div className="flex items-center gap-3">
@@ -100,7 +100,7 @@ export function ArticlesList({
                     year: 'numeric',
                   })}
                 </span>
-                <p className="text-muted-foreground text-base leading-7">
+                <p className="text-muted-foreground text-base leading-relaxed">
                   {article.description}
                 </p>
               </div>

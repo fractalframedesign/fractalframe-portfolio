@@ -10,7 +10,7 @@ const MoreProjects = ({ projects }: MoreProjectsProps) => {
 
   return (
     <section className="section-padding space-y-10">
-      <h2 className="container text-2xl">More projects</h2>
+      <h2 className="container text-2xl leading-none">More projects</h2>
       <ul className="bigger-container grid gap-x-5 gap-y-10 md:grid-cols-2">
         {projects.map((project) => (
           <ProjectCard key={project.slug} project={project} />

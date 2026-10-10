@@ -36,11 +36,11 @@ const ProjectHero = ({
     <section className="hero-padding">
       <div className="container space-y-6 md:space-y-8">
         {category && (
-          <div className="text-success text-xs font-semibold tracking-[0.12em] uppercase">
+          <div className="text-success text-xs font-semibold tracking-widest uppercase">
             {categoryLabel[category] ?? category}
           </div>
         )}
-        <h1 className="text-4xl leading-[1.05] md:text-5xl">{name}</h1>
+        <h1 className="text-3xl leading-[1.08] md:text-4xl lg:text-5xl">{name}</h1>
 
         <p className="font-serif text-muted-foreground text-xl leading-relaxed max-w-2xl">
           {longDescription}

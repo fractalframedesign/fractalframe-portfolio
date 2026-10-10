@@ -32,8 +32,8 @@ const SelectedWork = async () => {
                 className="group flex h-full overflow-hidden rounded-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 p-5 sm:p-8">
-                  <h3 className="text-xl font-semibold sm:text-2xl">{project.name}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <h3 className="text-xl leading-snug md:text-2xl">{project.name}</h3>
+                  <p className="text-muted-foreground text-base leading-relaxed">
                     {project.description}
                   </p>
                 </div>

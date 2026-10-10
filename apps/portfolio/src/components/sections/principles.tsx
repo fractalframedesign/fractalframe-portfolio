@@ -63,7 +63,7 @@ export function Principles() {
             <h3 className="text-xl leading-snug md:text-2xl">
               {principle.title}
             </h3>
-            <p className="text-muted-foreground col-start-2 text-base leading-relaxed md:text-lg">
+            <p className="text-muted-foreground col-start-2 max-w-2xl text-lg leading-relaxed">
               {principle.description}
             </p>
           </motion.li>
