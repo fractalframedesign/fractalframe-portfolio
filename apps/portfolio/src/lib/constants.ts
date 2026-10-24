@@ -24,3 +24,11 @@ export const SOCIAL_LINKS = [
 ];
 
 export const CONTACT_EMAIL = 'kiranspingle@gmail.com';
+
+export const LOCATION = {
+  label: 'Tokyo, Japan',
+  timeZone: 'Asia/Tokyo',
+};
+
+/** Showcase project slugs that need a SHOWCASE_ACCESS password on every visit */
+export const PROTECTED_SHOWCASE = ['fintech-components'];

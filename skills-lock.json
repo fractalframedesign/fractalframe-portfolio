@@ -49,6 +49,12 @@
       "skillPath": "SKILL.md",
       "computedHash": "664d5d3470ba6113825613afb1212d1705af7d86d5ed0b438e6961f77fb9e3bb"
     },
+    "improve-codebase-architecture": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
+      "computedHash": "bce096b49db40761adb1d5348f064c303fc152e4e50fc3fd81b79df8b6cf137f"
+    },
     "infographic-creator": {
       "source": "antvis/infographic",
       "sourceType": "github",
