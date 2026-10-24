@@ -101,7 +101,7 @@ const Experience = () => {
           viewport={{ once: true, margin: '-60px' }}
         >
           {experiences.map((exp) => (
-            <motion.li key={exp.company} className="text-lg leading-none" variants={itemVariants}>
+            <motion.li key={exp.company} variants={itemVariants}>
               <motion.div
                 className="pointer-events-none"
                 initial="idle"
@@ -121,26 +121,26 @@ const Experience = () => {
                     href={exp.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="link-underline inline-block"
+                    className="link-underline inline-block text-xl leading-snug"
                   >
                     {exp.company}
                   </Link>
                 </motion.div>
                 <motion.p
-                  className="text-muted-foreground mt-4"
+                  className="text-muted-foreground mt-2 text-base leading-relaxed"
                   variants={{
-                    idle: { x: 0, opacity: 0.7 },
-                    hover: { x: 8, opacity: 1 },
+                    idle: { x: 0 },
+                    hover: { x: 8 },
                   }}
                   transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.02 }}
                 >
                   {exp.role}
                 </motion.p>
                 <motion.p
-                  className="text-muted-foreground mt-4"
+                  className="text-muted-foreground mt-1 text-sm"
                   variants={{
-                    idle: { x: 0, opacity: 0.7 },
-                    hover: { x: 8, opacity: 1 },
+                    idle: { x: 0 },
+                    hover: { x: 8 },
                   }}
                   transition={{ type: 'spring', stiffness: 300, damping: 25, delay: 0.04 }}
                 >
@@ -151,7 +151,7 @@ const Experience = () => {
           ))}
         </motion.ul>
 
-        <div className="space-y-4 text-lg leading-none">
+        <div className="space-y-3 text-base leading-snug">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -161,7 +161,7 @@ const Experience = () => {
             Skills
           </motion.p>
           <motion.ul
-            className="space-y-4"
+            className="space-y-3"
             variants={skillListVariants}
             initial="hidden"
             whileInView="visible"

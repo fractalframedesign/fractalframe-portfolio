@@ -16,6 +16,19 @@ export const projectImageSchema = z.object({
   height: z.number(),
 });
 
+/** Optional long-form layout for a project page: tags, story sections and a gallery */
+export const projectCaseStudySchema = z.object({
+  industries: z.array(z.string()),
+  services: z.array(z.string()),
+  sections: z.array(
+    z.object({
+      title: z.string(),
+      paragraphs: z.array(z.string()),
+    }),
+  ),
+  gallery: z.array(projectImageSchema),
+});
+
 export const projectSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -37,6 +50,7 @@ export const projectSchema = z.object({
   images: z.array(projectImageSchema),
   highlights: z.array(z.string()),
   moreProjects: z.array(z.string()),
+  caseStudy: projectCaseStudySchema.optional(),
 });
 
 export const articleSchema = z.object({
