@@ -113,7 +113,7 @@ export const ThemeToggle = () => {
           variants={raysVariants}
           initial="hidden"
           animate={isDark ? 'hidden' : 'visible'}
-          className="stroke-yellow-500"
+          className="stroke-muted-foreground"
           style={{ strokeLinecap: 'round', strokeWidth: 6 }}
         >
           <motion.path
@@ -132,17 +132,13 @@ export const ThemeToggle = () => {
 
         <motion.path
           d={sunPath}
-          fill="transparent"
+          className="fill-muted-foreground stroke-muted-foreground dark:fill-blue-300 dark:stroke-blue-300"
           transition={{ duration: 1, type: 'spring' }}
           initial={{ fillOpacity: 0, strokeOpacity: 0, d: sunPath }}
           animate={{
             d: isDark ? moonPath : sunPath,
             rotate: isDark ? -360 : 0,
             scale: isDark ? 2 : 1,
-            stroke: isDark
-              ? 'var(--color-blue-300)'
-              : 'var(--color-yellow-500)',
-            fill: isDark ? 'var(--color-blue-300)' : 'var(--color-yellow-500)',
             fillOpacity: 0.35,
             strokeOpacity: 1,
             transition: { delay: 0.1 },
