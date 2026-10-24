@@ -46,14 +46,14 @@ export function ArticleHero({ title, date, description }: ArticleHeroProps) {
           className="link-underline text-muted-foreground hover:text-foreground flex w-fit items-center gap-2 text-sm transition-[color,transform] hover:scale-95 active:scale-90"
         >
           <ArrowLeft className="size-4" />
-          All articles
+          All stories
         </Link>
-        <h1 className="text-3xl leading-[1.08] md:text-4xl lg:text-5xl">
+        <h1 className="text-3xl leading-[1.08] text-balance md:text-4xl lg:text-5xl">
           {title}
         </h1>
 
         {description && (
-          <p className="font-serif text-muted-foreground text-xl leading-relaxed max-w-2xl">
+          <p className="text-muted-foreground max-w-2xl text-xl leading-relaxed">
             {description}
           </p>
         )}

@@ -329,6 +329,11 @@ body {
   }
 }
 
+/* Side padding that lines a full-width strip up with the 42rem reading column */
+@utility gallery-gutter {
+  padding-inline: max(1rem, calc(50% - 21rem));
+}
+
 @utility bigger-container {
   margin-inline: auto;
   padding-inline: 1rem;

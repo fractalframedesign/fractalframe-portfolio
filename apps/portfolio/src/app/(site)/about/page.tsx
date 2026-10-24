@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import About from '@/components/sections/about';
+import AboutCta from '@/components/sections/about-cta';
 import { StackGrid } from '@/components/stack-grid';
 
 export const metadata: Metadata = {
@@ -26,6 +27,7 @@ export default async function AboutPage() {
     <>
       <About />
       <StackGrid stack={MY_STACK} />
+      <AboutCta />
     </>
   );
 }

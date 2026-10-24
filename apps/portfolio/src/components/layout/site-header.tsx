@@ -81,12 +81,12 @@ export function SiteHeader({
           href="/"
           className="flex shrink-0 items-center gap-3 font-medium"
         >
-          <span className="relative size-9 shrink-0 overflow-hidden rounded-full">
+          <span className="relative size-9 shrink-0 overflow-hidden rounded-full ">
             <Image
               src="/images/home/Kiran-Pingle.png"
               alt="Kiran Pingle"
               fill
-              className="-scale-x-100 object-cover"
+              className="object-cover"
             />
           </span>
           <span className="hidden text-sm whitespace-nowrap sm:inline">

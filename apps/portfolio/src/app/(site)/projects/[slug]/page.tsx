@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import {
   MoreProjects,
+  ProjectCaseStudy,
   ProjectDetails,
   ProjectHero,
 } from '@/components/sections/project';
@@ -73,6 +74,20 @@ export default async function ProjectPage({
   const moreProjects = frontmatter.moreProjects
     .map((slug) => allProjects.find((p) => p.slug === slug))
     .filter(Boolean) as typeof allProjects;
+
+  if (frontmatter.caseStudy) {
+    return (
+      <article>
+        <ProjectCaseStudy
+          name={frontmatter.name}
+          coverImage={frontmatter.image}
+          stack={frontmatter.stack}
+          caseStudy={frontmatter.caseStudy}
+        />
+        <MoreProjects projects={moreProjects} />
+      </article>
+    );
+  }
 
   return (
     <article>

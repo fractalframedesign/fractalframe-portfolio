@@ -22,9 +22,11 @@ const ProjectDetails = ({
       </div>
 
       {/* Additional Description */}
-      <p className="text-muted-foreground hero-padding container text-lg leading-relaxed">
-        {additionalDescription}
-      </p>
+      <div className="hero-padding container">
+        <p className="max-w-2xl text-lg leading-relaxed">
+          {additionalDescription}
+        </p>
+      </div>
 
       {/* Middle 3 images - grid layout */}
       <div className="hero-padding space-y-15 pt-0! md:space-y-18">
@@ -41,7 +43,7 @@ const ProjectDetails = ({
       {/* Highlights */}
       <div className="container space-y-10">
         <h2 className="text-2xl leading-none">Highlights</h2>
-        <ul className="text-muted-foreground ms-7 space-y-2 text-lg leading-relaxed">
+        <ul className="ms-7 max-w-2xl space-y-2 text-lg leading-relaxed">
           {highlights.map((highlight, index) => (
             <li key={index} className="list-disc">
               {highlight}

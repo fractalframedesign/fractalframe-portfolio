@@ -36,7 +36,7 @@ export function ArticlesList({
   showHeader = false,
   showPinIcon = false,
   showReadAllLink = true,
-  headerTitle = 'Latest writing',
+  headerTitle = 'Latest stories',
   className,
   containerSize = 'wide',
 }: ArticlesListProps) {

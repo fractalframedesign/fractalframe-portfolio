@@ -17,6 +17,7 @@ import {
   getArticleSlugs,
 } from '@/lib/articles';
 import { ArticleFrontmatter } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 function MdxImage({ src, alt }: ComponentPropsWithoutRef<'img'>) {
   return (
@@ -35,18 +36,22 @@ function MdxImage({ src, alt }: ComponentPropsWithoutRef<'img'>) {
   );
 }
 
-function H2({ children, ...props }: ComponentPropsWithoutRef<'h2'>) {
+function H2({ children, className, ...props }: ComponentPropsWithoutRef<'h2'>) {
   return (
     <div className="container">
-      <h2 {...props}>{children}</h2>
+      <h2 className={cn('max-w-2xl', className)} {...props}>
+        {children}
+      </h2>
     </div>
   );
 }
 
-function H3({ children, ...props }: ComponentPropsWithoutRef<'h3'>) {
+function H3({ children, className, ...props }: ComponentPropsWithoutRef<'h3'>) {
   return (
     <div className="container">
-      <h3 {...props}>{children}</h3>
+      <h3 className={cn('max-w-2xl', className)} {...props}>
+        {children}
+      </h3>
     </div>
   );
 }
@@ -59,7 +64,7 @@ function P({ children, className, ...props }: ComponentPropsWithoutRef<'p'>) {
   }
   return (
     <div className="container">
-      <p className={className} {...props}>
+      <p className={cn('max-w-2xl', className)} {...props}>
         {children}
       </p>
     </div>
@@ -69,15 +74,42 @@ function P({ children, className, ...props }: ComponentPropsWithoutRef<'p'>) {
 function Lead({ children }: { children: React.ReactNode }) {
   return (
     <div className="container">
-      <p className="lead text-muted-foreground">{children}</p>
+      <p className="lead text-muted-foreground max-w-2xl">{children}</p>
     </div>
   );
 }
 
-function Ul({ children, ...props }: ComponentPropsWithoutRef<'ul'>) {
+function Ul({ children, className, ...props }: ComponentPropsWithoutRef<'ul'>) {
   return (
     <div className="container">
-      <ul {...props}>{children}</ul>
+      <ul className={cn('max-w-2xl', className)} {...props}>
+        {children}
+      </ul>
+    </div>
+  );
+}
+
+function Ol({ children, className, ...props }: ComponentPropsWithoutRef<'ol'>) {
+  return (
+    <div className="container">
+      <ol className={cn('max-w-2xl', className)} {...props}>
+        {children}
+      </ol>
+    </div>
+  );
+}
+
+function Blockquote({
+  children,
+  className,
+  ...props
+}: ComponentPropsWithoutRef<'blockquote'>) {
+  return (
+    <div className="container">
+      {/* Paragraphs inside bring their own container; drop its side padding here */}
+      <blockquote className={cn('max-w-2xl *:px-0', className)} {...props}>
+        {children}
+      </blockquote>
     </div>
   );
 }
@@ -89,6 +121,8 @@ const mdxComponents: MDXComponents = {
   h3: H3,
   p: P,
   ul: Ul,
+  ol: Ol,
+  blockquote: Blockquote,
   Lead,
   ...DetailsArticleDemos,
   ...FractalArticleDemos,
@@ -183,7 +217,7 @@ export default async function ArticlePage({
           date={article.frontmatter.date}
           description={article.frontmatter.description}
         />
-        <div className="prose prose-lg prose-neutral dark:prose-invert prose-a:link-underline prose-a:no-underline prose-lead:text-muted-foreground prose-li:marker:text-foreground prose-h2:text-2xl prose-h2:font-display prose-h2:font-weight-display prose-h2:mt-12 prose-h2:mb-0 prose-h2:text-wrap-balance prose-h3:text-xl prose-h3:font-display prose-p:font-serif prose-p:font-normal prose-p:text-xl prose-p:leading-[1.58] prose-p:tracking-[-0.003em] prose-p:mt-0 prose-p:text-wrap-pretty prose-li:font-serif prose-li:font-normal prose-li:text-xl prose-li:leading-[1.58] prose-blockquote:font-serif prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:text-xl max-w-none space-y-6">
+        <div className="prose prose-lg prose-neutral dark:prose-invert prose-a:link-underline prose-a:no-underline prose-lead:text-muted-foreground prose-li:marker:text-foreground prose-h2:text-2xl prose-h2:font-display prose-h2:font-weight-display prose-h2:mt-14 prose-h2:mb-0 prose-h2:text-wrap-balance prose-h3:text-xl prose-h3:font-display prose-p:font-serif prose-p:font-normal prose-p:text-foreground prose-p:text-lg md:prose-p:text-xl prose-p:leading-[1.58] prose-p:tracking-[-0.003em] prose-p:mt-0 prose-p:text-wrap-pretty prose-li:font-serif prose-li:font-normal prose-li:text-foreground prose-li:text-lg md:prose-li:text-xl prose-li:leading-[1.58] prose-blockquote:font-serif prose-blockquote:not-italic prose-blockquote:font-normal prose-blockquote:text-xl max-w-none space-y-8">
           {content}
         </div>
       </article>
@@ -191,8 +225,9 @@ export default async function ArticlePage({
         <ArticlesList
           articles={otherArticles}
           showHeader
-          headerTitle="Related articles"
+          headerTitle="Related stories"
           showReadAllLink={false}
+          containerSize="standard"
         />
       )}
     </>

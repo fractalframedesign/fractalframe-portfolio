@@ -56,11 +56,11 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon/kiran-pingle-512.svg', sizes: '512x512', type: 'image/svg+xml' },
-      { url: '/favicon/kiran-pingle-96.jpg', sizes: '96x96', type: 'image/jpeg' },
+      { url: '/favicon/kiran-pingle-96.png', sizes: '96x96', type: 'image/png' },
+      { url: '/favicon/kiran-pingle-512.png', sizes: '512x512', type: 'image/png' },
     ],
-    apple: [{ url: '/favicon/kiran-pingle-180.jpg', sizes: '180x180', type: 'image/jpeg' }],
-    shortcut: [{ url: '/favicon/kiran-pingle-96.jpg', type: 'image/jpeg' }],
+    apple: [{ url: '/favicon/kiran-pingle-180.png', sizes: '180x180', type: 'image/png' }],
+    shortcut: [{ url: '/favicon/kiran-pingle-96.png', type: 'image/png' }],
   },
   openGraph: {
     type: 'website',
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
       {
         url: '/og-image.jpg',
         width: 1200,
-        height: 630,
+        height: 600,
         alt: siteTitle,
       },
     ],

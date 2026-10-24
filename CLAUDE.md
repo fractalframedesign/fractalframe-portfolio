@@ -33,7 +33,8 @@
 
 ## Typography
 
-- Font: Funnel Sans (weights: 300-800)
+- Fonts: Geist Sans for all UI, headings and short copy; Source Serif 4 (`font-serif`) only for long-form article body text
+- Monospace (`font-mono`, system stack) only for code and demo labels
 - already font medium set in globals.css don't need to set it again
 - Headings use `font-display` and `font-weight-display` utilities
 - Body text uses `font-text` and `font-weight-text` utilities

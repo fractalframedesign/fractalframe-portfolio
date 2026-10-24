@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import Link from 'next/link';
 import { useRef } from 'react';
 
+import { LocalTime } from '@/components/local-time';
 import { Button } from '@/components/ui/button';
 
 const containerVariants = {
@@ -13,9 +14,10 @@ const containerVariants = {
 };
 
 const itemVariants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 0, y: 12 },
   visible: {
     opacity: 1,
+    y: 0,
     transition: { duration: 0.55, ease: [0.23, 1, 0.32, 1] as const },
   },
 };
@@ -36,12 +38,16 @@ const Hero = () => {
       className="border-border/60 relative overflow-hidden border-b pt-15 pb-12.5 md:pt-20 md:pb-15 lg:pt-30 lg:pb-18.75"
     >
       <motion.div
-        className="container space-y-8"
+        className="container flex flex-col items-center gap-8 text-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
         style={{ y, opacity }}
       >
+        <motion.div variants={itemVariants}>
+          <LocalTime />
+        </motion.div>
+
         <motion.div className="flex flex-col gap-1" variants={itemVariants}>
           <span className="text-xl leading-snug">
             👋 Hi! I am Kiran Pingle
@@ -59,13 +65,16 @@ const Hero = () => {
         </motion.h1>
 
         <motion.p
-          className="text-muted-foreground max-w-2xl text-xl leading-relaxed"
+          className="text-muted-foreground max-w-xl text-xl leading-relaxed"
           variants={itemVariants}
         >
           I bring product strategy, design systems, and frontend engineering together to shape clear, scalable digital experiences.
         </motion.p>
 
-        <motion.div className="flex flex-wrap items-center gap-3" variants={itemVariants}>
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-3"
+          variants={itemVariants}
+        >
           <Button asChild size="lg">
             <Link href="/projects">
               Explore projects <ArrowRight aria-hidden="true" />
@@ -77,7 +86,7 @@ const Hero = () => {
         </motion.div>
 
         <motion.p className="text-muted-foreground text-sm" variants={itemVariants}>
-          Tokyo · Product Design Director at Rakuten Mobile · Previously at Reliance Jio
+          Product Design Director at Rakuten · Previously at Reliance Jio
         </motion.p>
       </motion.div>
     </section>

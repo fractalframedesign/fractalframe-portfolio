@@ -40,9 +40,9 @@ const ProjectHero = ({
             {categoryLabel[category] ?? category}
           </div>
         )}
-        <h1 className="text-3xl leading-[1.08] md:text-4xl lg:text-5xl">{name}</h1>
+        <h1 className="text-3xl leading-[1.08] text-balance md:text-4xl lg:text-5xl">{name}</h1>
 
-        <p className="font-serif text-muted-foreground text-xl leading-relaxed max-w-2xl">
+        <p className="text-muted-foreground max-w-2xl text-xl leading-relaxed">
           {longDescription}
         </p>
 
