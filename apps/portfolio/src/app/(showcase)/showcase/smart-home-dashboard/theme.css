@@ -9,6 +9,7 @@
   --accent-4: #93a4f7;
 }
 
-.dark [data-project='smart-home'] {
+.dark [data-project='smart-home'],
+.drawing-dark [data-project='smart-home'] {
   --canvas: #0b0b0d;
 }

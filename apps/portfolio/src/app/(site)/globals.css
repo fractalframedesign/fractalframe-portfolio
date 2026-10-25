@@ -1,8 +1,9 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @plugin '@tailwindcss/typography';
+@import '../../styles/drawing.css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *, .drawing-dark *));
 
 @theme inline {
   /* StyleGlide */
@@ -249,6 +250,61 @@
   --warning-base: oklch(0.710 0.195 45);
 }
 
+/* Drawing mode: site-only tokens (.drawing-dark is the reversed sheet). The shared ones live in src/styles/drawing.css. */
+.drawing {
+  --primary-base: oklch(0.18 0 0);
+  --primary-inactive: oklch(0.95 0 0);
+  --primary-subtle: oklch(0.97 0 0);
+  --primary-darker: oklch(0.18 0 0);
+  --primary-dark: oklch(0.18 0 0);
+  --bg-base: oklch(1 0 0);
+  --bg-subtle: oklch(0.985 0 0);
+  --bg-soft: oklch(0.97 0 0);
+  --bg-inactive: oklch(0.93 0 0);
+  --border-base: oklch(0.18 0 0 / 0.55);
+  --border-subtle: oklch(0.18 0 0 / 0.3);
+  --border-inactive: oklch(0.18 0 0 / 0.2);
+  --text-base: oklch(0.18 0 0);
+  --text-subtle: oklch(0.45 0 0);
+  --text-soft: oklch(0.55 0 0);
+  --text-inactive: oklch(0.7 0 0);
+  --icon-base: oklch(0.18 0 0);
+  --icon-subtle: oklch(0.45 0 0);
+  --icon-on-color: oklch(1 0 0);
+  --icon-inactive: oklch(0.7 0 0);
+  --success-base: oklch(0.18 0 0);
+  --error-base: oklch(0.18 0 0);
+  --info-base: oklch(0.18 0 0);
+  --warning-base: oklch(0.18 0 0);
+}
+
+.drawing-dark {
+  --primary-base: oklch(0.96 0 0);
+  --primary-inactive: oklch(0.24 0 0);
+  --primary-subtle: oklch(0.21 0 0);
+  --primary-darker: oklch(0.96 0 0);
+  --primary-dark: oklch(0.96 0 0);
+  --bg-base: oklch(0.16 0 0);
+  --bg-subtle: oklch(0.18 0 0);
+  --bg-soft: oklch(0.21 0 0);
+  --bg-inactive: oklch(0.26 0 0);
+  --border-base: oklch(0.96 0 0 / 0.5);
+  --border-subtle: oklch(0.96 0 0 / 0.28);
+  --border-inactive: oklch(0.96 0 0 / 0.18);
+  --text-base: oklch(0.96 0 0);
+  --text-subtle: oklch(0.7 0 0);
+  --text-soft: oklch(0.6 0 0);
+  --text-inactive: oklch(0.45 0 0);
+  --icon-base: oklch(0.96 0 0);
+  --icon-subtle: oklch(0.7 0 0);
+  --icon-on-color: oklch(0.16 0 0);
+  --icon-inactive: oklch(0.45 0 0);
+  --success-base: oklch(0.96 0 0);
+  --error-base: oklch(0.96 0 0);
+  --info-base: oklch(0.96 0 0);
+  --warning-base: oklch(0.96 0 0);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -428,4 +484,12 @@ html.page-transition-forward::view-transition-new(root),
 html.page-transition-back::view-transition-new(root) {
   z-index: 2;
   animation: page-fade-in 0.2s ease-out forwards;
+}
+
+/* Drawing mode on the site: the background dot grid becomes graph paper */
+:is(.drawing, .drawing-dark) .bg-dot-grid {
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

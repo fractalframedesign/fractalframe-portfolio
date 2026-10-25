@@ -50,7 +50,8 @@
 }
 
 [data-preview='fintech'].dark,
-.dark [data-preview='fintech'] {
+.dark [data-preview='fintech'],
+.drawing-dark [data-preview='fintech'] {
   --background: oklch(0.13 0.012 260);
   --foreground: oklch(0.95 0.006 260);
 
