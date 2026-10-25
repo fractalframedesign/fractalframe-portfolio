@@ -73,6 +73,15 @@
 
 Moving between the groups is a full page load. Never import one group's CSS from the other.
 
+### References (`/references/`)
+
+`references/` at the repo root holds cloned repos and design notes kept for inspiration and learning. It is gitignored and is not part of the project.
+
+- Read it for ideas only. Never import from it, link to its files, or copy its code in as-is.
+- Anything taken from it must be rewritten to follow this file: shadcn components, semantic tokens (no hex values), the folder structure and the code style above.
+- When a reference and these rules disagree, these rules win.
+- Don't edit files in `references/` unless asked.
+
 ### Content
 
 - MDX lives in `apps/portfolio/content/{articles,projects}/`. The file name is the slug.
@@ -87,7 +96,7 @@ To add a showcase project:
 1. Components go in `src/components/project-demos/<slug>/`. Use only the semantic tokens (`canvas`, `surface`, `surface-border`, `ink`, `ink-muted`, `accent-1..4`), never hex values.
 2. Create `src/app/(showcase)/showcase/<slug>/` with `layout.tsx`, `page.tsx`, `docs/page.tsx`, `case-study/page.tsx` and `theme.css` (copy an existing project).
 3. In `theme.css`, define the token values under `[data-project='<scope>']` only. No global `body` or `html` rules, no `@theme`.
-4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page from `ComponentSection` bands (see `fintech-components`); widgets that read `var(--color-*)` need a `data-preview` scope and their palette in `theme.css`.
+4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page as a `ComponentGallery` (Pinterest-style masonry with category chips, each item linking to its own `[widget]` page; see `fintech-components`) or from `ComponentSection` bands; widgets that read `var(--color-*)` need a `data-preview` scope and their palette in `theme.css`.
 5. Add the portfolio card as `content/projects/<slug>.mdx` with `category: upcoming`, `liveUrl: /showcase/<slug>` and `sourceUrl: /showcase/<slug>/docs`.
 
 ### Checks
