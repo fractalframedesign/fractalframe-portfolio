@@ -1,0 +1,111 @@
+/*
+ * Drawing mode, shared by the site and the showcase (imported by both stylesheets).
+ * .drawing on <html> turns the whole page into a technical drawing.
+ * Ink on white paper, grays only; every accent maps to ink.
+ * .drawing-dark is the same drawing reversed: white lines on a dark sheet.
+ * :root raises the token blocks above the plain :root themes loaded after this file.
+ */
+:root.drawing {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.18 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0 0);
+  --primary: oklch(0.18 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.18 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.45 0 0);
+  --accent: oklch(0.95 0 0);
+  --accent-foreground: oklch(0.18 0 0);
+  --destructive: oklch(0.18 0 0);
+  --destructive-foreground: oklch(1 0 0);
+  --success: oklch(0.18 0 0);
+  --success-foreground: oklch(1 0 0);
+  --success-hover: oklch(0.3 0 0);
+  --warning: oklch(0.18 0 0);
+  --warning-foreground: oklch(1 0 0);
+  --border: oklch(0.18 0 0 / 0.55);
+  --input: oklch(0.18 0 0 / 0.55);
+  --ring: oklch(0.18 0 0);
+  --chart-1: oklch(0.18 0 0);
+  --chart-2: oklch(0.35 0 0);
+  --chart-3: oklch(0.5 0 0);
+  --chart-4: oklch(0.65 0 0);
+  --chart-5: oklch(0.8 0 0);
+}
+
+:root.drawing-dark {
+  color-scheme: dark;
+  --background: oklch(0.16 0 0);
+  --foreground: oklch(0.96 0 0);
+  --card: oklch(0.16 0 0);
+  --card-foreground: oklch(0.96 0 0);
+  --popover: oklch(0.16 0 0);
+  --popover-foreground: oklch(0.96 0 0);
+  --primary: oklch(0.96 0 0);
+  --primary-foreground: oklch(0.16 0 0);
+  --secondary: oklch(0.21 0 0);
+  --secondary-foreground: oklch(0.96 0 0);
+  --muted: oklch(0.21 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.24 0 0);
+  --accent-foreground: oklch(0.96 0 0);
+  --destructive: oklch(0.96 0 0);
+  --destructive-foreground: oklch(0.16 0 0);
+  --success: oklch(0.96 0 0);
+  --success-foreground: oklch(0.16 0 0);
+  --success-hover: oklch(0.85 0 0);
+  --warning: oklch(0.96 0 0);
+  --warning-foreground: oklch(0.16 0 0);
+  --border: oklch(0.96 0 0 / 0.5);
+  --input: oklch(0.96 0 0 / 0.5);
+  --ring: oklch(0.96 0 0);
+  --chart-1: oklch(0.96 0 0);
+  --chart-2: oklch(0.8 0 0);
+  --chart-3: oklch(0.65 0 0);
+  --chart-4: oklch(0.5 0 0);
+  --chart-5: oklch(0.35 0 0);
+}
+
+/* Monochrome line art across the page */
+:is(.drawing, .drawing-dark) body > :not([data-drawing-overlay]) {
+  filter: grayscale(1);
+}
+
+:is(.drawing, .drawing-dark) *,
+:is(.drawing, .drawing-dark) *::before,
+:is(.drawing, .drawing-dark) *::after {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+:is(.drawing, .drawing-dark) :where(img, video, picture, canvas) {
+  opacity: 0.5;
+}
+
+:is(.drawing, .drawing-dark)
+  :where(
+    section,
+    article,
+    figure,
+    li,
+    a,
+    button,
+    input,
+    textarea,
+    select,
+    img,
+    video,
+    [data-slot='card']
+  ) {
+  outline: 0.5px dashed color-mix(in oklch, var(--foreground) 35%, transparent);
+  outline-offset: -0.5px;
+}
+
+:is(.drawing, .drawing-dark) :focus-visible {
+  outline: 2px solid var(--ring) !important;
+  outline-offset: 2px !important;
+}

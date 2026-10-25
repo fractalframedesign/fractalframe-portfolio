@@ -4,6 +4,7 @@ import { BookOpen, Boxes, FileText, LayoutGrid } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import DrawingModeToggle from '@/components/drawing/drawing-mode-toggle';
 import { SiteHeader } from '@/components/layout/site-header';
 import { ThemeToggle } from '@/components/theme-toggle';
 import {
@@ -44,7 +45,12 @@ export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
     <div className="min-h-screen">
       <SiteHeader
         activePath="/projects"
-        themeToggle={<ThemeToggle />}
+        themeToggle={
+          <div className="flex items-center gap-1">
+            <DrawingModeToggle />
+            <ThemeToggle />
+          </div>
+        }
         className="sticky top-0"
       />
 
