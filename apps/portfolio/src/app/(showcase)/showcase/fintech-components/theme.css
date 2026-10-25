@@ -103,6 +103,13 @@
   }
 }
 
+/* --motion-speed comes from the motion stage, so the studio sliders retime it */
 .animate-skeleton {
-  animation: skeleton-pulse 1.6s ease-in-out infinite;
+  animation: skeleton-pulse calc(1.6s * var(--motion-speed, 1)) ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-skeleton {
+    animation: none;
+  }
 }

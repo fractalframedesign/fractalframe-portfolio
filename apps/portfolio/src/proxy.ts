@@ -1,29 +1,27 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
 import {
-  ACCESS_PARAM,
+  accessCookieName,
   getProtectedSlug,
-  verifyAccessPass,
+  hasAccess,
 } from '@/lib/showcase-access';
 
 export async function proxy(request: NextRequest) {
-  const slug = getProtectedSlug(request.nextUrl.pathname);
+  const { pathname, search } = request.nextUrl;
+  const slug = getProtectedSlug(pathname);
   if (!slug) return NextResponse.next();
 
-  const url = request.nextUrl.clone();
-  const pass = url.searchParams.get(ACCESS_PARAM);
-  url.searchParams.delete(ACCESS_PARAM);
-
-  if (await verifyAccessPass(slug, pass)) {
+  const token = request.cookies.get(accessCookieName(slug))?.value;
+  if (await hasAccess(slug, token)) {
     const response = NextResponse.next();
-    // Keep the page out of every cache, including the back button
+    // Keep the page out of shared caches
     response.headers.set('Cache-Control', 'private, no-store, max-age=0');
     return response;
   }
 
   const unlockUrl = new URL('/showcase/unlock', request.url);
   unlockUrl.searchParams.set('project', slug);
-  unlockUrl.searchParams.set('next', url.pathname + url.search);
+  unlockUrl.searchParams.set('next', pathname + search);
 
   return NextResponse.redirect(unlockUrl);
 }

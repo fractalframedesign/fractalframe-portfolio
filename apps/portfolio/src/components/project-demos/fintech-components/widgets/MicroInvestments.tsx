@@ -3,6 +3,7 @@
 import { ArrowUp, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Separator } from '@/components/project-demos/fintech-components/ui/separator'
@@ -92,7 +93,7 @@ export function MicroInvestments({
           </div>
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-col gap-0.5">
-              <p className="text-3xl font-semibold tracking-[-0.32px] text-foreground">{totalInvested}</p>
+              <p className="text-3xl font-semibold tracking-[-0.32px] text-foreground"><NumberPopIn value={String(totalInvested)} /></p>
               <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">Total invested</p>
             </div>
             <span className="flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-lg font-medium text-primary">

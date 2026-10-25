@@ -3,6 +3,7 @@
 import { Minus, MoreHorizontal, Plus } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
@@ -152,7 +153,7 @@ export function CreditPaymentPlanner({
         </div>
 
         <div className="absolute top-[119px] left-1/2 flex w-[220px] -translate-x-1/2 flex-col items-center text-center">
-          <p className="text-[40px] leading-none font-semibold tracking-[-0.4px] text-foreground">{monthlyAmount}</p>
+          <p className="text-[40px] leading-none font-semibold tracking-[-0.4px] text-foreground"><NumberPopIn value={String(monthlyAmount)} /></p>
           <p className="text-xs font-medium tracking-[0.12px] text-muted-foreground">to be deposited by {dueDate}</p>
         </div>
       </div>

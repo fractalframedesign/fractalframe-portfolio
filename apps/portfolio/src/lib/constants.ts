@@ -30,5 +30,5 @@ export const LOCATION = {
   timeZone: 'Asia/Tokyo',
 };
 
-/** Showcase project slugs that need a SHOWCASE_ACCESS password on every visit */
+/** Showcase project slugs that need a SHOWCASE_ACCESS password (asked again after the browser closes) */
 export const PROTECTED_SHOWCASE = ['fintech-components'];

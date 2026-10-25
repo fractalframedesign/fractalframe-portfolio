@@ -11,18 +11,29 @@ type AccessEntry = {
   projects: string[] | '*';
 };
 
-/** Query param that carries the one-page pass */
-export const ACCESS_PARAM = 'access';
-
-/** How long a pass works after the password is entered. Nothing is stored, so every visit needs the password */
-const ACCESS_TTL_MS = 30_000;
-
 const encoder = new TextEncoder();
 
 /** Returns the protected project slug a /showcase path belongs to, if any */
 export function getProtectedSlug(pathname: string) {
   const slug = pathname.split('/')[2];
   return slug && PROTECTED_SHOWCASE.includes(slug) ? slug : undefined;
+}
+
+export function accessCookieName(slug: string) {
+  return `showcase-access-${slug}`;
+}
+
+/**
+ * A session cookie: no expiry, so the browser drops it when it closes and
+ * the password is asked again on the next visit. Scoped to the project.
+ */
+export function accessCookieOptions(slug: string) {
+  return {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax' as const,
+    path: `/showcase/${slug}`,
+  };
 }
 
 function getEntries(slug: string) {
@@ -44,8 +55,8 @@ function getEntries(slug: string) {
     );
 }
 
-/** HMAC of the message keyed by the password, so removing a password voids its passes */
-async function sign(password: string, message: string) {
+/** HMAC of the slug keyed by the password, so removing a password signs that person out */
+async function sign(password: string, slug: string) {
   const key = await crypto.subtle.importKey(
     'raw',
     encoder.encode(password),
@@ -53,40 +64,28 @@ async function sign(password: string, message: string) {
     false,
     ['sign'],
   );
-  const signature = await crypto.subtle.sign(
-    'HMAC',
-    key,
-    encoder.encode(message),
-  );
+  const signature = await crypto.subtle.sign('HMAC', key, encoder.encode(slug));
 
   return Array.from(new Uint8Array(signature), (byte) =>
     byte.toString(16).padStart(2, '0'),
   ).join('');
 }
 
-/** Returns a short-lived pass for a correct password, or undefined */
-export async function createAccessPass(slug: string, password: string) {
+/** Returns the cookie value for a correct password, or undefined */
+export async function tokenForPassword(slug: string, password: string) {
   if (!password) return undefined;
-
-  const given = await sign(password, slug);
-  for (const entry of getEntries(slug)) {
-    if (safeEqual(given, await sign(entry.password, slug))) {
-      const expires = Date.now() + ACCESS_TTL_MS;
-      return `${expires}.${await sign(entry.password, `${slug}:${expires}`)}`;
-    }
-  }
+  return findToken(slug, await sign(password, slug));
 }
 
-export async function verifyAccessPass(slug: string, pass: string | null) {
-  const [expiresRaw, signature] = pass?.split('.') ?? [];
-  const expires = Number(expiresRaw);
-  if (!signature || !(expires > Date.now())) return false;
+export async function hasAccess(slug: string, token: string | undefined) {
+  return Boolean(token && (await findToken(slug, token)));
+}
 
+async function findToken(slug: string, candidate: string) {
   for (const entry of getEntries(slug)) {
-    const expected = await sign(entry.password, `${slug}:${expires}`);
-    if (safeEqual(signature, expected)) return true;
+    const token = await sign(entry.password, slug);
+    if (safeEqual(candidate, token)) return token;
   }
-  return false;
 }
 
 /** Constant-time string comparison */
