@@ -1,11 +1,13 @@
 'use server';
 
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import {
-  ACCESS_PARAM,
-  createAccessPass,
+  accessCookieName,
+  accessCookieOptions,
   getProtectedSlug,
+  tokenForPassword,
 } from '@/lib/showcase-access';
 
 export type UnlockState = { error?: string };
@@ -19,19 +21,21 @@ export async function unlock(
 
   if (!slug) return { error: 'This project doesn’t need a password.' };
 
-  const pass = await createAccessPass(slug, password);
-  if (!pass) return { error: 'That password isn’t right. Try again.' };
+  const token = await tokenForPassword(slug, password);
+  if (!token) return { error: 'That password isn’t right. Try again.' };
+
+  (await cookies()).set(
+    accessCookieName(slug),
+    token,
+    accessCookieOptions(slug),
+  );
 
   // Only follow `next` back into the same project, never to another site
   const next = String(formData.get('next') ?? '');
   const base = `/showcase/${slug}`;
-  const target = new URL(
+  redirect(
     next === base || next.startsWith(`${base}/`) || next.startsWith(`${base}?`)
       ? next
       : base,
-    'http://localhost',
   );
-  target.searchParams.set(ACCESS_PARAM, pass);
-
-  redirect(target.pathname + target.search);
 }
