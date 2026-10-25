@@ -20,7 +20,11 @@ export default function ShowcaseRootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} min-h-screen antialiased`}>
+      {/* Extensions like Grammarly add attributes to body before React loads */}
+      <body
+        suppressHydrationWarning
+        className={`${GeistSans.variable} min-h-screen antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

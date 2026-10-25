@@ -3,6 +3,7 @@
 import { ArrowLeftRight, ChevronDown, ListPlus, MoreHorizontal, Plus, Repeat } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Separator } from '@/components/project-demos/fintech-components/ui/separator'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
@@ -140,7 +141,7 @@ export function Balance3({
                 </div>
               )}
             </div>
-            <p className="text-3xl font-bold tracking-[-0.32px] text-foreground">{account.balance}</p>
+            <p className="text-3xl font-bold tracking-[-0.32px] text-foreground"><NumberPopIn value={String(account.balance)} /></p>
             <p className="text-base font-medium tracking-[0.16px] text-muted-foreground">{balanceLabel}</p>
           </div>
           <img src={creditCard} alt="Debit card" className="aspect-[186/114] h-[114px] shrink-0 rounded-xl object-contain" />

@@ -12,6 +12,7 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
@@ -112,7 +113,7 @@ export function Expenses3({
         </div>
         <div className="flex items-center justify-between pt-1">
           <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-tight tracking-tight text-foreground">{total}</p>
+            <p className="text-[32px] font-semibold leading-tight tracking-tight text-foreground"><NumberPopIn value={String(total)} /></p>
             <p className="text-sm font-medium text-muted-foreground">{period}</p>
           </div>
           <div className="flex items-center gap-1 rounded-full bg-muted px-2 py-1">
