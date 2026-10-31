@@ -57,7 +57,7 @@ export async function countPendingRequests(db: Db): Promise<number> {
   return row?.count ?? 0;
 }
 
-/** Active, unexpired grant counts per project slug */
+/** Every active, unexpired grant with its guest name and project slug */
 async function loadActiveGrants(db: Db, now: Date) {
   const rows = await db
     .select({
@@ -193,7 +193,10 @@ export async function getGuestRows(
       or(sql`${grants.expiresAt} is null`, gt(grants.expiresAt, now)),
     );
   } else if (filters.status === 'paused') {
-    conditions.push(eq(grants.status, 'paused'));
+    conditions.push(
+      eq(grants.status, 'paused'),
+      or(sql`${grants.expiresAt} is null`, gt(grants.expiresAt, now)),
+    );
   }
 
   return db

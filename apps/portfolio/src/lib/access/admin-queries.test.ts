@@ -5,8 +5,7 @@ import {
   setGrantExpiry,
   setGrantStatus,
 } from '@/lib/access/repo/guests';
-import { seedProducts } from '@/lib/access/repo/products';
-import { setLevel } from '@/lib/access/repo/products';
+import { seedProducts, setLevel } from '@/lib/access/repo/products';
 import { saveRequest } from '@/lib/access/repo/requests';
 import { grants } from '@/lib/db/schema';
 import { createTestDb } from '@/lib/db/test-db';
@@ -191,4 +190,20 @@ test('searchGuests treats % literally', async () => {
   expect(await searchGuests(db, '%')).toEqual([]);
   const hits = await searchGuests(db, '0%');
   expect(hits.map((h) => h.name)).toEqual(['50% off']);
+});
+
+test('a paused and expired grant shows under expired, not paused', async () => {
+  const db = await setup();
+  await createGuest(db, {
+    name: 'Both',
+    products: ['fintech-components'],
+    expiresAt: inDays(-1),
+    source: 'manual',
+  });
+  const [id] = await grantIds(db);
+  await setGrantStatus(db, id!, 'paused');
+  const expired = await getGuestRows(db, { status: 'expired' }, now);
+  const paused = await getGuestRows(db, { status: 'paused' }, now);
+  expect(expired.map((r) => r.name)).toEqual(['Both']);
+  expect(paused).toEqual([]);
 });
