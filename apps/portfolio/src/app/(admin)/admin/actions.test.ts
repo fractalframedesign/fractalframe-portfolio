@@ -17,6 +17,7 @@ import {
   declineRequest,
   deleteGuest,
   newPassword,
+  sendInvite,
   setGuestAccessStatus,
   setProjectLevel,
   updateGuest,
@@ -92,6 +93,12 @@ describe('without an admin session', () => {
       'REDIRECT:/admin/login',
     );
     await expect(
+      sendInvite('11111111-1111-4111-8111-111111111111', {
+        subject: 's',
+        message: 'm',
+      }),
+    ).rejects.toThrow('REDIRECT:/admin/login');
+    await expect(
       setProjectLevel('fintech-components', 'admin'),
     ).rejects.toThrow('REDIRECT:/admin/login');
 
@@ -166,6 +173,104 @@ describe('addGuest', () => {
     expect(
       await findGuestByPassword(db(), again.password, new Date()),
     ).not.toBeNull();
+  });
+});
+
+describe('addGuest: email and link', () => {
+  test('email is required', async () => {
+    const result = await addGuest(guestForm({ ...ada, email: '' }));
+    if (result.ok) throw new Error('expected error');
+    expect(result.fieldErrors?.email).toEqual(['Enter their email address.']);
+  });
+
+  test('the reply links to the project they asked about, else to Projects', async () => {
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://example.com';
+    const asked = await addGuest(
+      guestForm({ ...ada, project: 'fintech-components' }),
+    );
+    if (!asked.ok) throw new Error('expected ok');
+    expect(asked.reply).toContain(
+      'https://example.com/projects/fintech-components',
+    );
+    expect(asked.guestId).toMatch(/^[0-9a-f-]{36}$/);
+
+    const plain = await addGuest(guestForm({ ...ada, project: 'nope' }));
+    if (!plain.ok) throw new Error('expected ok');
+    expect(plain.reply).toContain('https://example.com/projects\n');
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+  });
+});
+
+describe('sendInvite', () => {
+  async function invited() {
+    const result = await addGuest(guestForm(ada));
+    if (!result.ok) throw new Error('expected ok');
+    return result.guestId;
+  }
+
+  const message = { subject: 'Your password', message: 'Hi Ada, it is pw-1' };
+
+  test('without a verified sender it says so and sends nothing', async () => {
+    const fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    process.env.RESEND_API_KEY = 'key';
+    delete process.env.ACCESS_REQUEST_FROM;
+
+    expect(await sendInvite(await invited(), message)).toEqual({
+      ok: false,
+      error:
+        'Email to guests isn’t set up yet. Copy the message and send it yourself.',
+    });
+    expect(fetchMock).not.toHaveBeenCalled();
+    vi.unstubAllGlobals();
+    delete process.env.RESEND_API_KEY;
+  });
+
+  test('sends the edited message to the guest’s email, replies come to Kiran', async () => {
+    const fetchMock = vi.fn(async () => new Response('{}', { status: 200 }));
+    vi.stubGlobal('fetch', fetchMock);
+    process.env.RESEND_API_KEY = 'key';
+    process.env.ACCESS_REQUEST_FROM = 'Kiran <hello@example.com>';
+
+    expect(await sendInvite(await invited(), message)).toEqual({
+      ok: true,
+      sentTo: 'ada@example.com',
+    });
+    const body = JSON.parse(
+      (fetchMock.mock.calls[0] as unknown as [string, RequestInit])[1]
+        .body as string,
+    );
+    expect(body).toMatchObject({
+      from: 'Kiran <hello@example.com>',
+      to: 'ada@example.com',
+      reply_to: 'kiranspingle@gmail.com',
+      subject: 'Your password',
+      text: 'Hi Ada, it is pw-1',
+    });
+    vi.unstubAllGlobals();
+    delete process.env.RESEND_API_KEY;
+    delete process.env.ACCESS_REQUEST_FROM;
+  });
+
+  test('a failed send is reported and an empty message is refused', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('nope', { status: 500 })),
+    );
+    process.env.RESEND_API_KEY = 'key';
+    process.env.ACCESS_REQUEST_FROM = 'Kiran <hello@example.com>';
+    const guestId = await invited();
+
+    expect(await sendInvite(guestId, message)).toEqual({
+      ok: false,
+      error: 'The email didn’t send. Try again, or copy the message.',
+    });
+    expect(
+      (await sendInvite(guestId, { subject: 'x', message: '  ' })).ok,
+    ).toBe(false);
+    vi.unstubAllGlobals();
+    delete process.env.RESEND_API_KEY;
+    delete process.env.ACCESS_REQUEST_FROM;
   });
 });
 

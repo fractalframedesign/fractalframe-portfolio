@@ -25,13 +25,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { expiryDefaults } from '@/lib/access/expiry';
 
 import ExpiryField from './expiry-field';
-import PasswordReveal from './password-reveal';
+import InviteMessage from './invite-message';
 
 export type GuestDefaults = {
   name?: string;
   email?: string;
   /** Set when approving a request: the request is marked approved */
   requestId?: string;
+  /** The page they asked from, linked in the invitation */
+  projectSlug?: string;
   /** Set when the email is already a guest: saving resends access */
   existingGuest?: { expiresAt: Date | null };
 };
@@ -43,8 +45,9 @@ type AddGuestDialogProps = {
 };
 
 type Created = {
+  guestId: string;
   name: string;
-  password: string;
+  email: string;
   reply: string;
   renewed: boolean;
 };
@@ -71,18 +74,13 @@ export default function AddGuestDialog({
         {created ? (
           <>
             <DialogHeader>
-              <DialogTitle>{created.name} can now unlock</DialogTitle>
+              <DialogTitle>Send {created.name} their invitation</DialogTitle>
               <DialogDescription>
-                Nothing has been sent. Copy the reply and paste it into your
-                email to them.
+                Check the message, then send it. Nothing is sent until you press
+                Send invitation.
               </DialogDescription>
             </DialogHeader>
-            <PasswordReveal {...created} />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Done</Button>
-              </DialogClose>
-            </DialogFooter>
+            <InviteMessage {...created} />
           </>
         ) : (
           <>
@@ -136,8 +134,9 @@ function GuestForm({
       setResult(response);
       if (response.ok) {
         onCreated({
+          guestId: response.guestId,
           name: String(data.get('name')).trim(),
-          password: response.password,
+          email: String(data.get('email')).trim(),
           reply: response.reply,
           renewed: response.renewed,
         });
@@ -149,6 +148,9 @@ function GuestForm({
     <form onSubmit={submit} className="space-y-8" noValidate>
       {defaults.requestId && (
         <input type="hidden" name="requestId" value={defaults.requestId} />
+      )}
+      {defaults.projectSlug && (
+        <input type="hidden" name="project" value={defaults.projectSlug} />
       )}
 
       <fieldset className="space-y-4">
@@ -168,8 +170,8 @@ function GuestForm({
 
         <Field
           id={`${id}-email`}
-          label="Email (optional)"
-          hint="An email that’s already a guest gets a new password instead of a second invite."
+          label="Email"
+          hint="The invitation goes here. An email that’s already a guest gets a new password."
           error={errors.email?.[0]}
         >
           <Input
@@ -177,6 +179,7 @@ function GuestForm({
             name="email"
             type="email"
             defaultValue={defaults.email}
+            required
             autoComplete="off"
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? `${id}-email-error` : undefined}

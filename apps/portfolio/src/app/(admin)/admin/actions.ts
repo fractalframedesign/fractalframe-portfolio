@@ -11,8 +11,11 @@ import * as guestsRepo from '@/lib/access/repo/guests';
 import * as productsRepo from '@/lib/access/repo/products';
 import * as requestsRepo from '@/lib/access/repo/requests';
 import { requireAdmin } from '@/lib/access/require-admin';
+import { guestSender, sendEmail } from '@/lib/access/send-email';
+import { CONTACT_EMAIL } from '@/lib/constants';
 import { getDb } from '@/lib/db/client';
 import { getAllProjects } from '@/lib/projects';
+import { getSiteUrl } from '@/lib/site';
 
 import { logout as endSession } from './login/actions';
 
@@ -24,6 +27,7 @@ export type ActionError = {
 export type ActionResult<T extends object = object> =
   ({ ok: true } & T) | ActionError;
 export type PasswordResult = ActionResult<{
+  guestId: string;
   password: string;
   /** The email was already a guest: their old password stopped working */
   renewed: boolean;
@@ -34,6 +38,10 @@ const MESSAGES = {
   generic: 'Something went wrong. Try again.',
   invalid: 'That didn’t look right. Reload the page and try again.',
   unknownProject: 'That project doesn’t exist.',
+  emailNotSetUp:
+    'Email to guests isn’t set up yet. Copy the message and send it yourself.',
+  emailFailed: 'The email didn’t send. Try again, or copy the message.',
+  noEmail: 'This guest has no email address. Copy the message instead.',
 };
 
 const nameSchema = z
@@ -48,10 +56,11 @@ const noteSchema = z
 const emailSchema = z
   .string()
   .trim()
-  .max(254, 'Enter a valid email, or leave it empty.')
+  .min(1, { error: 'Enter their email address.', abort: true })
+  .max(254, 'Enter a valid email address.')
   .refine(
-    (value) => value === '' || z.email().safeParse(value).success,
-    'Enter a valid email, or leave it empty.',
+    (value) => z.email().safeParse(value).success,
+    'Enter a valid email address.',
   );
 const idSchema = z.uuid();
 const slugSchema = z.string().regex(/^[a-z0-9-]{1,100}$/);
@@ -65,6 +74,13 @@ const addGuestSchema = z.object({
   expiry: expiryChoiceSchema,
   expiryCustom: expiryCustomSchema,
   requestId: idSchema.optional(),
+  /** The page they asked from, for the link in the message */
+  project: slugSchema.optional(),
+});
+
+const inviteMessageSchema = z.object({
+  subject: z.string().trim().min(1).max(200),
+  message: z.string().trim().min(1).max(5000),
 });
 
 const updateGuestSchema = z.object({ name: nameSchema, note: noteSchema });
@@ -134,7 +150,16 @@ function parseAddGuest(formData: FormData) {
     expiry: text(formData, 'expiry'),
     expiryCustom: text(formData, 'expiryCustom') || undefined,
     requestId: text(formData, 'requestId') || undefined,
+    project: text(formData, 'project') || undefined,
   });
+}
+
+/** Link for the invitation: the project they asked about, else every project */
+async function inviteLink(slug?: string) {
+  const projects = `${getSiteUrl()}/projects`;
+  return slug && (await projectNames()).has(slug)
+    ? `${projects}/${slug}`
+    : projects;
 }
 
 export async function addGuest(formData: FormData): Promise<PasswordResult> {
@@ -151,7 +176,7 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
 
   try {
     const db = getDb();
-    const { password, existing } = await accessRepo.inviteGuest(db, {
+    const { guestId, password, existing } = await accessRepo.inviteGuest(db, {
       name: input.name,
       email: input.email || undefined,
       note: input.note,
@@ -165,9 +190,10 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
       name: input.name,
       password,
       expiresAt: expiry.expiresAt,
+      link: await inviteLink(input.project),
     });
     refreshAdmin();
-    return { ok: true, password, renewed: existing, reply };
+    return { ok: true, guestId, password, renewed: existing, reply };
   } catch (error) {
     return failed('addGuest', error);
   }
@@ -277,12 +303,48 @@ export async function newPassword(
       name: guest?.name ?? '',
       password,
       expiresAt: guest?.expiresAt ?? null,
+      link: await inviteLink(),
     });
     refreshAdmin();
     return { ok: true, password, reply };
   } catch (error) {
     return failed('newPassword', error);
   }
+}
+
+/** Emails the invitation Kiran wrote to the guest; replies go to Kiran */
+export async function sendInvite(
+  guestId: string,
+  input: { subject: string; message: string },
+): Promise<ActionResult<{ sentTo: string }>> {
+  await requireAdmin();
+  const id = idSchema.safeParse(guestId);
+  const parsed = inviteMessageSchema.safeParse(input);
+  if (!id.success || !parsed.success) {
+    return { ok: false, error: MESSAGES.invalid };
+  }
+
+  const from = guestSender();
+  if (!from) return { ok: false, error: MESSAGES.emailNotSetUp };
+
+  let to: string | null | undefined;
+  try {
+    to = (await accessRepo.getGuest(getDb(), id.data))?.email;
+  } catch (error) {
+    return failed('sendInvite', error);
+  }
+  if (!to) return { ok: false, error: MESSAGES.noEmail };
+
+  const sent = await sendEmail({
+    from,
+    to,
+    replyTo: CONTACT_EMAIL,
+    subject: parsed.data.subject,
+    text: parsed.data.message,
+  });
+  return sent
+    ? { ok: true, sentTo: to }
+    : { ok: false, error: MESSAGES.emailFailed };
 }
 
 export async function updateGuest(

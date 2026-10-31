@@ -8,6 +8,7 @@ import RequestsTable, { type RequestRow } from './requests-table';
 const actions = vi.hoisted(() => ({
   addGuest: vi.fn(),
   declineRequest: vi.fn(),
+  sendInvite: vi.fn(),
 }));
 vi.mock('@/app/(admin)/admin/actions', () => actions);
 
@@ -111,5 +112,83 @@ describe('RequestsTable', () => {
     expect(document.getElementById(describedBy)?.textContent).toBe(
       'Enter a name.',
     );
+  });
+
+  it('after creating, shows an editable prefilled message and sends only on Send', async () => {
+    actions.addGuest.mockResolvedValue({
+      ok: true,
+      guestId: 'g1',
+      password: 'pw-1',
+      renewed: false,
+      reply: 'Hi Bo, your password is pw-1 https://example.com/projects',
+    });
+    actions.sendInvite.mockResolvedValue({ ok: true, sentTo: 'bo@x.com' });
+    render(<RequestsTable requests={requests} />);
+    const user = userEvent.setup();
+    await user.click(
+      within(row('Bo')).getByRole('button', { name: 'Approve' }),
+    );
+    const dialog = await screen.findByRole('dialog');
+    expect(
+      (within(dialog).getByLabelText('Email') as HTMLInputElement).required,
+    ).toBe(true);
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Create invite' }),
+    );
+
+    const message = (await within(dialog).findByLabelText(
+      'Message',
+    )) as HTMLTextAreaElement;
+    expect(message.value).toContain('pw-1');
+    expect(within(dialog).getByText('bo@x.com')).toBeTruthy();
+    expect(actions.sendInvite).not.toHaveBeenCalled();
+
+    await user.type(message, ' See you!');
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Send invitation' }),
+    );
+
+    expect(actions.sendInvite).toHaveBeenCalledWith('g1', {
+      subject: 'Your password for my private projects',
+      message:
+        'Hi Bo, your password is pw-1 https://example.com/projects See you!',
+    });
+    expect((await within(dialog).findByRole('status')).textContent).toContain(
+      'Sent to bo@x.com',
+    );
+  });
+
+  it('a send error keeps the message and the copy option', async () => {
+    actions.addGuest.mockResolvedValue({
+      ok: true,
+      guestId: 'g1',
+      password: 'pw-1',
+      renewed: false,
+      reply: 'Hi Bo, pw-1',
+    });
+    actions.sendInvite.mockResolvedValue({
+      ok: false,
+      error:
+        'Email to guests isn’t set up yet. Copy the message and send it yourself.',
+    });
+    render(<RequestsTable requests={requests} />);
+    const user = userEvent.setup();
+    await user.click(
+      within(row('Bo')).getByRole('button', { name: 'Approve' }),
+    );
+    const dialog = await screen.findByRole('dialog');
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Create invite' }),
+    );
+    await user.click(
+      await within(dialog).findByRole('button', { name: 'Send invitation' }),
+    );
+
+    expect((await within(dialog).findByRole('alert')).textContent).toContain(
+      'isn’t set up yet',
+    );
+    expect(
+      within(dialog).getByRole('button', { name: /copy message/i }),
+    ).toBeTruthy();
   });
 });

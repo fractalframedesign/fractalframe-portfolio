@@ -61,6 +61,7 @@ export default function WaitingRequests({ requests }: WaitingRequestsProps) {
                     name: request.name,
                     email: request.email,
                     requestId: request.id,
+                    projectSlug: request.productSlug,
                     existingGuest: request.existingGuest ?? undefined,
                   });
                   setOpen(true);

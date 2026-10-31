@@ -78,6 +78,7 @@ export default function RequestsTable({ requests }: RequestsTableProps) {
                     name: request.name,
                     email: request.email,
                     requestId: request.id,
+                    projectSlug: request.productSlug,
                     existingGuest: request.existingGuest ?? undefined,
                   });
                   setOpen(true);

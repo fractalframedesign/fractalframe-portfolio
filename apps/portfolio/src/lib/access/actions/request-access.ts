@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { offersUnlock } from '@/lib/access/gate';
 import { getStoredLevels } from '@/lib/access/repo/products';
 import { saveRequest } from '@/lib/access/repo/requests';
+import { sendEmail } from '@/lib/access/send-email';
 import { CONTACT_EMAIL } from '@/lib/constants';
 import { getDb } from '@/lib/db/client';
 import { getAllProjects } from '@/lib/projects';
@@ -51,7 +52,7 @@ export async function requestAccess(
   // Save first, then email as a best effort: either one keeps the request
   const request = { ...parsed.data, productSlug: slug };
   const saved = await save(request);
-  const emailed = await sendEmail({ ...request, projectName: project.name });
+  const emailed = await emailKiran({ ...request, projectName: project.name });
   if (!saved && !emailed) {
     return { values, error: 'Your request didn’t send. Please try again.' };
   }
@@ -76,46 +77,22 @@ async function save(request: AccessRequest) {
   }
 }
 
-async function sendEmail({
+function emailKiran({
   name,
   email,
   message,
   projectName,
 }: AccessRequest & { projectName: string }) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error('RESEND_API_KEY is not set, access request not emailed');
-    return false;
-  }
-
-  try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from:
-          process.env.ACCESS_REQUEST_FROM ?? 'Showcase <onboarding@resend.dev>',
-        to: CONTACT_EMAIL,
-        reply_to: email,
-        subject: `Access request: ${projectName} from ${name}`,
-        text: [
-          `${name} <${email}> asked for access to ${projectName}.`,
-          message && `Message:\n${message}`,
-          'Reply to this email to send them a password.',
-        ]
-          .filter(Boolean)
-          .join('\n\n'),
-      }),
-    });
-    if (!response.ok) {
-      console.error('Access request email failed', await response.text());
-    }
-    return response.ok;
-  } catch (error) {
-    console.error('Access request email failed', error);
-    return false;
-  }
+  return sendEmail({
+    to: CONTACT_EMAIL,
+    replyTo: email,
+    subject: `Access request: ${projectName} from ${name}`,
+    text: [
+      `${name} <${email}> asked for access to ${projectName}.`,
+      message && `Message:\n${message}`,
+      'Open Requests in the admin console to approve them.',
+    ]
+      .filter(Boolean)
+      .join('\n\n'),
+  });
 }
