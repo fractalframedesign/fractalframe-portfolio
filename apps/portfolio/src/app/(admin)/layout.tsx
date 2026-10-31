@@ -3,6 +3,8 @@ import './admin.css';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 
+import { ThemeProvider } from '@/components/providers/theme-provider';
+
 export const metadata: Metadata = {
   title: {
     default: 'Admin',
@@ -15,9 +17,16 @@ export default function AdminRootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${GeistSans.variable} min-h-screen antialiased`}>
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+          storageKey="admin-theme"
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

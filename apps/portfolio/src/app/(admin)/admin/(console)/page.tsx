@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import AdminHeader from '@/components/admin/admin-header';
+import TopBar from '@/components/admin/console/top-bar';
 import GuestTable from '@/components/admin/guest-table';
 import LevelSelect from '@/components/admin/level-select';
 import RequestInbox from '@/components/admin/request-inbox';
@@ -71,7 +71,7 @@ async function loadDashboard() {
 
 type Dashboard = Awaited<ReturnType<typeof loadDashboard>>;
 
-const HEADER_LINK = { href: '/admin/guests', label: 'All guests' };
+const PAGE_TITLE = 'Overview';
 
 export default async function AdminPage() {
   await requireAdmin();
@@ -85,33 +85,36 @@ export default async function AdminPage() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl space-y-12 px-4 py-10">
-      <AdminHeader title="Admin" link={HEADER_LINK} />
+    <>
+      <TopBar title={PAGE_TITLE} />
+      <div className="mx-auto w-full max-w-5xl space-y-12 px-4 py-10">
+        <section aria-labelledby="requests" className="space-y-4">
+          <h2 id="requests" className="text-lg font-semibold">
+            Requests
+          </h2>
+          <RequestInbox requests={data.requests} projects={data.unlocked} />
+        </section>
 
-      <section aria-labelledby="requests" className="space-y-4">
-        <h2 id="requests" className="text-lg font-semibold">
-          Requests
-        </h2>
-        <RequestInbox requests={data.requests} projects={data.unlocked} />
-      </section>
-
-      <ProjectsSection rows={data.rows} />
-      <GuestsSection data={data} now={new Date()} />
-    </main>
+        <ProjectsSection rows={data.rows} />
+        <GuestsSection data={data} now={new Date()} />
+      </div>
+    </>
   );
 }
 
 function DatabaseDown() {
   return (
-    <main className="mx-auto max-w-5xl space-y-8 px-4 py-10">
-      <AdminHeader title="Admin" link={HEADER_LINK} />
-      <Alert variant="destructive">
-        <AlertTitle>The database can&apos;t be reached</AlertTitle>
-        <AlertDescription>
-          Nothing has changed. Reload the page in a minute.
-        </AlertDescription>
-      </Alert>
-    </main>
+    <>
+      <TopBar title={PAGE_TITLE} />
+      <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-10">
+        <Alert variant="destructive">
+          <AlertTitle>The database can&apos;t be reached</AlertTitle>
+          <AlertDescription>
+            Nothing has changed. Reload the page in a minute.
+          </AlertDescription>
+        </Alert>
+      </div>
+    </>
   );
 }
 
@@ -163,8 +166,8 @@ function GuestsSection({ data, now }: { data: Dashboard; now: Date }) {
       </h2>
       {data.unlocked.length === 0 ? (
         <p className="text-muted-foreground text-sm">
-          No project is password protected. Set one to Password protected
-          above to give people access with a password.
+          No project is password protected. Set one to Password protected above
+          to give people access with a password.
         </p>
       ) : (
         data.unlocked.map((project, index) => (

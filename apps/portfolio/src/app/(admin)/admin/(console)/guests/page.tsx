@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-import AdminHeader from '@/components/admin/admin-header';
+import TopBar from '@/components/admin/console/top-bar';
 import GuestList from '@/components/admin/guest-list';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { listGuests } from '@/lib/access/repo/guests';
@@ -34,25 +34,24 @@ export default async function AdminGuestsPage() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl space-y-8 px-4 py-10">
-      <AdminHeader
-        title="All guests"
-        link={{ href: '/admin', label: 'Back to dashboard' }}
-      />
-      {data ? (
-        <GuestList
-          guests={data.guests}
-          projectNames={data.projectNames}
-          now={new Date()}
-        />
-      ) : (
-        <Alert variant="destructive">
-          <AlertTitle>The database can&apos;t be reached</AlertTitle>
-          <AlertDescription>
-            Nothing has changed. Reload the page in a minute.
-          </AlertDescription>
-        </Alert>
-      )}
-    </main>
+    <>
+      <TopBar title="Guests" />
+      <div className="mx-auto w-full max-w-5xl space-y-8 px-4 py-10">
+        {data ? (
+          <GuestList
+            guests={data.guests}
+            projectNames={data.projectNames}
+            now={new Date()}
+          />
+        ) : (
+          <Alert variant="destructive">
+            <AlertTitle>The database can&apos;t be reached</AlertTitle>
+            <AlertDescription>
+              Nothing has changed. Reload the page in a minute.
+            </AlertDescription>
+          </Alert>
+        )}
+      </div>
+    </>
   );
 }
