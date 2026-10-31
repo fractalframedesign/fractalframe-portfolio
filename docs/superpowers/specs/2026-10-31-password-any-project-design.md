@@ -62,11 +62,14 @@ does today).
 
 - One guest per email, one password, one status (active / paused) and one
   expiry, all on the person. No per-project choices anywhere in the UI.
-- **Repeat requests**: a request from an email that already has active access
-  shows "Already has access" in Requests with **Dismiss** instead of Approve.
-  If their access is paused or expired, **Approve** makes it active again
-  with the new expiry and **keeps their password**; the reply says to use the
-  same password as before. Lost password: **New password** in Guests.
+- **Repeat requests** (Kiran: "resend access"): a request from an email
+  that is already a guest (active, paused or expired) shows "Already a guest"
+  in Requests with **Resend access** instead of Approve, plus Decline.
+  **Resend access** opens the invite dialog prefilled with their name, email
+  and current expiry (editable). Saving issues a **new password** (passwords
+  are stored hashed, so the old one can't be resent), makes their access
+  active, applies the expiry, marks the request approved and shows the reply
+  to copy. Their old password and cookies stop working.
 - Guests page: one row per person. Actions: pause / resume, change expiry,
   new password, edit name and note, remove. The project filter and column go;
   the status filter stays. A guest with no email (manual invite) is always a
@@ -131,12 +134,12 @@ does today).
 - One password per email unlocks all locked projects, including ones locked
   later, and including live demos.
 - On approve: copy the reply and email it yourself. On decline: silent.
+- Someone already approved who asks again: **Resend access** (a new password,
+  since the old one can't be read back).
 
 ## Claude's calls (Kiran may override)
 
 - Menu wording **Add password** / **Make public**.
-- Repeat requests: Dismiss when already active; Approve reactivates and keeps
-  the password when paused or expired.
 - **Existing guests become all-project guests**: active if any of their
   current grants is active and unexpired; expiry = the latest expiry among
   those (none if any has none); their password is unchanged.
@@ -160,4 +163,4 @@ does today).
 - Tests: gate decisions for `/projects/<slug>` and `/showcase/<slug>` at every
   level (admin, guest active / paused / expired, fallback, database down);
   one pass opening several projects; New password and Remove revoking the
-  pass; repeat-request Dismiss and reactivate; existing guests carried over.
+  pass; Resend access issuing a new password and reactivating; existing guests carried over.
