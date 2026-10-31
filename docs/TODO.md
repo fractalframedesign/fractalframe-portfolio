@@ -4,6 +4,8 @@
 
 - [x] **Showcase admin** (`feat/admin`, done, pending merge): access levels, approved people,
       request inbox. Design: [2026-10-31-showcase-admin-design.md](superpowers/specs/2026-10-31-showcase-admin-design.md)
+- [x] **Admin console** (`feat/admin`, done, pending manual check and merge): sidebar dashboard with
+      projects, requests and guests pages. Design: [2026-11-01-admin-console-design.md](superpowers/specs/2026-11-01-admin-console-design.md)
 
 ## Next
 

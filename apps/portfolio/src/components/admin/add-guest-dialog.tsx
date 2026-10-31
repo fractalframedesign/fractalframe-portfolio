@@ -90,7 +90,7 @@ export default function AddGuestDialog({
           <>
             <DialogHeader>
               <DialogTitle>
-                {approving ? 'Approve request' : 'Invite project access'}
+                {approving ? 'Approve request' : 'Invite someone'}
               </DialogTitle>
               <DialogDescription>
                 Choose who it’s for, which projects and for how long. You’ll get

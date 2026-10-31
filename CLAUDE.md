@@ -71,12 +71,15 @@
 - `(site)/` is the portfolio (home, about, articles, projects). Styles: `(site)/globals.css`.
 - `(showcase)/showcase/` is the component showcase that opens in a new window. Styles: `(showcase)/showcase.css`.
 - `(admin)/` is the admin area for the showcase. Styles: `(admin)/admin.css`.
+  - The console lives in `(admin)/admin/(console)/` with a shared sidebar layout; `/admin/login` sits outside it.
+  - Add a section with one entry in `src/lib/admin-nav.ts` and one route folder.
 
 Moving between the groups is a full page load. Never import one group's CSS from the other.
 
 ### Access levels and database
 
 - Showcase access levels (Public / Unlocked / Admin) live in the database (Neon Postgres via Drizzle). Code is in `src/lib/db` and `src/lib/access`.
+- The admin console shows Kiran only Public / Password protected (Hidden appears only for a project already hidden).
 - `SEED_LEVELS` in `src/lib/access/levels.ts` is only the initial seed, not the source of truth.
 - Migrations in `apps/portfolio/drizzle/` must be additive (no drops or renames), because Preview builds migrate the shared database.
 - `npm test` (vitest) runs from `apps/portfolio`.

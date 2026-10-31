@@ -1,6 +1,6 @@
 # Admin console: dashboard layout
 
-Date: 2026-11-01 · Branch: `feat/admin` · Status: approved by Kiran in chat
+Date: 2026-11-01 · Branch: `feat/admin` · Status: implemented on feat/admin, pending manual check and merge
 
 Builds on [2026-10-31-showcase-admin-design.md](2026-10-31-showcase-admin-design.md).
 Nothing in the data model, access rules, passwords or the proxy changes.
