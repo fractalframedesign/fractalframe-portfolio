@@ -15,7 +15,7 @@ import * as guestsRepo from '@/lib/access/repo/guests';
 import * as productsRepo from '@/lib/access/repo/products';
 import * as requestsRepo from '@/lib/access/repo/requests';
 import { requireAdmin } from '@/lib/access/require-admin';
-import { getDb } from '@/lib/db/client';
+import { type Db, getDb } from '@/lib/db/client';
 import { getAllProjects } from '@/lib/projects';
 
 import { logout as endSession } from './login/actions';
@@ -166,7 +166,7 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
       return { ok: false, fieldErrors: { products: [MESSAGES.notUnlocked] } };
     }
 
-    const { password, rotated } = await guestsRepo.createGuest(db, {
+    const { guestId, password, rotated } = await guestsRepo.createGuest(db, {
       name: input.name,
       email: input.email || undefined,
       note: input.note,
@@ -175,22 +175,20 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
       source: input.requestId ? 'request' : 'manual',
     });
     if (input.requestId) {
-      await requestsRepo.setRequestStatus(db, input.requestId, 'approved');
+      await requestsRepo.approveIfPending(db, input.requestId);
     }
 
     const names = await projectNames();
+    const reply = rotated
+      ? await openGrantsReply(db, guestId, password)
+      : copyReplyText({
+          name: input.name,
+          projectNames: products.map((slug) => names.get(slug) ?? slug),
+          password,
+          expiresAt: expiry.expiresAt,
+        });
     refreshAdmin();
-    return {
-      ok: true,
-      password,
-      rotated,
-      reply: copyReplyText({
-        name: input.name,
-        projectNames: products.map((slug) => names.get(slug) ?? slug),
-        password,
-        expiresAt: expiry.expiresAt,
-      }),
-    };
+    return { ok: true, password, rotated, reply };
   } catch (error) {
     return failed('addGuest', error);
   }
@@ -308,6 +306,31 @@ function sharedExpiry(expiries: (Date | null)[]) {
     : null;
 }
 
+/** Reply listing every open grant, for a password that replaces the old one */
+async function openGrantsReply(db: Db, guestId: string, password: string) {
+  const [guests, levels, names] = await Promise.all([
+    guestsRepo.listGuests(db),
+    productsRepo.getStoredLevels(db),
+    projectNames(),
+  ]);
+  const guest = guests.find((entry) => entry.guestId === guestId);
+  const now = new Date();
+  const open = (guest?.grants ?? []).filter(
+    (grant) =>
+      isGrantActive(grant, now) &&
+      resolveLevel(grant.productSlug, levels) === 'unlocked',
+  );
+
+  return copyReplyText({
+    name: guest?.name ?? '',
+    projectNames: open.map(
+      (grant) => names.get(grant.productSlug) ?? grant.productSlug,
+    ),
+    password,
+    expiresAt: sharedExpiry(open.map((grant) => grant.expiresAt)),
+  });
+}
+
 export async function newPassword(
   guestId: string,
 ): Promise<ActionResult<{ password: string; reply: string }>> {
@@ -318,32 +341,9 @@ export async function newPassword(
   try {
     const db = getDb();
     const password = await guestsRepo.resetPassword(db, parsed.data);
-    const [guests, levels, names] = await Promise.all([
-      guestsRepo.listGuests(db),
-      productsRepo.getStoredLevels(db),
-      projectNames(),
-    ]);
-    const guest = guests.find((entry) => entry.guestId === parsed.data);
-    const now = new Date();
-    const open = (guest?.grants ?? []).filter(
-      (grant) =>
-        isGrantActive(grant, now) &&
-        resolveLevel(grant.productSlug, levels) === 'unlocked',
-    );
-
+    const reply = await openGrantsReply(db, parsed.data, password);
     refreshAdmin();
-    return {
-      ok: true,
-      password,
-      reply: copyReplyText({
-        name: guest?.name ?? '',
-        projectNames: open.map(
-          (grant) => names.get(grant.productSlug) ?? grant.productSlug,
-        ),
-        password,
-        expiresAt: sharedExpiry(open.map((grant) => grant.expiresAt)),
-      }),
-    };
+    return { ok: true, password, reply };
   } catch (error) {
     return failed('newPassword', error);
   }

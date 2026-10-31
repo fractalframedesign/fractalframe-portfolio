@@ -77,7 +77,7 @@ Moving between the groups is a full page load. Never import one group's CSS from
 ### Access levels and database
 
 - Showcase access levels (Public / Unlocked / Admin) live in the database (Neon Postgres via Drizzle). Code is in `src/lib/db` and `src/lib/access`.
-- `PROTECTED_SHOWCASE` in `src/lib/constants.ts` is only the initial seed, not the source of truth.
+- `SEED_LEVELS` in `src/lib/access/levels.ts` is only the initial seed, not the source of truth.
 - Migrations in `apps/portfolio/drizzle/` must be additive (no drops or renames), because Preview builds migrate the shared database.
 - `npm test` (vitest) runs from `apps/portfolio`.
 

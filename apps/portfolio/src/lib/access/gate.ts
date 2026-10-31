@@ -7,12 +7,7 @@ import {
 
 import { ADMIN_COOKIE, verifyAdminSession } from './admin-session';
 import { decideAccess } from './decide';
-import {
-  type AccessLevel,
-  canBeUnlocked,
-  resolveLevel,
-  SEED_LEVELS,
-} from './levels';
+import { type AccessLevel, resolveLevel, SEED_LEVELS } from './levels';
 import { parseGuestToken, verifyGuestToken } from './passwords';
 import { getStoredLevels } from './repo/products';
 
@@ -159,9 +154,8 @@ export async function getProxyLevels(getDb: () => Db, now = Date.now()) {
 
 /**
  * Whether the unlock form should be offered for a project: only for Unlocked
- * projects. With DATABASE_URL unset the seed levels decide. If the database is
- * down, offer it for showcase projects that could be Unlocked, since
- * SHOWCASE_ACCESS passwords still work.
+ * projects. With DATABASE_URL unset, or the database down, the seed levels
+ * decide (SHOWCASE_ACCESS passwords still work for those).
  */
 export async function offersUnlock(
   slug: string,
@@ -169,9 +163,7 @@ export async function offersUnlock(
 ) {
   try {
     return resolveLevel(slug, await getLevels()) === 'unlocked';
-  } catch (error) {
-    if (isDatabaseUnset(error))
-      return resolveLevel(slug, seedLevels()) === 'unlocked';
-    return canBeUnlocked(slug);
+  } catch {
+    return resolveLevel(slug, seedLevels()) === 'unlocked';
   }
 }

@@ -387,11 +387,12 @@ describe('offersUnlock', () => {
     expect(await offersUnlock('finance-dashboard', unset)).toBe(false);
   });
 
-  test('database down: any showcase project that could be Unlocked', async () => {
+  test('database down: only projects whose seed level is Unlocked', async () => {
     const failing = async () => {
       throw new Error('db down');
     };
-    expect(await offersUnlock('finance-dashboard', failing)).toBe(true);
+    expect(await offersUnlock('fintech-components', failing)).toBe(true);
+    expect(await offersUnlock('finance-dashboard', failing)).toBe(false);
     expect(await offersUnlock('bloom', failing)).toBe(false);
   });
 });

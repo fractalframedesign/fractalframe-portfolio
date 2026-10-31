@@ -1,29 +1,23 @@
 import type { MetadataRoute } from 'next';
 
 import { getProductLevels } from '@/lib/access/cached-levels';
-import { getAllProjects } from '@/lib/projects';
+import { resolveLevel } from '@/lib/access/levels';
 import { showcaseProjects } from '@/lib/showcase';
 import { getSiteUrl } from '@/lib/site';
 
 export default async function robots(): Promise<MetadataRoute.Robots> {
-  const [levels, projects] = await Promise.all([
-    getProductLevels(),
-    getAllProjects(),
-  ]);
-  const hidden = (slug: string) => levels.get(slug) !== 'public';
+  const levels = await getProductLevels();
+
+  // Admin and unknown slugs are never listed, so robots.txt reveals nothing
+  const unlocked = showcaseProjects
+    .filter((project) => resolveLevel(project.slug, levels) === 'unlocked')
+    .map((project) => `/showcase/${project.slug}`);
 
   return {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: [
-        '/admin',
-        '/showcase/unlock',
-        ...showcaseProjects
-          .filter((p) => hidden(p.slug))
-          .map((p) => `/showcase/${p.slug}`),
-        ...projects.filter((p) => hidden(p.slug)).map((p) => `/projects/${p.slug}`),
-      ],
+      disallow: ['/admin', '/showcase/unlock', ...unlocked],
     },
     sitemap: `${getSiteUrl()}/sitemap.xml`,
   };

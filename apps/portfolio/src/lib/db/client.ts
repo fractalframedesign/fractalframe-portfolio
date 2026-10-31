@@ -19,6 +19,10 @@ export function getDb(): Db {
   if (cached) return cached;
   const url = process.env.DATABASE_URL;
   if (!url) throw new DatabaseUnavailableError();
-  cached = drizzle(new Pool({ connectionString: url }), { schema });
+  const pool = new Pool({ connectionString: url });
+  pool.on('error', (error: Error) =>
+    console.error('Database pool error', error),
+  );
+  cached = drizzle(pool, { schema });
   return cached;
 }

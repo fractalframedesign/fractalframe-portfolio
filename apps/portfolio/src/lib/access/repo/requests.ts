@@ -1,4 +1,4 @@
-import { asc, eq } from 'drizzle-orm';
+import { and, asc, eq } from 'drizzle-orm';
 
 import type { Db } from '@/lib/db/client';
 import { accessRequests } from '@/lib/db/schema';
@@ -31,4 +31,14 @@ export async function setRequestStatus(
     .update(accessRequests)
     .set({ status })
     .where(eq(accessRequests.id, id));
+}
+
+/** Marks a request approved only if it is still pending; otherwise a no-op */
+export async function approveIfPending(db: Db, id: string) {
+  await db
+    .update(accessRequests)
+    .set({ status: 'approved' })
+    .where(
+      and(eq(accessRequests.id, id), eq(accessRequests.status, 'pending')),
+    );
 }
