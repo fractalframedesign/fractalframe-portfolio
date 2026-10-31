@@ -5,6 +5,8 @@ import { LEVELS_TAG } from '@/lib/access/cached-levels';
 import {
   findGuestByEmail,
   findGuestByPassword,
+  getGuest,
+  inviteGuest,
 } from '@/lib/access/repo/guest-access';
 import { getStoredLevels, seedProducts } from '@/lib/access/repo/products';
 import { listPendingRequests, saveRequest } from '@/lib/access/repo/requests';
@@ -37,6 +39,19 @@ const cache = vi.hoisted(() => ({
 }));
 
 vi.mock('@/lib/db/client', () => ({ getDb: () => state.db }));
+
+// Lets a test make the project list fail after a password would be written
+const content = vi.hoisted(() => ({ fail: false }));
+vi.mock('@/lib/projects', async (importOriginal) => {
+  const original = await importOriginal<typeof import('@/lib/projects')>();
+  return {
+    ...original,
+    getAllProjects: async () => {
+      if (content.fail) throw new Error('content failed');
+      return original.getAllProjects();
+    },
+  };
+});
 
 vi.mock('next/headers', () => ({
   cookies: async () => ({
@@ -276,6 +291,38 @@ describe('sendInvite', () => {
   });
 });
 
+describe('a failure while writing the message never loses a password', () => {
+  test('newPassword keeps the old password working when it fails', async () => {
+    const first = await addGuest(guestForm(ada));
+    if (!first.ok) throw new Error('expected ok');
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    content.fail = true;
+
+    const result = await newPassword(first.guestId);
+    content.fail = false;
+
+    expect(result.ok).toBe(false);
+    expect(
+      await findGuestByPassword(db(), first.password, new Date()),
+    ).not.toBeNull();
+  });
+
+  test('re-inviting an existing email keeps the old password when it fails', async () => {
+    const first = await addGuest(guestForm(ada));
+    if (!first.ok) throw new Error('expected ok');
+    vi.spyOn(console, 'error').mockImplementation(() => {});
+    content.fail = true;
+
+    const result = await addGuest(guestForm(ada));
+    content.fail = false;
+
+    expect(result.ok).toBe(false);
+    expect(
+      await findGuestByPassword(db(), first.password, new Date()),
+    ).not.toBeNull();
+  });
+});
+
 describe('returning guests', () => {
   async function pausedAda() {
     const first = await addGuest(guestForm(ada));
@@ -316,6 +363,27 @@ describe('returning guests', () => {
     });
     expect(result.reply).toContain('Password: use the one I sent you before.');
     expect(result.reply).not.toContain(password);
+  });
+
+  test('resumeGuest changes nothing when the guest has no email or is gone', async () => {
+    const { requestId } = await pausedAda();
+    const { guestId } = await inviteGuest(db(), {
+      name: 'No email',
+      expiresAt: null,
+    });
+    await setGuestAccessStatus(guestId, 'paused');
+    const data = guestForm({ expiry: 'never', requestId });
+
+    expect(await resumeGuest(guestId, data)).toEqual({
+      ok: false,
+      error: 'This guest has no email address. Copy the message instead.',
+    });
+    expect((await getGuest(db(), guestId))?.status).toBe('paused');
+
+    expect(
+      (await resumeGuest('11111111-1111-4111-8111-111111111111', data)).ok,
+    ).toBe(false);
+    expect(await listPendingRequests(db())).toHaveLength(1);
   });
 
   test('guestMessage writes the links again without changing anything', async () => {

@@ -191,6 +191,8 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
 
   try {
     const db = getDb();
+    // Everything that can fail comes before the password changes
+    const projects = await inviteProjects(input.project);
     const { guestId, password, existing } = await accessRepo.inviteGuest(db, {
       name: input.name,
       email: input.email || undefined,
@@ -205,7 +207,7 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
       name: input.name,
       password,
       expiresAt: expiry.expiresAt,
-      projects: await inviteProjects(input.project),
+      projects,
     });
     refreshAdmin();
     return { ok: true, guestId, password, renewed: existing, reply };
@@ -312,13 +314,17 @@ export async function newPassword(
 
   try {
     const db = getDb();
+    // Everything that can fail comes before the password changes
+    const [guest, projects] = await Promise.all([
+      accessRepo.getGuest(db, parsed.data),
+      inviteProjects(),
+    ]);
     const password = await guestsRepo.resetPassword(db, parsed.data);
-    const guest = await accessRepo.getGuest(db, parsed.data);
     const reply = copyReplyText({
       name: guest?.name ?? '',
       password,
       expiresAt: guest?.expiresAt ?? null,
-      projects: await inviteProjects(),
+      projects,
     });
     refreshAdmin();
     return { ok: true, password, reply };
@@ -420,16 +426,19 @@ export async function resumeGuest(
 
   try {
     const db = getDb();
-    await accessRepo.setGuestExpiry(db, id.data, expiry.expiresAt);
-    await accessRepo.setGuestStatus(db, id.data, 'active');
-    if (parsed.data.requestId) {
-      await requestsRepo.approveIfPending(db, parsed.data.requestId);
-    }
+    // Write the message first: it checks the guest exists and has an email,
+    // so nothing changes when it can't be sent
     const result = await writeGuestMessage(id.data, {
       kind: 'resume',
       project: parsed.data.project,
       expiresAt: expiry.expiresAt,
     });
+    if (!result.ok) return result;
+
+    await accessRepo.resumeAccess(db, id.data, expiry.expiresAt);
+    if (parsed.data.requestId) {
+      await requestsRepo.approveIfPending(db, parsed.data.requestId);
+    }
     refreshAdmin();
     return result;
   } catch (error) {
@@ -467,7 +476,8 @@ async function writeGuestMessage(
   },
 ): Promise<GuestMessage> {
   const guest = await accessRepo.getGuest(getDb(), guestId);
-  if (!guest?.email) return { ok: false, error: MESSAGES.noEmail };
+  if (!guest) return { ok: false, error: MESSAGES.invalid };
+  if (!guest.email) return { ok: false, error: MESSAGES.noEmail };
   return {
     ok: true,
     guestId,

@@ -5,7 +5,7 @@ import {
   hasAccess,
 } from '@/lib/showcase-access';
 
-import { ADMIN_COOKIE, verifyAdminSession } from './admin-session';
+import { ADMIN_COOKIE, readAdminSession } from './admin-session';
 import { decideAccess } from './decide';
 import { type AccessLevel, resolveLevel, SEED_LEVELS } from './levels';
 import { parseGuestPass, verifyGuestPass } from './passwords';
@@ -17,6 +17,8 @@ export type GateDeps = {
     guestId: string,
     now: Date,
   ): Promise<{ passwordLookup: string; active: boolean } | null>;
+  /** False for an admin login from before the last admin password change */
+  isAdminSessionCurrent(issuedAt: Date): Promise<boolean>;
   now(): Date;
 };
 
@@ -48,9 +50,8 @@ export async function gateRequest({
   if (section === 'showcase' && slug === 'unlock') return { kind: 'next' };
   if (section !== 'showcase' && section !== 'projects') return { kind: 'next' };
 
-  const now = deps.now();
   const level = await levelOf(slug, deps);
-  const isAdmin = await verifyAdminSession(cookies.get(ADMIN_COOKIE), now);
+  const isAdmin = await validAdminSession(cookies.get(ADMIN_COOKIE), deps);
 
   // Public pages need no cookie, so the proxy adds no no-store header
   if (level === 'public') return { kind: 'next' };
@@ -89,6 +90,17 @@ async function levelOf(
     return resolveLevel(slug, await deps.getLevels());
   } catch {
     return 'unknown-db-down';
+  }
+}
+
+/** Signed, unexpired and issued after the last admin password change; fails closed */
+async function validAdminSession(token: string | undefined, deps: GateDeps) {
+  const session = await readAdminSession(token, deps.now());
+  if (!session) return false;
+  try {
+    return await deps.isAdminSessionCurrent(session.issuedAt);
+  } catch {
+    return false;
   }
 }
 

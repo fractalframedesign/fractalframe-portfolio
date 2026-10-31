@@ -66,6 +66,28 @@ describe('AccessWatcher', () => {
     expect(onLocked).toHaveBeenCalledTimes(1);
   });
 
+  it('an unknown answer keeps the page and keeps checking', async () => {
+    const fetchMock = respond('unknown', 'unknown');
+    const onLocked = vi.fn();
+    render(<AccessWatcher slug="cactus-plant" onLocked={onLocked} />);
+    await flush();
+    await act(async () => vi.advanceTimersByTime(30_000));
+    await flush();
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(onLocked).not.toHaveBeenCalled();
+  });
+
+  it('a re-render does not restart the checks', async () => {
+    const fetchMock = respond('open', 'open', 'open');
+    const { rerender } = render(
+      <AccessWatcher slug="cactus-plant" onLocked={() => {}} />,
+    );
+    await flush();
+    rerender(<AccessWatcher slug="cactus-plant" onLocked={() => {}} />);
+    await flush();
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
   it('a failed check never locks the page', async () => {
     const fetchMock = vi.fn().mockRejectedValue(new Error('offline'));
     vi.stubGlobal('fetch', fetchMock);

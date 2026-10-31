@@ -1,7 +1,6 @@
 import type { NextRequest } from 'next/server';
 
-import { accessStatus } from '@/lib/access/access-status';
-import { gateRequest } from '@/lib/access/gate';
+import { checkAccess } from '@/lib/access/access-status';
 import { liveGateDeps } from '@/lib/access/gate-deps';
 
 const NO_STORE = { 'Cache-Control': 'private, no-store, max-age=0' };
@@ -19,10 +18,10 @@ export async function GET(
     return Response.json({ status: 'locked' }, { headers: NO_STORE });
   }
 
-  const result = await gateRequest({
-    pathname: `/projects/${slug}`,
-    cookies: { get: (name) => request.cookies.get(name)?.value },
-    deps: liveGateDeps(),
-  });
-  return Response.json({ status: accessStatus(result) }, { headers: NO_STORE });
+  const status = await checkAccess(
+    slug,
+    { get: (name) => request.cookies.get(name)?.value },
+    liveGateDeps(),
+  );
+  return Response.json({ status }, { headers: NO_STORE });
 }

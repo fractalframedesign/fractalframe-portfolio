@@ -1,10 +1,14 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import type { AccessStatus } from '@/lib/access/access-status';
 
 const CHECK_EVERY_MS = 30_000;
+
+function reload() {
+  window.location.reload();
+}
 
 type AccessWatcherProps = {
   slug: string;
@@ -19,8 +23,14 @@ type AccessWatcherProps = {
  */
 export default function AccessWatcher({
   slug,
-  onLocked = () => window.location.reload(),
+  onLocked = reload,
 }: AccessWatcherProps) {
+  // Kept in a ref so a re-render (a new callback) doesn't restart the checks
+  const lockedRef = useRef(onLocked);
+  useEffect(() => {
+    lockedRef.current = onLocked;
+  });
+
   useEffect(() => {
     let stopped = false;
     const timer = setInterval(check, CHECK_EVERY_MS);
@@ -41,7 +51,7 @@ export default function AccessWatcher({
       if (status === 'public') return stop();
       if (status === 'locked') {
         stop();
-        onLocked();
+        lockedRef.current();
       }
     }
 
@@ -57,7 +67,7 @@ export default function AccessWatcher({
 
     void check();
     return stop;
-  }, [slug, onLocked]);
+  }, [slug]);
 
   return null;
 }

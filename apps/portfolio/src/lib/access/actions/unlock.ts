@@ -110,10 +110,22 @@ async function tryDb<T>(
 function safeNext(slug: string, next: string) {
   const showcase = `/showcase/${slug}`;
   const caseStudy = `/projects/${slug}`;
-  const within = (base: string) =>
-    next === base ||
-    (next.startsWith(base) && /^[/?#]/.test(next.slice(base.length)));
-  const climbs = next.includes('..') || next.includes('\\');
-  if (!climbs && (within(showcase) || within(caseStudy))) return next;
-  return getShowcaseProject(slug) ? showcase : caseStudy;
+  const fallback = getShowcaseProject(slug) ? showcase : caseStudy;
+
+  // Resolve it the way the browser will (dot segments, %2e%2e, //host),
+  // then accept only the same site and the same project
+  let url: URL;
+  try {
+    url = new URL(next, 'https://same.site');
+  } catch {
+    return fallback;
+  }
+  if (url.origin !== 'https://same.site' || next.includes('\\')) {
+    return fallback;
+  }
+  const path = url.pathname;
+  const within = (base: string) => path === base || path.startsWith(`${base}/`);
+  return within(showcase) || within(caseStudy)
+    ? `${path}${url.search}${url.hash}`
+    : fallback;
 }

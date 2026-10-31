@@ -2,8 +2,10 @@
 
 import { z } from 'zod';
 
+import { clientIp, tryDb } from '@/lib/access/admin-request';
 import { offersUnlock } from '@/lib/access/gate';
 import { getStoredLevels } from '@/lib/access/repo/products';
+import { isLocked, recordFailure } from '@/lib/access/repo/rate-limit';
 import { saveRequest } from '@/lib/access/repo/requests';
 import { sendEmail } from '@/lib/access/send-email';
 import { CONTACT_EMAIL } from '@/lib/constants';
@@ -48,6 +50,15 @@ export async function requestAccess(
   if (!parsed.success) {
     return { values, fieldErrors: z.flattenError(parsed.error).fieldErrors };
   }
+
+  // At most 5 requests per visitor every 15 minutes, so a script can't flood
+  // the inbox or use up the email allowance. Skipped if the database is down.
+  const now = new Date();
+  const limitKey = `request:${await clientIp()}`;
+  if (await tryDb((db) => isLocked(db, limitKey, now))) {
+    return { values, error: 'Too many requests. Try again in 15 minutes.' };
+  }
+  await tryDb((db) => recordFailure(db, limitKey, now));
 
   // Save first, then email as a best effort: either one keeps the request
   const request = { ...parsed.data, productSlug: slug };

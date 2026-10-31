@@ -167,6 +167,18 @@ export async function setGuestExpiry(
     .where(eq(guests.id, guestId));
 }
 
+/** Access back on with a new end date, in one update; the password is unchanged */
+export async function resumeAccess(
+  db: Db,
+  guestId: string,
+  expiresAt: Date | null,
+) {
+  await db
+    .update(guests)
+    .set({ accessStatus: 'active', accessExpiresAt: expiresAt })
+    .where(eq(guests.id, guestId));
+}
+
 export async function recordGuestVisit(db: Db, guestId: string, now: Date) {
   await db
     .update(guests)

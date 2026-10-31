@@ -26,6 +26,7 @@ function deps(overrides: Partial<GateDeps> = {}): GateDeps {
   return {
     getLevels: async () => levels,
     getGuestPass: async () => null,
+    isAdminSessionCurrent: async () => true,
     now: () => NOW,
     ...overrides,
   };
@@ -79,6 +80,31 @@ describe('gateRequest', () => {
         deps: deps(),
       }),
     ).toEqual({ kind: 'allow' });
+  });
+
+  test('an admin login from before a password change opens nothing', async () => {
+    const admin = cookies({ [ADMIN_COOKIE]: await createAdminSession(NOW) });
+    for (const isAdminSessionCurrent of [
+      async () => false,
+      async () => {
+        throw new Error('db down');
+      },
+    ]) {
+      expect(
+        await gateRequest({
+          pathname: '/showcase/secret',
+          cookies: admin,
+          deps: deps({ isAdminSessionCurrent }),
+        }),
+      ).toEqual({ kind: 'not-found' });
+      expect(
+        await gateRequest({
+          pathname: '/projects/cactus-plant',
+          cookies: admin,
+          deps: deps({ isAdminSessionCurrent }),
+        }),
+      ).toEqual({ kind: 'unlock', slug: 'cactus-plant', section: 'projects' });
+    }
   });
 
   test('unknown slugs are treated as admin level', async () => {

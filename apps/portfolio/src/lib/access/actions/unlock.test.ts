@@ -120,6 +120,8 @@ describe('unlock', () => {
       '/projects/bloom',
       `/projects/${CASE_STUDY}-other`,
       `/projects/${CASE_STUDY}/../../admin`,
+      `/projects/${CASE_STUDY}/%2e%2e/%2E%2E/admin`,
+      `/showcase/${CASE_STUDY}/%2e%2e/%2e%2e/admin/guests`,
       '',
     ])
       await expect(
@@ -225,6 +227,18 @@ describe('requestAccess', () => {
     ).toEqual({ sent: true });
     const [saved] = await listPendingRequests(state.db as Db);
     expect(saved?.productSlug).toBe(CASE_STUDY);
+  });
+
+  test('more than 5 requests in 15 minutes from one visitor are refused', async () => {
+    for (let i = 0; i < 5; i++) expect(await request()).toEqual({ sent: true });
+    expect(await request()).toMatchObject({
+      error: 'Too many requests. Try again in 15 minutes.',
+    });
+    expect(await listPendingRequests(state.db as Db)).toHaveLength(5);
+
+    state.ip = '198.51.100.9';
+    expect(await request()).toEqual({ sent: true });
+    state.ip = '203.0.113.7';
   });
 
   test('requests for projects that are not Unlocked are refused', async () => {
