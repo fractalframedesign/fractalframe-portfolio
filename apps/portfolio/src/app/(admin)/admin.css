@@ -3,7 +3,18 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Admin theme, fully separate from the site and showcase stylesheets. */
+/*
+ * Admin theme, fully separate from the site and showcase stylesheets.
+ *
+ * Status colours come in two forms:
+ *   solid  (bg-success + text-success-foreground) for dots, icons, buttons
+ *   subtle (bg-success-subtle + text-success-subtle-foreground) for badges
+ * One meaning per tone:
+ *   success = active / live        warning = paused / needs attention
+ *   info    = password protected    destructive = expired access, errors
+ *   neutral (muted) = public / default, hidden
+ * All text pairs measure at least 4.5:1 in light and dark.
+ */
 
 @theme inline {
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
@@ -24,10 +35,20 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-subtle: var(--destructive-subtle);
+  --color-destructive-subtle-foreground: var(--destructive-subtle-foreground);
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-success-subtle-foreground: var(--success-subtle-foreground);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-warning-subtle-foreground: var(--warning-subtle-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-subtle: var(--info-subtle);
+  --color-info-subtle-foreground: var(--info-subtle-foreground);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -36,6 +57,15 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-muted-foreground: var(--sidebar-muted-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -62,10 +92,20 @@
   --accent-foreground: oklch(0.141 0 0);
   --destructive: oklch(0.577 0.245 27.33);
   --destructive-foreground: oklch(0.985 0 0);
-  --success: oklch(0.6 0.135 155);
+  --destructive-subtle: oklch(0.962 0.018 25);
+  --destructive-subtle-foreground: oklch(0.47 0.16 27);
+  --success: oklch(0.52 0.13 155);
   --success-foreground: oklch(0.985 0 0);
+  --success-subtle: oklch(0.962 0.04 155);
+  --success-subtle-foreground: oklch(0.4 0.09 155);
   --warning: oklch(0.77 0.16 75);
   --warning-foreground: oklch(0.25 0.05 75);
+  --warning-subtle: oklch(0.969 0.03 85);
+  --warning-subtle-foreground: oklch(0.43 0.09 65);
+  --info: oklch(0.55 0.17 255);
+  --info-foreground: oklch(0.985 0 0);
+  --info-subtle: oklch(0.962 0.018 255);
+  --info-subtle-foreground: oklch(0.44 0.14 260);
   --chart-1: oklch(0.5 0.19 264);
   --chart-2: oklch(0.6 0.135 155);
   --chart-3: oklch(0.77 0.16 75);
@@ -74,6 +114,15 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.97 0 0);
+  --sidebar-foreground: oklch(0.141 0 0);
+  --sidebar-muted-foreground: oklch(0.5 0 0);
+  --sidebar-primary: oklch(0.141 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.922 0 0);
+  --sidebar-accent-foreground: oklch(0.141 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 .dark {
@@ -93,10 +142,20 @@
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.577 0.245 27.33);
   --destructive-foreground: oklch(0.985 0 0);
+  --destructive-subtle: oklch(0.27 0.07 25);
+  --destructive-subtle-foreground: oklch(0.8 0.1 25);
   --success: oklch(0.68 0.14 155);
   --success-foreground: oklch(0.15 0.03 155);
+  --success-subtle: oklch(0.26 0.05 155);
+  --success-subtle-foreground: oklch(0.84 0.12 155);
   --warning: oklch(0.78 0.15 75);
   --warning-foreground: oklch(0.2 0.04 75);
+  --warning-subtle: oklch(0.28 0.05 75);
+  --warning-subtle-foreground: oklch(0.87 0.12 85);
+  --info: oklch(0.7 0.13 255);
+  --info-foreground: oklch(0.17 0.03 260);
+  --info-subtle: oklch(0.27 0.06 260);
+  --info-subtle-foreground: oklch(0.84 0.08 255);
   --chart-1: oklch(0.68 0.16 264);
   --chart-2: oklch(0.68 0.14 155);
   --chart-3: oklch(0.78 0.15 75);
@@ -105,6 +164,15 @@
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.556 0 0);
+  --sidebar: oklch(0.17 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-muted-foreground: oklch(0.705 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.21 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.556 0 0);
 }
 
 @layer base {

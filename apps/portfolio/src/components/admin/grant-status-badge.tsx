@@ -2,10 +2,12 @@ import { Badge } from '@/components/ui/badge';
 import { grantStatusLabel } from '@/lib/access/admin-format';
 import { cn } from '@/lib/utils';
 
+// Subtle tones keep small badge text readable (see admin.css)
 const STYLES = {
-  Active: 'bg-success text-success-foreground border-transparent',
-  Paused: 'bg-warning text-warning-foreground border-transparent',
-  Expired: 'text-muted-foreground',
+  Active: 'bg-success-subtle text-success-subtle-foreground border-transparent',
+  Paused: 'bg-warning-subtle text-warning-subtle-foreground border-transparent',
+  Expired:
+    'bg-destructive-subtle text-destructive-subtle-foreground border-transparent',
 };
 
 type GrantStatusBadgeProps = {
