@@ -1,10 +1,10 @@
 import { safeEqual } from '@/lib/access/crypto';
-import { PROTECTED_SHOWCASE } from '@/lib/constants';
 
 /**
  * One entry per person, read from SHOWCASE_ACCESS:
  *   name:password:project+project, name2:password2:*
- * `*` opens every protected project. Delete an entry to revoke it.
+ * `*` opens every project. Delete an entry to revoke it. This is the fallback
+ * that keeps working when the database is unreachable.
  */
 type AccessEntry = {
   name: string;
@@ -14,14 +14,14 @@ type AccessEntry = {
 
 const encoder = new TextEncoder();
 
-/** Returns the protected project slug a /showcase path belongs to, if any */
-export function getProtectedSlug(pathname: string) {
-  const slug = pathname.split('/')[2];
-  return slug && PROTECTED_SHOWCASE.includes(slug) ? slug : undefined;
-}
-
+/** Cookie set by a SHOWCASE_ACCESS password */
 export function accessCookieName(slug: string) {
   return `showcase-access-${slug}`;
+}
+
+/** Cookie set by a guest password from the database */
+export function guestCookieName(slug: string) {
+  return `showcase-guest-${slug}`;
 }
 
 /**

@@ -3,7 +3,10 @@ import { describe, expect, test } from 'vitest';
 import {
   generatePassword,
   normalizePassword,
+  parseGuestToken,
   passwordLookup,
+  signGuestToken,
+  verifyGuestToken,
 } from './passwords';
 import { WORDS } from './words';
 
@@ -49,5 +52,31 @@ describe('WORDS', () => {
     expect(WORDS.length).toBeGreaterThanOrEqual(512);
     expect(new Set(WORDS).size).toBe(WORDS.length);
     for (const w of WORDS) expect(w).toMatch(/^[a-z]{3,8}$/);
+  });
+});
+
+describe('guest tokens', () => {
+  const grantId = '11111111-1111-4111-8111-111111111111';
+
+  test('verifyGuestToken accepts a token signed with the same lookup', async () => {
+    const token = await signGuestToken(grantId, 'slug', 'lookup-1');
+    expect(await verifyGuestToken(token, 'slug', 'lookup-1')).toBe(true);
+    expect(await verifyGuestToken(token, 'other', 'lookup-1')).toBe(false);
+  });
+
+  test('a token stops verifying after the password changes', async () => {
+    const token = await signGuestToken(grantId, 'slug', 'lookup-1');
+    expect(await verifyGuestToken(token, 'slug', 'lookup-2')).toBe(false);
+  });
+
+  test('parseGuestToken is strict', async () => {
+    const token = await signGuestToken(grantId, 'slug', 'lookup-1');
+    const signature = token.split('.')[1]!;
+    expect(parseGuestToken(token)).toEqual({ grantId, signature });
+    expect(parseGuestToken(`a.${grantId}.${signature}`)).toBeNull();
+    expect(parseGuestToken(`${grantId}.${signature.toUpperCase()}`)).toBeNull();
+    expect(parseGuestToken(`${grantId}.${signature}0`)).toBeNull();
+    expect(parseGuestToken(`${grantId}.xyz`)).toBeNull();
+    expect(await verifyGuestToken('garbage', 'slug', 'lookup-1')).toBe(false);
   });
 });

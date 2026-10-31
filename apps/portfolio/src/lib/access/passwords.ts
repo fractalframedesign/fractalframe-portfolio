@@ -1,4 +1,4 @@
-import { hmac } from './crypto';
+import { hmac, safeEqual } from './crypto';
 import { WORDS } from './words';
 
 function sessionSecret() {
@@ -33,10 +33,25 @@ export async function signGuestToken(
   return `${grantId}.${signature}`;
 }
 
+/** Strict: `<grantId>.<64 hex chars>` with exactly one dot, else null */
 export function parseGuestToken(token: string) {
-  const dot = token.lastIndexOf('.');
-  if (dot <= 0 || dot === token.length - 1) return null;
-  return { grantId: token.slice(0, dot), signature: token.slice(dot + 1) };
+  const parts = token.split('.');
+  if (parts.length !== 2) return null;
+  const [grantId = '', signature = ''] = parts;
+  if (!grantId || !/^[0-9a-f]{64}$/.test(signature)) return null;
+  return { grantId, signature };
+}
+
+/** True only if the token was signed for this slug with the grant's current lookup */
+export async function verifyGuestToken(
+  token: string,
+  slug: string,
+  lookup: string,
+) {
+  const parsed = parseGuestToken(token);
+  if (!parsed) return false;
+  const expected = await signGuestToken(parsed.grantId, slug, lookup);
+  return safeEqual(token, expected);
 }
 
 /** Three distinct words and a number from 10 to 99, e.g. amber-river-42 */
