@@ -1,3 +1,4 @@
+import { safeEqual } from '@/lib/access/crypto';
 import { PROTECTED_SHOWCASE } from '@/lib/constants';
 
 /**
@@ -86,13 +87,4 @@ async function findToken(slug: string, candidate: string) {
     const token = await sign(entry.password, slug);
     if (safeEqual(candidate, token)) return token;
   }
-}
-
-/** Constant-time string comparison */
-function safeEqual(a: string, b: string) {
-  if (a.length !== b.length) return false;
-
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
 }
