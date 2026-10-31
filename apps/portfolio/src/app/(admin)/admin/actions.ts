@@ -4,18 +4,14 @@ import { revalidatePath, updateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { LEVELS_TAG } from '@/lib/access/cached-levels';
-import {
-  expiryChoiceSchema,
-  isGrantActive,
-  resolveExpiry,
-} from '@/lib/access/expiry';
-import { canBeUnlocked, resolveLevel } from '@/lib/access/levels';
+import { expiryChoiceSchema, resolveExpiry } from '@/lib/access/expiry';
 import { copyReplyText } from '@/lib/access/reply';
+import * as accessRepo from '@/lib/access/repo/guest-access';
 import * as guestsRepo from '@/lib/access/repo/guests';
 import * as productsRepo from '@/lib/access/repo/products';
 import * as requestsRepo from '@/lib/access/repo/requests';
 import { requireAdmin } from '@/lib/access/require-admin';
-import { type Db, getDb } from '@/lib/db/client';
+import { getDb } from '@/lib/db/client';
 import { getAllProjects } from '@/lib/projects';
 
 import { logout as endSession } from './login/actions';
@@ -29,15 +25,14 @@ export type ActionResult<T extends object = object> =
   ({ ok: true } & T) | ActionError;
 export type PasswordResult = ActionResult<{
   password: string;
-  rotated: boolean;
+  /** The email was already a guest: their old password stopped working */
+  renewed: boolean;
   reply: string;
 }>;
 
 const MESSAGES = {
   generic: 'Something went wrong. Try again.',
   invalid: 'That didn’t look right. Reload the page and try again.',
-  notUnlocked: 'Only password-protected projects can be picked.',
-  noDemo: 'Only projects with a demo can be password protected.',
   unknownProject: 'That project doesn’t exist.',
 };
 
@@ -67,7 +62,6 @@ const addGuestSchema = z.object({
   name: nameSchema,
   email: emailSchema,
   note: noteSchema,
-  products: z.array(slugSchema).min(1, 'Pick at least one project.').max(50),
   expiry: expiryChoiceSchema,
   expiryCustom: expiryCustomSchema,
   requestId: idSchema.optional(),
@@ -116,9 +110,6 @@ export async function setProjectLevel(
   if (!(await projectNames()).has(parsed.data.slug)) {
     return { ok: false, error: MESSAGES.unknownProject };
   }
-  if (parsed.data.level === 'unlocked' && !canBeUnlocked(parsed.data.slug)) {
-    return { ok: false, error: MESSAGES.noDemo };
-  }
 
   try {
     await productsRepo.setLevel(getDb(), parsed.data.slug, parsed.data.level);
@@ -140,7 +131,6 @@ function parseAddGuest(formData: FormData) {
     name: text(formData, 'name'),
     email: text(formData, 'email'),
     note: text(formData, 'note'),
-    products: formData.getAll('products'),
     expiry: text(formData, 'expiry'),
     expiryCustom: text(formData, 'expiryCustom') || undefined,
     requestId: text(formData, 'requestId') || undefined,
@@ -161,35 +151,23 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
 
   try {
     const db = getDb();
-    const levels = await productsRepo.getStoredLevels(db);
-    const products = [...new Set(input.products)];
-    if (products.some((slug) => resolveLevel(slug, levels) !== 'unlocked')) {
-      return { ok: false, fieldErrors: { products: [MESSAGES.notUnlocked] } };
-    }
-
-    const { guestId, password, rotated } = await guestsRepo.createGuest(db, {
+    const { password, existing } = await accessRepo.inviteGuest(db, {
       name: input.name,
       email: input.email || undefined,
       note: input.note,
-      products,
       expiresAt: expiry.expiresAt,
-      source: input.requestId ? 'request' : 'manual',
     });
     if (input.requestId) {
       await requestsRepo.approveIfPending(db, input.requestId);
     }
 
-    const names = await projectNames();
-    const reply = rotated
-      ? await openGrantsReply(db, guestId, password)
-      : copyReplyText({
-          name: input.name,
-          projectNames: products.map((slug) => names.get(slug) ?? slug),
-          password,
-          expiresAt: expiry.expiresAt,
-        });
+    const reply = copyReplyText({
+      name: input.name,
+      password,
+      expiresAt: expiry.expiresAt,
+    });
     refreshAdmin();
-    return { ok: true, password, rotated, reply };
+    return { ok: true, password, renewed: existing, reply };
   } catch (error) {
     return failed('addGuest', error);
   }
@@ -209,43 +187,43 @@ export async function declineRequest(id: string): Promise<ActionResult> {
   return { ok: true };
 }
 
-export async function setGrantStatus(
-  grantId: string,
+export async function setGuestAccessStatus(
+  guestId: string,
   status: 'active' | 'paused',
 ): Promise<ActionResult> {
   await requireAdmin();
   const parsed = z
-    .object({ grantId: idSchema, status: z.enum(['active', 'paused']) })
-    .safeParse({ grantId, status });
+    .object({ guestId: idSchema, status: z.enum(['active', 'paused']) })
+    .safeParse({ guestId, status });
   if (!parsed.success) return { ok: false, error: MESSAGES.invalid };
 
   try {
-    await guestsRepo.setGrantStatus(
+    await accessRepo.setGuestStatus(
       getDb(),
-      parsed.data.grantId,
+      parsed.data.guestId,
       parsed.data.status,
     );
   } catch (error) {
-    return failed('setGrantStatus', error);
+    return failed('setGuestAccessStatus', error);
   }
   refreshAdmin();
   return { ok: true };
 }
 
 // craftsman-ignore PARAM001: three parameters, signature fixed by the plan
-export async function changeExpiry(
-  grantId: string,
+export async function changeGuestExpiry(
+  guestId: string,
   expiry: string,
   expiryCustom?: string,
 ): Promise<ActionResult> {
   await requireAdmin();
   const parsed = z
     .object({
-      grantId: idSchema,
+      guestId: idSchema,
       expiry: expiryChoiceSchema,
       expiryCustom: expiryCustomSchema,
     })
-    .safeParse({ grantId, expiry, expiryCustom: expiryCustom || undefined });
+    .safeParse({ guestId, expiry, expiryCustom: expiryCustom || undefined });
   if (!parsed.success) return { ok: false, error: MESSAGES.invalid };
 
   const resolved = resolveExpiry(
@@ -258,27 +236,13 @@ export async function changeExpiry(
   }
 
   try {
-    await guestsRepo.setGrantExpiry(
+    await accessRepo.setGuestExpiry(
       getDb(),
-      parsed.data.grantId,
+      parsed.data.guestId,
       resolved.expiresAt,
     );
   } catch (error) {
-    return failed('changeExpiry', error);
-  }
-  refreshAdmin();
-  return { ok: true };
-}
-
-export async function removeGrant(grantId: string): Promise<ActionResult> {
-  await requireAdmin();
-  const parsed = idSchema.safeParse(grantId);
-  if (!parsed.success) return { ok: false, error: MESSAGES.invalid };
-
-  try {
-    await guestsRepo.removeGrant(getDb(), parsed.data);
-  } catch (error) {
-    return failed('removeGrant', error);
+    return failed('changeGuestExpiry', error);
   }
   refreshAdmin();
   return { ok: true };
@@ -298,40 +262,6 @@ export async function deleteGuest(guestId: string): Promise<ActionResult> {
   return { ok: true };
 }
 
-/** One expiry for the reply only when every listed grant shares it */
-function sharedExpiry(expiries: (Date | null)[]) {
-  const [first] = expiries;
-  if (!first) return null;
-  return expiries.every((date) => date?.getTime() === first.getTime())
-    ? first
-    : null;
-}
-
-/** Reply listing every open grant, for a password that replaces the old one */
-async function openGrantsReply(db: Db, guestId: string, password: string) {
-  const [guests, levels, names] = await Promise.all([
-    guestsRepo.listGuests(db),
-    productsRepo.getStoredLevels(db),
-    projectNames(),
-  ]);
-  const guest = guests.find((entry) => entry.guestId === guestId);
-  const now = new Date();
-  const open = (guest?.grants ?? []).filter(
-    (grant) =>
-      isGrantActive(grant, now) &&
-      resolveLevel(grant.productSlug, levels) === 'unlocked',
-  );
-
-  return copyReplyText({
-    name: guest?.name ?? '',
-    projectNames: open.map(
-      (grant) => names.get(grant.productSlug) ?? grant.productSlug,
-    ),
-    password,
-    expiresAt: sharedExpiry(open.map((grant) => grant.expiresAt)),
-  });
-}
-
 export async function newPassword(
   guestId: string,
 ): Promise<ActionResult<{ password: string; reply: string }>> {
@@ -342,7 +272,12 @@ export async function newPassword(
   try {
     const db = getDb();
     const password = await guestsRepo.resetPassword(db, parsed.data);
-    const reply = await openGrantsReply(db, parsed.data, password);
+    const guest = await accessRepo.getGuest(db, parsed.data);
+    const reply = copyReplyText({
+      name: guest?.name ?? '',
+      password,
+      expiresAt: guest?.expiresAt ?? null,
+    });
     refreshAdmin();
     return { ok: true, password, reply };
   } catch (error) {

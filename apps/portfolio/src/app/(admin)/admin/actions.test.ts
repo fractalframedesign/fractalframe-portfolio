@@ -2,7 +2,10 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 
 import { createAdminSession } from '@/lib/access/admin-session';
 import { LEVELS_TAG } from '@/lib/access/cached-levels';
-import { listGrantsByProduct, listGuests } from '@/lib/access/repo/guests';
+import {
+  findGuestByEmail,
+  findGuestByPassword,
+} from '@/lib/access/repo/guest-access';
 import { getStoredLevels, seedProducts } from '@/lib/access/repo/products';
 import { listPendingRequests, saveRequest } from '@/lib/access/repo/requests';
 import type { Db } from '@/lib/db/client';
@@ -10,12 +13,11 @@ import { createTestDb } from '@/lib/db/test-db';
 
 import {
   addGuest,
-  changeExpiry,
+  changeGuestExpiry,
   declineRequest,
   deleteGuest,
   newPassword,
-  removeGrant,
-  setGrantStatus,
+  setGuestAccessStatus,
   setProjectLevel,
   updateGuest,
 } from './actions';
@@ -55,6 +57,10 @@ function db() {
   return state.db as Db;
 }
 
+function guestAda() {
+  return findGuestByEmail(db(), 'ada@example.com');
+}
+
 function guestForm(fields: Record<string, string | string[]>) {
   const data = new FormData();
   for (const [key, value] of Object.entries(fields)) {
@@ -67,7 +73,6 @@ const ada = {
   name: 'Ada Lovelace',
   email: 'ada@example.com',
   note: 'Met at a meetup',
-  products: 'fintech-components',
   expiry: '24h',
 };
 
@@ -90,7 +95,7 @@ describe('without an admin session', () => {
       setProjectLevel('fintech-components', 'admin'),
     ).rejects.toThrow('REDIRECT:/admin/login');
 
-    expect(await listGuests(db())).toHaveLength(0);
+    expect(await guestAda()).toBeUndefined();
     expect((await getStoredLevels(db())).get('fintech-components')).toBe(
       'unlocked',
     );
@@ -99,19 +104,18 @@ describe('without an admin session', () => {
 });
 
 describe('addGuest', () => {
-  test('creates the guest and returns the password and a reply', async () => {
+  test('creates one guest for every locked project with a password and reply', async () => {
     const result = await addGuest(guestForm(ada));
     if (!result.ok) throw new Error('expected ok');
 
-    expect(result.password).toMatch(/\S+/);
-    expect(result.rotated).toBe(false);
+    expect(result.renewed).toBe(false);
     expect(result.reply).toContain('Hi Ada,');
     expect(result.reply).toContain(result.password);
-
-    const grants = await listGrantsByProduct(db(), 'fintech-components');
-    expect(grants).toHaveLength(1);
-    expect(grants[0]!.name).toBe('Ada Lovelace');
-    expect(grants[0]!.expiresAt).not.toBeNull();
+    expect(await guestAda()).toMatchObject({
+      name: 'Ada Lovelace',
+      status: 'active',
+    });
+    expect((await guestAda())?.expiresAt).not.toBeNull();
   });
 
   test('a custom expiry in the past is a field error', async () => {
@@ -122,26 +126,13 @@ describe('addGuest', () => {
       ok: false,
       fieldErrors: { expiryCustom: ['Pick a time in the future.'] },
     });
-    expect(await listGuests(db())).toHaveLength(0);
+    expect(await guestAda()).toBeUndefined();
   });
 
   test('a blank name is a field error', async () => {
     const result = await addGuest(guestForm({ ...ada, name: '   ' }));
     if (result.ok) throw new Error('expected error');
     expect(result.fieldErrors?.name).toBeDefined();
-  });
-
-  test('needs at least one project', async () => {
-    const result = await addGuest(guestForm({ ...ada, products: [] }));
-    if (result.ok) throw new Error('expected error');
-    expect(result.fieldErrors?.products).toBeDefined();
-  });
-
-  test('a project that isn’t Unlocked is an error', async () => {
-    const result = await addGuest(guestForm({ ...ada, products: 'bloom' }));
-    if (result.ok) throw new Error('expected error');
-    expect(result.fieldErrors?.products).toBeDefined();
-    expect(await listGuests(db())).toHaveLength(0);
   });
 
   test('with a requestId it marks the request approved', async () => {
@@ -158,25 +149,30 @@ describe('addGuest', () => {
     );
     expect(result.ok).toBe(true);
     expect(await listPendingRequests(db())).toHaveLength(0);
-    expect(await listGrantsByProduct(db(), 'fintech-components')).toHaveLength(
-      1,
-    );
   });
 
-  test('the same email again replaces the password and says so', async () => {
-    await addGuest(guestForm(ada));
-    const result = await addGuest(guestForm(ada));
-    if (!result.ok) throw new Error('expected ok');
-    expect(result.rotated).toBe(true);
+  test('resend access: the same email gets a new password and the old one stops', async () => {
+    const first = await addGuest(guestForm(ada));
+    if (!first.ok) throw new Error('expected ok');
+    const again = await addGuest(
+      guestForm({ ...ada, email: 'ADA@example.com' }),
+    );
+    if (!again.ok) throw new Error('expected ok');
+
+    expect(again.renewed).toBe(true);
+    expect(
+      await findGuestByPassword(db(), first.password, new Date()),
+    ).toBeNull();
+    expect(
+      await findGuestByPassword(db(), again.password, new Date()),
+    ).not.toBeNull();
   });
 });
 
 describe('setProjectLevel', () => {
-  test('a project without a demo can’t be Unlocked', async () => {
-    const result = await setProjectLevel('bloom', 'unlocked');
-    expect(result.ok).toBe(false);
-    expect((await getStoredLevels(db())).get('bloom')).toBe('public');
-    expect(cache.updateTag).not.toHaveBeenCalled();
+  test('any project can get a password, with or without a demo', async () => {
+    expect(await setProjectLevel('bloom', 'unlocked')).toEqual({ ok: true });
+    expect((await getStoredLevels(db())).get('bloom')).toBe('unlocked');
   });
 
   test('saves the level and refreshes the levels cache and pages', async () => {
@@ -205,35 +201,34 @@ describe('setProjectLevel', () => {
   });
 });
 
-describe('grants and guests', () => {
+describe('guests', () => {
   async function addAda() {
     const result = await addGuest(guestForm(ada));
     if (!result.ok) throw new Error('expected ok');
-    const [grant] = await listGrantsByProduct(db(), 'fintech-components');
-    return grant!;
+    return (await guestAda())!;
   }
 
   test('pause and resume', async () => {
-    const grant = await addAda();
-    expect(await setGrantStatus(grant.grantId, 'paused')).toEqual({ ok: true });
-    expect(
-      (await listGrantsByProduct(db(), 'fintech-components'))[0]!.status,
-    ).toBe('paused');
-    expect(await setGrantStatus(grant.grantId, 'active')).toEqual({ ok: true });
-    expect(
-      (await listGrantsByProduct(db(), 'fintech-components'))[0]!.status,
-    ).toBe('active');
+    const guest = await addAda();
+    expect(await setGuestAccessStatus(guest.guestId, 'paused')).toEqual({
+      ok: true,
+    });
+    expect((await guestAda())?.status).toBe('paused');
+    expect(await setGuestAccessStatus(guest.guestId, 'active')).toEqual({
+      ok: true,
+    });
+    expect((await guestAda())?.status).toBe('active');
   });
 
-  test('changeExpiry to never clears it; a past custom time is a field error', async () => {
-    const grant = await addAda();
-    expect(await changeExpiry(grant.grantId, 'never')).toEqual({ ok: true });
-    expect(
-      (await listGrantsByProduct(db(), 'fintech-components'))[0]!.expiresAt,
-    ).toBeNull();
+  test('changeGuestExpiry to never clears it; a past custom time is a field error', async () => {
+    const guest = await addAda();
+    expect(await changeGuestExpiry(guest.guestId, 'never')).toEqual({
+      ok: true,
+    });
+    expect((await guestAda())?.expiresAt).toBeNull();
 
     expect(
-      await changeExpiry(grant.grantId, 'custom', '2020-01-01T09:00'),
+      await changeGuestExpiry(guest.guestId, 'custom', '2020-01-01T09:00'),
     ).toEqual({
       ok: false,
       fieldErrors: { expiryCustom: ['Pick a time in the future.'] },
@@ -241,41 +236,32 @@ describe('grants and guests', () => {
   });
 
   test('newPassword returns a new password and reply', async () => {
-    const grant = await addAda();
-    const result = await newPassword(grant.guestId);
+    const guest = await addAda();
+    const result = await newPassword(guest.guestId);
     if (!result.ok) throw new Error('expected ok');
     expect(result.reply).toContain(result.password);
     expect(result.reply).toContain('Hi Ada,');
   });
 
   test('updateGuest needs a non-blank name', async () => {
-    const grant = await addAda();
-    const blank = await updateGuest(grant.guestId, { name: ' ', note: '' });
+    const guest = await addAda();
+    const blank = await updateGuest(guest.guestId, { name: ' ', note: '' });
     expect(blank.ok).toBe(false);
 
     expect(
-      await updateGuest(grant.guestId, { name: 'Ada L.', note: 'VIP' }),
+      await updateGuest(guest.guestId, { name: 'Ada L.', note: 'VIP' }),
     ).toEqual({ ok: true });
-    const [guest] = await listGuests(db());
-    expect(guest).toMatchObject({ name: 'Ada L.', note: 'VIP' });
+    expect(await guestAda()).toMatchObject({ name: 'Ada L.', note: 'VIP' });
   });
 
-  test('removeGrant takes the guest off the project', async () => {
-    const grant = await addAda();
-    expect(await removeGrant(grant.grantId)).toEqual({ ok: true });
-    expect(await listGrantsByProduct(db(), 'fintech-components')).toHaveLength(
-      0,
-    );
-  });
-
-  test('deleteGuest removes the guest and their grants', async () => {
-    const grant = await addAda();
-    expect(await deleteGuest(grant.guestId)).toEqual({ ok: true });
-    expect(await listGuests(db())).toHaveLength(0);
+  test('deleteGuest removes the guest', async () => {
+    const guest = await addAda();
+    expect(await deleteGuest(guest.guestId)).toEqual({ ok: true });
+    expect(await guestAda()).toBeUndefined();
   });
 
   test('invalid ids are rejected', async () => {
-    expect((await setGrantStatus('not-a-uuid', 'paused')).ok).toBe(false);
+    expect((await setGuestAccessStatus('not-a-uuid', 'paused')).ok).toBe(false);
     expect((await declineRequest('not-a-uuid')).ok).toBe(false);
   });
 

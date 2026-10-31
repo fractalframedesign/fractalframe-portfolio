@@ -1,7 +1,7 @@
 import type { Db } from '@/lib/db/client';
 import { products } from '@/lib/db/schema';
 
-import { type AccessLevel, canBeUnlocked, SEED_LEVELS } from '../levels';
+import { type AccessLevel, SEED_LEVELS } from '../levels';
 
 export async function getStoredLevels(
   db: Db,
@@ -17,9 +17,6 @@ export async function setLevel(
   slug: string,
   level: AccessLevel,
 ): Promise<void> {
-  if (level === 'unlocked' && !canBeUnlocked(slug)) {
-    throw new Error('Only showcase projects can be Unlocked');
-  }
   await db
     .insert(products)
     .values({ slug, level })

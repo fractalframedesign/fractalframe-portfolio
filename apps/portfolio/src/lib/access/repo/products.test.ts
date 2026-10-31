@@ -15,11 +15,10 @@ test('seed is idempotent and keeps changed levels', async () => {
   );
 });
 
-test('only showcase projects can be unlocked', async () => {
+test('any project can be unlocked, demo or not', async () => {
   const db = await createTestDb();
-  await expect(setLevel(db, 'bloom', 'unlocked')).rejects.toThrow(
-    'Only showcase projects can be Unlocked',
-  );
+  await setLevel(db, 'bloom', 'unlocked');
+  expect((await getStoredLevels(db)).get('bloom')).toBe('unlocked');
 });
 
 test('projects added after launch are seeded as public', async () => {

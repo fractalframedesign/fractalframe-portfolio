@@ -3,57 +3,35 @@ import { describe, expect, test } from 'vitest';
 import { copyReplyText } from './reply';
 
 describe('copyReplyText', () => {
-  test('one project with expiry', () => {
+  test('with an end date', () => {
     expect(
       copyReplyText({
         name: 'Jane Doe',
-        projectNames: ['Fintech Components'],
         password: 'amber-river-42',
         expiresAt: new Date('2026-11-02T09:00:00Z'),
       }),
     ).toMatchInlineSnapshot(`
       "Hi Jane,
 
-      Thanks for your interest. Here's your password for Fintech Components:
+      Thanks for your interest. Here's your password for my private projects:
 
       amber-river-42
 
       It works until Nov 2, 2026, 18:00 JST.
-      Open the project, enter the password, and you're in. It's asked again after you close your browser.
+      It opens every password-protected case study and demo on my site. Enter it on any of them and you're in. It's asked again after you close your browser.
 
       Kiran"
     `);
   });
 
-  test('two projects without expiry', () => {
-    expect(
-      copyReplyText({
-        name: 'Sam',
-        projectNames: ['Alpha', 'Beta'],
-        password: 'amber-river-42',
-        expiresAt: null,
-      }),
-    ).toMatchInlineSnapshot(`
-      "Hi Sam,
-
-      Thanks for your interest. Here's your password for Alpha and Beta:
-
-      amber-river-42
-
-      Open the project, enter the password, and you're in. It's asked again after you close your browser.
-
-      Kiran"
-    `);
-  });
-
-  test('joins three names', () => {
-    expect(
-      copyReplyText({
-        name: 'A',
-        projectNames: ['X', 'Y', 'Z'],
-        password: 'p',
-        expiresAt: null,
-      }),
-    ).toContain('for X, Y and Z:');
+  test('without an end date', () => {
+    const reply = copyReplyText({
+      name: 'Sam',
+      password: 'amber-river-42',
+      expiresAt: null,
+    });
+    expect(reply).toContain('Hi Sam,');
+    expect(reply).toContain('amber-river-42');
+    expect(reply).not.toContain('It works until');
   });
 });

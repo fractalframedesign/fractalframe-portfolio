@@ -94,6 +94,14 @@ export async function inviteGuest(
   });
 }
 
+export async function getGuest(db: Db, guestId: string) {
+  const [row] = await db
+    .select(guestAccessView)
+    .from(guests)
+    .where(eq(guests.id, guestId));
+  return row;
+}
+
 export async function findGuestByEmail(db: Db, email: string) {
   const normalized = normalizeEmail(email);
   if (!normalized) return undefined;

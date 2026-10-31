@@ -3,23 +3,17 @@ import { format } from 'date-fns';
 
 import { LOCATION } from '@/lib/constants';
 
-function joinNames(names: string[]) {
-  if (names.length <= 1) return names.join('');
-  return `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
-}
-
 function formatExpiry(date: Date) {
   return `${format(new TZDate(date, LOCATION.timeZone), 'MMM d, yyyy, HH:mm')} JST`;
 }
 
+/** Reply for Kiran to paste into an email: one password for every locked project */
 export function copyReplyText({
   name,
-  projectNames,
   password,
   expiresAt,
 }: {
   name: string;
-  projectNames: string[];
   password: string;
   expiresAt: Date | null;
 }) {
@@ -30,11 +24,11 @@ export function copyReplyText({
 
   return `Hi ${firstName},
 
-Thanks for your interest. Here's your password for ${joinNames(projectNames)}:
+Thanks for your interest. Here's your password for my private projects:
 
 ${password}
 
-${expiry}Open the project, enter the password, and you're in. It's asked again after you close your browser.
+${expiry}It opens every password-protected case study and demo on my site. Enter it on any of them and you're in. It's asked again after you close your browser.
 
 Kiran`;
 }
