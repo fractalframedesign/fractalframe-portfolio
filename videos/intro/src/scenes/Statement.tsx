@@ -47,12 +47,11 @@ export const Statement: React.FC = () => {
               <span
                 key={i}
                 style={{
-                  whiteSpace: "pre",
                   opacity: appear,
                   color: `rgba(250,250,250,${0.22 + lit * 0.78})`,
                 }}
               >
-                {word + " "}
+                {word}{" "}
               </span>
             );
           })}
