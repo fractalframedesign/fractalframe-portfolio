@@ -11,6 +11,7 @@ const actions = vi.hoisted(() => ({
   sendInvite: vi.fn(),
   resumeGuest: vi.fn(),
   guestMessage: vi.fn(),
+  markRequestAnswered: vi.fn(),
 }));
 vi.mock('@/app/(admin)/admin/actions', () => actions);
 
@@ -275,5 +276,28 @@ describe('RequestsTable', () => {
     expect(
       within(dialog).getByRole('button', { name: /copy message/i }),
     ).toBeTruthy();
+  });
+
+  it('I sent it myself marks the request answered without emailing', async () => {
+    actions.guestMessage.mockResolvedValue({
+      ok: true,
+      guestId: 'g-cy',
+      name: 'Cy',
+      email: 'cy@x.com',
+      reply: 'Hi Cy',
+    });
+    actions.markRequestAnswered.mockResolvedValue({ ok: true });
+    render(<RequestsTable requests={requests} />);
+    const user = userEvent.setup();
+    await user.click(
+      within(row('Cy')).getByRole('button', { name: 'Send links again' }),
+    );
+    const dialog = await screen.findByRole('dialog');
+    await user.click(
+      await within(dialog).findByRole('button', { name: 'I sent it myself' }),
+    );
+
+    expect(actions.markRequestAnswered).toHaveBeenCalledWith('r3');
+    expect(actions.sendInvite).not.toHaveBeenCalled();
   });
 });

@@ -216,6 +216,21 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
   }
 }
 
+/** Kiran sent the message another way (e.g. copied it into Gmail) */
+export async function markRequestAnswered(id: string): Promise<ActionResult> {
+  await requireAdmin();
+  const parsed = idSchema.safeParse(id);
+  if (!parsed.success) return { ok: false, error: MESSAGES.invalid };
+
+  try {
+    await requestsRepo.approveIfPending(getDb(), parsed.data);
+  } catch (error) {
+    return failed('markRequestAnswered', error);
+  }
+  refreshAdmin();
+  return { ok: true };
+}
+
 export async function declineRequest(id: string): Promise<ActionResult> {
   await requireAdmin();
   const parsed = idSchema.safeParse(id);

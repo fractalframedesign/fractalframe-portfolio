@@ -4,7 +4,7 @@ import { CircleCheck, TriangleAlert } from 'lucide-react';
 import { unstable_rethrow } from 'next/navigation';
 import { useId, useState, useTransition } from 'react';
 
-import { sendInvite } from '@/app/(admin)/admin/actions';
+import { markRequestAnswered, sendInvite } from '@/app/(admin)/admin/actions';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { DialogClose, DialogFooter } from '@/components/ui/dialog';
@@ -42,6 +42,9 @@ export default function InviteMessage({
   const [subject, setSubject] = useState(INVITE_SUBJECT);
   const [message, setMessage] = useState(reply);
   const [sentTo, setSentTo] = useState<string>();
+  // Set when Kiran sent it another way, e.g. copied into Gmail
+  const [answered, setAnswered] = useState(false);
+  const done = Boolean(sentTo) || answered;
   const [error, setError] = useState<string>();
   const [pending, startTransition] = useTransition();
 
@@ -56,6 +59,21 @@ export default function InviteMessage({
           ? await sendInvite(guestId, input, requestId)
           : await sendInvite(guestId, input);
         if (result.ok) setSentTo(result.sentTo);
+        else setError(result.error ?? FAILED);
+      } catch (caught) {
+        unstable_rethrow(caught);
+        setError(FAILED);
+      }
+    });
+  }
+
+  function markAnswered() {
+    if (!requestId) return;
+    setError(undefined);
+    startTransition(async () => {
+      try {
+        const result = await markRequestAnswered(requestId);
+        if (result.ok) setAnswered(true);
         else setError(result.error ?? FAILED);
       } catch (caught) {
         unstable_rethrow(caught);
@@ -87,7 +105,7 @@ export default function InviteMessage({
           value={subject}
           onChange={(event) => setSubject(event.target.value)}
           maxLength={200}
-          disabled={Boolean(sentTo)}
+          disabled={done}
         />
       </div>
 
@@ -99,17 +117,17 @@ export default function InviteMessage({
           onChange={(event) => setMessage(event.target.value)}
           rows={12}
           maxLength={5000}
-          disabled={Boolean(sentTo)}
+          disabled={done}
           className="font-mono text-sm"
         />
       </div>
 
       {/* Always rendered so the result is announced */}
       <p role="status" className="text-sm">
-        {sentTo && (
+        {done && (
           <span className="text-success-subtle-foreground inline-flex items-center gap-1.5">
             <CircleCheck className="size-4" aria-hidden />
-            Sent to {sentTo}
+            {sentTo ? `Sent to ${sentTo}` : 'Marked as answered'}
           </span>
         )}
       </p>
@@ -120,8 +138,13 @@ export default function InviteMessage({
       )}
 
       <DialogFooter>
+        {requestId && !done && (
+          <Button variant="ghost" onClick={markAnswered} disabled={pending}>
+            I sent it myself
+          </Button>
+        )}
         <CopyButton text={message} label="Copy message" />
-        {sentTo ? (
+        {done ? (
           <DialogClose asChild>
             <Button>Done</Button>
           </DialogClose>

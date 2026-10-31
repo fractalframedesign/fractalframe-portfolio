@@ -19,6 +19,7 @@ import {
   declineRequest,
   deleteGuest,
   guestMessage,
+  markRequestAnswered,
   newPassword,
   resumeGuest,
   sendInvite,
@@ -510,6 +511,19 @@ describe('guests', () => {
   test('invalid ids are rejected', async () => {
     expect((await setGuestAccessStatus('not-a-uuid', 'paused')).ok).toBe(false);
     expect((await declineRequest('not-a-uuid')).ok).toBe(false);
+  });
+
+  test('markRequestAnswered takes it out of the inbox as approved', async () => {
+    await saveRequest(db(), {
+      name: 'Bo',
+      email: 'bo@example.com',
+      message: '',
+      productSlug: 'fintech-components',
+    });
+    const [request] = await listPendingRequests(db());
+    expect(await markRequestAnswered(request!.id)).toEqual({ ok: true });
+    expect(await listPendingRequests(db())).toHaveLength(0);
+    expect((await markRequestAnswered('nope')).ok).toBe(false);
   });
 
   test('declineRequest takes it out of the inbox', async () => {
