@@ -37,7 +37,9 @@ async function loadDashboard() {
     getStoredLevels(db),
     listPendingRequests(db),
   ]);
-  const names = new Map(projects.map((project) => [project.slug, project.name]));
+  const names = new Map(
+    projects.map((project) => [project.slug, project.name]),
+  );
   const rows = projects.map((project) => ({
     slug: project.slug,
     name: project.name,
@@ -121,8 +123,7 @@ function ProjectsSection({ rows }: { rows: Dashboard['rows'] }) {
         <ul className="text-muted-foreground text-sm">
           {LEVEL_HELP.map((item) => (
             <li key={item.level}>
-              <span className="text-foreground">{item.level}</span>:{' '}
-              {item.text}
+              <span className="text-foreground">{item.level}</span>: {item.text}
             </li>
           ))}
         </ul>

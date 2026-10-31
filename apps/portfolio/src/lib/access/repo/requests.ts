@@ -1,7 +1,7 @@
-import { asc, eq } from "drizzle-orm";
+import { asc, eq } from 'drizzle-orm';
 
-import type { Db } from "@/lib/db/client";
-import { accessRequests } from "@/lib/db/schema";
+import type { Db } from '@/lib/db/client';
+import { accessRequests } from '@/lib/db/schema';
 
 export async function saveRequest(
   db: Db,
@@ -18,14 +18,14 @@ export async function listPendingRequests(db: Db) {
   return db
     .select()
     .from(accessRequests)
-    .where(eq(accessRequests.status, "pending"))
+    .where(eq(accessRequests.status, 'pending'))
     .orderBy(asc(accessRequests.createdAt));
 }
 
 export async function setRequestStatus(
   db: Db,
   id: string,
-  status: "approved" | "declined",
+  status: 'approved' | 'declined',
 ) {
   await db
     .update(accessRequests)

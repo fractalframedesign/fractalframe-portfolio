@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useActionState } from "react";
+import { useActionState } from 'react';
 
-import { login, type LoginState } from "@/app/(admin)/admin/login/actions";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { login, type LoginState } from '@/app/(admin)/admin/login/actions';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function LoginForm() {
   const [state, action, pending] = useActionState<LoginState, FormData>(
@@ -25,7 +25,7 @@ export default function LoginForm() {
           autoFocus
           required
           aria-invalid={Boolean(state.error)}
-          aria-describedby={state.error ? "password-error" : undefined}
+          aria-describedby={state.error ? 'password-error' : undefined}
         />
         {state.error && (
           <p
@@ -39,7 +39,7 @@ export default function LoginForm() {
       </div>
 
       <Button type="submit" className="w-full" disabled={pending}>
-        {pending ? "Checking…" : "Log in"}
+        {pending ? 'Checking…' : 'Log in'}
       </Button>
     </form>
   );

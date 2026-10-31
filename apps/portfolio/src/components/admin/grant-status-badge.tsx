@@ -13,7 +13,10 @@ type GrantStatusBadgeProps = {
   now: Date;
 };
 
-export default function GrantStatusBadge({ grant, now }: GrantStatusBadgeProps) {
+export default function GrantStatusBadge({
+  grant,
+  now,
+}: GrantStatusBadgeProps) {
   const label = grantStatusLabel(grant, now);
   return (
     <Badge variant="outline" className={cn(STYLES[label])}>

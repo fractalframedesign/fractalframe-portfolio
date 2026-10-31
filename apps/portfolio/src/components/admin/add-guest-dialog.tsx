@@ -45,7 +45,12 @@ type AddGuestDialogProps = {
   defaults?: GuestDefaults;
 };
 
-type Created = { name: string; password: string; reply: string; rotated: boolean };
+type Created = {
+  name: string;
+  password: string;
+  reply: string;
+  rotated: boolean;
+};
 
 export default function AddGuestDialog({
   open,
@@ -84,7 +89,9 @@ export default function AddGuestDialog({
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>{approving ? 'Approve request' : 'Add guest'}</DialogTitle>
+              <DialogTitle>
+                {approving ? 'Approve request' : 'Add guest'}
+              </DialogTitle>
               <DialogDescription>
                 They get one password for the projects you pick.
               </DialogDescription>

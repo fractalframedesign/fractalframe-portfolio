@@ -1,92 +1,92 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test } from 'vitest';
 
-import { decideAccess } from "./decide";
+import { decideAccess } from './decide';
 
 const flags = [true, false];
 
-describe("decideAccess", () => {
-  test("public is always allowed", () => {
+describe('decideAccess', () => {
+  test('public is always allowed', () => {
     for (const isAdmin of flags)
       for (const hasGuestAccess of flags)
         for (const hasFallbackAccess of flags)
           expect(
             decideAccess({
-              level: "public",
+              level: 'public',
               isAdmin,
               hasGuestAccess,
               hasFallbackAccess,
             }),
-          ).toBe("allow");
+          ).toBe('allow');
   });
 
-  test("admin level only allows the admin", () => {
+  test('admin level only allows the admin', () => {
     for (const hasGuestAccess of flags)
       for (const hasFallbackAccess of flags) {
         expect(
           decideAccess({
-            level: "admin",
+            level: 'admin',
             isAdmin: true,
             hasGuestAccess,
             hasFallbackAccess,
           }),
-        ).toBe("allow");
+        ).toBe('allow');
         expect(
           decideAccess({
-            level: "admin",
+            level: 'admin',
             isAdmin: false,
             hasGuestAccess,
             hasFallbackAccess,
           }),
-        ).toBe("not-found");
+        ).toBe('not-found');
       }
   });
 
-  test("unlocked allows admin, guest or fallback", () => {
+  test('unlocked allows admin, guest or fallback', () => {
     for (const isAdmin of flags)
       for (const hasGuestAccess of flags)
         for (const hasFallbackAccess of flags)
           expect(
             decideAccess({
-              level: "unlocked",
+              level: 'unlocked',
               isAdmin,
               hasGuestAccess,
               hasFallbackAccess,
             }),
           ).toBe(
-            isAdmin || hasGuestAccess || hasFallbackAccess ? "allow" : "unlock",
+            isAdmin || hasGuestAccess || hasFallbackAccess ? 'allow' : 'unlock',
           );
   });
 
-  test("unknown-db-down ignores guest access", () => {
+  test('unknown-db-down ignores guest access', () => {
     for (const isAdmin of flags)
       for (const hasGuestAccess of flags)
         for (const hasFallbackAccess of flags)
           expect(
             decideAccess({
-              level: "unknown-db-down",
+              level: 'unknown-db-down',
               isAdmin,
               hasGuestAccess,
               hasFallbackAccess,
             }),
-          ).toBe(isAdmin || hasFallbackAccess ? "allow" : "unlock");
+          ).toBe(isAdmin || hasFallbackAccess ? 'allow' : 'unlock');
   });
 
-  test("examples", () => {
+  test('examples', () => {
     expect(
       decideAccess({
-        level: "admin",
+        level: 'admin',
         isAdmin: false,
         hasGuestAccess: true,
         hasFallbackAccess: true,
       }),
-    ).toBe("not-found");
+    ).toBe('not-found');
     expect(
       decideAccess({
-        level: "unknown-db-down",
+        level: 'unknown-db-down',
         isAdmin: false,
         hasGuestAccess: false,
         hasFallbackAccess: false,
       }),
-    ).toBe("unlock");
+    ).toBe('unlock');
   });
 });

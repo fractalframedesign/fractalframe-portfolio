@@ -1,7 +1,7 @@
-import { eq, sql } from "drizzle-orm";
+import { eq, sql } from 'drizzle-orm';
 
-import type { Db } from "@/lib/db/client";
-import { loginAttempts } from "@/lib/db/schema";
+import type { Db } from '@/lib/db/client';
+import { loginAttempts } from '@/lib/db/schema';
 
 const WINDOW_MS = 15 * 60_000;
 const MAX_FAILURES = 5;

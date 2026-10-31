@@ -1,18 +1,18 @@
-import { unstable_cache } from "next/cache";
+import { unstable_cache } from 'next/cache';
 
-import { getDb } from "@/lib/db/client";
+import { getDb } from '@/lib/db/client';
 
-import { seedLevels } from "./gate";
-import { getStoredLevels } from "./repo/products";
+import { seedLevels } from './gate';
+import { getStoredLevels } from './repo/products';
 
-export const LEVELS_TAG = "product-levels";
+export const LEVELS_TAG = 'product-levels';
 
 const readLevels = unstable_cache(
   async () => {
     const levels = await getStoredLevels(getDb());
     return [...levels.entries()];
   },
-  ["product-levels"],
+  ['product-levels'],
   { tags: [LEVELS_TAG] },
 );
 

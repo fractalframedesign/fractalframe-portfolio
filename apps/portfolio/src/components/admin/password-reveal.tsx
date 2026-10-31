@@ -34,8 +34,8 @@ export default function PasswordReveal({
 
       <div className="space-y-2">
         <p className="text-muted-foreground text-sm">
-          Password for {name}. It&apos;s shown only this once, so copy it
-          before you close.
+          Password for {name}. It&apos;s shown only this once, so copy it before
+          you close.
         </p>
         <p className="bg-muted rounded-md px-4 py-3 font-mono text-lg tracking-wide select-all">
           {password}

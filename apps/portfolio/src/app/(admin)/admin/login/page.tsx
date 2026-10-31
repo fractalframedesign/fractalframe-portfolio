@@ -1,5 +1,5 @@
-import { Lock } from "lucide-react";
-import type { Metadata } from "next";
+import { Lock } from 'lucide-react';
+import type { Metadata } from 'next';
 
 import {
   Card,
@@ -7,11 +7,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
-import LoginForm from "./login-form";
+import LoginForm from './login-form';
 
-export const metadata: Metadata = { title: "Log in" };
+export const metadata: Metadata = { title: 'Log in' };
 
 export default function AdminLoginPage() {
   return (

@@ -1,12 +1,12 @@
-import "./admin.css";
+import './admin.css';
 
-import { GeistSans } from "geist/font/sans";
-import type { Metadata } from "next";
+import { GeistSans } from 'geist/font/sans';
+import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    default: "Admin",
-    template: "%s | Admin",
+    default: 'Admin',
+    template: '%s | Admin',
   },
   robots: { index: false, follow: false },
 };

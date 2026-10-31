@@ -27,7 +27,10 @@ type RequestInboxProps = {
   projects: ProjectOption[];
 };
 
-export default function RequestInbox({ requests, projects }: RequestInboxProps) {
+export default function RequestInbox({
+  requests,
+  projects,
+}: RequestInboxProps) {
   // Lives outside the list so the password stays on screen after the
   // approved request drops out of it.
   const [approving, setApproving] = useState<GuestDefaults>();

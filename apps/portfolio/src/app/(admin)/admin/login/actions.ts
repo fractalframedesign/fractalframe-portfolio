@@ -1,30 +1,30 @@
-"use server";
+'use server';
 
-import { cookies, headers } from "next/headers";
-import { redirect } from "next/navigation";
-import { z } from "zod";
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { z } from 'zod';
 
 import {
   ADMIN_COOKIE,
   adminCookieOptions,
   checkAdminPassword,
   createAdminSession,
-} from "@/lib/access/admin-session";
-import { loginDelay } from "@/lib/access/login-delay";
+} from '@/lib/access/admin-session';
+import { loginDelay } from '@/lib/access/login-delay';
 import {
   clearFailures,
   isLocked,
   recordFailure,
-} from "@/lib/access/repo/rate-limit";
-import { getDb } from "@/lib/db/client";
+} from '@/lib/access/repo/rate-limit';
+import { getDb } from '@/lib/db/client';
 
 export type LoginState = { error?: string };
 
 const loginSchema = z.object({ password: z.string().max(200) });
 
 const ERRORS = {
-  locked: "Too many tries. Try again in 15 minutes.",
-  wrong: "That password isn’t right.",
+  locked: 'Too many tries. Try again in 15 minutes.',
+  wrong: 'That password isn’t right.',
 };
 
 const WRONG_PASSWORD_DELAY_MS = 1000;
@@ -34,7 +34,7 @@ export async function login(
   formData: FormData,
 ): Promise<LoginState> {
   const parsed = loginSchema.safeParse({
-    password: String(formData.get("password") ?? ""),
+    password: String(formData.get('password') ?? ''),
   });
   if (!parsed.success) return { error: ERRORS.wrong };
 
@@ -51,7 +51,7 @@ export async function login(
       await createAdminSession(now),
       adminCookieOptions(),
     );
-    redirect("/admin");
+    redirect('/admin');
   }
 
   await tryDb((db) => recordFailure(db, limitKey, now));
@@ -61,7 +61,7 @@ export async function login(
 
 export async function logout() {
   (await cookies()).delete(ADMIN_COOKIE);
-  redirect("/admin/login");
+  redirect('/admin/login');
 }
 
 /** Runs a database call; on any error logs it and returns undefined */
@@ -71,12 +71,12 @@ async function tryDb<T>(
   try {
     return await run(getDb());
   } catch (error) {
-    console.error("Admin login database call failed", error);
+    console.error('Admin login database call failed', error);
     return undefined;
   }
 }
 
 async function clientIp() {
-  const forwarded = (await headers()).get("x-forwarded-for");
-  return forwarded?.split(",")[0]?.trim() || "unknown";
+  const forwarded = (await headers()).get('x-forwarded-for');
+  return forwarded?.split(',')[0]?.trim() || 'unknown';
 }

@@ -257,7 +257,9 @@ function GrantRow({
             >
               {paused ? 'Resume' : 'Pause'}
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => onShow({ kind: 'expiry', grant })}>
+            <DropdownMenuItem
+              onSelect={() => onShow({ kind: 'expiry', grant })}
+            >
               Change expiry
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={issuePassword}>

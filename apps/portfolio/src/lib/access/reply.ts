@@ -1,15 +1,15 @@
-import { TZDate } from "@date-fns/tz";
-import { format } from "date-fns";
+import { TZDate } from '@date-fns/tz';
+import { format } from 'date-fns';
 
-import { LOCATION } from "@/lib/constants";
+import { LOCATION } from '@/lib/constants';
 
 function joinNames(names: string[]) {
-  if (names.length <= 1) return names.join("");
-  return `${names.slice(0, -1).join(", ")} and ${names.at(-1)}`;
+  if (names.length <= 1) return names.join('');
+  return `${names.slice(0, -1).join(', ')} and ${names.at(-1)}`;
 }
 
 function formatExpiry(date: Date) {
-  return `${format(new TZDate(date, LOCATION.timeZone), "MMM d, yyyy, HH:mm")} JST`;
+  return `${format(new TZDate(date, LOCATION.timeZone), 'MMM d, yyyy, HH:mm')} JST`;
 }
 
 export function copyReplyText({
@@ -23,10 +23,10 @@ export function copyReplyText({
   password: string;
   expiresAt: Date | null;
 }) {
-  const firstName = name.trim().split(/\s+/)[0] ?? "";
+  const firstName = name.trim().split(/\s+/)[0] ?? '';
   const expiry = expiresAt
     ? `It works until ${formatExpiry(expiresAt)}.\n`
-    : "";
+    : '';
 
   return `Hi ${firstName},
 

@@ -26,8 +26,7 @@ export type ActionError = {
   fieldErrors?: Record<string, string[]>;
 };
 export type ActionResult<T extends object = object> =
-  | ({ ok: true } & T)
-  | ActionError;
+  ({ ok: true } & T) | ActionError;
 export type PasswordResult = ActionResult<{
   password: string;
   rotated: boolean;
@@ -68,10 +67,7 @@ const addGuestSchema = z.object({
   name: nameSchema,
   email: emailSchema,
   note: noteSchema,
-  products: z
-    .array(slugSchema)
-    .min(1, 'Pick at least one project.')
-    .max(50),
+  products: z.array(slugSchema).min(1, 'Pick at least one project.').max(50),
   expiry: expiryChoiceSchema,
   expiryCustom: expiryCustomSchema,
   requestId: idSchema.optional(),

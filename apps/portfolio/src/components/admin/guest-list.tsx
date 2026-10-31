@@ -56,7 +56,11 @@ type GuestListProps = {
 
 type Pending = { kind: 'edit' | 'delete'; guest: GuestEntry };
 
-export default function GuestList({ guests, projectNames, now }: GuestListProps) {
+export default function GuestList({
+  guests,
+  projectNames,
+  now,
+}: GuestListProps) {
   const [dialog, setDialog] = useState<Pending>();
   const [open, setOpen] = useState(false);
 

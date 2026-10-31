@@ -1,12 +1,12 @@
-import { and, asc, eq, isNull, lt, or, sql } from "drizzle-orm";
+import { and, asc, eq, isNull, lt, or, sql } from 'drizzle-orm';
 
-import type { Db } from "@/lib/db/client";
-import { grants, guests, products } from "@/lib/db/schema";
+import type { Db } from '@/lib/db/client';
+import { grants, guests, products } from '@/lib/db/schema';
 
-import { isGrantActive } from "../expiry";
-import { resolveLevel } from "../levels";
-import { generatePassword, passwordLookup } from "../passwords";
-import { getStoredLevels } from "./products";
+import { isGrantActive } from '../expiry';
+import { resolveLevel } from '../levels';
+import { generatePassword, passwordLookup } from '../passwords';
+import { getStoredLevels } from './products';
 
 const HOUR_MS = 3_600_000;
 
@@ -17,7 +17,7 @@ export type GrantView = {
   email: string | null;
   note: string;
   productSlug: string;
-  status: "active" | "paused";
+  status: 'active' | 'paused';
   expiresAt: Date | null;
   lastVisitAt: Date | null;
   visitCount: number;
@@ -46,17 +46,17 @@ export async function createGuest(
     note?: string;
     products: string[];
     expiresAt: Date | null;
-    source: "manual" | "request";
+    source: 'manual' | 'request';
   },
 ): Promise<{ guestId: string; password: string; rotated: boolean }> {
   const email = input.email?.trim().toLowerCase() || null;
   const name = input.name.trim();
-  const note = input.note?.trim() ?? "";
+  const note = input.note?.trim() ?? '';
 
   return db.transaction(async (tx) => {
     const levels = await getStoredLevels(tx);
     for (const slug of input.products) {
-      if (resolveLevel(slug, levels) !== "unlocked") {
+      if (resolveLevel(slug, levels) !== 'unlocked') {
         throw new Error("Project isn't Unlocked");
       }
     }
@@ -98,7 +98,7 @@ export async function createGuest(
         })
         .onConflictDoUpdate({
           target: [grants.guestId, grants.productSlug],
-          set: { status: "active", expiresAt: input.expiresAt },
+          set: { status: 'active', expiresAt: input.expiresAt },
         });
     }
 
@@ -127,7 +127,7 @@ export async function findGrantByPassword(
       and(
         eq(guests.passwordLookup, lookup),
         eq(grants.productSlug, slug),
-        eq(products.level, "unlocked"),
+        eq(products.level, 'unlocked'),
       ),
     );
   if (!row || !isGrantActive(row, now)) return null;
@@ -154,7 +154,7 @@ export async function getGrantForToken(
   if (!row) return null;
   return {
     passwordLookup: row.passwordLookup,
-    active: isGrantActive(row, now) && row.level === "unlocked",
+    active: isGrantActive(row, now) && row.level === 'unlocked',
   };
 }
 
@@ -192,7 +192,7 @@ export async function listGuests(db: Db) {
 export async function setGrantStatus(
   db: Db,
   grantId: string,
-  status: "active" | "paused",
+  status: 'active' | 'paused',
 ) {
   await db.update(grants).set({ status }).where(eq(grants.id, grantId));
 }
@@ -216,7 +216,7 @@ export async function addGrant(
     .values({ guestId, productSlug: slug, expiresAt })
     .onConflictDoUpdate({
       target: [grants.guestId, grants.productSlug],
-      set: { status: "active", expiresAt },
+      set: { status: 'active', expiresAt },
     });
 }
 
@@ -249,7 +249,7 @@ export async function resetPassword(db: Db, guestId: string) {
       .set({ passwordLookup: lookup })
       .where(eq(guests.id, guestId))
       .returning({ id: guests.id });
-    if (updated.length === 0) throw new Error("Guest not found");
+    if (updated.length === 0) throw new Error('Guest not found');
     return password;
   });
 }
