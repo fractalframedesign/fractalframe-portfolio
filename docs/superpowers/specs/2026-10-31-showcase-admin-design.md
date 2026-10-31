@@ -208,3 +208,11 @@ client-side addition or only via the admin page.)*
 Key layout, hash and token scheme, password word list, login lockout
 thresholds, admin page layout within shadcn, exact copy for "Copy reply",
 and tests.
+
+## Change after testing (2026-10-31)
+
+Kiran asked for two choices only. The admin page offers **Public** and
+**Password protected** (the `unlocked` level); projects without a demo just
+show "Public". The `admin` (hidden) level stays in code only as the safe
+default for unknown slugs, and a project already hidden can still be switched
+back. New projects are seeded as Public on deploy instead of hidden.

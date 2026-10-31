@@ -10,18 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import type { AccessLevel } from '@/lib/access/levels';
 
 type LevelSelectProps = {
   slug: string;
   name: string;
   level: AccessLevel;
-  /** Only showcase projects (with a demo) can be Unlocked */
+  /** Only showcase projects (with a demo) can be password protected */
   canUnlock: boolean;
 };
 
@@ -48,33 +43,24 @@ export default function LevelSelect({
     });
   }
 
+  // Projects without a demo have nothing to protect, so they stay public
+  if (!canUnlock && value === 'public') {
+    return <p className="text-muted-foreground text-sm">Public</p>;
+  }
+
   return (
     <div className="space-y-1">
       <Select value={value} onValueChange={change} disabled={pending}>
-        <SelectTrigger className="w-36" aria-label={`Access for ${name}`}>
+        <SelectTrigger className="w-48" aria-label={`Access for ${name}`}>
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="public">Public</SelectItem>
-          {canUnlock ? (
-            <SelectItem value="unlocked">Unlocked</SelectItem>
-          ) : (
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <SelectItem
-                  value="unlocked"
-                  disabled
-                  className="data-[disabled]:pointer-events-auto"
-                >
-                  Unlocked
-                </SelectItem>
-              </TooltipTrigger>
-              <TooltipContent side="right">
-                Only projects with a demo can be Unlocked.
-              </TooltipContent>
-            </Tooltip>
+          {canUnlock && (
+            <SelectItem value="unlocked">Password protected</SelectItem>
           )}
-          <SelectItem value="admin">Admin</SelectItem>
+          {/* Only for a project that is still hidden from an older setup */}
+          {value === 'admin' && <SelectItem value="admin">Hidden</SelectItem>}
         </SelectContent>
       </Select>
       {error && (

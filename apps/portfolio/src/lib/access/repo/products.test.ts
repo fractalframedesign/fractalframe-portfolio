@@ -21,3 +21,12 @@ test('only showcase projects can be unlocked', async () => {
     'Only showcase projects can be Unlocked',
   );
 });
+
+test('projects added after launch are seeded as public', async () => {
+  const db = await createTestDb();
+  await seedProducts(db);
+  expect(await seedProducts(db, ['bloom', 'new-project'])).toBe(1);
+  const levels = await getStoredLevels(db);
+  expect(levels.get('new-project')).toBe('public');
+  expect(levels.get('fintech-components')).toBe('unlocked');
+});

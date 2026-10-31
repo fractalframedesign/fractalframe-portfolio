@@ -158,8 +158,8 @@ function GuestForm({
   if (projects.length === 0) {
     return (
       <p className="text-muted-foreground text-sm">
-        No project is Unlocked yet. Set a project to Unlocked first, then add
-        guests to it.
+        No project is password protected yet. Set a project to Password
+        protected first, then add guests to it.
       </p>
     );
   }

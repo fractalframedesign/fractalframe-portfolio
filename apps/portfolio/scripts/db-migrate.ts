@@ -4,6 +4,7 @@ import { migrate } from 'drizzle-orm/neon-serverless/migrator';
 
 import { seedProducts } from '../src/lib/access/repo/products';
 import * as schema from '../src/lib/db/schema';
+import { getProjectSlugs } from '../src/lib/projects';
 
 async function main() {
   const url = process.env.DATABASE_URL;
@@ -20,7 +21,7 @@ async function main() {
   try {
     const db = drizzle(pool, { schema });
     await migrate(db, { migrationsFolder: './drizzle' });
-    const seeded = await seedProducts(db);
+    const seeded = await seedProducts(db, await getProjectSlugs());
     console.log(`Migrations applied, ${seeded} products seeded`);
   } finally {
     await pool.end();

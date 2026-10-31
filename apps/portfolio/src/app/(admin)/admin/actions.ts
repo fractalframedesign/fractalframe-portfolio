@@ -36,8 +36,8 @@ export type PasswordResult = ActionResult<{
 const MESSAGES = {
   generic: 'Something went wrong. Try again.',
   invalid: 'That didn’t look right. Reload the page and try again.',
-  notUnlocked: 'Only Unlocked projects can be picked.',
-  noDemo: 'Only projects with a demo can be Unlocked.',
+  notUnlocked: 'Only password-protected projects can be picked.',
+  noDemo: 'Only projects with a demo can be password protected.',
   unknownProject: 'That project doesn’t exist.',
 };
 

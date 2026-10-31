@@ -29,8 +29,19 @@ export async function setLevel(
     });
 }
 
-export async function seedProducts(db: Db): Promise<number> {
-  const rows = Object.entries(SEED_LEVELS).map(([slug, level]) => ({
+/**
+ * Writes a level for every project that has none yet: the seed level, or
+ * Public for projects added after launch. Existing levels are never changed.
+ */
+export async function seedProducts(
+  db: Db,
+  projectSlugs: string[] = [],
+): Promise<number> {
+  const levels: Record<string, AccessLevel> = {
+    ...Object.fromEntries(projectSlugs.map((slug) => [slug, 'public'])),
+    ...SEED_LEVELS,
+  };
+  const rows = Object.entries(levels).map(([slug, level]) => ({
     slug,
     level,
   }));

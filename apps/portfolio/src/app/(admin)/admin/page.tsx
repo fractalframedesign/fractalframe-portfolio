@@ -26,8 +26,10 @@ export const metadata: Metadata = { title: 'Dashboard' };
 
 const LEVEL_HELP = [
   { level: 'Public', text: 'anyone can open it.' },
-  { level: 'Unlocked', text: 'only guests you add, with their password.' },
-  { level: 'Admin', text: 'hidden from everyone but you.' },
+  {
+    level: 'Password protected',
+    text: 'only guests you add, with their password.',
+  },
 ];
 
 async function loadDashboard() {
@@ -141,7 +143,8 @@ function ProjectsSection({ rows }: { rows: Dashboard['rows'] }) {
               <TableRow key={row.slug}>
                 <TableCell className="font-medium">{row.name}</TableCell>
                 <TableCell>
-                  <LevelSelect {...row} />
+                  {/* Keyed on the level so it re-syncs after a save elsewhere */}
+                  <LevelSelect key={`${row.slug}-${row.level}`} {...row} />
                 </TableCell>
               </TableRow>
             ))}
@@ -160,8 +163,8 @@ function GuestsSection({ data, now }: { data: Dashboard; now: Date }) {
       </h2>
       {data.unlocked.length === 0 ? (
         <p className="text-muted-foreground text-sm">
-          No project is Unlocked. Set one to Unlocked above to give people
-          access with a password.
+          No project is password protected. Set one to Password protected
+          above to give people access with a password.
         </p>
       ) : (
         data.unlocked.map((project, index) => (
