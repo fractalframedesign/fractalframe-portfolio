@@ -20,7 +20,10 @@ import { getDb } from '@/lib/db/client';
 
 export type LoginState = { error?: string };
 
-const loginSchema = z.object({ password: z.string().max(200) });
+const loginSchema = z.object({
+  password: z.string().max(200),
+  rememberMe: z.boolean(),
+});
 
 const ERRORS = {
   locked: 'Too many tries. Try again in 15 minutes.',
@@ -35,6 +38,7 @@ export async function login(
 ): Promise<LoginState> {
   const parsed = loginSchema.safeParse({
     password: String(formData.get('password') ?? ''),
+    rememberMe: formData.get('rememberMe') === 'on',
   });
   if (!parsed.success) return { error: ERRORS.wrong };
 
@@ -48,8 +52,8 @@ export async function login(
     await tryDb((db) => clearFailures(db, limitKey));
     (await cookies()).set(
       ADMIN_COOKIE,
-      await createAdminSession(now),
-      adminCookieOptions(),
+      await createAdminSession(now, parsed.data.rememberMe),
+      adminCookieOptions(parsed.data.rememberMe),
     );
     redirect('/admin');
   }

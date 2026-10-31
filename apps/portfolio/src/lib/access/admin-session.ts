@@ -2,14 +2,15 @@ import { hmac, safeEqual } from './crypto';
 
 export const ADMIN_COOKIE = 'admin-session';
 const SESSION_SECONDS = 12 * 60 * 60;
+const REMEMBERED_SESSION_SECONDS = 30 * 24 * 60 * 60;
 
-export function adminCookieOptions() {
+export function adminCookieOptions(rememberMe = false) {
   return {
     httpOnly: true as const,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax' as const,
     path: '/',
-    maxAge: SESSION_SECONDS,
+    maxAge: rememberMe ? REMEMBERED_SESSION_SECONDS : SESSION_SECONDS,
   };
 }
 
@@ -19,8 +20,9 @@ function sessionSecret() {
   return secret;
 }
 
-export async function createAdminSession(now: Date) {
-  const expiresAtMs = now.getTime() + SESSION_SECONDS * 1000;
+export async function createAdminSession(now: Date, rememberMe = false) {
+  const duration = rememberMe ? REMEMBERED_SESSION_SECONDS : SESSION_SECONDS;
+  const expiresAtMs = now.getTime() + duration * 1000;
   return `${expiresAtMs}.${await hmac(sessionSecret(), 'admin:' + expiresAtMs)}`;
 }
 
