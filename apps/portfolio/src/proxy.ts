@@ -5,8 +5,9 @@ import {
 } from 'next/server';
 
 import { ADMIN_COOKIE, verifyAdminSession } from '@/lib/access/admin-session';
-import { gateRequest, getProxyLevels } from '@/lib/access/gate';
-import { getGuestPass, recordGuestVisit } from '@/lib/access/repo/guest-access';
+import { gateRequest } from '@/lib/access/gate';
+import { liveGateDeps } from '@/lib/access/gate-deps';
+import { recordGuestVisit } from '@/lib/access/repo/guest-access';
 import { getDb } from '@/lib/db/client';
 
 const NO_STORE = 'private, no-store, max-age=0';
@@ -21,11 +22,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
   const result = await gateRequest({
     pathname,
     cookies: { get: (name) => request.cookies.get(name)?.value },
-    deps: {
-      getLevels: () => getProxyLevels(getDb),
-      getGuestPass: (guestId, now) => getGuestPass(getDb(), guestId, now),
-      now: () => new Date(),
-    },
+    deps: liveGateDeps(),
   });
 
   switch (result.kind) {

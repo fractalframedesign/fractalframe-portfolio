@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import AccessWatcher from '@/components/access/access-watcher';
 import {
   MoreProjects,
   ProjectCaseStudy,
@@ -83,6 +84,7 @@ export default async function ProjectPage({
   if (frontmatter.caseStudy) {
     return (
       <article>
+        <AccessWatcher slug={slug} />
         <ProjectCaseStudy
           name={frontmatter.name}
           coverImage={frontmatter.image}
@@ -96,6 +98,7 @@ export default async function ProjectPage({
 
   return (
     <article>
+      <AccessWatcher slug={slug} />
       <ProjectHero
         name={frontmatter.name}
         liveUrl={frontmatter.liveUrl}

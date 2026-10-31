@@ -4,6 +4,7 @@ import { BookOpen, Boxes, FileText, LayoutGrid } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import AccessWatcher from '@/components/access/access-watcher';
 import DrawingModeToggle from '@/components/drawing/drawing-mode-toggle';
 import { SiteHeader } from '@/components/layout/site-header';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -43,6 +44,7 @@ export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
 
   return (
     <div className="min-h-screen">
+      <AccessWatcher slug={project.slug} />
       <SiteHeader
         activePath="/projects"
         themeToggle={
