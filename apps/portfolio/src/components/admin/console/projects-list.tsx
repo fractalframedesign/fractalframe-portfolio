@@ -41,22 +41,25 @@ export default function ProjectsList({ projects }: ProjectsListProps) {
   return (
     <Card className="border-border/70 shadow-sm">
       <CardContent className="space-y-4">
-        <div
-          role="group"
-          aria-label="Filter projects"
-          className="flex flex-wrap gap-2"
-        >
-          {FILTERS.map(({ value, label, icon: Icon }) => (
-            <Button
-              key={value}
-              variant={filter === value ? 'secondary' : 'outline'}
-              aria-pressed={filter === value}
-              onClick={() => setFilter(value)}
-            >
-              {Icon && <Icon aria-hidden />}
-              {label}
-            </Button>
-          ))}
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div
+            role="group"
+            aria-label="Filter projects"
+            className="flex flex-wrap gap-2"
+          >
+            {FILTERS.map(({ value, label, icon: Icon }) => (
+              <Button
+                key={value}
+                variant={filter === value ? 'secondary' : 'outline'}
+                aria-pressed={filter === value}
+                onClick={() => setFilter(value)}
+              >
+                {Icon && <Icon aria-hidden />}
+                {label}
+              </Button>
+            ))}
+          </div>
+          <InviteButton label="Invite someone" />
         </div>
 
         {/* Announces the result of a filter change */}
@@ -76,14 +79,17 @@ export default function ProjectsList({ projects }: ProjectsListProps) {
               >
                 <div className="flex min-w-0 items-center gap-2">
                   <p className="truncate font-medium">{project.name}</p>
+                  {project.level === 'unlocked' && (
+                    <Badge className="bg-info-subtle text-info-subtle-foreground border-transparent">
+                      <Lock aria-hidden />
+                      Password protected
+                    </Badge>
+                  )}
                   {project.level === 'admin' && (
                     <Badge variant="secondary">Hidden</Badge>
                   )}
                 </div>
                 <div className="flex shrink-0 items-center gap-1">
-                  {project.level === 'unlocked' && (
-                    <InviteButton label="Copy password" variant="ghost" />
-                  )}
                   <ProjectAccessMenu
                     // Remount after a refresh so the menu shows the stored level
                     key={`${project.slug}-${project.level}`}

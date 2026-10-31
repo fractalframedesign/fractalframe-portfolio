@@ -29,4 +29,14 @@ describe('ProjectsList', () => {
       .click(screen.getByRole('button', { name: /password protected/i }));
     expect(status.textContent).toBe('1 project');
   });
+
+  it('has one Invite someone button instead of a button per row', () => {
+    render(<ProjectsList projects={projects} />);
+    expect(
+      screen.queryAllByRole('button', { name: 'Copy password' }),
+    ).toHaveLength(0);
+    expect(
+      screen.getAllByRole('button', { name: 'Invite someone' }),
+    ).toHaveLength(1);
+  });
 });
