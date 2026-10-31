@@ -31,3 +31,11 @@ test("clearFailures and keys are independent", async () => {
   await clearFailures(db, "a");
   expect(await isLocked(db, "a", min(5))).toBe(false);
 });
+
+test("concurrent failures cannot slip past the limit", async () => {
+  const db = await createTestDb();
+  await Promise.all(
+    Array.from({ length: 10 }, () => recordFailure(db, "ip", min(0))),
+  );
+  expect(await isLocked(db, "ip", min(1))).toBe(true);
+});

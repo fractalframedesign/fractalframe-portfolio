@@ -216,3 +216,12 @@ test("addGrant, updateGuest and listGuests work together", async () => {
   expect(guest!.name).toBe("Ada");
   expect(guest!.grants).toHaveLength(2);
 });
+
+test("findGrantByPassword ignores grants whose project is no longer Unlocked", async () => {
+  const db = await setup();
+  const { password } = await createGuest(db, base);
+  await setLevel(db, "fintech-components", "public");
+  expect(
+    await findGrantByPassword(db, "fintech-components", password, NOW),
+  ).toBeNull();
+});

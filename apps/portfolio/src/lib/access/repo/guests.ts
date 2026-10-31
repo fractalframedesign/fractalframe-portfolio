@@ -122,8 +122,13 @@ export async function findGrantByPassword(
     })
     .from(grants)
     .innerJoin(guests, eq(guests.id, grants.guestId))
+    .innerJoin(products, eq(products.slug, grants.productSlug))
     .where(
-      and(eq(guests.passwordLookup, lookup), eq(grants.productSlug, slug)),
+      and(
+        eq(guests.passwordLookup, lookup),
+        eq(grants.productSlug, slug),
+        eq(products.level, 'unlocked'),
+      ),
     );
   if (!row || !isGrantActive(row, now)) return null;
   return { grantId: row.grantId, passwordLookup: row.passwordLookup };
