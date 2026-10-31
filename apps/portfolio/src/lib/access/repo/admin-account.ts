@@ -1,7 +1,7 @@
-import type { Db } from "@/lib/db/client";
-import { adminAccount } from "@/lib/db/schema";
+import type { Db } from '@/lib/db/client';
+import { adminAccount } from '@/lib/db/schema';
 
-const OWNER = "owner";
+const OWNER = 'owner';
 
 export async function getAdminAccount(db: Db) {
   const [row] = await db

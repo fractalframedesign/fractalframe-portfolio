@@ -1,11 +1,11 @@
 'use client';
 
-import { LogOut, ShieldCheck } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { logout } from '@/app/(admin)/admin/login/actions';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   Sidebar,
   SidebarContent,
@@ -22,7 +22,12 @@ import {
 } from '@/components/ui/sidebar';
 import { ADMIN_NAV, isActiveNav, type NavItem } from '@/lib/admin-nav';
 
-const ADMIN_USER = { name: 'Kiran', initial: 'K' };
+const ADMIN_USER = {
+  name: 'Kiran',
+  initial: 'K',
+  role: 'Admin',
+  photo: '/images/home/avatar-sm.png',
+};
 
 type AppSidebarProps = { pendingRequests: number };
 
@@ -37,11 +42,19 @@ export default function AppSidebar({ pendingRequests }: AppSidebarProps) {
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg" tooltip="Overview">
               <Link href="/admin">
-                <span className="bg-sidebar-primary text-sidebar-primary-foreground flex size-8 shrink-0 items-center justify-center rounded-lg">
-                  <ShieldCheck className="size-4" aria-hidden />
-                </span>
-                <span className="truncate font-semibold">
-                  {ADMIN_USER.name} · Admin
+                <Avatar className="size-8 rounded-lg">
+                  <AvatarImage src={ADMIN_USER.photo} alt="" />
+                  <AvatarFallback className="rounded-lg">
+                    {ADMIN_USER.initial}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="grid min-w-0 leading-tight">
+                  <span className="truncate font-semibold">
+                    Welcome {ADMIN_USER.name}
+                  </span>
+                  <span className="text-sidebar-muted-foreground truncate text-xs">
+                    {ADMIN_USER.role}
+                  </span>
                 </span>
               </Link>
             </SidebarMenuButton>

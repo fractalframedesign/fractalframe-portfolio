@@ -1,12 +1,12 @@
-import { KeyRound } from "lucide-react";
-import type { Metadata } from "next";
+import { KeyRound } from 'lucide-react';
+import type { Metadata } from 'next';
 
-import ChangePasswordForm from "@/components/admin/console/change-password-form";
-import SectionCard from "@/components/admin/console/section-card";
-import TopBar from "@/components/admin/console/top-bar";
-import { requireAdmin } from "@/lib/access/require-admin";
+import ChangePasswordForm from '@/components/admin/console/change-password-form';
+import SectionCard from '@/components/admin/console/section-card';
+import TopBar from '@/components/admin/console/top-bar';
+import { requireAdmin } from '@/lib/access/require-admin';
 
-export const metadata: Metadata = { title: "Settings" };
+export const metadata: Metadata = { title: 'Settings' };
 
 export default async function AdminSettingsPage() {
   await requireAdmin();

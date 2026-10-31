@@ -7,8 +7,12 @@ describe('password hash', () => {
     const stored = await hashPassword('correct horse battery');
     expect(stored).toMatch(/^scrypt\$/);
     expect(stored).not.toContain('correct horse battery');
-    expect(await verifyPasswordHash('correct horse battery', stored)).toBe(true);
-    expect(await verifyPasswordHash('correct horse batter', stored)).toBe(false);
+    expect(await verifyPasswordHash('correct horse battery', stored)).toBe(
+      true,
+    );
+    expect(await verifyPasswordHash('correct horse batter', stored)).toBe(
+      false,
+    );
   });
 
   test('salts each hash', async () => {

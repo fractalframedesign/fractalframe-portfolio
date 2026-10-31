@@ -27,13 +27,13 @@ export const ADMIN_NAV: NavGroup[] = [
     label: 'Manage',
     items: [
       { title: 'Overview', href: OVERVIEW_HREF, icon: LayoutDashboard },
+      { title: 'Projects', href: '/admin/projects', icon: FolderKanban },
       {
         title: 'Requests',
         href: '/admin/requests',
         icon: Inbox,
         badge: 'pendingRequests',
       },
-      { title: 'Projects', href: '/admin/projects', icon: FolderKanban },
       { title: 'Guests', href: '/admin/guests', icon: Users },
     ],
   },

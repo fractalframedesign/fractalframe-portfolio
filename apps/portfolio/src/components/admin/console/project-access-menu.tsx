@@ -1,5 +1,6 @@
 'use client';
 
+import { Ellipsis } from 'lucide-react';
 import { unstable_rethrow } from 'next/navigation';
 import { useEffect, useRef, useState, useTransition } from 'react';
 
@@ -14,18 +15,21 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import type { AccessLevel } from '@/lib/access/levels';
 
 type SaveResult = { ok: true } | { ok: false; error?: string };
 
-type AccessSwitchProps = {
+type ProjectAccessMenuProps = {
   slug: string;
   name: string;
   level: AccessLevel;
@@ -44,13 +48,14 @@ const LABELS: Record<AccessLevel, string> = {
 const SAVED_FOR_MS = 2000;
 const FALLBACK_ERROR = 'Couldn’t save. Try again.';
 
-export default function AccessSwitch({
+/** The "…" menu on a project row: switches Public / Password protected */
+export default function ProjectAccessMenu({
   slug,
   name,
   level,
   hasDemo,
   onSave = setProjectLevel,
-}: AccessSwitchProps) {
+}: ProjectAccessMenuProps) {
   const [value, setValue] = useState(level);
   const [, startSaving] = useTransition();
   const [isSaving, setIsSaving] = useState(false);
@@ -105,32 +110,52 @@ export default function AccessSwitch({
   }
 
   return (
-    <div className="space-y-1">
-      <Select value={value} onValueChange={change} disabled={isSaving}>
-        <SelectTrigger className="w-48" aria-label={`Access for ${name}`}>
-          <SelectValue>{isSaving ? 'Saving…' : LABELS[value]}</SelectValue>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="public">{LABELS.public}</SelectItem>
-          {hasDemo && (
-            <SelectItem value="unlocked">{LABELS.unlocked}</SelectItem>
-          )}
-          {/* Only for a project still hidden from an older setup */}
-          {value === 'admin' && (
-            <SelectItem value="admin">{LABELS.admin}</SelectItem>
-          )}
-        </SelectContent>
-      </Select>
-
+    <div className="flex items-center gap-3">
       {/* Always rendered so screen readers announce the text change */}
       <p role="status" className="text-muted-foreground text-sm">
-        {status}
+        {isSaving ? 'Saving…' : status}
       </p>
       {error && (
         <p role="alert" className="text-destructive text-sm">
           {error}
         </p>
       )}
+
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            aria-label={`Access for ${name}`}
+            disabled={isSaving}
+          >
+            <Ellipsis aria-hidden />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuLabel>Access</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuRadioGroup value={value} onValueChange={change}>
+            <DropdownMenuRadioItem value="public">
+              {LABELS.public}
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="unlocked" disabled={!hasDemo}>
+              {LABELS.unlocked}
+              {!hasDemo && (
+                <span className="text-muted-foreground ml-auto text-xs">
+                  Needs a demo
+                </span>
+              )}
+            </DropdownMenuRadioItem>
+            {/* Only for a project still hidden from an older setup */}
+            {value === 'admin' && (
+              <DropdownMenuRadioItem value="admin">
+                {LABELS.admin}
+              </DropdownMenuRadioItem>
+            )}
+          </DropdownMenuRadioGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
 
       <AlertDialog open={confirming} onOpenChange={setConfirming}>
         <AlertDialogContent>

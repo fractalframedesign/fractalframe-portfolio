@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { CircleCheck } from "lucide-react";
-import { useActionState } from "react";
+import { CircleCheck } from 'lucide-react';
+import { useActionState } from 'react';
 
 import {
   changePassword,
   type PasswordState,
-} from "@/app/(admin)/admin/(console)/settings/actions";
-import PasswordInput from "@/components/admin/console/password-input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+} from '@/app/(admin)/admin/(console)/settings/actions';
+import PasswordInput from '@/components/admin/console/password-input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 
-type Field = NonNullable<PasswordState["field"]>;
+type Field = NonNullable<PasswordState['field']>;
 
 const FIELDS: {
   name: Field;
@@ -20,20 +20,20 @@ const FIELDS: {
   hint?: string;
 }[] = [
   {
-    name: "currentPassword",
-    label: "Current password",
-    autoComplete: "current-password",
+    name: 'currentPassword',
+    label: 'Current password',
+    autoComplete: 'current-password',
   },
   {
-    name: "newPassword",
-    label: "New password",
-    autoComplete: "new-password",
-    hint: "At least 12 characters. A short sentence is easy to remember.",
+    name: 'newPassword',
+    label: 'New password',
+    autoComplete: 'new-password',
+    hint: 'At least 12 characters. A short sentence is easy to remember.',
   },
   {
-    name: "confirmPassword",
-    label: "Type the new password again",
-    autoComplete: "new-password",
+    name: 'confirmPassword',
+    label: 'Type the new password again',
+    autoComplete: 'new-password',
   },
 ];
 
@@ -52,7 +52,7 @@ export default function ChangePasswordForm() {
           error && `${field.name}-error`,
         ]
           .filter(Boolean)
-          .join(" ");
+          .join(' ');
 
         return (
           <div key={field.name} className="space-y-2">
@@ -94,7 +94,7 @@ export default function ChangePasswordForm() {
 
       <div className="flex flex-wrap items-center gap-3">
         <Button type="submit" disabled={pending}>
-          {pending ? "Saving…" : "Change password"}
+          {pending ? 'Saving…' : 'Change password'}
         </Button>
         <p role="status" className="text-sm">
           {state.saved && !pending && (

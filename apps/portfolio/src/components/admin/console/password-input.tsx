@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { Eye, EyeOff } from 'lucide-react';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
-type PasswordInputProps = Omit<React.ComponentProps<typeof Input>, "type">;
+type PasswordInputProps = Omit<React.ComponentProps<typeof Input>, 'type'>;
 
 /** Password field with a show/hide button */
 export default function PasswordInput({
@@ -19,8 +19,8 @@ export default function PasswordInput({
   return (
     <div className="relative">
       <Input
-        type={showPassword ? "text" : "password"}
-        className={cn("pr-12", className)}
+        type={showPassword ? 'text' : 'password'}
+        className={cn('pr-12', className)}
         {...props}
       />
       <Button
@@ -28,7 +28,7 @@ export default function PasswordInput({
         variant="ghost"
         size="icon-sm"
         className="absolute inset-y-0 right-1 my-auto text-muted-foreground"
-        aria-label={showPassword ? "Hide password" : "Show password"}
+        aria-label={showPassword ? 'Hide password' : 'Show password'}
         aria-pressed={showPassword}
         onClick={() => setShowPassword((visible) => !visible)}
       >

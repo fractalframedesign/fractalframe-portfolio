@@ -36,9 +36,9 @@ describe('isSessionCurrent', () => {
 
   test('sessions from before the change are not current', async () => {
     await changeAdminPassword(db, 'a brand new password', changedAt);
-    expect(
-      await isSessionCurrent(db, new Date(changedAt.getTime() - 1)),
-    ).toBe(false);
+    expect(await isSessionCurrent(db, new Date(changedAt.getTime() - 1))).toBe(
+      false,
+    );
     expect(await isSessionCurrent(db, changedAt)).toBe(true);
   });
 });

@@ -5,10 +5,10 @@ import { redirect } from 'next/navigation';
 import { Component, type ComponentProps, type ReactNode } from 'react';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
-import AccessSwitch from './access-switch';
+import ProjectAccessMenu from './project-access-menu';
 
 beforeAll(() => {
-  // Radix Select relies on browser APIs that jsdom does not implement
+  // Radix menus rely on browser APIs that jsdom does not implement
   Element.prototype.hasPointerCapture ??= () => false;
   Element.prototype.setPointerCapture ??= () => {};
   Element.prototype.releasePointerCapture ??= () => {};
@@ -24,20 +24,33 @@ const project = {
 };
 
 function trigger(name = 'Fintech components') {
-  return screen.getByRole('combobox', { name: `Access for ${name}` });
+  return screen.getByRole('button', { name: `Access for ${name}` });
+}
+
+/** The access level the menu shows as checked */
+async function checked(name?: string) {
+  const user = userEvent.setup();
+  await user.click(trigger(name));
+  const item = (await screen.findAllByRole('menuitemradio')).find(
+    (option) => option.getAttribute('aria-checked') === 'true',
+  );
+  await user.keyboard('{Escape}');
+  return item?.textContent;
 }
 
 async function choose(option: string, name?: string) {
   const user = userEvent.setup();
   await user.click(trigger(name));
-  await user.click(await screen.findByRole('option', { name: option }));
+  await user.click(await screen.findByRole('menuitemradio', { name: option }));
   return user;
 }
 
 /** A project left hidden by an older setup, with no demo */
-function renderHidden(onSave: ComponentProps<typeof AccessSwitch>['onSave']) {
+function renderHidden(
+  onSave: ComponentProps<typeof ProjectAccessMenu>['onSave'],
+) {
   render(
-    <AccessSwitch
+    <ProjectAccessMenu
       slug="justos"
       name="JustOS"
       level="admin"
@@ -53,10 +66,10 @@ async function expectSaved() {
   );
 }
 
-describe('AccessSwitch: confirming before going public', () => {
+describe('ProjectAccessMenu: confirming before going public', () => {
   it('cancel keeps the project protected', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
-    render(<AccessSwitch {...project} level="unlocked" onSave={onSave} />);
+    render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
     const user = await choose('Public');
     const dialog = await screen.findByRole('alertdialog');
@@ -69,12 +82,12 @@ describe('AccessSwitch: confirming before going public', () => {
 
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
     expect(onSave).not.toHaveBeenCalled();
-    expect(trigger().textContent).toBe('Password protected');
+    expect(await checked()).toBe('Password protected');
   });
 
   it('escape closes the dialog without saving', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
-    render(<AccessSwitch {...project} level="unlocked" onSave={onSave} />);
+    render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
     const user = await choose('Public');
     await screen.findByRole('alertdialog');
@@ -82,7 +95,7 @@ describe('AccessSwitch: confirming before going public', () => {
 
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
     expect(onSave).not.toHaveBeenCalled();
-    expect(trigger().textContent).toBe('Password protected');
+    expect(await checked()).toBe('Password protected');
   });
 
   it('hidden to public also asks first', async () => {
@@ -97,14 +110,14 @@ describe('AccessSwitch: confirming before going public', () => {
 
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
     expect(onSave).not.toHaveBeenCalled();
-    expect(trigger('JustOS').textContent).toBe('Hidden');
+    expect(await checked('JustOS')).toBe('Hidden');
   });
 });
 
-describe('AccessSwitch: saving after confirming', () => {
+describe('ProjectAccessMenu: saving after confirming', () => {
   it('confirm makes it public and shows Saved', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
-    render(<AccessSwitch {...project} level="unlocked" onSave={onSave} />);
+    render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
     const user = await choose('Public');
     await user.click(
@@ -114,12 +127,12 @@ describe('AccessSwitch: saving after confirming', () => {
     await expectSaved();
     expect(onSave).toHaveBeenCalledTimes(1);
     expect(onSave).toHaveBeenCalledWith('fintech-components', 'public');
-    expect(trigger().textContent).toBe('Public');
+    expect(await checked()).toBe('Public');
   });
 
   it('a double click on Make public saves once', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
-    render(<AccessSwitch {...project} level="unlocked" onSave={onSave} />);
+    render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
     await choose('Public');
     const button = await screen.findByRole('button', { name: 'Make public' });
@@ -137,7 +150,7 @@ describe('AccessSwitch: saving after confirming', () => {
     const onSave = vi
       .fn()
       .mockResolvedValue({ ok: false, error: 'Couldn’t save. Try again.' });
-    render(<AccessSwitch {...project} level="unlocked" onSave={onSave} />);
+    render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
     const user = await choose('Public');
     await user.click(
@@ -147,22 +160,22 @@ describe('AccessSwitch: saving after confirming', () => {
     expect((await screen.findByRole('alert')).textContent).toBe(
       'Couldn’t save. Try again.',
     );
-    expect(trigger().textContent).toBe('Password protected');
+    expect(await checked()).toBe('Password protected');
     expect(screen.queryByText('Saved')).toBeNull();
   });
 });
 
-describe('AccessSwitch: other changes', () => {
+describe('ProjectAccessMenu: other changes', () => {
   it('public to protected saves without asking', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
-    render(<AccessSwitch {...project} level="public" onSave={onSave} />);
+    render(<ProjectAccessMenu {...project} level="public" onSave={onSave} />);
 
     await choose('Password protected');
 
     await expectSaved();
     expect(screen.queryByRole('alertdialog')).toBeNull();
     expect(onSave).toHaveBeenCalledWith('fintech-components', 'unlocked');
-    expect(trigger().textContent).toBe('Password protected');
+    expect(await checked()).toBe('Password protected');
   });
 
   it('waits for the server before showing the new value', async () => {
@@ -170,27 +183,33 @@ describe('AccessSwitch: other changes', () => {
     const onSave = vi.fn(
       () => new Promise<{ ok: true }>((done) => (resolve = done)),
     );
-    render(<AccessSwitch {...project} level="public" onSave={onSave} />);
+    render(<ProjectAccessMenu {...project} level="public" onSave={onSave} />);
 
     await choose('Password protected');
 
-    await waitFor(() => expect(trigger().textContent).toBe('Saving…'));
+    await waitFor(() =>
+      expect(screen.getByRole('status').textContent).toBe('Saving…'),
+    );
     expect(trigger().hasAttribute('disabled')).toBe(true);
 
     resolve({ ok: true });
     await expectSaved();
-    expect(trigger().textContent).toBe('Password protected');
+    expect(await checked()).toBe('Password protected');
   });
 
-  it('offers Hidden only for a project that is hidden now', async () => {
+  it('offers Hidden only for a project hidden now; no demo, no password', async () => {
     renderHidden(vi.fn());
     const user = userEvent.setup();
     await user.click(trigger('JustOS'));
 
-    const options = (await screen.findAllByRole('option')).map(
-      (option) => option.textContent,
+    const options = (await screen.findAllByRole('menuitemradio')).map(
+      (option) => [option.textContent, option.hasAttribute('data-disabled')],
     );
-    expect(options).toEqual(['Public', 'Hidden']);
+    expect(options).toEqual([
+      ['Public', false],
+      ['Password protectedNeeds a demo', true],
+      ['Hidden', false],
+    ]);
   });
 });
 
@@ -219,7 +238,7 @@ function redirectError() {
   }
 }
 
-describe('AccessSwitch: expired session', () => {
+describe('ProjectAccessMenu: expired session', () => {
   it('passes a redirect on instead of showing a failed save', async () => {
     const thrown = redirectError();
     const onSave = vi.fn().mockRejectedValue(thrown);
@@ -227,7 +246,7 @@ describe('AccessSwitch: expired session', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {});
     render(
       <Boundary onError={onError}>
-        <AccessSwitch {...project} level="public" onSave={onSave} />
+        <ProjectAccessMenu {...project} level="public" onSave={onSave} />
       </Boundary>,
     );
 
