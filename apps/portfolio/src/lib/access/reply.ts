@@ -9,34 +9,38 @@ function formatExpiry(date: Date) {
 
 export const INVITE_SUBJECT = 'Your password for my private projects';
 
+export type InviteProject = { name: string; link: string };
+
 /** Invitation text Kiran can edit, then send or copy: one password for every locked project */
 export function copyReplyText({
   name,
   password,
   expiresAt,
-  link,
+  projects,
 }: {
   name: string;
   password: string;
   expiresAt: Date | null;
-  /** Where to start: the page they asked from, or the projects page */
-  link: string;
+  /** Every locked project, the one they asked about first */
+  projects: InviteProject[];
 }) {
   const firstName = name.trim().split(/\s+/)[0] ?? '';
+  const list = projects
+    .map((project) => `${project.name}\n${project.link}`)
+    .join('\n\n');
   const expiry = expiresAt
     ? `It works until ${formatExpiry(expiresAt)}.\n`
     : '';
 
   return `Hi ${firstName},
 
-Thanks for your interest. Here's your password for my private projects:
+Kiran invited you to these private projects:
 
-${password}
+${list}
 
-Open this link and enter the password:
-${link}
+Password: ${password}
 
-${expiry}It opens every password-protected case study and demo on my site. It's asked again after you close your browser.
+${expiry}Open a link and enter the password. It's asked again after you close your browser.
 
 Kiran`;
 }

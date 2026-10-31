@@ -183,20 +183,20 @@ describe('addGuest: email and link', () => {
     expect(result.fieldErrors?.email).toEqual(['Enter their email address.']);
   });
 
-  test('the reply links to the project they asked about, else to Projects', async () => {
+  test('the message lists every locked project with its link, the one they asked about first', async () => {
     process.env.NEXT_PUBLIC_SITE_URL = 'https://example.com';
-    const asked = await addGuest(
-      guestForm({ ...ada, project: 'fintech-components' }),
-    );
-    if (!asked.ok) throw new Error('expected ok');
-    expect(asked.reply).toContain(
+    await setProjectLevel('bloom', 'unlocked');
+    const result = await addGuest(guestForm({ ...ada, project: 'bloom' }));
+    if (!result.ok) throw new Error('expected ok');
+
+    const bloom = result.reply.indexOf('https://example.com/projects/bloom');
+    const fintech = result.reply.indexOf(
       'https://example.com/projects/fintech-components',
     );
-    expect(asked.guestId).toMatch(/^[0-9a-f-]{36}$/);
-
-    const plain = await addGuest(guestForm({ ...ada, project: 'nope' }));
-    if (!plain.ok) throw new Error('expected ok');
-    expect(plain.reply).toContain('https://example.com/projects\n');
+    expect(bloom).toBeGreaterThan(-1);
+    expect(fintech).toBeGreaterThan(bloom);
+    expect(result.reply).toContain(`Password: ${result.password}`);
+    expect(result.guestId).toMatch(/^[0-9a-f-]{36}$/);
     delete process.env.NEXT_PUBLIC_SITE_URL;
   });
 });

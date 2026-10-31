@@ -5,7 +5,8 @@ import { z } from 'zod';
 
 import { LEVELS_TAG } from '@/lib/access/cached-levels';
 import { expiryChoiceSchema, resolveExpiry } from '@/lib/access/expiry';
-import { copyReplyText } from '@/lib/access/reply';
+import { resolveLevel } from '@/lib/access/levels';
+import { copyReplyText, type InviteProject } from '@/lib/access/reply';
 import * as accessRepo from '@/lib/access/repo/guest-access';
 import * as guestsRepo from '@/lib/access/repo/guests';
 import * as productsRepo from '@/lib/access/repo/products';
@@ -154,12 +155,26 @@ function parseAddGuest(formData: FormData) {
   });
 }
 
-/** Link for the invitation: the project they asked about, else every project */
-async function inviteLink(slug?: string) {
-  const projects = `${getSiteUrl()}/projects`;
-  return slug && (await projectNames()).has(slug)
-    ? `${projects}/${slug}`
-    : projects;
+/**
+ * Every password-protected project with its link, the one they asked about
+ * first. Falls back to the projects page when nothing is locked.
+ */
+async function inviteProjects(askedSlug?: string): Promise<InviteProject[]> {
+  const site = getSiteUrl();
+  const [levels, projects] = await Promise.all([
+    productsRepo.getStoredLevels(getDb()),
+    getAllProjects(),
+  ]);
+  const locked = projects
+    .filter((project) => resolveLevel(project.slug, levels) === 'unlocked')
+    .sort((a, b) => Number(b.slug === askedSlug) - Number(a.slug === askedSlug))
+    .map((project) => ({
+      name: project.name,
+      link: `${site}/projects/${project.slug}`,
+    }));
+  return locked.length
+    ? locked
+    : [{ name: 'My projects', link: `${site}/projects` }];
 }
 
 export async function addGuest(formData: FormData): Promise<PasswordResult> {
@@ -190,7 +205,7 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
       name: input.name,
       password,
       expiresAt: expiry.expiresAt,
-      link: await inviteLink(input.project),
+      projects: await inviteProjects(input.project),
     });
     refreshAdmin();
     return { ok: true, guestId, password, renewed: existing, reply };
@@ -303,7 +318,7 @@ export async function newPassword(
       name: guest?.name ?? '',
       password,
       expiresAt: guest?.expiresAt ?? null,
-      link: await inviteLink(),
+      projects: await inviteProjects(),
     });
     refreshAdmin();
     return { ok: true, password, reply };
