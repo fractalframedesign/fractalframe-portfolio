@@ -1,114 +1,126 @@
-# Add a password to any project
+# One password per person, any project lockable
 
 Date: 2026-10-31 · Branch: `feat/admin` · Status: design, awaiting Kiran's approval
 
 Builds on [2026-10-31-showcase-admin-design.md](2026-10-31-showcase-admin-design.md)
 and [2026-11-01-admin-console-design.md](2026-11-01-admin-console-design.md).
+Changes the guest model described there.
 
 ## Why
 
-Kiran wants to put any public project behind a password from the admin
-console, so visitors have to ask for access, Kiran approves or declines in
-Requests, and approved people become guests with their own password.
+Kiran wants to lock any project from the console, and to manage **people,
+not projects**: one request from a visitor, one approval, one password per
+email that opens every locked project. Kiran said: "create one password for
+one email id and unlock all locked case studies, simple to manage".
 
-Today only the 3 projects with a live demo (`/showcase/<slug>`) can be
-password protected. The other 14 are case studies at `/projects/<slug>`, which
-are always open, even when the project's level is `unlocked`. The console's
-row menu shows "Needs a demo" for them.
+Today:
+- Only the 3 projects with a live demo (`/showcase/<slug>`) can be locked.
+  The other 14 case studies at `/projects/<slug>` are always open, even at
+  level `unlocked`; the console says "Needs a demo" for them.
+- Access is per project: a guest has one grant per project, each with its own
+  status and expiry, and a new grant for an existing email replaces their
+  password.
 
 ## User flow (agreed with Kiran)
 
 1. **Kiran**: Projects → a public project → **…** → **Add password**. It
-   locks for visitors straight away and appears under the Password Protected
-   filter.
-2. **Visitor**: the project card still shows on the portfolio, with the
-   existing lock marker.
-3. **Visitor** opens `/projects/<slug>` and gets a **teaser**: name, cover
-   image and one-line description, then a password box and **Request access**
-   (name, email, note). The case study body, details, stack and links are not
-   sent.
-4. **Visitor**: the request form lists **every password-protected project**
-   as checkboxes, with the one they came from already ticked, so one request
-   (and later one password) can cover several projects. At least one must
-   stay ticked. They send it and see the existing thank-you message. Kiran
-   gets the existing request email notification, naming every project asked
-   for.
-5. **Kiran**: the Requests badge goes up; each request shows all the projects
-   it asks for. **Approve** opens the existing invite dialog prefilled (name,
-   email, every requested project still password protected, expiry); Kiran
-   can untick any before saving. Saving creates the
-   guest with their own password, lists them in **Guests**, and shows the
-   ready reply to copy into Kiran's own email. Nothing is emailed
-   automatically.
-6. **Kiran**: **Decline** removes the request. The visitor is not told.
-7. **Visitor** enters the password on the teaser and sees the full case study.
-   One pass opens both `/projects/<slug>` and, if the project has a demo,
-   `/showcase/<slug>`, until the grant expires, is paused or removed.
+   locks straight away and appears under the Password Protected filter.
+2. **Visitor**: the card still shows on the portfolio, with the existing lock
+   marker.
+3. **Visitor** opens a locked `/projects/<slug>` and gets a **teaser**: name,
+   cover image and one-line description, then a password box and **Request
+   access** (name, email, note). The case study body, details, stack and links
+   are not sent.
+4. **Visitor** sends the request (no project choices: it's for everything
+   locked) and sees the existing thank-you message. Kiran gets the existing
+   request email, which says which page they asked from.
+5. **Kiran**: the Requests badge goes up. **Approve** opens the invite dialog
+   prefilled with name and email, plus expiry (24h, 48h, custom, no end); no
+   project picker. Saving creates the guest with **one password**, lists them
+   in **Guests**, and shows the ready reply to copy into Kiran's own email.
+   Nothing is emailed automatically.
+6. **Kiran**: **Decline** removes the request. The visitor isn't told.
+7. **Visitor** enters the password on any locked project (teaser or showcase
+   unlock page) and from then on opens **every locked project**, case studies
+   and live demos, until Kiran pauses or removes them or their access ends.
+8. **Kiran** locks another project later: every approved guest can open it
+   too.
 
-## Repeat guests (Kiran's call)
+## Access rule
 
-When Kiran approves or invites someone whose email is already a guest, the
-new projects are **added to the password they already have**; it is not
-replaced. The dialog then shows no password, says the projects were added to
-their existing password, and the copy-reply says to use the same password as
-before. If they have lost it, Kiran uses the existing **New password** action
-in Guests. This replaces today's behaviour (`createGuest` returns
-`rotated: true` and issues a new password for all their projects). A guest
-with no email is always a new guest, as today.
+A visitor may open a locked (`unlocked` level) project when **any** of:
+- they have Kiran's admin session;
+- they have a valid guest pass: the guest exists, their access is active and
+  not expired, and the cookie was issued for their current password;
+- the existing `SHOWCASE_ACCESS` fallback password matches.
+
+Hidden (`admin` level) projects stay admin-only (404 for everyone else).
+Database down: nothing becomes more visible (fail closed, as `decideAccess`
+does today).
+
+## Guests (Kiran's call)
+
+- One guest per email, one password, one status (active / paused) and one
+  expiry, all on the person. No per-project choices anywhere in the UI.
+- **Repeat requests**: a request from an email that already has active access
+  shows "Already has access" in Requests with **Dismiss** instead of Approve.
+  If their access is paused or expired, **Approve** makes it active again
+  with the new expiry and **keeps their password**; the reply says to use the
+  same password as before. Lost password: **New password** in Guests.
+- Guests page: one row per person. Actions: pause / resume, change expiry,
+  new password, edit name and note, remove. The project filter and column go;
+  the status filter stays. A guest with no email (manual invite) is always a
+  new guest.
 
 ## Goals
 
-- Any project can be switched Public ↔ Password protected in the console.
-- One request can ask for several password-protected projects, and approving
-  it gives one password for all of them.
-- A password-protected project's `/projects/<slug>` page is locked for
-  everyone except Kiran (admin session) and guests with a valid grant.
-- The locked page is the teaser in step 3, styled like the portfolio
-  (`(site)` route group), with the existing unlock and request-access
-  behaviour (rate limit, error messages, thank-you state).
-- One guest pass per project covers `/projects/<slug>` and `/showcase/<slug>`.
-- Locked projects stay out of search: not in the sitemap (already so), and
-  the teaser is `noindex`.
-- In the row menu: **Add password** on public projects, **Make public** on
-  protected ones (still confirms first). "Needs a demo" goes away.
+- Any project can be locked from the console (**Add password** /
+  **Make public**, the latter still confirms first).
+- Locked `/projects/<slug>` pages show the teaser; the full page only with
+  access.
+- One password per email opens every locked project, now and later.
+- Locked projects stay out of search (sitemap already excludes them; the
+  teaser is `noindex`).
+- Overview, Requests, Guests, invite dialog and ⌘K reflect the person-based
+  model (counts are of people).
 
 ## Non-goals
 
 - Automatic emails on approve or decline.
-- Any change to grants, expiry or the Guests page. (Requests change only to
-  hold several projects; guests change only as in "Repeat guests" below.)
-- Locking articles or the home and about pages.
-- Changing how the 3 demo projects' showcase pages look when locked.
+- Per-project access for showcase projects (that's what this removes).
+- Selling or paid products (later; see Constraints).
+- Locking articles, home or about.
 
 ## Anti-goals (a failure even if it "works")
 
-- The full case study HTML (or its RSC payload) ever reaching a visitor
-  without access, including from a CDN or static cache.
-- A database outage making a protected project open (must fail closed, as
-  `decideAccess` already does).
-- The teaser page or its unlock form living in the `(showcase)` group or
-  importing showcase CSS (the groups stay isolated, see CLAUDE.md).
+- The full case study HTML or RSC payload reaching a visitor without access,
+  including from a CDN or static cache.
+- A database outage opening a locked project.
+- An approved guest's old password still working after **New password** or
+  **Remove**.
+- The teaser or its forms living in the `(showcase)` group or importing
+  showcase CSS (route groups stay isolated, see CLAUDE.md).
 
 ## Constraints
 
-- `/projects/[slug]/page.tsx` is `force-static` and fully pre-built. Locking
-  must happen in the proxy (`src/proxy.ts` → `gateRequest`), which already
-  matches `/projects/:path*`, by sending the teaser instead of the page, and
-  gated responses must be `no-store` (as for showcase pages today).
-- Guest cookies are path-scoped to `/showcase/<slug>` today
-  (`accessCookieOptions`, and the guest token cookie set by the unlock
-  action). They must also reach `/projects/<slug>`.
-- `canBeUnlocked(slug)` currently limits Unlocked to demo projects in the
-  `setProjectLevel` action, `addGuest` picker and the menu; that limit is
-  removed. The unlock page's `getShowcaseProject(slug)` check likewise.
-- A request holds several projects. `access_requests.product_slug` is a
-  single column today, so this needs a migration, and it must be additive
-  (Preview shares the production database): e.g. a new array column, with
-  old rows read as their single `product_slug`. Don't drop or rename.
-- The request form only lists projects that are password protected right
-  now (never hidden ones), and the action re-checks every submitted slug on
-  the server. A project made public or hidden before approval is dropped
-  from the prefill.
+- `/projects/[slug]/page.tsx` is `force-static`. Locking happens in the proxy
+  (`src/proxy.ts` → `gateRequest`, which already matches `/projects/:path*`)
+  by serving the teaser instead of the page; gated responses are `no-store`.
+  The URL the visitor sees stays `/projects/<slug>`.
+- Guest cookies today are per project and path-scoped to `/showcase/<slug>`,
+  and guest tokens are signed for one slug. The pass must be one cookie that
+  reaches every `/projects/…` and `/showcase/…` page and is tied to the
+  guest's current password (so **New password** signs old cookies out).
+- **Keep the per-project `grants` table** and its `source: 'purchase'` value:
+  it's the planned home for selling digital products later. The site-wide
+  pass is a separate, person-level record. All schema changes are
+  **additive** (Preview migrates the shared production database): no drops
+  or renames.
+- **Existing guests** (Claude's call below) are carried over by a migration
+  or a one-off step, without anyone's password changing.
+- `canBeUnlocked(slug)` stops limiting which projects can be locked (in
+  `setProjectLevel`, the menu, and the unlock page's `getShowcaseProject`
+  check).
 - Follow repo CLAUDE.md: shadcn, semantic tokens, `space-y-*`, `&apos;`,
   single quotes, no build run.
 
@@ -116,36 +128,36 @@ with no email is always a new guest, as today.
 
 - Locks straight away on **Add password**.
 - Teaser + lock on the locked page.
-- On approve: copy the reply and email it yourself (as today).
-- On decline: silent (as today).
-- Visitors can ask for several projects in one request.
-- Repeat guests keep their password; new projects are added to it.
+- One password per email unlocks all locked projects, including ones locked
+  later, and including live demos.
+- On approve: copy the reply and email it yourself. On decline: silent.
 
 ## Claude's calls (Kiran may override)
 
-- Menu wording: **Add password** / **Make public**, replacing the
-  Public / Password protected radio, so the action reads as a verb.
-- One pass covers both addresses of a project rather than separate passes.
+- Menu wording **Add password** / **Make public**.
+- Repeat requests: Dismiss when already active; Approve reactivates and keeps
+  the password when paused or expired.
+- **Existing guests become all-project guests**: active if any of their
+  current grants is active and unexpired; expiry = the latest expiry among
+  those (none if any has none); their password is unchanged.
+- The request still records the page it came from (shown in Requests and the
+  email), for context only.
 - The teaser shows name, cover image and description from frontmatter only.
-- Hidden (admin) projects keep returning 404 on `/projects/<slug>`, as today.
-- The `SHOWCASE_ACCESS` fallback passwords work on `/projects/<slug>` too, so
-  there is one access rule per project, not one per address.
-- After a correct password on the teaser, the visitor stays on
-  `/projects/<slug>` and sees the full page (no detour via `/showcase/unlock`).
-- `/showcase/unlock` keeps working for the 3 demo projects as it does today.
+- After a correct password on the teaser, the visitor stays on the page and
+  sees it in full. `/showcase/unlock` keeps working for demo projects.
+- The Projects page "Copy password" button opens the invite dialog (no
+  project to preselect any more).
 
 ## Left to the builder
 
-- How the proxy serves the teaser (rewrite to a teaser route vs. other), as
-  long as the anti-goals hold and the URL the visitor sees stays
-  `/projects/<slug>`.
-- Cookie path and naming changes, and how existing showcase cookies keep
-  working (or are reissued) after the change.
-- Whether the unlock form and request dialog are shared components or a
-  `(site)` variant, within the group isolation rule.
-- Request form layout for the project checkboxes, within shadcn components.
-- Tests: approving an existing guest keeps their old password working for
-  old and new projects and returns no password; multi-project request saved and prefilled on approve; slugs that
-  aren't password protected rejected; gate decisions for `/projects/<slug>` at every level, including
-  database down; cookie reaching both paths; menu wording; the action
-  accepting Unlocked for a project without a demo.
+- How the person-level pass is stored (columns on `guests` or a new table),
+  and how visit counts move to it.
+- How the proxy serves the teaser.
+- Cookie name, path and token format, and how old per-project cookies stop
+  or keep working during the switch.
+- Whether unlock and request forms are shared components or a `(site)`
+  variant, within the group-isolation rule.
+- Tests: gate decisions for `/projects/<slug>` and `/showcase/<slug>` at every
+  level (admin, guest active / paused / expired, fallback, database down);
+  one pass opening several projects; New password and Remove revoking the
+  pass; repeat-request Dismiss and reactivate; existing guests carried over.
