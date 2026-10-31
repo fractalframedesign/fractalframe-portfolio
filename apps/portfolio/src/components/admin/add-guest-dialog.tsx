@@ -227,10 +227,12 @@ function GuestForm({
         </DialogClose>
         <Button type="submit" disabled={pending}>
           {pending
-            ? 'Creating…'
+            ? 'Saving…'
             : defaults.existingGuest
               ? 'Make new password'
-              : 'Create invite'}
+              : defaults.requestId
+                ? 'Approve request'
+                : 'Create invite'}
         </Button>
       </DialogFooter>
     </form>

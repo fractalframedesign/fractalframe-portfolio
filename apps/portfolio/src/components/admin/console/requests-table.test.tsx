@@ -104,7 +104,7 @@ describe('RequestsTable', () => {
     );
     const dialog = await screen.findByRole('dialog');
     await user.click(
-      within(dialog).getByRole('button', { name: 'Create invite' }),
+      within(dialog).getByRole('button', { name: 'Approve request' }),
     );
 
     const name = await within(dialog).findByLabelText('Name');
@@ -133,7 +133,7 @@ describe('RequestsTable', () => {
       (within(dialog).getByLabelText('Email') as HTMLInputElement).required,
     ).toBe(true);
     await user.click(
-      within(dialog).getByRole('button', { name: 'Create invite' }),
+      within(dialog).getByRole('button', { name: 'Approve request' }),
     );
 
     const message = (await within(dialog).findByLabelText(
@@ -178,7 +178,7 @@ describe('RequestsTable', () => {
     );
     const dialog = await screen.findByRole('dialog');
     await user.click(
-      within(dialog).getByRole('button', { name: 'Create invite' }),
+      within(dialog).getByRole('button', { name: 'Approve request' }),
     );
     await user.click(
       await within(dialog).findByRole('button', { name: 'Send invitation' }),
