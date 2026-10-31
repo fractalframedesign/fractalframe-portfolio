@@ -80,6 +80,8 @@ function DemoProjectCard({
     >
       <div className="space-y-4">
         <AccessSwitch
+          // Remount after a refresh so the switch shows the stored level
+          key={`${project.slug}-${project.level}`}
           slug={project.slug}
           name={project.name}
           level={project.level}
@@ -109,8 +111,9 @@ function AlwaysPublic({ projects }: { projects: ProjectRow[] }) {
             className="flex scroll-mt-20 items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
           >
             <p className="truncate text-sm font-medium">{project.name}</p>
-            {project.level === 'admin' ? (
+            {project.level !== 'public' ? (
               <AccessSwitch
+                key={`${project.slug}-${project.level}`}
                 slug={project.slug}
                 name={project.name}
                 level={project.level}

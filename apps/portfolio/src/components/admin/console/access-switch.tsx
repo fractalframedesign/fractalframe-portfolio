@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { unstable_rethrow } from 'next/navigation';
+import { useEffect, useRef, useState, useTransition } from 'react';
 
 import { setProjectLevel } from '@/app/(admin)/admin/actions';
 import {
@@ -51,45 +52,53 @@ export default function AccessSwitch({
   onSave = setProjectLevel,
 }: AccessSwitchProps) {
   const [value, setValue] = useState(level);
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [saving, startSaving] = useTransition();
+  const [status, setStatus] = useState('');
   const [error, setError] = useState<string>();
   const [confirming, setConfirming] = useState(false);
+  // Blocks a second save (e.g. a double click on Make public) while one runs
+  const inFlight = useRef(false);
 
   useEffect(() => {
-    if (!saved) return;
-    const timer = setTimeout(() => setSaved(false), SAVED_FOR_MS);
+    if (!status) return;
+    const timer = setTimeout(() => setStatus(''), SAVED_FOR_MS);
     return () => clearTimeout(timer);
-  }, [saved]);
+  }, [status]);
 
-  async function save(next: AccessLevel) {
-    setSaving(true);
-    setSaved(false);
+  function save(next: AccessLevel) {
+    if (inFlight.current) return;
+    inFlight.current = true;
+    setStatus('');
     setError(undefined);
-    try {
-      const result = await onSave(slug, next);
-      if (result.ok) {
-        setValue(next);
-        setSaved(true);
-      } else {
-        setError(result.error ?? FALLBACK_ERROR);
+    // Inside a transition so a thrown redirect (session expired) reaches
+    // Next's RedirectBoundary instead of being shown as a failed save
+    startSaving(async () => {
+      try {
+        const result = await onSave(slug, next);
+        if (result.ok) {
+          setValue(next);
+          setStatus('Saved');
+        } else {
+          setError(result.error ?? FALLBACK_ERROR);
+        }
+      } catch (caught) {
+        unstable_rethrow(caught);
+        setError(FALLBACK_ERROR);
+      } finally {
+        inFlight.current = false;
       }
-    } catch {
-      setError(FALLBACK_ERROR);
-    } finally {
-      setSaving(false);
-    }
+    });
   }
 
   function change(next: string) {
     const target = next as AccessLevel;
     if (target === value) return;
-    // Publishing private work is the one change that needs a second look
-    if (value === 'unlocked' && target === 'public') {
+    // Making private or hidden work public always needs a second look
+    if (target === 'public') {
       setConfirming(true);
       return;
     }
-    void save(target);
+    save(target);
   }
 
   return (
@@ -110,11 +119,10 @@ export default function AccessSwitch({
         </SelectContent>
       </Select>
 
-      {saved && (
-        <p role="status" className="text-muted-foreground text-sm">
-          Saved
-        </p>
-      )}
+      {/* Always rendered so screen readers announce the text change */}
+      <p role="status" className="text-muted-foreground text-sm">
+        {status}
+      </p>
       {error && (
         <p role="alert" className="text-destructive text-sm">
           {error}
@@ -132,7 +140,7 @@ export default function AccessSwitch({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={() => void save('public')}>
+            <AlertDialogAction onClick={() => save('public')}>
               Make public
             </AlertDialogAction>
           </AlertDialogFooter>
