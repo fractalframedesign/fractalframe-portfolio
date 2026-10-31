@@ -42,6 +42,11 @@ export const guests = pgTable('guests', {
   note: text('note').notNull().default(''),
   passwordLookup: text('password_lookup').notNull().unique(),
   createdAt: timestamptz('created_at').notNull().defaultNow(),
+  // One pass per person opens every password-protected project
+  accessStatus: grantStatus('access_status').notNull().default('active'),
+  accessExpiresAt: timestamptz('access_expires_at'),
+  lastVisitAt: timestamptz('last_visit_at'),
+  visitCount: integer('visit_count').notNull().default(0),
 });
 
 export const grants = pgTable(
