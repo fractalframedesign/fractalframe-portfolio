@@ -33,7 +33,9 @@ export function copyReplyText({
   projects: InviteProject[];
   kind?: keyof typeof INTROS;
 }) {
-  const firstName = name.trim().split(/\s+/)[0] ?? '';
+  const first = name.trim().split(/\s+/)[0] ?? '';
+  // A blank name, or an email typed as the name, gets a plain greeting
+  const firstName = first && !first.includes('@') ? first : 'there';
   const list = projects
     .map((project) => `${project.name}\n${project.link}`)
     .join('\n\n');

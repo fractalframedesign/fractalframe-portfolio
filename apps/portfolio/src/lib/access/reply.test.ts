@@ -71,4 +71,18 @@ Kiran`);
       'Here are the links to my private projects again:',
     );
   });
+
+  test('a name that is really an email address gets a plain greeting', () => {
+    const reply = copyReplyText({
+      name: 'lahat64097@hopefunder.com',
+      password: null,
+      expiresAt: null,
+      projects,
+      kind: 'reminder',
+    });
+    expect(reply.startsWith('Hi there,')).toBe(true);
+    expect(
+      copyReplyText({ name: '  ', password: 'p', expiresAt: null, projects }),
+    ).toMatch(/^Hi there,/);
+  });
 });
