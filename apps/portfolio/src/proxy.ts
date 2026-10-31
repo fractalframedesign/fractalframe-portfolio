@@ -22,7 +22,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     pathname,
     cookies: { get: (name) => request.cookies.get(name)?.value },
     deps: {
-      getLevels: () => getProxyLevels(getDb()),
+      getLevels: () => getProxyLevels(getDb),
       getGrantForToken: (grantId, slug, now) =>
         getGrantForToken(getDb(), grantId, slug, now),
       now: () => new Date(),
@@ -41,7 +41,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
           ),
         );
       }
-      // Keep the page out of shared caches
+      // Access depended on a cookie: keep the page out of shared caches
       return noStore(NextResponse.next());
     }
     case 'unlock': {

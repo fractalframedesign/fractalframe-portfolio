@@ -90,7 +90,7 @@ describe('unlock', () => {
     state.dbDown = true;
     expect(await unlockWith('wrong')).toEqual({
       error:
-        "We can't check passwords right now. Please try again in a few minutes.",
+        'We can’t check passwords right now. Please try again in a few minutes.',
     });
 
     process.env.SHOWCASE_ACCESS = 'kiran:open-sesame:*';

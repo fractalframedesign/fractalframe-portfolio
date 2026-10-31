@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, test, vi } from 'vitest';
 
-import type { Db } from '@/lib/db/client';
+import { DatabaseUnavailableError, type Db } from '@/lib/db/client';
 import {
   accessCookieName,
   guestCookieName,
@@ -8,7 +8,7 @@ import {
 } from '@/lib/showcase-access';
 
 import { ADMIN_COOKIE, createAdminSession } from './admin-session';
-import { type GateDeps, gateRequest, getProxyLevels } from './gate';
+import { type GateDeps, gateRequest, offersUnlock } from './gate';
 import type { AccessLevel } from './levels';
 import { signGuestToken } from './passwords';
 
@@ -46,14 +46,14 @@ describe('gateRequest', () => {
       ).toEqual({ kind: 'next' });
   });
 
-  test('public showcase project is allowed', async () => {
+  test('public showcase project passes through with no cookie check', async () => {
     expect(
       await gateRequest({
         pathname: '/showcase/bloom/docs',
         cookies: cookies(),
         deps: deps(),
       }),
-    ).toEqual({ kind: 'allow' });
+    ).toEqual({ kind: 'next' });
   });
 
   test('admin level is not found without a session, allowed with one', async () => {
@@ -282,18 +282,116 @@ describe('getProxyLevels', () => {
     return { db: { select: () => ({ from }) } as unknown as Db, from };
   }
 
-  test('caches levels for 10 seconds and never caches a failure', async () => {
-    const t0 = 1_000_000;
-    const failing = fakeDb(async () => {
+  // A fresh module per test so the module-level cache starts cold
+  async function freshGate() {
+    vi.resetModules();
+    return import('./gate');
+  }
+
+  const down = () =>
+    fakeDb(async () => {
       throw new Error('db down');
     });
-    await expect(getProxyLevels(failing.db, t0)).rejects.toThrow('db down');
 
+  test('caches levels for 10 seconds', async () => {
+    const { getProxyLevels } = await freshGate();
+    const t0 = 1_000_000;
     const ok = fakeDb(async () => [{ slug: 'bloom', level: 'public' }]);
-    expect((await getProxyLevels(ok.db, t0)).get('bloom')).toBe('public');
-    await getProxyLevels(ok.db, t0 + 9_999);
+    expect((await getProxyLevels(() => ok.db, t0)).get('bloom')).toBe('public');
+    await getProxyLevels(() => ok.db, t0 + 9_999);
     expect(ok.from).toHaveBeenCalledTimes(1);
-    await getProxyLevels(ok.db, t0 + 10_000);
+    await getProxyLevels(() => ok.db, t0 + 10_000);
     expect(ok.from).toHaveBeenCalledTimes(2);
+  });
+
+  test('DATABASE_URL unset: seed levels, so public pages stay open', async () => {
+    const gate = await freshGate();
+    const unset = () => {
+      throw new DatabaseUnavailableError();
+    };
+    const levels = await gate.getProxyLevels(unset);
+    expect(levels.get('bloom')).toBe('public');
+    expect(levels.get('fintech-components')).toBe('unlocked');
+
+    const seeded = deps({ getLevels: () => gate.getProxyLevels(unset) });
+    expect(
+      await gate.gateRequest({
+        pathname: '/projects/bloom',
+        cookies: cookies(),
+        deps: seeded,
+      }),
+    ).toEqual({ kind: 'next' });
+    expect(
+      await gate.gateRequest({
+        pathname: '/showcase/finance-dashboard',
+        cookies: cookies(),
+        deps: seeded,
+      }),
+    ).toEqual({ kind: 'next' });
+    expect(
+      await gate.gateRequest({
+        pathname: '/showcase/fintech-components',
+        cookies: cookies(),
+        deps: seeded,
+      }),
+    ).toEqual({ kind: 'unlock', slug: 'fintech-components' });
+    expect(
+      await gate.gateRequest({
+        pathname: '/projects/not-seeded',
+        cookies: cookies(),
+        deps: seeded,
+      }),
+    ).toEqual({ kind: 'not-found' });
+  });
+
+  test('database down with a warm cache: last read levels are used', async () => {
+    const { getProxyLevels } = await freshGate();
+    const t0 = 1_000_000;
+    const ok = fakeDb(async () => [{ slug: 'secret', level: 'admin' }]);
+    await getProxyLevels(() => ok.db, t0);
+    const failing = down();
+    const stale = await getProxyLevels(() => failing.db, t0 + 60_000);
+    expect(stale.get('secret')).toBe('admin');
+    expect(failing.from).toHaveBeenCalledOnce();
+  });
+
+  test('database down with a cold cache: fails closed', async () => {
+    const gate = await freshGate();
+    const failing = down();
+    await expect(gate.getProxyLevels(() => failing.db)).rejects.toThrow(
+      'db down',
+    );
+    expect(
+      await gate.gateRequest({
+        pathname: '/projects/bloom',
+        cookies: cookies(),
+        deps: deps({ getLevels: () => gate.getProxyLevels(() => failing.db) }),
+      }),
+    ).toEqual({ kind: 'not-found' });
+  });
+});
+
+describe('offersUnlock', () => {
+  test('only Unlocked projects when levels can be read', async () => {
+    expect(await offersUnlock('fintech-components', async () => levels)).toBe(
+      true,
+    );
+    expect(await offersUnlock('bloom', async () => levels)).toBe(false);
+  });
+
+  test('DATABASE_URL unset: seed levels decide', async () => {
+    const unset = () => {
+      throw new DatabaseUnavailableError();
+    };
+    expect(await offersUnlock('fintech-components', unset)).toBe(true);
+    expect(await offersUnlock('finance-dashboard', unset)).toBe(false);
+  });
+
+  test('database down: any showcase project that could be Unlocked', async () => {
+    const failing = async () => {
+      throw new Error('db down');
+    };
+    expect(await offersUnlock('finance-dashboard', failing)).toBe(true);
+    expect(await offersUnlock('bloom', failing)).toBe(false);
   });
 });

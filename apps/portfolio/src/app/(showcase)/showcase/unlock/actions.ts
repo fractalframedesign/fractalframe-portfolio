@@ -29,7 +29,7 @@ const ERRORS = {
   notNeeded: 'This project doesn’t need a password.',
   locked: 'Too many tries. Try again in 15 minutes.',
   outage:
-    "We can't check passwords right now. Please try again in a few minutes.",
+    'We can’t check passwords right now. Please try again in a few minutes.',
   wrong: 'That password isn’t right. Try again.',
 };
 

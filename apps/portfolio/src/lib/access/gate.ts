@@ -7,7 +7,12 @@ import {
 
 import { ADMIN_COOKIE, verifyAdminSession } from './admin-session';
 import { decideAccess } from './decide';
-import { type AccessLevel, canBeUnlocked, resolveLevel } from './levels';
+import {
+  type AccessLevel,
+  canBeUnlocked,
+  resolveLevel,
+  SEED_LEVELS,
+} from './levels';
 import { parseGuestToken, verifyGuestToken } from './passwords';
 import { getStoredLevels } from './repo/products';
 
@@ -60,7 +65,8 @@ export async function gateRequest({
     return hidden && !isAdmin ? { kind: 'not-found' } : { kind: 'next' };
   }
 
-  if (level === 'public') return { kind: 'allow' };
+  // Public pages need no cookie, so the proxy adds no no-store header
+  if (level === 'public') return { kind: 'next' };
   if (level === 'admin')
     return isAdmin ? { kind: 'allow' } : { kind: 'not-found' };
 
@@ -122,19 +128,40 @@ async function validGuestGrant(
 const LEVEL_TTL_MS = 10_000;
 let levelCache: { at: number; levels: Map<string, AccessLevel> } | undefined;
 
-/** Project levels for the proxy, cached for 10 seconds; failures are not cached */
-export async function getProxyLevels(db: Db, now = Date.now()) {
+/** By name, so it also matches across module instances (and in mocked tests) */
+function isDatabaseUnset(error: unknown) {
+  return error instanceof Error && error.name === 'DatabaseUnavailableError';
+}
+
+function seedLevels() {
+  return new Map(Object.entries(SEED_LEVELS));
+}
+
+/**
+ * Project levels for the proxy, cached for 10 seconds. Failures are never cached:
+ * - DATABASE_URL unset (local dev): the seed levels.
+ * - Database down: the last levels this instance read, however old.
+ * - Down with nothing read yet: rethrows, so the gate fails closed.
+ */
+export async function getProxyLevels(getDb: () => Db, now = Date.now()) {
   if (levelCache && now - levelCache.at < LEVEL_TTL_MS)
     return levelCache.levels;
-  const levels = await getStoredLevels(db);
-  levelCache = { at: now, levels };
-  return levels;
+  try {
+    const levels = await getStoredLevels(getDb());
+    levelCache = { at: now, levels };
+    return levels;
+  } catch (error) {
+    if (isDatabaseUnset(error)) return seedLevels();
+    if (levelCache) return levelCache.levels;
+    throw error;
+  }
 }
 
 /**
  * Whether the unlock form should be offered for a project: only for Unlocked
- * projects. If levels can't be read, offer it for showcase projects that could
- * be Unlocked, since SHOWCASE_ACCESS passwords still work.
+ * projects. With DATABASE_URL unset the seed levels decide. If the database is
+ * down, offer it for showcase projects that could be Unlocked, since
+ * SHOWCASE_ACCESS passwords still work.
  */
 export async function offersUnlock(
   slug: string,
@@ -142,7 +169,9 @@ export async function offersUnlock(
 ) {
   try {
     return resolveLevel(slug, await getLevels()) === 'unlocked';
-  } catch {
+  } catch (error) {
+    if (isDatabaseUnset(error))
+      return resolveLevel(slug, seedLevels()) === 'unlocked';
     return canBeUnlocked(slug);
   }
 }
