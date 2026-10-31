@@ -1,4 +1,4 @@
-import { and, asc, eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 
 import type { Db } from '@/lib/db/client';
 import { accessRequests } from '@/lib/db/schema';
@@ -19,7 +19,7 @@ export async function listPendingRequests(db: Db) {
     .select()
     .from(accessRequests)
     .where(eq(accessRequests.status, 'pending'))
-    .orderBy(asc(accessRequests.createdAt));
+    .orderBy(desc(accessRequests.createdAt));
 }
 
 export async function setRequestStatus(

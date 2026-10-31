@@ -55,7 +55,7 @@ export default function RequestsTable({
   const [open, setOpen] = useState(false);
 
   return (
-    <SectionCard title="Requests" icon={Inbox}>
+    <SectionCard title="New and pending requests" icon={Inbox}>
       {requests.length === 0 ? (
         <p className="text-muted-foreground text-sm">
           No requests waiting. New requests from the unlock page appear here.

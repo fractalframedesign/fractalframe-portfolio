@@ -94,6 +94,7 @@ function failed(action: string, error: unknown): ActionError {
 
 function refreshAdmin() {
   revalidatePath('/admin');
+  revalidatePath('/admin/requests');
   revalidatePath('/admin/guests');
 }
 
