@@ -82,6 +82,14 @@ describe('access state', () => {
     expect((await getGuestPass(db, guestId, now))?.active).toBe(false);
   });
 
+  test('a guest row written without access fields (older code) has no access', async () => {
+    const [row] = await db
+      .insert(guests)
+      .values({ name: 'Old', passwordLookup: 'lookup-old' })
+      .returning({ id: guests.id });
+    expect((await getGuestPass(db, row!.id, now))?.active).toBe(false);
+  });
+
   test('an unknown guest has no pass', async () => {
     expect(
       await getGuestPass(db, '00000000-0000-0000-0000-000000000000', now),

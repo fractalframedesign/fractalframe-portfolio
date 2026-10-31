@@ -151,6 +151,13 @@ does today).
 - The Projects page "Copy password" button opens the invite dialog (no
   project to preselect any more).
 
+## Accepted after review
+
+- "Straight away" means within about 10 seconds: the proxy caches project
+  levels for 10 seconds per instance (`LEVEL_TTL_MS` in `gate.ts`).
+- New `guests` rows default to paused access, so rows written by code from
+  before this change never get open access (migration 0003).
+
 ## Left to the builder
 
 - How the person-level pass is stored (columns on `guests` or a new table),
