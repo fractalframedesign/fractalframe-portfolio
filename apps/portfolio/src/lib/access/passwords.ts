@@ -20,38 +20,34 @@ export async function passwordLookup(password: string) {
   return hmac(sessionSecret(), 'password:' + normalizePassword(password));
 }
 
-/** `${grantId}.${signature}`; verified by recomputing with the grant's current lookup */
-export async function signGuestToken(
-  grantId: string,
-  slug: string,
-  lookup: string,
-) {
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+/**
+ * Guest pass: `${guestId}.${signature}`, one per person for every locked
+ * project. Signed with the guest's current lookup, so a new password ends it.
+ */
+export async function signGuestPass(guestId: string, lookup: string) {
   const signature = await hmac(
     sessionSecret(),
-    ['guest', grantId, slug, lookup].join(':'),
+    ['guest-pass', guestId, lookup].join(':'),
   );
-  return `${grantId}.${signature}`;
+  return `${guestId}.${signature}`;
 }
 
-/** Strict: `<grantId>.<64 hex chars>` with exactly one dot, else null */
-export function parseGuestToken(token: string) {
+/** Strict: `<uuid>.<64 hex chars>`, else null */
+export function parseGuestPass(token: string) {
   const parts = token.split('.');
   if (parts.length !== 2) return null;
-  const [grantId = '', signature = ''] = parts;
-  if (!grantId || !/^[0-9a-f]{64}$/.test(signature)) return null;
-  return { grantId, signature };
+  const [guestId = '', signature = ''] = parts;
+  if (!UUID.test(guestId) || !/^[0-9a-f]{64}$/.test(signature)) return null;
+  return { guestId, signature };
 }
 
-/** True only if the token was signed for this slug with the grant's current lookup */
-export async function verifyGuestToken(
-  token: string,
-  slug: string,
-  lookup: string,
-) {
-  const parsed = parseGuestToken(token);
+/** True only if the pass was signed with the guest's current lookup */
+export async function verifyGuestPass(token: string, lookup: string) {
+  const parsed = parseGuestPass(token);
   if (!parsed) return false;
-  const expected = await signGuestToken(parsed.grantId, slug, lookup);
-  return safeEqual(token, expected);
+  return safeEqual(token, await signGuestPass(parsed.guestId, lookup));
 }
 
 /** Three distinct words and a number from 10 to 99, e.g. amber-river-42 */

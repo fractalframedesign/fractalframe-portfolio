@@ -1,19 +1,22 @@
+import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { createGuest } from '@/lib/access/repo/guests';
+import { inviteGuest } from '@/lib/access/repo/guest-access';
 import { seedProducts } from '@/lib/access/repo/products';
 import { listPendingRequests } from '@/lib/access/repo/requests';
 import type { Db } from '@/lib/db/client';
+import { products } from '@/lib/db/schema';
 import { createTestDb } from '@/lib/db/test-db';
-import { accessCookieName, guestCookieName } from '@/lib/showcase-access';
+import { accessCookieName, GUEST_PASS_COOKIE } from '@/lib/showcase-access';
 
-import { unlock } from './actions';
 import { requestAccess } from './request-access';
+import { unlock } from './unlock';
 
 const state = vi.hoisted(() => ({
   db: undefined as unknown,
   dbDown: false,
   cookies: new Map<string, string>(),
+  paths: new Map<string, string | undefined>(),
   ip: '203.0.113.7',
 }));
 
@@ -26,7 +29,10 @@ vi.mock('@/lib/db/client', () => ({
 
 vi.mock('next/headers', () => ({
   cookies: async () => ({
-    set: (name: string, value: string) => state.cookies.set(name, value),
+    set: (name: string, value: string, options?: { path?: string }) => {
+      state.cookies.set(name, value);
+      state.paths.set(name, options?.path);
+    },
   }),
   headers: async () =>
     new Headers({ 'x-forwarded-for': `${state.ip}, 10.0.0.1` }),
@@ -39,6 +45,8 @@ vi.mock('next/navigation', () => ({
 }));
 
 const SLUG = 'fintech-components';
+/** A case study without a live demo */
+const CASE_STUDY = 'cactus-plant';
 
 function form(values: Record<string, string>) {
   const data = new FormData();
@@ -58,32 +66,86 @@ beforeEach(async () => {
   await seedProducts(db);
   state.db = db;
   state.dbDown = false;
+  await db
+    .update(products)
+    .set({ level: 'unlocked' })
+    .where(eq(products.slug, CASE_STUDY));
   state.cookies.clear();
+  state.paths.clear();
   delete process.env.SHOWCASE_ACCESS;
   delete process.env.RESEND_API_KEY;
   vi.unstubAllGlobals();
 });
 
 describe('unlock', () => {
-  test('a guest password sets the guest cookie and redirects', async () => {
-    const { password } = await createGuest(state.db as Db, {
+  test('a guest password sets one pass cookie for the whole site and redirects', async () => {
+    const { password } = await inviteGuest(state.db as Db, {
       name: 'Ada',
-      products: [SLUG],
       expiresAt: null,
-      source: 'manual',
     });
     await expect(unlockWith(password)).rejects.toThrow(
       `REDIRECT:/showcase/${SLUG}/docs`,
     );
-    expect(state.cookies.get(guestCookieName(SLUG))).toMatch(
+    expect(state.cookies.get(GUEST_PASS_COOKIE)).toMatch(
       /^[0-9a-f-]{36}\.[0-9a-f]{64}$/,
     );
+    expect(state.paths.get(GUEST_PASS_COOKIE)).toBe('/');
+  });
+
+  test('a locked case study unlocks and returns to its page', async () => {
+    const { password } = await inviteGuest(state.db as Db, {
+      name: 'Ada',
+      expiresAt: null,
+    });
+    await expect(
+      unlock(
+        {},
+        form({
+          project: CASE_STUDY,
+          password,
+          next: `/projects/${CASE_STUDY}`,
+        }),
+      ),
+    ).rejects.toThrow(`REDIRECT:/projects/${CASE_STUDY}`);
+  });
+
+  test('next never leaves the project', async () => {
+    const { password } = await inviteGuest(state.db as Db, {
+      name: 'Ada',
+      expiresAt: null,
+    });
+    for (const next of [
+      '//evil.com',
+      '/admin',
+      '/projects/bloom',
+      `/projects/${CASE_STUDY}-other`,
+      `/projects/${CASE_STUDY}/../../admin`,
+      '',
+    ])
+      await expect(
+        unlock({}, form({ project: CASE_STUDY, password, next })),
+      ).rejects.toThrow(`REDIRECT:/projects/${CASE_STUDY}`);
+    await expect(
+      unlock({}, form({ project: SLUG, password, next: '//evil.com' })),
+    ).rejects.toThrow(`REDIRECT:/showcase/${SLUG}`);
+  });
+
+  test('a paused guest is refused', async () => {
+    const { password } = await inviteGuest(state.db as Db, {
+      name: 'Ada',
+      expiresAt: new Date(Date.now() - 1000),
+    });
+    expect(await unlockWith(password)).toEqual({
+      error: 'That password isn’t right. Try again.',
+    });
+    expect(state.cookies.has(GUEST_PASS_COOKIE)).toBe(false);
   });
 
   test('projects that are not Unlocked need no password', async () => {
     expect(await unlock({}, form({ project: 'bloom', password: 'x' }))).toEqual(
       { error: 'This project doesn’t need a password.' },
     );
+    expect(state.cookies.size).toBe(0);
   });
 
   test('unlock reports outage, still accepts fallback', async () => {
@@ -152,6 +214,17 @@ describe('requestAccess', () => {
     expect(await request()).toMatchObject({
       error: 'Your request didn’t send. Please try again.',
     });
+  });
+
+  test('a locked case study can be requested', async () => {
+    expect(
+      await requestAccess(
+        {},
+        form({ project: CASE_STUDY, name: 'Ada', email: 'ada@example.com' }),
+      ),
+    ).toEqual({ sent: true });
+    const [saved] = await listPendingRequests(state.db as Db);
+    expect(saved?.productSlug).toBe(CASE_STUDY);
   });
 
   test('requests for projects that are not Unlocked are refused', async () => {

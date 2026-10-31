@@ -3,10 +3,10 @@ import { describe, expect, test } from 'vitest';
 import {
   generatePassword,
   normalizePassword,
-  parseGuestToken,
+  parseGuestPass,
   passwordLookup,
-  signGuestToken,
-  verifyGuestToken,
+  signGuestPass,
+  verifyGuestPass,
 } from './passwords';
 import { WORDS } from './words';
 
@@ -55,28 +55,27 @@ describe('WORDS', () => {
   });
 });
 
-describe('guest tokens', () => {
-  const grantId = '11111111-1111-4111-8111-111111111111';
+describe('guest pass', () => {
+  const GUEST = '11111111-1111-4111-8111-111111111111';
 
-  test('verifyGuestToken accepts a token signed with the same lookup', async () => {
-    const token = await signGuestToken(grantId, 'slug', 'lookup-1');
-    expect(await verifyGuestToken(token, 'slug', 'lookup-1')).toBe(true);
-    expect(await verifyGuestToken(token, 'other', 'lookup-1')).toBe(false);
+  test('round-trips for the same guest and password lookup', async () => {
+    const pass = await signGuestPass(GUEST, 'lookup-1');
+    expect(await verifyGuestPass(pass, 'lookup-1')).toBe(true);
+    expect(parseGuestPass(pass)?.guestId).toBe(GUEST);
   });
 
-  test('a token stops verifying after the password changes', async () => {
-    const token = await signGuestToken(grantId, 'slug', 'lookup-1');
-    expect(await verifyGuestToken(token, 'slug', 'lookup-2')).toBe(false);
+  test('a new password, another guest or a tampered signature fails', async () => {
+    const pass = await signGuestPass(GUEST, 'lookup-1');
+    expect(await verifyGuestPass(pass, 'lookup-2')).toBe(false);
+    const other = pass.replace(GUEST, GUEST.replace('1', '2'));
+    expect(await verifyGuestPass(other, 'lookup-1')).toBe(false);
+    const flipped = pass.slice(0, -1) + (pass.endsWith('0') ? '1' : '0');
+    expect(await verifyGuestPass(flipped, 'lookup-1')).toBe(false);
   });
 
-  test('parseGuestToken is strict', async () => {
-    const token = await signGuestToken(grantId, 'slug', 'lookup-1');
-    const signature = token.split('.')[1]!;
-    expect(parseGuestToken(token)).toEqual({ grantId, signature });
-    expect(parseGuestToken(`a.${grantId}.${signature}`)).toBeNull();
-    expect(parseGuestToken(`${grantId}.${signature.toUpperCase()}`)).toBeNull();
-    expect(parseGuestToken(`${grantId}.${signature}0`)).toBeNull();
-    expect(parseGuestToken(`${grantId}.xyz`)).toBeNull();
-    expect(await verifyGuestToken('garbage', 'slug', 'lookup-1')).toBe(false);
+  test('parse is strict', () => {
+    expect(parseGuestPass('a.b.c')).toBeNull();
+    expect(parseGuestPass(`${'x'}.${'a'.repeat(64)}`)).toBeNull();
+    expect(parseGuestPass(`${GUEST}.short`)).toBeNull();
   });
 });

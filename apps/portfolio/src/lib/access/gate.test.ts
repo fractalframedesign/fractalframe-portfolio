@@ -3,28 +3,29 @@ import { afterEach, describe, expect, test, vi } from 'vitest';
 import { DatabaseUnavailableError, type Db } from '@/lib/db/client';
 import {
   accessCookieName,
-  guestCookieName,
+  GUEST_PASS_COOKIE,
   tokenForPassword,
 } from '@/lib/showcase-access';
 
 import { ADMIN_COOKIE, createAdminSession } from './admin-session';
 import { type GateDeps, gateRequest, offersUnlock } from './gate';
 import type { AccessLevel } from './levels';
-import { signGuestToken } from './passwords';
+import { signGuestPass } from './passwords';
 
 const NOW = new Date('2026-01-01T12:00:00Z');
-const GRANT = '11111111-1111-4111-8111-111111111111';
+const GUEST = '11111111-1111-4111-8111-111111111111';
 
 const levels = new Map<string, AccessLevel>([
   ['bloom', 'public'],
   ['fintech-components', 'unlocked'],
+  ['cactus-plant', 'unlocked'],
   ['secret', 'admin'],
 ]);
 
 function deps(overrides: Partial<GateDeps> = {}): GateDeps {
   return {
     getLevels: async () => levels,
-    getGrantForToken: async () => null,
+    getGuestPass: async () => null,
     now: () => NOW,
     ...overrides,
   };
@@ -107,77 +108,98 @@ describe('gateRequest', () => {
         cookies: cookies(),
         deps: deps(),
       }),
-    ).toEqual({ kind: 'unlock', slug: 'fintech-components' });
+    ).toEqual({
+      kind: 'unlock',
+      slug: 'fintech-components',
+      section: 'showcase',
+    });
   });
 
-  test('unlocked with a valid guest token is allowed and records a visit', async () => {
-    const token = await signGuestToken(GRANT, 'fintech-components', 'lookup-1');
-    const getGrantForToken = vi.fn(async () => ({
+  test('a locked case study asks for a password on /projects', async () => {
+    expect(
+      await gateRequest({
+        pathname: '/projects/cactus-plant',
+        cookies: cookies(),
+        deps: deps(),
+      }),
+    ).toEqual({ kind: 'unlock', slug: 'cactus-plant', section: 'projects' });
+  });
+
+  test('one guest pass opens every locked project and records a visit', async () => {
+    const pass = await signGuestPass(GUEST, 'lookup-1');
+    const getGuestPass = vi.fn(async () => ({
       passwordLookup: 'lookup-1',
       active: true,
     }));
-    expect(
-      await gateRequest({
-        pathname: '/showcase/fintech-components/docs',
-        cookies: cookies({ [guestCookieName('fintech-components')]: token }),
-        deps: deps({ getGrantForToken }),
-      }),
-    ).toEqual({ kind: 'allow', recordVisit: GRANT });
-    expect(getGrantForToken).toHaveBeenCalledWith(
-      GRANT,
-      'fintech-components',
-      NOW,
-    );
-  });
-
-  test('guest token after a password reset asks for a password', async () => {
-    const token = await signGuestToken(GRANT, 'fintech-components', 'lookup-1');
-    expect(
-      await gateRequest({
-        pathname: '/showcase/fintech-components',
-        cookies: cookies({ [guestCookieName('fintech-components')]: token }),
-        deps: deps({
-          getGrantForToken: async () => ({
-            passwordLookup: 'lookup-2',
-            active: true,
-          }),
+    for (const pathname of [
+      '/showcase/fintech-components/docs',
+      '/projects/fintech-components',
+      '/projects/cactus-plant',
+    ])
+      expect(
+        await gateRequest({
+          pathname,
+          cookies: cookies({ [GUEST_PASS_COOKIE]: pass }),
+          deps: deps({ getGuestPass }),
         }),
-      }),
-    ).toEqual({ kind: 'unlock', slug: 'fintech-components' });
+      ).toEqual({ kind: 'allow', recordVisit: GUEST });
+    expect(getGuestPass).toHaveBeenCalledWith(GUEST, NOW);
   });
 
-  test('inactive grant or grant lookup error asks for a password', async () => {
-    const token = await signGuestToken(GRANT, 'fintech-components', 'lookup-1');
-    const guest = cookies({ [guestCookieName('fintech-components')]: token });
-    for (const getGrantForToken of [
+  test('a pass from before a new password, or for a paused, expired or deleted guest, asks again', async () => {
+    const pass = cookies({
+      [GUEST_PASS_COOKIE]: await signGuestPass(GUEST, 'lookup-1'),
+    });
+    for (const getGuestPass of [
+      async () => ({ passwordLookup: 'lookup-2', active: true }),
       async () => ({ passwordLookup: 'lookup-1', active: false }),
+      async () => null,
       async () => {
         throw new Error('db down');
       },
     ])
       expect(
         await gateRequest({
-          pathname: '/showcase/fintech-components',
-          cookies: guest,
-          deps: deps({ getGrantForToken }),
+          pathname: '/projects/cactus-plant',
+          cookies: pass,
+          deps: deps({ getGuestPass }),
         }),
-      ).toEqual({ kind: 'unlock', slug: 'fintech-components' });
+      ).toEqual({ kind: 'unlock', slug: 'cactus-plant', section: 'projects' });
   });
 
-  test('a guest token for another project is not accepted', async () => {
-    const token = await signGuestToken(GRANT, 'other', 'lookup-1');
+  test('old per-project guest cookies no longer open anything', async () => {
     expect(
       await gateRequest({
         pathname: '/showcase/fintech-components',
-        cookies: cookies({ [guestCookieName('fintech-components')]: token }),
+        cookies: cookies({
+          'showcase-guest-fintech-components': `${GUEST}.${'a'.repeat(64)}`,
+        }),
         deps: deps({
-          getGrantForToken: async () => ({
+          getGuestPass: async () => ({ passwordLookup: 'x', active: true }),
+        }),
+      }),
+    ).toEqual({
+      kind: 'unlock',
+      slug: 'fintech-components',
+      section: 'showcase',
+    });
+  });
+
+  test('a pass never opens hidden projects', async () => {
+    expect(
+      await gateRequest({
+        pathname: '/projects/secret',
+        cookies: cookies({
+          [GUEST_PASS_COOKIE]: await signGuestPass(GUEST, 'lookup-1'),
+        }),
+        deps: deps({
+          getGuestPass: async () => ({
             passwordLookup: 'lookup-1',
             active: true,
           }),
         }),
       }),
-    ).toEqual({ kind: 'unlock', slug: 'fintech-components' });
+    ).toEqual({ kind: 'not-found' });
   });
 
   test('database down: fallback cookie allows, nothing else asks for a password', async () => {
@@ -186,6 +208,7 @@ describe('gateRequest', () => {
       getLevels: async () => {
         throw new Error('db down');
       },
+      getGuestPass: async () => ({ passwordLookup: 'lookup-1', active: true }),
     });
     const fallback = (await tokenForPassword('secret', 'open-sesame'))!;
     expect(
@@ -197,25 +220,22 @@ describe('gateRequest', () => {
     ).toEqual({ kind: 'allow' });
     expect(
       await gateRequest({
-        pathname: '/showcase/bloom',
-        cookies: cookies(),
+        pathname: '/projects/bloom',
+        cookies: cookies({
+          [GUEST_PASS_COOKIE]: await signGuestPass(GUEST, 'lookup-1'),
+        }),
         deps: failing,
       }),
-    ).toEqual({ kind: 'unlock', slug: 'bloom' });
+    ).toEqual({ kind: 'unlock', slug: 'bloom', section: 'projects' });
   });
 
   test('fallback cookie opens unlocked but never admin projects', async () => {
     process.env.SHOWCASE_ACCESS = 'kiran:open-sesame:*';
-    const unlocked = (await tokenForPassword(
-      'fintech-components',
-      'open-sesame',
-    ))!;
+    const unlocked = (await tokenForPassword('cactus-plant', 'open-sesame'))!;
     expect(
       await gateRequest({
-        pathname: '/showcase/fintech-components',
-        cookies: cookies({
-          [accessCookieName('fintech-components')]: unlocked,
-        }),
+        pathname: '/projects/cactus-plant',
+        cookies: cookies({ [accessCookieName('cactus-plant')]: unlocked }),
         deps: deps(),
       }),
     ).toEqual({ kind: 'allow' });
@@ -229,50 +249,28 @@ describe('gateRequest', () => {
     ).toEqual({ kind: 'not-found' });
   });
 
-  test('/projects/<slug> only gates admin level', async () => {
-    const projectLevels = new Map<string, AccessLevel>([['bloom', 'admin']]);
+  test('/projects/<slug>: public passes, hidden is admin-only', async () => {
     expect(
       await gateRequest({
         pathname: '/projects/bloom',
         cookies: cookies(),
-        deps: deps({ getLevels: async () => projectLevels }),
+        deps: deps(),
+      }),
+    ).toEqual({ kind: 'next' });
+    expect(
+      await gateRequest({
+        pathname: '/projects/secret',
+        cookies: cookies(),
+        deps: deps(),
       }),
     ).toEqual({ kind: 'not-found' });
     expect(
       await gateRequest({
-        pathname: '/projects/bloom',
+        pathname: '/projects/secret',
         cookies: cookies({ [ADMIN_COOKIE]: await createAdminSession(NOW) }),
-        deps: deps({ getLevels: async () => projectLevels }),
-      }),
-    ).toEqual({ kind: 'next' });
-    expect(
-      await gateRequest({
-        pathname: '/projects/bloom',
-        cookies: cookies(),
         deps: deps(),
       }),
-    ).toEqual({ kind: 'next' });
-    expect(
-      await gateRequest({
-        pathname: '/projects/fintech-components',
-        cookies: cookies(),
-        deps: deps(),
-      }),
-    ).toEqual({ kind: 'next' });
-  });
-
-  test('/projects/<slug> fails closed when the database is down', async () => {
-    expect(
-      await gateRequest({
-        pathname: '/projects/bloom',
-        cookies: cookies(),
-        deps: deps({
-          getLevels: async () => {
-            throw new Error('db down');
-          },
-        }),
-      }),
-    ).toEqual({ kind: 'not-found' });
+    ).toEqual({ kind: 'allow' });
   });
 });
 
@@ -334,7 +332,11 @@ describe('getProxyLevels', () => {
         cookies: cookies(),
         deps: seeded,
       }),
-    ).toEqual({ kind: 'unlock', slug: 'fintech-components' });
+    ).toEqual({
+      kind: 'unlock',
+      slug: 'fintech-components',
+      section: 'showcase',
+    });
     expect(
       await gate.gateRequest({
         pathname: '/projects/not-seeded',
@@ -355,7 +357,7 @@ describe('getProxyLevels', () => {
     expect(failing.from).toHaveBeenCalledOnce();
   });
 
-  test('database down with a cold cache: fails closed', async () => {
+  test('database down with a cold cache: fails closed (the lock, never the page)', async () => {
     const gate = await freshGate();
     const failing = down();
     await expect(gate.getProxyLevels(() => failing.db)).rejects.toThrow(
@@ -367,7 +369,7 @@ describe('getProxyLevels', () => {
         cookies: cookies(),
         deps: deps({ getLevels: () => gate.getProxyLevels(() => failing.db) }),
       }),
-    ).toEqual({ kind: 'not-found' });
+    ).toEqual({ kind: 'unlock', slug: 'bloom', section: 'projects' });
   });
 });
 

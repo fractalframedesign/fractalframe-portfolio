@@ -1,21 +1,20 @@
 import type { Db } from '@/lib/db/client';
 import {
   accessCookieName,
-  guestCookieName,
+  GUEST_PASS_COOKIE,
   hasAccess,
 } from '@/lib/showcase-access';
 
 import { ADMIN_COOKIE, verifyAdminSession } from './admin-session';
 import { decideAccess } from './decide';
 import { type AccessLevel, resolveLevel, SEED_LEVELS } from './levels';
-import { parseGuestToken, verifyGuestToken } from './passwords';
+import { parseGuestPass, verifyGuestPass } from './passwords';
 import { getStoredLevels } from './repo/products';
 
 export type GateDeps = {
   getLevels(): Promise<Map<string, AccessLevel>>;
-  getGrantForToken(
-    grantId: string,
-    slug: string,
+  getGuestPass(
+    guestId: string,
     now: Date,
   ): Promise<{ passwordLookup: string; active: boolean } | null>;
   now(): Date;
@@ -23,8 +22,9 @@ export type GateDeps = {
 
 export type GateResult =
   | { kind: 'next' }
+  /** recordVisit: the guest id whose pass opened the page */
   | { kind: 'allow'; recordVisit?: string }
-  | { kind: 'unlock'; slug: string }
+  | { kind: 'unlock'; slug: string; section: 'projects' | 'showcase' }
   | { kind: 'not-found' };
 
 type GateInput = {
@@ -32,8 +32,6 @@ type GateInput = {
   cookies: { get(name: string): string | undefined };
   deps: GateDeps;
 };
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 
 /**
  * Decides what the proxy does with a /showcase or /projects request.
@@ -54,38 +52,32 @@ export async function gateRequest({
   const level = await levelOf(slug, deps);
   const isAdmin = await verifyAdminSession(cookies.get(ADMIN_COOKIE), now);
 
-  // Project pages only hide Admin projects; Unlocked ones stay listed
-  if (section === 'projects') {
-    const hidden = level === 'admin' || level === 'unknown-db-down';
-    return hidden && !isAdmin ? { kind: 'not-found' } : { kind: 'next' };
-  }
-
   // Public pages need no cookie, so the proxy adds no no-store header
   if (level === 'public') return { kind: 'next' };
   if (level === 'admin')
     return isAdmin ? { kind: 'allow' } : { kind: 'not-found' };
 
-  const guestGrant =
+  const guestId =
     level === 'unlocked' && !isAdmin
-      ? await validGuestGrant(slug, cookies.get(guestCookieName(slug)), deps)
+      ? await validGuestPass(cookies.get(GUEST_PASS_COOKIE), deps)
       : null;
   const hasFallbackAccess =
-    !isAdmin && !guestGrant
+    !isAdmin && !guestId
       ? await hasAccess(slug, cookies.get(accessCookieName(slug)))
       : false;
 
   const decision = decideAccess({
     level,
     isAdmin,
-    hasGuestAccess: Boolean(guestGrant),
+    hasGuestAccess: Boolean(guestId),
     hasFallbackAccess,
   });
 
   if (decision === 'allow')
-    return guestGrant
-      ? { kind: 'allow', recordVisit: guestGrant }
+    return guestId
+      ? { kind: 'allow', recordVisit: guestId }
       : { kind: 'allow' };
-  if (decision === 'unlock') return { kind: 'unlock', slug };
+  if (decision === 'unlock') return { kind: 'unlock', slug, section };
   return { kind: 'not-found' };
 }
 
@@ -100,20 +92,16 @@ async function levelOf(
   }
 }
 
-/** Returns the grant id when the guest cookie is valid right now */
-async function validGuestGrant(
-  slug: string,
-  token: string | undefined,
-  deps: GateDeps,
-) {
-  const parsed = token ? parseGuestToken(token) : null;
-  if (!token || !parsed || !UUID.test(parsed.grantId)) return null;
+/** Returns the guest id when the pass cookie is valid right now */
+async function validGuestPass(token: string | undefined, deps: GateDeps) {
+  const parsed = token ? parseGuestPass(token) : null;
+  if (!token || !parsed) return null;
 
   try {
-    const grant = await deps.getGrantForToken(parsed.grantId, slug, deps.now());
-    if (!grant?.active) return null;
-    return (await verifyGuestToken(token, slug, grant.passwordLookup))
-      ? parsed.grantId
+    const pass = await deps.getGuestPass(parsed.guestId, deps.now());
+    if (!pass?.active) return null;
+    return (await verifyGuestPass(token, pass.passwordLookup))
+      ? parsed.guestId
       : null;
   } catch {
     return null;

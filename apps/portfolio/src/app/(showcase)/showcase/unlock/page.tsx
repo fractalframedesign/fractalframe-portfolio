@@ -2,8 +2,8 @@ import { Lock } from 'lucide-react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import RequestAccessDialog from '@/components/showcase/request-access-dialog';
-import UnlockForm from '@/components/showcase/unlock-form';
+import RequestAccessDialog from '@/components/access/request-access-dialog';
+import UnlockForm from '@/components/access/unlock-form';
 import {
   Card,
   CardContent,

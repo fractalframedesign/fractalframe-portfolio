@@ -1,19 +1,24 @@
 'use server';
 
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
+import { clientIp } from '@/lib/access/admin-request';
 import { offersUnlock } from '@/lib/access/gate';
-import { signGuestToken } from '@/lib/access/passwords';
-import { findGrantByPassword, recordVisit } from '@/lib/access/repo/guests';
+import { signGuestPass } from '@/lib/access/passwords';
+import {
+  findGuestByPassword,
+  recordGuestVisit,
+} from '@/lib/access/repo/guest-access';
 import { getStoredLevels } from '@/lib/access/repo/products';
 import { isLocked, recordFailure } from '@/lib/access/repo/rate-limit';
 import { getDb } from '@/lib/db/client';
+import { getShowcaseProject } from '@/lib/showcase';
 import {
   accessCookieName,
   accessCookieOptions,
-  guestCookieName,
+  GUEST_PASS_COOKIE,
   tokenForPassword,
 } from '@/lib/showcase-access';
 
@@ -56,29 +61,25 @@ export async function unlock(
   }
 
   let dbDown = false;
-  const grant = await tryDb(
-    (db) => findGrantByPassword(db, slug, password, now),
+  const guest = await tryDb(
+    (db) => findGuestByPassword(db, password, now),
     () => (dbDown = true),
   );
   const cookieStore = await cookies();
 
-  if (grant) {
+  if (guest) {
     cookieStore.set(
-      guestCookieName(slug),
-      await signGuestToken(grant.grantId, slug, grant.passwordLookup),
-      accessCookieOptions(slug),
+      GUEST_PASS_COOKIE,
+      await signGuestPass(guest.guestId, guest.passwordLookup),
+      accessCookieOptions(),
     );
-    await tryDb((db) => recordVisit(db, grant.grantId, now));
+    await tryDb((db) => recordGuestVisit(db, guest.guestId, now));
     redirect(safeNext(slug, next));
   }
 
   const fallback = await tokenForPassword(slug, password);
   if (fallback) {
-    cookieStore.set(
-      accessCookieName(slug),
-      fallback,
-      accessCookieOptions(slug),
-    );
+    cookieStore.set(accessCookieName(slug), fallback, accessCookieOptions());
     redirect(safeNext(slug, next));
   }
 
@@ -102,17 +103,17 @@ async function tryDb<T>(
   }
 }
 
-async function clientIp() {
-  const forwarded = (await headers()).get('x-forwarded-for');
-  return forwarded?.split(',')[0]?.trim() || 'unknown';
-}
-
-/** Only follow `next` back into the same project, never to another site */
+/**
+ * Only follow `next` back into the same project (its showcase or its case
+ * study), never anywhere else. Default: the demo if it has one.
+ */
 function safeNext(slug: string, next: string) {
-  const base = `/showcase/${slug}`;
-  return next === base ||
-    next.startsWith(`${base}/`) ||
-    next.startsWith(`${base}?`)
-    ? next
-    : base;
+  const showcase = `/showcase/${slug}`;
+  const caseStudy = `/projects/${slug}`;
+  const within = (base: string) =>
+    next === base ||
+    (next.startsWith(base) && /^[/?#]/.test(next.slice(base.length)));
+  const climbs = next.includes('..') || next.includes('\\');
+  if (!climbs && (within(showcase) || within(caseStudy))) return next;
+  return getShowcaseProject(slug) ? showcase : caseStudy;
 }

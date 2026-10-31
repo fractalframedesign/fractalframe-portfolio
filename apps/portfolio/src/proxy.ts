@@ -6,7 +6,7 @@ import {
 
 import { ADMIN_COOKIE, verifyAdminSession } from '@/lib/access/admin-session';
 import { gateRequest, getProxyLevels } from '@/lib/access/gate';
-import { getGrantForToken, recordVisit } from '@/lib/access/repo/guests';
+import { getGuestPass, recordGuestVisit } from '@/lib/access/repo/guest-access';
 import { getDb } from '@/lib/db/client';
 
 const NO_STORE = 'private, no-store, max-age=0';
@@ -23,8 +23,7 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     cookies: { get: (name) => request.cookies.get(name)?.value },
     deps: {
       getLevels: () => getProxyLevels(getDb),
-      getGrantForToken: (grantId, slug, now) =>
-        getGrantForToken(getDb(), grantId, slug, now),
+      getGuestPass: (guestId, now) => getGuestPass(getDb(), guestId, now),
       now: () => new Date(),
     },
   });
@@ -33,10 +32,10 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
     case 'next':
       return NextResponse.next();
     case 'allow': {
-      const grantId = result.recordVisit;
-      if (grantId) {
+      const guestId = result.recordVisit;
+      if (guestId) {
         event.waitUntil(
-          recordVisit(getDb(), grantId, new Date()).catch((error) =>
+          recordGuestVisit(getDb(), guestId, new Date()).catch((error) =>
             console.error('Recording a guest visit failed', error),
           ),
         );
@@ -45,6 +44,12 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
       return noStore(NextResponse.next());
     }
     case 'unlock': {
+      // Case studies show a teaser in place, so the full page is never sent
+      if (result.section === 'projects') {
+        return noStore(
+          NextResponse.rewrite(new URL(`/locked/${result.slug}`, request.url)),
+        );
+      }
       const unlockUrl = new URL('/showcase/unlock', request.url);
       unlockUrl.searchParams.set('project', result.slug);
       unlockUrl.searchParams.set('next', pathname + search);

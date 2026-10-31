@@ -7,7 +7,7 @@ import { getStoredLevels } from '@/lib/access/repo/products';
 import { saveRequest } from '@/lib/access/repo/requests';
 import { CONTACT_EMAIL } from '@/lib/constants';
 import { getDb } from '@/lib/db/client';
-import { getShowcaseProject } from '@/lib/showcase';
+import { getAllProjects } from '@/lib/projects';
 
 export type RequestAccessState = {
   sent?: boolean;
@@ -33,7 +33,7 @@ export async function requestAccess(
   if (formData.get('company')) return { sent: true };
 
   const slug = String(formData.get('project') ?? '');
-  const project = getShowcaseProject(slug);
+  const project = (await getAllProjects()).find((item) => item.slug === slug);
   if (!project || !(await offersUnlock(slug, () => getStoredLevels(getDb())))) {
     return { error: 'This project doesn’t need a password.' };
   }

@@ -2,13 +2,10 @@
 
 import { useActionState } from 'react';
 
-import {
-  unlock,
-  type UnlockState,
-} from '@/app/(showcase)/showcase/unlock/actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { unlock, type UnlockState } from '@/lib/access/actions/unlock';
 
 type UnlockFormProps = {
   project: string;

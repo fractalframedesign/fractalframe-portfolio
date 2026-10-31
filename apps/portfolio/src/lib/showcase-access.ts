@@ -19,21 +19,20 @@ export function accessCookieName(slug: string) {
   return `showcase-access-${slug}`;
 }
 
-/** Cookie set by a guest password from the database */
-export function guestCookieName(slug: string) {
-  return `showcase-guest-${slug}`;
-}
+/** Cookie set by a guest password from the database: one for every project */
+export const GUEST_PASS_COOKIE = 'guest-pass';
 
 /**
- * A session cookie: no expiry, so the browser drops it when it closes and
- * the password is asked again on the next visit. Scoped to the project.
+ * Session cookies: no expiry, so the browser drops them when it closes and
+ * the password is asked again on the next visit. Path `/` so one unlock
+ * covers both /projects/<slug> and /showcase/<slug>.
  */
-export function accessCookieOptions(slug: string) {
+export function accessCookieOptions() {
   return {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax' as const,
-    path: `/showcase/${slug}`,
+    path: '/',
   };
 }
 
