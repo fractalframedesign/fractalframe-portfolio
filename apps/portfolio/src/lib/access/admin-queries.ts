@@ -1,15 +1,23 @@
 import { and, asc, desc, eq, gt, ilike, lte, or, sql } from 'drizzle-orm';
 
 import type { Db } from '@/lib/db/client';
-import { accessRequests, grants, guests } from '@/lib/db/schema';
+import { accessRequests, guests } from '@/lib/db/schema';
 import { getAllProjects } from '@/lib/projects';
 
-import { isGrantActive } from './expiry';
-import { type AccessLevel, canBeUnlocked, resolveLevel } from './levels';
-import { type GrantView } from './repo/guests';
+import { type AccessLevel, resolveLevel } from './levels';
+import {
+  type GuestAccess,
+  guestAccessView,
+  isAccessActive,
+} from './repo/guest-access';
 import { getStoredLevels } from './repo/products';
 
 export type PendingRequest = typeof accessRequests.$inferSelect;
+
+/** A pending request, and the guest it belongs to when the email is known */
+export type RequestRow = PendingRequest & {
+  existingGuest: { guestId: string; expiresAt: Date | null } | null;
+};
 
 export type OverviewStats = {
   requestsWaiting: number;
@@ -18,31 +26,17 @@ export type OverviewStats = {
   expiringThisWeek: number;
 };
 
-export type ExpiringGrant = {
-  grantId: string;
+export type ExpiringGuest = {
+  guestId: string;
   guestName: string;
-  projectSlug: string;
   expiresAt: Date;
 };
 
-export type ProtectedProjectRow = {
-  slug: string;
-  name: string;
-  guestCount: number;
-};
+export type ProtectedProjectRow = { slug: string; name: string };
 
-export type ProjectRow = {
-  slug: string;
-  name: string;
-  level: AccessLevel;
-  hasDemo: boolean;
-  guestCount: number;
-};
+export type ProjectRow = { slug: string; name: string; level: AccessLevel };
 
-export type GuestFilters = {
-  project?: string;
-  status?: 'active' | 'paused' | 'expired';
-};
+export type GuestFilters = { status?: 'active' | 'paused' | 'expired' };
 
 const WEEK_MS = 7 * 86_400_000;
 const LIST_LIMIT = 5;
@@ -57,28 +51,59 @@ export async function countPendingRequests(db: Db): Promise<number> {
   return row?.count ?? 0;
 }
 
-/** Every active, unexpired grant with its guest name and project slug */
-async function loadActiveGrants(db: Db, now: Date) {
-  const rows = await db
-    .select({
-      grantId: grants.id,
-      guestId: grants.guestId,
-      guestName: guests.name,
-      projectSlug: grants.productSlug,
-      status: grants.status,
-      expiresAt: grants.expiresAt,
-    })
-    .from(grants)
-    .innerJoin(guests, eq(guests.id, grants.guestId));
-  return rows.filter((row) => isGrantActive(row, now));
+/** Every guest whose access is active and unexpired */
+async function loadActiveGuests(db: Db, now: Date) {
+  const rows = await db.select(guestAccessView).from(guests);
+  return rows.filter((row) => isAccessActive(row, now));
 }
 
-function countBySlug(rows: Array<{ projectSlug: string }>) {
-  const counts = new Map<string, number>();
-  for (const { projectSlug } of rows) {
-    counts.set(projectSlug, (counts.get(projectSlug) ?? 0) + 1);
-  }
-  return counts;
+async function attachGuests(
+  db: Db,
+  requests: PendingRequest[],
+): Promise<RequestRow[]> {
+  const emails = [...new Set(requests.map((request) => request.email))];
+  const known = emails.length
+    ? await db
+        .select({
+          guestId: guests.id,
+          email: guests.email,
+          expiresAt: guests.accessExpiresAt,
+        })
+        .from(guests)
+        .where(
+          sql`lower(trim(${guests.email})) in (${sql.join(
+            emails.map((email) => sql`${email.trim().toLowerCase()}`),
+            sql`, `,
+          )})`,
+        )
+    : [];
+  const byEmail = new Map(
+    known.map((guest) => [guest.email!.trim().toLowerCase(), guest]),
+  );
+
+  return requests.map((request) => {
+    const guest = byEmail.get(request.email.trim().toLowerCase());
+    return {
+      ...request,
+      existingGuest: guest
+        ? { guestId: guest.guestId, expiresAt: guest.expiresAt }
+        : null,
+    };
+  });
+}
+
+async function pendingRequests(db: Db, limit?: number) {
+  const query = db
+    .select()
+    .from(accessRequests)
+    .where(eq(accessRequests.status, 'pending'))
+    .orderBy(desc(accessRequests.createdAt));
+  return limit ? query.limit(limit) : query;
+}
+
+/** Pending requests, newest first, each marked when it's from an existing guest */
+export async function listRequestsWithGuests(db: Db): Promise<RequestRow[]> {
+  return attachGuests(db, await pendingRequests(db));
 }
 
 export async function getOverview(
@@ -86,79 +111,58 @@ export async function getOverview(
   now: Date,
 ): Promise<{
   stats: OverviewStats;
-  waiting: PendingRequest[];
-  expiring: ExpiringGrant[];
+  waiting: RequestRow[];
+  expiring: ExpiringGuest[];
   protected: ProtectedProjectRow[];
 }> {
   const [levels, projects, active, waitingCount, waiting] = await Promise.all([
     getStoredLevels(db),
     getAllProjects(),
-    loadActiveGrants(db, now),
+    loadActiveGuests(db, now),
     countPendingRequests(db),
-    db
-      .select()
-      .from(accessRequests)
-      .where(eq(accessRequests.status, 'pending'))
-      .orderBy(desc(accessRequests.createdAt))
-      .limit(LIST_LIMIT),
+    pendingRequests(db, LIST_LIMIT),
   ]);
 
   const weekEnd = now.getTime() + WEEK_MS;
   const expiringAll = active
     .filter(
-      (row): row is typeof row & { expiresAt: Date } =>
+      (row): row is GuestAccess & { expiresAt: Date } =>
         row.expiresAt !== null && row.expiresAt.getTime() <= weekEnd,
     )
     .sort((a, b) => a.expiresAt.getTime() - b.expiresAt.getTime());
 
-  const counts = countBySlug(active);
   const protectedRows = projects
     .filter((project) => resolveLevel(project.slug, levels) === 'unlocked')
-    .map((project) => ({
-      slug: project.slug,
-      name: project.name,
-      guestCount: counts.get(project.slug) ?? 0,
-    }));
+    .map(({ slug, name }) => ({ slug, name }));
 
   return {
     stats: {
       requestsWaiting: waitingCount,
       protectedProjects: protectedRows.length,
-      activeGuests: new Set(active.map((row) => row.guestId)).size,
+      activeGuests: active.length,
       expiringThisWeek: expiringAll.length,
     },
-    waiting,
+    waiting: await attachGuests(db, waiting),
     expiring: expiringAll.slice(0, LIST_LIMIT).map((row) => ({
-      grantId: row.grantId,
-      guestName: row.guestName,
-      projectSlug: row.projectSlug,
+      guestId: row.guestId,
+      guestName: row.name,
       expiresAt: row.expiresAt,
     })),
     protected: protectedRows,
   };
 }
 
-export async function getProjectRows(
-  db: Db,
-  now: Date,
-): Promise<{ demo: ProjectRow[]; other: ProjectRow[] }> {
-  const [levels, projects, active] = await Promise.all([
+/** Every project with its access level, in content order */
+export async function getProjectRows(db: Db): Promise<ProjectRow[]> {
+  const [levels, projects] = await Promise.all([
     getStoredLevels(db),
     getAllProjects(),
-    loadActiveGrants(db, now),
   ]);
-  const counts = countBySlug(active);
-  const rows = projects.map((project) => ({
+  return projects.map((project) => ({
     slug: project.slug,
     name: project.name,
     level: resolveLevel(project.slug, levels),
-    hasDemo: canBeUnlocked(project.slug),
-    guestCount: counts.get(project.slug) ?? 0,
   }));
-  return {
-    demo: rows.filter((row) => row.hasDemo),
-    other: rows.filter((row) => !row.hasDemo),
-  };
 }
 
 function first(value: string | string[] | undefined) {
@@ -167,56 +171,34 @@ function first(value: string | string[] | undefined) {
 
 export function parseGuestFilters(
   params: Record<string, string | string[] | undefined>,
-  knownSlugs: string[],
 ): GuestFilters {
-  const project = first(params.project);
   const status = first(params.status);
-  const filters: GuestFilters = {};
-  if (project && knownSlugs.includes(project)) filters.project = project;
   const matched = STATUSES.find((value) => value === status);
-  if (matched) filters.status = matched;
-  return filters;
+  return matched ? { status: matched } : {};
 }
 
+// craftsman-ignore PARAM001: three parameters (db, filters, now); the hook miscounts
+/** One row per person; expired wins over paused */
 export async function getGuestRows(
   db: Db,
   filters: GuestFilters,
   now: Date,
-): Promise<GrantView[]> {
-  const conditions = [];
-  if (filters.project) conditions.push(eq(grants.productSlug, filters.project));
-  if (filters.status === 'expired') {
-    conditions.push(lte(grants.expiresAt, now));
-  } else if (filters.status === 'active') {
-    conditions.push(
-      eq(grants.status, 'active'),
-      or(sql`${grants.expiresAt} is null`, gt(grants.expiresAt, now)),
-    );
-  } else if (filters.status === 'paused') {
-    conditions.push(
-      eq(grants.status, 'paused'),
-      or(sql`${grants.expiresAt} is null`, gt(grants.expiresAt, now)),
-    );
-  }
+): Promise<GuestAccess[]> {
+  const unexpired = or(
+    sql`${guests.accessExpiresAt} is null`,
+    gt(guests.accessExpiresAt, now),
+  );
+  const conditions = {
+    expired: lte(guests.accessExpiresAt, now),
+    active: and(eq(guests.accessStatus, 'active'), unexpired),
+    paused: and(eq(guests.accessStatus, 'paused'), unexpired),
+  };
 
   return db
-    .select({
-      grantId: grants.id,
-      guestId: guests.id,
-      name: guests.name,
-      email: guests.email,
-      note: guests.note,
-      productSlug: grants.productSlug,
-      status: grants.status,
-      expiresAt: grants.expiresAt,
-      lastVisitAt: grants.lastVisitAt,
-      visitCount: grants.visitCount,
-      createdAt: grants.createdAt,
-    })
-    .from(grants)
-    .innerJoin(guests, eq(guests.id, grants.guestId))
-    .where(conditions.length ? and(...conditions) : undefined)
-    .orderBy(asc(guests.name), asc(grants.productSlug));
+    .select(guestAccessView)
+    .from(guests)
+    .where(filters.status ? conditions[filters.status] : undefined)
+    .orderBy(asc(guests.name));
 }
 
 export async function searchGuests(
