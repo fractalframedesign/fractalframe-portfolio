@@ -52,7 +52,8 @@ export default function AccessSwitch({
   onSave = setProjectLevel,
 }: AccessSwitchProps) {
   const [value, setValue] = useState(level);
-  const [saving, startSaving] = useTransition();
+  const [, startSaving] = useTransition();
+  const [isSaving, setIsSaving] = useState(false);
   const [status, setStatus] = useState('');
   const [error, setError] = useState<string>();
   const [confirming, setConfirming] = useState(false);
@@ -68,6 +69,7 @@ export default function AccessSwitch({
   function save(next: AccessLevel) {
     if (inFlight.current) return;
     inFlight.current = true;
+    setIsSaving(true);
     setStatus('');
     setError(undefined);
     // Inside a transition so a thrown redirect (session expired) reaches
@@ -86,6 +88,7 @@ export default function AccessSwitch({
         setError(FALLBACK_ERROR);
       } finally {
         inFlight.current = false;
+        setIsSaving(false);
       }
     });
   }
@@ -103,9 +106,9 @@ export default function AccessSwitch({
 
   return (
     <div className="space-y-1">
-      <Select value={value} onValueChange={change} disabled={saving}>
+      <Select value={value} onValueChange={change} disabled={isSaving}>
         <SelectTrigger className="w-48" aria-label={`Access for ${name}`}>
-          <SelectValue>{saving ? 'Saving…' : LABELS[value]}</SelectValue>
+          <SelectValue>{isSaving ? 'Saving…' : LABELS[value]}</SelectValue>
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="public">{LABELS.public}</SelectItem>
