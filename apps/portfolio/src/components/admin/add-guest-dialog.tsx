@@ -90,10 +90,11 @@ export default function AddGuestDialog({
           <>
             <DialogHeader>
               <DialogTitle>
-                {approving ? 'Approve request' : 'Add guest'}
+                {approving ? 'Approve request' : 'Invite project access'}
               </DialogTitle>
               <DialogDescription>
-                They get one password for the projects you pick.
+                Choose who it’s for, which projects and for how long. You’ll get
+                one password to send them.
               </DialogDescription>
             </DialogHeader>
             {open && (
@@ -165,80 +166,90 @@ function GuestForm({
   }
 
   return (
-    <form onSubmit={submit} className="space-y-5" noValidate>
+    <form onSubmit={submit} className="space-y-8" noValidate>
       {defaults.requestId && (
         <input type="hidden" name="requestId" value={defaults.requestId} />
       )}
 
-      <Field id={`${id}-name`} label="Name" error={errors.name?.[0]}>
-        <Input
-          id={`${id}-name`}
-          name="name"
-          defaultValue={defaults.name}
-          maxLength={100}
-          required
-          autoComplete="off"
-          aria-invalid={Boolean(errors.name)}
-        />
-      </Field>
+      <fieldset className="space-y-4">
+        <legend className="mb-4 text-sm font-semibold">Who</legend>
+        <Field id={`${id}-name`} label="Name" error={errors.name?.[0]}>
+          <Input
+            id={`${id}-name`}
+            name="name"
+            defaultValue={defaults.name}
+            maxLength={100}
+            required
+            autoComplete="off"
+            aria-invalid={Boolean(errors.name)}
+          />
+        </Field>
 
-      <Field
-        id={`${id}-email`}
-        label="Email (optional)"
-        hint="With an email, adding the same person again keeps one guest and replaces their password."
-        error={errors.email?.[0]}
-      >
-        <Input
+        <Field
           id={`${id}-email`}
-          name="email"
-          type="email"
-          defaultValue={defaults.email}
-          autoComplete="off"
-          aria-invalid={Boolean(errors.email)}
-        />
-      </Field>
+          label="Email (optional)"
+          hint="Inviting the same email again gives them a new password instead of a second invite."
+          error={errors.email?.[0]}
+        >
+          <Input
+            id={`${id}-email`}
+            name="email"
+            type="email"
+            defaultValue={defaults.email}
+            autoComplete="off"
+            aria-invalid={Boolean(errors.email)}
+          />
+        </Field>
 
-      <Field
-        id={`${id}-note`}
-        label="Note (optional)"
-        hint="Only you see this."
-        error={errors.note?.[0]}
-      >
-        <Textarea
+        <Field
           id={`${id}-note`}
-          name="note"
-          maxLength={500}
-          rows={2}
-          aria-invalid={Boolean(errors.note)}
-        />
-      </Field>
-
-      <fieldset className="space-y-3">
-        <legend className="mb-3 text-sm font-medium">Projects</legend>
-        <ul className="space-y-2">
-          {projects.map((project) => (
-            <li key={project.slug} className="flex items-center gap-2">
-              <Checkbox
-                id={`${id}-${project.slug}`}
-                checked={picked.includes(project.slug)}
-                onCheckedChange={(checked) =>
-                  toggle(project.slug, checked === true)
-                }
-              />
-              <Label htmlFor={`${id}-${project.slug}`} className="font-normal">
-                {project.name}
-              </Label>
-            </li>
-          ))}
-        </ul>
-        {errors.products && (
-          <p role="alert" className="text-destructive text-sm">
-            {errors.products[0]}
-          </p>
-        )}
+          label="Note (optional)"
+          hint="Only you see this."
+          error={errors.note?.[0]}
+        >
+          <Textarea
+            id={`${id}-note`}
+            name="note"
+            maxLength={500}
+            rows={2}
+            aria-invalid={Boolean(errors.note)}
+          />
+        </Field>
       </fieldset>
 
-      <ExpiryField error={errors.expiryCustom?.[0]} />
+      <fieldset className="space-y-4">
+        <legend className="mb-4 text-sm font-semibold">Access</legend>
+
+        <fieldset className="space-y-3">
+          <legend className="mb-3 text-sm font-medium">Projects</legend>
+          <ul className="space-y-2">
+            {projects.map((project) => (
+              <li key={project.slug} className="flex items-center gap-2">
+                <Checkbox
+                  id={`${id}-${project.slug}`}
+                  checked={picked.includes(project.slug)}
+                  onCheckedChange={(checked) =>
+                    toggle(project.slug, checked === true)
+                  }
+                />
+                <Label
+                  htmlFor={`${id}-${project.slug}`}
+                  className="font-normal"
+                >
+                  {project.name}
+                </Label>
+              </li>
+            ))}
+          </ul>
+          {errors.products && (
+            <p role="alert" className="text-destructive text-sm">
+              {errors.products[0]}
+            </p>
+          )}
+        </fieldset>
+
+        <ExpiryField error={errors.expiryCustom?.[0]} />
+      </fieldset>
 
       {formError && (
         <p role="alert" className="text-destructive text-sm">
@@ -253,7 +264,7 @@ function GuestForm({
           </Button>
         </DialogClose>
         <Button type="submit" disabled={pending}>
-          {pending ? 'Saving…' : 'Create password'}
+          {pending ? 'Creating…' : 'Create invite'}
         </Button>
       </DialogFooter>
     </form>

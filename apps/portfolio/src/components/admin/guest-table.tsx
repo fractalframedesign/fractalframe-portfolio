@@ -86,7 +86,7 @@ export default function GuestTable({
         </h3>
         <Button size="sm" variant="outline" onClick={() => setAdding(true)}>
           <Plus aria-hidden />
-          Add guest
+          Invite
         </Button>
       </div>
 
