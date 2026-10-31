@@ -1,4 +1,5 @@
 import { TZDate } from '@date-fns/tz';
+import { format } from 'date-fns';
 import { z } from 'zod';
 
 import { LOCATION } from '@/lib/constants';
@@ -82,4 +83,23 @@ export function isGrantActive(
     grant.status === 'active' &&
     (grant.expiresAt === null || grant.expiresAt.getTime() > now.getTime())
   );
+}
+
+/**
+ * Starting choice for the expiry field when access is renewed: their current
+ * end date when it is still ahead, as a Tokyo-time `datetime-local` value.
+ */
+export function expiryDefaults(
+  expiresAt: Date | null,
+  now: Date,
+): { choice: ExpiryChoice; custom?: string } {
+  if (expiresAt === null) return { choice: 'never' };
+  if (expiresAt.getTime() <= now.getTime()) return { choice: '7d' };
+  return {
+    choice: 'custom',
+    custom: format(
+      new TZDate(expiresAt, LOCATION.timeZone),
+      "yyyy-MM-dd'T'HH:mm",
+    ),
+  };
 }

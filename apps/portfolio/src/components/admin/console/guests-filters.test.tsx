@@ -33,11 +33,6 @@ beforeAll(() => {
 beforeEach(() => push.mockClear());
 afterEach(cleanup);
 
-const projects = [
-  { slug: 'fintech-components', name: 'Fintech components' },
-  { slug: 'justos', name: 'JustOS' },
-];
-
 async function choose(filter: string, option: string) {
   const user = userEvent.setup();
   await user.click(screen.getByRole('combobox', { name: filter }));
@@ -45,41 +40,22 @@ async function choose(filter: string, option: string) {
 }
 
 describe('GuestsFilters', () => {
-  it('sets the status in the URL and keeps the project', async () => {
-    search = 'project=fintech-components';
-    render(<GuestsFilters projects={projects} project="fintech-components" />);
+  it('sets the status in the URL', async () => {
+    search = '';
+    render(<GuestsFilters />);
 
     await choose('Status', 'Paused');
 
-    expect(push).toHaveBeenCalledWith(
-      '/admin/guests?project=fintech-components&status=paused',
-      { scroll: false },
-    );
+    expect(push).toHaveBeenCalledWith('/admin/guests?status=paused', {
+      scroll: false,
+    });
   });
 
-  it('removes the status from the URL when All is picked', async () => {
-    search = 'project=fintech-components&status=paused';
-    render(
-      <GuestsFilters
-        projects={projects}
-        project="fintech-components"
-        status="paused"
-      />,
-    );
+  it('All removes the filter, leaving a bare path', async () => {
+    search = 'status=paused';
+    render(<GuestsFilters status="paused" />);
 
     await choose('Status', 'All');
-
-    expect(push).toHaveBeenCalledWith(
-      '/admin/guests?project=fintech-components',
-      { scroll: false },
-    );
-  });
-
-  it('removes every filter, leaving a bare path', async () => {
-    search = 'project=justos';
-    render(<GuestsFilters projects={projects} project="justos" />);
-
-    await choose('Project', 'All');
 
     expect(push).toHaveBeenCalledWith('/admin/guests', { scroll: false });
   });

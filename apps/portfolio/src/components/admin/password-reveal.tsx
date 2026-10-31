@@ -10,7 +10,8 @@ type PasswordRevealProps = {
   name: string;
   password: string;
   reply: string;
-  rotated?: boolean;
+  /** An existing guest got a new password, so their old one stopped working */
+  renewed?: boolean;
 };
 
 /** The new password, shown once, with buttons to copy it or a ready reply */
@@ -18,16 +19,15 @@ export default function PasswordReveal({
   name,
   password,
   reply,
-  rotated = false,
+  renewed = false,
 }: PasswordRevealProps) {
   return (
     <div className="space-y-4">
-      {rotated && (
+      {renewed && (
         <Alert>
           <TriangleAlert aria-hidden />
           <AlertDescription>
-            {name} already had a password. It has been replaced, so their old
-            one no longer works.
+            {name}&apos;s old password no longer works. Send them this one.
           </AlertDescription>
         </Alert>
       )}

@@ -7,8 +7,8 @@ import { useState, useTransition } from 'react';
 import { declineRequest } from '@/app/(admin)/admin/actions';
 import AddGuestDialog, {
   type GuestDefaults,
-  type ProjectOption,
 } from '@/components/admin/add-guest-dialog';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -35,20 +35,15 @@ export type RequestRow = {
   projectName: string;
   /** Already formatted in Tokyo time */
   receivedLabel: string;
+  /** Set when the email already belongs to a guest */
+  existingGuest: { expiresAt: Date | null } | null;
 };
 
-type RequestsTableProps = {
-  requests: RequestRow[];
-  /** Unlocked projects, for the invite dialog */
-  projects: ProjectOption[];
-};
+type RequestsTableProps = { requests: RequestRow[] };
 
 const DECLINE_ERROR = 'Couldn’t decline. Try again.';
 
-export default function RequestsTable({
-  requests,
-  projects,
-}: RequestsTableProps) {
+export default function RequestsTable({ requests }: RequestsTableProps) {
   // Lives outside the table so the password stays on screen after the
   // approved request drops out of it.
   const [approving, setApproving] = useState<GuestDefaults>();
@@ -65,7 +60,7 @@ export default function RequestsTable({
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>Project</TableHead>
+              <TableHead>Asked from</TableHead>
               <TableHead>Message</TableHead>
               <TableHead>Received</TableHead>
               <TableHead className="text-right">
@@ -82,8 +77,8 @@ export default function RequestsTable({
                   setApproving({
                     name: request.name,
                     email: request.email,
-                    products: [request.productSlug],
                     requestId: request.id,
+                    existingGuest: request.existingGuest ?? undefined,
                   });
                   setOpen(true);
                 }}
@@ -93,12 +88,7 @@ export default function RequestsTable({
         </Table>
       )}
 
-      <AddGuestDialog
-        open={open}
-        onOpenChange={setOpen}
-        projects={projects}
-        defaults={approving}
-      />
+      <AddGuestDialog open={open} onOpenChange={setOpen} defaults={approving} />
     </SectionCard>
   );
 }
@@ -131,7 +121,12 @@ function RequestTableRow({
   return (
     <TableRow>
       <TableCell>
-        <p className="font-medium">{request.name}</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <p className="font-medium">{request.name}</p>
+          {request.existingGuest && (
+            <Badge variant="secondary">Already a guest</Badge>
+          )}
+        </div>
         <p className="text-muted-foreground text-sm">{request.email}</p>
       </TableCell>
       <TableCell>{request.projectName}</TableCell>
@@ -157,7 +152,7 @@ function RequestTableRow({
       <TableCell>
         <div className="flex justify-end gap-2">
           <Button size="sm" onClick={onApprove}>
-            Approve
+            {request.existingGuest ? 'Resend access' : 'Approve'}
           </Button>
           <Button
             size="sm"

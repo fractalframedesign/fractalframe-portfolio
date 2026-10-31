@@ -5,8 +5,8 @@ import { useState } from 'react';
 
 import AddGuestDialog, {
   type GuestDefaults,
-  type ProjectOption,
 } from '@/components/admin/add-guest-dialog';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
 import SectionCard from './section-card';
@@ -19,18 +19,13 @@ export type WaitingRequest = {
   projectName: string;
   /** Already formatted in Tokyo time */
   receivedLabel: string;
+  /** Set when the email already belongs to a guest */
+  existingGuest: { expiresAt: Date | null } | null;
 };
 
-type WaitingRequestsProps = {
-  requests: WaitingRequest[];
-  /** Unlocked projects, for the invite dialog */
-  projects: ProjectOption[];
-};
+type WaitingRequestsProps = { requests: WaitingRequest[] };
 
-export default function WaitingRequests({
-  requests,
-  projects,
-}: WaitingRequestsProps) {
+export default function WaitingRequests({ requests }: WaitingRequestsProps) {
   // Lives outside the list so the password stays on screen after the
   // approved request drops out of it.
   const [approving, setApproving] = useState<GuestDefaults>();
@@ -48,7 +43,12 @@ export default function WaitingRequests({
               className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
             >
               <div className="min-w-0">
-                <p className="truncate text-sm font-medium">{request.name}</p>
+                <div className="flex items-center gap-2">
+                  <p className="truncate text-sm font-medium">{request.name}</p>
+                  {request.existingGuest && (
+                    <Badge variant="secondary">Already a guest</Badge>
+                  )}
+                </div>
                 <p className="text-muted-foreground truncate text-sm">
                   {request.projectName} · {request.receivedLabel}
                 </p>
@@ -60,25 +60,20 @@ export default function WaitingRequests({
                   setApproving({
                     name: request.name,
                     email: request.email,
-                    products: [request.productSlug],
                     requestId: request.id,
+                    existingGuest: request.existingGuest ?? undefined,
                   });
                   setOpen(true);
                 }}
               >
-                Approve
+                {request.existingGuest ? 'Resend access' : 'Approve'}
               </Button>
             </li>
           ))}
         </ul>
       )}
 
-      <AddGuestDialog
-        open={open}
-        onOpenChange={setOpen}
-        projects={projects}
-        defaults={approving}
-      />
+      <AddGuestDialog open={open} onOpenChange={setOpen} defaults={approving} />
     </SectionCard>
   );
 }

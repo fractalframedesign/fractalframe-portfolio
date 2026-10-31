@@ -18,22 +18,17 @@ export default async function AdminProjectsPage() {
 
   let rows: Rows;
   try {
-    rows = await getProjectRows(getDb(), new Date());
+    rows = await getProjectRows(getDb());
   } catch (error) {
     console.error('Admin projects failed to load', error);
     return <DatabaseDown />;
   }
 
-  const projects = [...rows.demo, ...rows.other];
-  const invitable = projects
-    .filter((project) => project.level === 'unlocked')
-    .map(({ slug, name }) => ({ slug, name }));
-
   return (
     <>
       <TopBar title={PAGE_TITLE} />
       <div className="p-4 md:p-6">
-        <ProjectsList projects={projects} invitable={invitable} />
+        <ProjectsList projects={rows} />
       </div>
     </>
   );

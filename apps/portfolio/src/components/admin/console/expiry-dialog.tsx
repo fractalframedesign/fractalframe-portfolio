@@ -3,7 +3,7 @@
 import { unstable_rethrow } from 'next/navigation';
 import { type FormEvent, useState, useTransition } from 'react';
 
-import { changeExpiry } from '@/app/(admin)/admin/actions';
+import { changeGuestExpiry } from '@/app/(admin)/admin/actions';
 import ExpiryField from '@/components/admin/expiry-field';
 import { Button } from '@/components/ui/button';
 import {
@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/dialog';
 
 type ExpiryDialogProps = {
-  grant: { grantId: string; name: string };
+  guest: { guestId: string; name: string };
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
@@ -25,7 +25,7 @@ type ExpiryDialogProps = {
 const FAILED = 'Something went wrong. Try again.';
 
 export default function ExpiryDialog({
-  grant,
+  guest,
   open,
   onOpenChange,
 }: ExpiryDialogProps) {
@@ -40,8 +40,8 @@ export default function ExpiryDialog({
     // Next's RedirectBoundary instead of being shown as a failure
     startTransition(async () => {
       try {
-        const result = await changeExpiry(
-          grant.grantId,
+        const result = await changeGuestExpiry(
+          guest.guestId,
           String(data.get('expiry')),
           String(data.get('expiryCustom') ?? ''),
         );
@@ -61,7 +61,7 @@ export default function ExpiryDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Change expiry for {grant.name}</DialogTitle>
+          <DialogTitle>Change expiry for {guest.name}</DialogTitle>
           <DialogDescription>
             The new time counts from now. Their password stays the same.
           </DialogDescription>

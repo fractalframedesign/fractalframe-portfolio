@@ -38,12 +38,13 @@ async function loadOverview(now: Date) {
       productSlug: request.productSlug,
       projectName: nameOf(request.productSlug),
       receivedLabel: formatAdminDate(request.createdAt),
+      existingGuest: request.existingGuest,
     })),
-    expiring: overview.expiring.map((grant) => ({
-      grantId: grant.grantId,
-      guestName: grant.guestName,
-      projectName: nameOf(grant.projectSlug),
-      timeLeft: timeLeftLabel(grant.expiresAt, now),
+    expiring: overview.expiring.map((guest) => ({
+      guestId: guest.guestId,
+      guestName: guest.guestName,
+      endsLabel: formatAdminDate(guest.expiresAt),
+      timeLeft: timeLeftLabel(guest.expiresAt, now),
     })),
   };
 }
@@ -103,13 +104,7 @@ export default async function AdminPage() {
         </div>
 
         <div className="grid gap-5 lg:grid-cols-2">
-          <WaitingRequests
-            requests={data.waiting}
-            projects={data.protectedProjects.map(({ slug, name }) => ({
-              slug,
-              name,
-            }))}
-          />
+          <WaitingRequests requests={data.waiting} />
           <ExpiringSoon expiring={data.expiring} />
         </div>
 
@@ -128,21 +123,21 @@ function ExpiringSoon({ expiring }: { expiring: Overview['expiring'] }) {
         </p>
       ) : (
         <ul className="divide-y">
-          {expiring.map((grant) => (
+          {expiring.map((guest) => (
             <li
-              key={grant.grantId}
+              key={guest.guestId}
               className="flex items-center justify-between gap-3 py-3 first:pt-0 last:pb-0"
             >
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium">
-                  {grant.guestName}
+                  {guest.guestName}
                 </p>
                 <p className="text-muted-foreground truncate text-sm">
-                  {grant.projectName}
+                  Ends {guest.endsLabel}
                 </p>
               </div>
               <p className="text-muted-foreground shrink-0 text-sm tabular-nums">
-                {grant.timeLeft}
+                {guest.timeLeft}
               </p>
             </li>
           ))}

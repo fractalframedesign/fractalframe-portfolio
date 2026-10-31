@@ -4,9 +4,7 @@ import RequestsTable from '@/components/admin/console/requests-table';
 import TopBar from '@/components/admin/console/top-bar';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { formatAdminDate } from '@/lib/access/admin-format';
-import { resolveLevel } from '@/lib/access/levels';
-import { getStoredLevels } from '@/lib/access/repo/products';
-import { listPendingRequests } from '@/lib/access/repo/requests';
+import { listRequestsWithGuests } from '@/lib/access/admin-queries';
 import { requireAdmin } from '@/lib/access/require-admin';
 import { getDb } from '@/lib/db/client';
 import { getAllProjects } from '@/lib/projects';
@@ -16,10 +14,8 @@ export const metadata: Metadata = { title: 'Requests' };
 const PAGE_TITLE = 'Requests';
 
 async function loadRequests() {
-  const db = getDb();
-  const [pending, levels, projects] = await Promise.all([
-    listPendingRequests(db),
-    getStoredLevels(db),
+  const [pending, projects] = await Promise.all([
+    listRequestsWithGuests(getDb()),
     getAllProjects(),
   ]);
   const names = new Map(
@@ -35,11 +31,8 @@ async function loadRequests() {
       productSlug: request.productSlug,
       projectName: names.get(request.productSlug) ?? request.productSlug,
       receivedLabel: formatAdminDate(request.createdAt),
+      existingGuest: request.existingGuest,
     })),
-    // Only protected projects can be preselected in the invite dialog
-    protectedProjects: projects
-      .filter((project) => resolveLevel(project.slug, levels) === 'unlocked')
-      .map(({ slug, name }) => ({ slug, name })),
   };
 }
 
@@ -58,10 +51,7 @@ export default async function RequestsPage() {
     <>
       <TopBar title={PAGE_TITLE} />
       <div className="p-4 md:p-6">
-        <RequestsTable
-          requests={data.requests}
-          projects={data.protectedProjects}
-        />
+        <RequestsTable requests={data.requests} />
       </div>
     </>
   );

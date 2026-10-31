@@ -29,16 +29,9 @@ const EMPTY: Record<Filter, string> = {
 // Protected first, then hidden, then public
 const ORDER: Record<AccessLevel, number> = { unlocked: 0, admin: 1, public: 2 };
 
-type ProjectsListProps = {
-  projects: ProjectRow[];
-  /** Unlocked projects, for the invite dialog */
-  invitable: { slug: string; name: string }[];
-};
+type ProjectsListProps = { projects: ProjectRow[] };
 
-export default function ProjectsList({
-  projects,
-  invitable,
-}: ProjectsListProps) {
+export default function ProjectsList({ projects }: ProjectsListProps) {
   const [filter, setFilter] = useState<Filter>('all');
 
   const shown = projects
@@ -84,12 +77,7 @@ export default function ProjectsList({
                 </div>
                 <div className="flex shrink-0 items-center gap-1">
                   {project.level === 'unlocked' && (
-                    <InviteButton
-                      slug={project.slug}
-                      projects={invitable}
-                      label="Copy password"
-                      variant="ghost"
-                    />
+                    <InviteButton label="Copy password" variant="ghost" />
                   )}
                   <ProjectAccessMenu
                     // Remount after a refresh so the menu shows the stored level
@@ -97,7 +85,6 @@ export default function ProjectsList({
                     slug={project.slug}
                     name={project.name}
                     level={project.level}
-                    hasDemo={project.hasDemo}
                   />
                 </div>
               </li>

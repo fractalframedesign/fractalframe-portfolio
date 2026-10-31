@@ -18,6 +18,8 @@ const CHOICES: { value: ExpiryChoice; label: string }[] = [
 
 type ExpiryFieldProps = {
   defaultValue?: ExpiryChoice;
+  /** Starting `datetime-local` value (Tokyo time) for Custom */
+  defaultCustom?: string;
   /** Message for the custom date and time, from the action's fieldErrors */
   error?: string;
 };
@@ -25,6 +27,7 @@ type ExpiryFieldProps = {
 /** Posts `expiry` and, for Custom, `expiryCustom` (Tokyo time) with its form */
 export default function ExpiryField({
   defaultValue = '7d',
+  defaultCustom,
   error,
 }: ExpiryFieldProps) {
   const id = useId();
@@ -56,6 +59,7 @@ export default function ExpiryField({
             id={`${id}-custom`}
             name="expiryCustom"
             type="datetime-local"
+            defaultValue={defaultCustom}
             required
             aria-invalid={Boolean(error)}
             aria-describedby={error ? `${id}-custom-error` : undefined}

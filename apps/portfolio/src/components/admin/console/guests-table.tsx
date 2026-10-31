@@ -9,8 +9,7 @@ import {
   type ActionResult,
   deleteGuest,
   newPassword,
-  removeGrant,
-  setGrantStatus,
+  setGuestAccessStatus,
 } from '@/app/(admin)/admin/actions';
 import ConfirmDialog from '@/components/admin/confirm-dialog';
 import GrantStatusBadge from '@/components/admin/grant-status-badge';
@@ -42,16 +41,15 @@ import {
 } from '@/components/ui/table';
 import { lastVisitLabel } from '@/lib/access/admin-format';
 import { timeLeftLabel } from '@/lib/access/expiry';
-import type { GrantView } from '@/lib/access/repo/guests';
+import type { GuestAccess } from '@/lib/access/repo/guest-access';
 
 import EditGuestDialog from './edit-guest-dialog';
 import ExpiryDialog from './expiry-dialog';
 import SectionCard from './section-card';
 
 type GuestsTableProps = {
-  rows: GrantView[];
-  projectNames: Record<string, string>;
-  /** True when a project or status filter is set */
+  rows: GuestAccess[];
+  /** True when a status filter is set */
   filtered: boolean;
   /** Server time, so labels match between server and browser */
   now: Date;
@@ -60,15 +58,10 @@ type GuestsTableProps = {
 const FAILED = 'Something went wrong. Try again.';
 
 type Pending =
-  | { kind: 'expiry' | 'edit' | 'remove' | 'delete'; grant: GrantView }
+  | { kind: 'expiry' | 'edit' | 'delete'; guest: GuestAccess }
   | { kind: 'password'; name: string; password: string; reply: string };
 
-export default function GuestsTable({
-  rows,
-  projectNames,
-  filtered,
-  now,
-}: GuestsTableProps) {
+export default function GuestsTable({ rows, filtered, now }: GuestsTableProps) {
   // Dialogs live here, not in rows, so they survive the refresh after a change
   const [dialog, setDialog] = useState<Pending>();
   const [open, setOpen] = useState(false);
@@ -79,12 +72,8 @@ export default function GuestsTable({
     setOpen(true);
   }
 
-  const projectName = (slug: string) => projectNames[slug] ?? slug;
-  // The command menu links to a guest's first row
-  const seen = new Set<string>();
-
   return (
-    <SectionCard title="Guest access" icon={Users}>
+    <SectionCard title="Guests" icon={Users}>
       <div className="space-y-3">
         {error && (
           <p role="alert" className="text-destructive text-sm">
@@ -99,7 +88,6 @@ export default function GuestsTable({
             <TableHeader>
               <TableRow>
                 <TableHead>Guest</TableHead>
-                <TableHead>Project</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Time left</TableHead>
                 <TableHead>Last visit</TableHead>
@@ -110,47 +98,30 @@ export default function GuestsTable({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {rows.map((grant) => {
-                const first = !seen.has(grant.guestId);
-                seen.add(grant.guestId);
-                return (
-                  <GuestRow
-                    key={grant.grantId}
-                    grant={grant}
-                    anchor={first ? `guest-${grant.guestId}` : undefined}
-                    projectName={projectName(grant.productSlug)}
-                    now={now}
-                    onError={setError}
-                    onShow={show}
-                  />
-                );
-              })}
+              {rows.map((guest) => (
+                <GuestRow
+                  key={guest.guestId}
+                  guest={guest}
+                  now={now}
+                  onError={setError}
+                  onShow={show}
+                />
+              ))}
             </TableBody>
           </Table>
         )}
       </div>
 
       {dialog?.kind === 'expiry' && (
-        <ExpiryDialog grant={dialog.grant} open={open} onOpenChange={setOpen} />
+        <ExpiryDialog guest={dialog.guest} open={open} onOpenChange={setOpen} />
       )}
 
       {dialog?.kind === 'edit' && (
         <EditGuestDialog
-          key={dialog.grant.guestId}
-          guest={dialog.grant}
+          key={dialog.guest.guestId}
+          guest={dialog.guest}
           open={open}
           onOpenChange={setOpen}
-        />
-      )}
-
-      {dialog?.kind === 'remove' && (
-        <ConfirmDialog
-          open={open}
-          onOpenChange={setOpen}
-          title={`Remove ${dialog.grant.name} from ${projectName(dialog.grant.productSlug)}?`}
-          description="Their password stops working for this project straight away. Other projects they can open aren’t affected."
-          confirmLabel="Remove"
-          onConfirm={() => removeGrant(dialog.grant.grantId)}
         />
       )}
 
@@ -158,10 +129,10 @@ export default function GuestsTable({
         <ConfirmDialog
           open={open}
           onOpenChange={setOpen}
-          title={`Delete ${dialog.grant.name}?`}
-          description="Their password stops working on every project and they’re removed from every list. This can’t be undone."
-          confirmLabel="Delete guest"
-          onConfirm={() => deleteGuest(dialog.grant.guestId)}
+          title={`Remove ${dialog.guest.name}?`}
+          description="Their password stops working straight away and they’re taken off your guest list. This can’t be undone."
+          confirmLabel="Remove guest"
+          onConfirm={() => deleteGuest(dialog.guest.guestId)}
         />
       )}
 
@@ -171,8 +142,7 @@ export default function GuestsTable({
             <DialogHeader>
               <DialogTitle>New password for {dialog.name}</DialogTitle>
               <DialogDescription>
-                Their old password no longer works, on every project. Nothing
-                has been sent.
+                Their old password no longer works. Nothing has been sent.
               </DialogDescription>
             </DialogHeader>
             <PasswordReveal
@@ -202,32 +172,27 @@ function EmptyState({ filtered }: { filtered: boolean }) {
   }
   return (
     <p className="text-muted-foreground text-sm">
-      No guests match these filters.{' '}
+      No guests match this filter.{' '}
       <Button variant="link" asChild className="h-auto p-0">
-        <Link href="/admin/guests">Clear filters</Link>
+        <Link href="/admin/guests">Clear filter</Link>
       </Button>
     </p>
   );
 }
 
 function GuestRow({
-  grant,
-  anchor,
-  projectName,
+  guest,
   now,
   onError,
   onShow,
 }: {
-  grant: GrantView;
-  /** Set on a guest's first row, for links from the command menu */
-  anchor?: string;
-  projectName: string;
+  guest: GuestAccess;
   now: Date;
   onError: (error: string | undefined) => void;
   onShow: (dialog: Pending) => void;
 }) {
   const [pending, startTransition] = useTransition();
-  const paused = grant.status === 'paused';
+  const paused = guest.status === 'paused';
 
   // Inside a transition so a thrown redirect (session expired) reaches
   // Next's RedirectBoundary instead of being shown as a failure
@@ -250,11 +215,11 @@ function GuestRow({
 
   function issuePassword() {
     run(
-      () => newPassword(grant.guestId),
+      () => newPassword(guest.guestId),
       (result) =>
         onShow({
           kind: 'password',
-          name: grant.name,
+          name: guest.name,
           password: result.password,
           reply: result.reply,
         }),
@@ -262,25 +227,29 @@ function GuestRow({
   }
 
   return (
-    <TableRow id={anchor} aria-busy={pending} className="scroll-mt-20">
+    // The id is the target of guest links in the command menu
+    <TableRow
+      id={`guest-${guest.guestId}`}
+      aria-busy={pending}
+      className="scroll-mt-20"
+    >
       <TableCell>
-        <p className="font-medium">{grant.name}</p>
-        {grant.email && (
-          <p className="text-muted-foreground text-sm">{grant.email}</p>
+        <p className="font-medium">{guest.name}</p>
+        {guest.email && (
+          <p className="text-muted-foreground text-sm">{guest.email}</p>
         )}
       </TableCell>
-      <TableCell>{projectName}</TableCell>
       <TableCell>
-        <GrantStatusBadge grant={grant} now={now} />
+        <GrantStatusBadge grant={guest} now={now} />
       </TableCell>
       <TableCell className="tabular-nums">
-        {timeLeftLabel(grant.expiresAt, now)}
+        {timeLeftLabel(guest.expiresAt, now)}
       </TableCell>
       <TableCell className="text-muted-foreground tabular-nums">
-        {lastVisitLabel(grant.lastVisitAt, now)}
+        {lastVisitLabel(guest.lastVisitAt, now)}
       </TableCell>
       <TableCell className="text-right tabular-nums">
-        {grant.visitCount}
+        {guest.visitCount}
       </TableCell>
       <TableCell className="text-right">
         <DropdownMenu modal={false}>
@@ -288,7 +257,7 @@ function GuestRow({
             <Button
               variant="ghost"
               size="icon-sm"
-              aria-label={`Actions for ${grant.name} on ${projectName}`}
+              aria-label={`Actions for ${guest.name}`}
               disabled={pending}
             >
               <MoreHorizontal aria-hidden />
@@ -298,35 +267,32 @@ function GuestRow({
             <DropdownMenuItem
               onSelect={() =>
                 run(() =>
-                  setGrantStatus(grant.grantId, paused ? 'active' : 'paused'),
+                  setGuestAccessStatus(
+                    guest.guestId,
+                    paused ? 'active' : 'paused',
+                  ),
                 )
               }
             >
               {paused ? 'Resume' : 'Pause'}
             </DropdownMenuItem>
             <DropdownMenuItem
-              onSelect={() => onShow({ kind: 'expiry', grant })}
+              onSelect={() => onShow({ kind: 'expiry', guest })}
             >
               Change expiry
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={issuePassword}>
               New password
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={() => onShow({ kind: 'edit', grant })}>
+            <DropdownMenuItem onSelect={() => onShow({ kind: 'edit', guest })}>
               Edit name &amp; note
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               variant="destructive"
-              onSelect={() => onShow({ kind: 'remove', grant })}
+              onSelect={() => onShow({ kind: 'delete', guest })}
             >
-              Remove from project
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              variant="destructive"
-              onSelect={() => onShow({ kind: 'delete', grant })}
-            >
-              Delete guest
+              Remove guest
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

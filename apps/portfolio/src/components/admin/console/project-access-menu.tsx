@@ -19,10 +19,7 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuSeparator,
+  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import type { AccessLevel } from '@/lib/access/levels';
@@ -33,27 +30,18 @@ type ProjectAccessMenuProps = {
   slug: string;
   name: string;
   level: AccessLevel;
-  /** Only projects with a demo can be password protected */
-  hasDemo: boolean;
   /** Injectable for tests; defaults to the server action */
   onSave?: (slug: string, level: AccessLevel) => Promise<SaveResult>;
-};
-
-const LABELS: Record<AccessLevel, string> = {
-  public: 'Public',
-  unlocked: 'Password protected',
-  admin: 'Hidden',
 };
 
 const SAVED_FOR_MS = 2000;
 const FALLBACK_ERROR = 'Couldn’t save. Try again.';
 
-/** The "…" menu on a project row: switches Public / Password protected */
+/** The "…" menu on a project row: Add password / Make public */
 export default function ProjectAccessMenu({
   slug,
   name,
   level,
-  hasDemo,
   onSave = setProjectLevel,
 }: ProjectAccessMenuProps) {
   const [value, setValue] = useState(level);
@@ -98,8 +86,7 @@ export default function ProjectAccessMenu({
     });
   }
 
-  function change(next: string) {
-    const target = next as AccessLevel;
+  function change(target: AccessLevel) {
     if (target === value) return;
     // Making private or hidden work public always needs a second look
     if (target === 'public') {
@@ -132,28 +119,17 @@ export default function ProjectAccessMenu({
             <Ellipsis aria-hidden />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-56">
-          <DropdownMenuLabel>Access</DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuRadioGroup value={value} onValueChange={change}>
-            <DropdownMenuRadioItem value="public">
-              {LABELS.public}
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="unlocked" disabled={!hasDemo}>
-              {LABELS.unlocked}
-              {!hasDemo && (
-                <span className="text-muted-foreground ml-auto text-xs">
-                  Needs a demo
-                </span>
-              )}
-            </DropdownMenuRadioItem>
-            {/* Only for a project still hidden from an older setup */}
-            {value === 'admin' && (
-              <DropdownMenuRadioItem value="admin">
-                {LABELS.admin}
-              </DropdownMenuRadioItem>
-            )}
-          </DropdownMenuRadioGroup>
+        <DropdownMenuContent align="end" className="w-44">
+          {value !== 'public' && (
+            <DropdownMenuItem onSelect={() => change('public')}>
+              Make public
+            </DropdownMenuItem>
+          )}
+          {value !== 'unlocked' && (
+            <DropdownMenuItem onSelect={() => change('unlocked')}>
+              Add password
+            </DropdownMenuItem>
+          )}
         </DropdownMenuContent>
       </DropdownMenu>
 

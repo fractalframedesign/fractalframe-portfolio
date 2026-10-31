@@ -20,28 +20,27 @@ afterEach(cleanup);
 const project = {
   slug: 'fintech-components',
   name: 'Fintech components',
-  hasDemo: true,
 };
 
 function trigger(name = 'Fintech components') {
   return screen.getByRole('button', { name: `Access for ${name}` });
 }
 
-/** The access level the menu shows as checked */
-async function checked(name?: string) {
+/** The actions the menu offers right now */
+async function offers(name?: string) {
   const user = userEvent.setup();
   await user.click(trigger(name));
-  const item = (await screen.findAllByRole('menuitemradio')).find(
-    (option) => option.getAttribute('aria-checked') === 'true',
+  const items = (await screen.findAllByRole('menuitem')).map(
+    (item) => item.textContent,
   );
   await user.keyboard('{Escape}');
-  return item?.textContent;
+  return items;
 }
 
 async function choose(option: string, name?: string) {
   const user = userEvent.setup();
   await user.click(trigger(name));
-  await user.click(await screen.findByRole('menuitemradio', { name: option }));
+  await user.click(await screen.findByRole('menuitem', { name: option }));
   return user;
 }
 
@@ -54,7 +53,6 @@ function renderHidden(
       slug="justos"
       name="JustOS"
       level="admin"
-      hasDemo={false}
       onSave={onSave}
     />,
   );
@@ -71,7 +69,7 @@ describe('ProjectAccessMenu: confirming before going public', () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
     render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
-    const user = await choose('Public');
+    const user = await choose('Make public');
     const dialog = await screen.findByRole('alertdialog');
     expect(dialog.textContent).toContain('Make Fintech components public?');
     expect(dialog.textContent).toContain(
@@ -82,27 +80,27 @@ describe('ProjectAccessMenu: confirming before going public', () => {
 
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
     expect(onSave).not.toHaveBeenCalled();
-    expect(await checked()).toBe('Password protected');
+    expect(await offers()).toEqual(['Make public']);
   });
 
   it('escape closes the dialog without saving', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
     render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
-    const user = await choose('Public');
+    const user = await choose('Make public');
     await screen.findByRole('alertdialog');
     await user.keyboard('{Escape}');
 
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
     expect(onSave).not.toHaveBeenCalled();
-    expect(await checked()).toBe('Password protected');
+    expect(await offers()).toEqual(['Make public']);
   });
 
   it('hidden to public also asks first', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
     renderHidden(onSave);
 
-    const user = await choose('Public', 'JustOS');
+    const user = await choose('Make public', 'JustOS');
     expect((await screen.findByRole('alertdialog')).textContent).toContain(
       'Make JustOS public?',
     );
@@ -110,7 +108,7 @@ describe('ProjectAccessMenu: confirming before going public', () => {
 
     await waitFor(() => expect(screen.queryByRole('alertdialog')).toBeNull());
     expect(onSave).not.toHaveBeenCalled();
-    expect(await checked('JustOS')).toBe('Hidden');
+    expect(await offers('JustOS')).toEqual(['Make public', 'Add password']);
   });
 });
 
@@ -119,7 +117,7 @@ describe('ProjectAccessMenu: saving after confirming', () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
     render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
-    const user = await choose('Public');
+    const user = await choose('Make public');
     await user.click(
       await screen.findByRole('button', { name: 'Make public' }),
     );
@@ -127,14 +125,14 @@ describe('ProjectAccessMenu: saving after confirming', () => {
     await expectSaved();
     expect(onSave).toHaveBeenCalledTimes(1);
     expect(onSave).toHaveBeenCalledWith('fintech-components', 'public');
-    expect(await checked()).toBe('Public');
+    expect(await offers()).toEqual(['Add password']);
   });
 
   it('a double click on Make public saves once', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
     render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
-    await choose('Public');
+    await choose('Make public');
     const button = await screen.findByRole('button', { name: 'Make public' });
     // Both clicks land before React re-renders and closes the dialog
     act(() => {
@@ -152,7 +150,7 @@ describe('ProjectAccessMenu: saving after confirming', () => {
       .mockResolvedValue({ ok: false, error: 'Couldn’t save. Try again.' });
     render(<ProjectAccessMenu {...project} level="unlocked" onSave={onSave} />);
 
-    const user = await choose('Public');
+    const user = await choose('Make public');
     await user.click(
       await screen.findByRole('button', { name: 'Make public' }),
     );
@@ -160,22 +158,22 @@ describe('ProjectAccessMenu: saving after confirming', () => {
     expect((await screen.findByRole('alert')).textContent).toBe(
       'Couldn’t save. Try again.',
     );
-    expect(await checked()).toBe('Password protected');
+    expect(await offers()).toEqual(['Make public']);
     expect(screen.queryByText('Saved')).toBeNull();
   });
 });
 
 describe('ProjectAccessMenu: other changes', () => {
-  it('public to protected saves without asking', async () => {
+  it('Add password saves without asking', async () => {
     const onSave = vi.fn().mockResolvedValue({ ok: true });
     render(<ProjectAccessMenu {...project} level="public" onSave={onSave} />);
 
-    await choose('Password protected');
+    await choose('Add password');
 
     await expectSaved();
     expect(screen.queryByRole('alertdialog')).toBeNull();
     expect(onSave).toHaveBeenCalledWith('fintech-components', 'unlocked');
-    expect(await checked()).toBe('Password protected');
+    expect(await offers()).toEqual(['Make public']);
   });
 
   it('waits for the server before showing the new value', async () => {
@@ -185,7 +183,7 @@ describe('ProjectAccessMenu: other changes', () => {
     );
     render(<ProjectAccessMenu {...project} level="public" onSave={onSave} />);
 
-    await choose('Password protected');
+    await choose('Add password');
 
     await waitFor(() =>
       expect(screen.getByRole('status').textContent).toBe('Saving…'),
@@ -194,22 +192,12 @@ describe('ProjectAccessMenu: other changes', () => {
 
     resolve({ ok: true });
     await expectSaved();
-    expect(await checked()).toBe('Password protected');
+    expect(await offers()).toEqual(['Make public']);
   });
 
-  it('offers Hidden only for a project hidden now; no demo, no password', async () => {
+  it('a hidden project can be made public or get a password', async () => {
     renderHidden(vi.fn());
-    const user = userEvent.setup();
-    await user.click(trigger('JustOS'));
-
-    const options = (await screen.findAllByRole('menuitemradio')).map(
-      (option) => [option.textContent, option.hasAttribute('data-disabled')],
-    );
-    expect(options).toEqual([
-      ['Public', false],
-      ['Password protectedNeeds a demo', true],
-      ['Hidden', false],
-    ]);
+    expect(await offers('JustOS')).toEqual(['Make public', 'Add password']);
   });
 });
 
@@ -250,7 +238,7 @@ describe('ProjectAccessMenu: expired session', () => {
       </Boundary>,
     );
 
-    await choose('Password protected');
+    await choose('Add password');
 
     await waitFor(() => expect(onError).toHaveBeenCalledWith(thrown));
     expect(screen.queryByText('Couldn’t save. Try again.')).toBeNull();

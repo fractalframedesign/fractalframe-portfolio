@@ -10,7 +10,6 @@ import {
 
 import { addGuest, type PasswordResult } from '@/app/(admin)/admin/actions';
 import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
 import {
   Dialog,
   DialogClose,
@@ -23,25 +22,23 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { expiryDefaults } from '@/lib/access/expiry';
 
 import ExpiryField from './expiry-field';
 import PasswordReveal from './password-reveal';
 
-export type ProjectOption = { slug: string; name: string };
-
 export type GuestDefaults = {
   name?: string;
   email?: string;
-  products?: string[];
   /** Set when approving a request: the request is marked approved */
   requestId?: string;
+  /** Set when the email is already a guest: saving resends access */
+  existingGuest?: { expiresAt: Date | null };
 };
 
 type AddGuestDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  /** Unlocked projects only */
-  projects: ProjectOption[];
   defaults?: GuestDefaults;
 };
 
@@ -49,13 +46,13 @@ type Created = {
   name: string;
   password: string;
   reply: string;
-  rotated: boolean;
+  renewed: boolean;
 };
 
+/** Invite someone, approve a request, or resend access to an existing guest */
 export default function AddGuestDialog({
   open,
   onOpenChange,
-  projects,
   defaults = {},
 }: AddGuestDialogProps) {
   const [created, setCreated] = useState<Created | null>(null);
@@ -66,6 +63,7 @@ export default function AddGuestDialog({
   }
 
   const approving = Boolean(defaults.requestId);
+  const resending = Boolean(defaults.existingGuest);
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -90,20 +88,19 @@ export default function AddGuestDialog({
           <>
             <DialogHeader>
               <DialogTitle>
-                {approving ? 'Approve request' : 'Invite someone'}
+                {resending
+                  ? `Resend access to ${defaults.name ?? 'this guest'}`
+                  : approving
+                    ? 'Approve request'
+                    : 'Invite someone'}
               </DialogTitle>
               <DialogDescription>
-                Choose who it’s for, which projects and for how long. You’ll get
-                one password to send them.
+                {resending
+                  ? 'This makes a new password. Their old one stops working.'
+                  : 'You’ll get one password to send them. It opens every password-protected project.'}
               </DialogDescription>
             </DialogHeader>
-            {open && (
-              <GuestForm
-                projects={projects}
-                defaults={defaults}
-                onCreated={setCreated}
-              />
-            )}
+            {open && <GuestForm defaults={defaults} onCreated={setCreated} />}
           </>
         )}
       </DialogContent>
@@ -112,36 +109,28 @@ export default function AddGuestDialog({
 }
 
 function GuestForm({
-  projects,
   defaults,
   onCreated,
 }: {
-  projects: ProjectOption[];
   defaults: GuestDefaults;
   onCreated: (created: Created) => void;
 }) {
   const id = useId();
   const [pending, startTransition] = useTransition();
   const [result, setResult] = useState<PasswordResult | null>(null);
-  const [picked, setPicked] = useState<string[]>(
-    (defaults.products ?? []).filter((slug) =>
-      projects.some((project) => project.slug === slug),
-    ),
+  // Read once on mount: the form remounts each time the dialog opens
+  const [expiry] = useState(() =>
+    defaults.existingGuest
+      ? expiryDefaults(defaults.existingGuest.expiresAt, new Date())
+      : undefined,
   );
 
   const errors = result && !result.ok ? (result.fieldErrors ?? {}) : {};
   const formError = result && !result.ok ? result.error : undefined;
 
-  function toggle(slug: string, checked: boolean) {
-    setPicked((current) =>
-      checked ? [...current, slug] : current.filter((item) => item !== slug),
-    );
-  }
-
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    for (const slug of picked) data.append('products', slug);
     startTransition(async () => {
       const response = await addGuest(data);
       setResult(response);
@@ -150,19 +139,10 @@ function GuestForm({
           name: String(data.get('name')).trim(),
           password: response.password,
           reply: response.reply,
-          rotated: response.rotated,
+          renewed: response.renewed,
         });
       }
     });
-  }
-
-  if (projects.length === 0) {
-    return (
-      <p className="text-muted-foreground text-sm">
-        No project is password protected yet. Set a project to Password
-        protected first, then add guests to it.
-      </p>
-    );
   }
 
   return (
@@ -188,7 +168,7 @@ function GuestForm({
         <Field
           id={`${id}-email`}
           label="Email (optional)"
-          hint="Inviting the same email again gives them a new password instead of a second invite."
+          hint="An email that’s already a guest gets a new password instead of a second invite."
           error={errors.email?.[0]}
         >
           <Input
@@ -220,35 +200,11 @@ function GuestForm({
       <fieldset className="space-y-4">
         <legend className="mb-4 text-sm font-semibold">Access</legend>
 
-        <fieldset className="space-y-3">
-          <legend className="mb-3 text-sm font-medium">Projects</legend>
-          <ul className="space-y-2">
-            {projects.map((project) => (
-              <li key={project.slug} className="flex items-center gap-2">
-                <Checkbox
-                  id={`${id}-${project.slug}`}
-                  checked={picked.includes(project.slug)}
-                  onCheckedChange={(checked) =>
-                    toggle(project.slug, checked === true)
-                  }
-                />
-                <Label
-                  htmlFor={`${id}-${project.slug}`}
-                  className="font-normal"
-                >
-                  {project.name}
-                </Label>
-              </li>
-            ))}
-          </ul>
-          {errors.products && (
-            <p role="alert" className="text-destructive text-sm">
-              {errors.products[0]}
-            </p>
-          )}
-        </fieldset>
-
-        <ExpiryField error={errors.expiryCustom?.[0]} />
+        <ExpiryField
+          defaultValue={expiry?.choice}
+          defaultCustom={expiry?.custom}
+          error={errors.expiryCustom?.[0]}
+        />
       </fieldset>
 
       {formError && (
@@ -264,7 +220,11 @@ function GuestForm({
           </Button>
         </DialogClose>
         <Button type="submit" disabled={pending}>
-          {pending ? 'Creating…' : 'Create invite'}
+          {pending
+            ? 'Creating…'
+            : defaults.existingGuest
+              ? 'Make new password'
+              : 'Create invite'}
         </Button>
       </DialogFooter>
     </form>

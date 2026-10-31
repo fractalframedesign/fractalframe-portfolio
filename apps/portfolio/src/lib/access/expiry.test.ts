@@ -1,6 +1,11 @@
 import { describe, expect, test } from 'vitest';
 
-import { isGrantActive, resolveExpiry, timeLeftLabel } from './expiry';
+import {
+  expiryDefaults,
+  isGrantActive,
+  resolveExpiry,
+  timeLeftLabel,
+} from './expiry';
 
 const now = new Date('2026-10-31T00:00:00Z');
 
@@ -80,5 +85,20 @@ describe('isGrantActive', () => {
     expect(isGrantActive({ status: 'paused', expiresAt: null }, now)).toBe(
       false,
     );
+  });
+});
+
+describe('expiryDefaults', () => {
+  const now = new Date('2026-11-01T00:00:00Z');
+
+  test('no end date → Never; a future one → Custom in Tokyo time; past → 7 days', () => {
+    expect(expiryDefaults(null, now)).toEqual({ choice: 'never' });
+    expect(expiryDefaults(new Date('2026-11-02T09:30:00Z'), now)).toEqual({
+      choice: 'custom',
+      custom: '2026-11-02T18:30',
+    });
+    expect(expiryDefaults(new Date('2026-10-01T00:00:00Z'), now)).toEqual({
+      choice: '7d',
+    });
   });
 });

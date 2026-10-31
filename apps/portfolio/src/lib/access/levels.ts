@@ -1,5 +1,3 @@
-import { showcaseProjects } from '@/lib/showcase';
-
 export type AccessLevel = 'public' | 'unlocked' | 'admin';
 
 const PUBLIC_SLUGS = [
@@ -33,8 +31,4 @@ export function resolveLevel(
   stored: ReadonlyMap<string, AccessLevel>,
 ): AccessLevel {
   return stored.get(slug) ?? 'admin';
-}
-
-export function canBeUnlocked(slug: string): boolean {
-  return showcaseProjects.some((project) => project.slug === slug);
 }
