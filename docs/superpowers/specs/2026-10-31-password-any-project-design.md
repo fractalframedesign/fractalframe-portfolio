@@ -27,10 +27,16 @@ row menu shows "Needs a demo" for them.
    image and one-line description, then a password box and **Request access**
    (name, email, note). The case study body, details, stack and links are not
    sent.
-4. **Visitor** sends a request and sees the existing thank-you message. Kiran
-   gets the existing request email notification.
-5. **Kiran**: the Requests badge goes up. **Approve** opens the existing
-   invite dialog prefilled (name, email, project, expiry). Saving creates the
+4. **Visitor**: the request form lists **every password-protected project**
+   as checkboxes, with the one they came from already ticked, so one request
+   (and later one password) can cover several projects. At least one must
+   stay ticked. They send it and see the existing thank-you message. Kiran
+   gets the existing request email notification, naming every project asked
+   for.
+5. **Kiran**: the Requests badge goes up; each request shows all the projects
+   it asks for. **Approve** opens the existing invite dialog prefilled (name,
+   email, every requested project still password protected, expiry); Kiran
+   can untick any before saving. Saving creates the
    guest with their own password, lists them in **Guests**, and shows the
    ready reply to copy into Kiran's own email. Nothing is emailed
    automatically.
@@ -39,9 +45,22 @@ row menu shows "Needs a demo" for them.
    One pass opens both `/projects/<slug>` and, if the project has a demo,
    `/showcase/<slug>`, until the grant expires, is paused or removed.
 
+## Repeat guests (Kiran's call)
+
+When Kiran approves or invites someone whose email is already a guest, the
+new projects are **added to the password they already have**; it is not
+replaced. The dialog then shows no password, says the projects were added to
+their existing password, and the copy-reply says to use the same password as
+before. If they have lost it, Kiran uses the existing **New password** action
+in Guests. This replaces today's behaviour (`createGuest` returns
+`rotated: true` and issues a new password for all their projects). A guest
+with no email is always a new guest, as today.
+
 ## Goals
 
 - Any project can be switched Public ↔ Password protected in the console.
+- One request can ask for several password-protected projects, and approving
+  it gives one password for all of them.
 - A password-protected project's `/projects/<slug>` page is locked for
   everyone except Kiran (admin session) and guests with a valid grant.
 - The locked page is the teaser in step 3, styled like the portfolio
@@ -56,8 +75,8 @@ row menu shows "Needs a demo" for them.
 ## Non-goals
 
 - Automatic emails on approve or decline.
-- Any change to the database schema, guests, grants, requests, passwords,
-  expiry or the Requests and Guests pages.
+- Any change to grants, expiry or the Guests page. (Requests change only to
+  hold several projects; guests change only as in "Repeat guests" below.)
 - Locking articles or the home and about pages.
 - Changing how the 3 demo projects' showcase pages look when locked.
 
@@ -82,8 +101,14 @@ row menu shows "Needs a demo" for them.
 - `canBeUnlocked(slug)` currently limits Unlocked to demo projects in the
   `setProjectLevel` action, `addGuest` picker and the menu; that limit is
   removed. The unlock page's `getShowcaseProject(slug)` check likewise.
-- Migrations: none expected. If one turns out to be needed it must be
-  additive (Preview shares the production database).
+- A request holds several projects. `access_requests.product_slug` is a
+  single column today, so this needs a migration, and it must be additive
+  (Preview shares the production database): e.g. a new array column, with
+  old rows read as their single `product_slug`. Don't drop or rename.
+- The request form only lists projects that are password protected right
+  now (never hidden ones), and the action re-checks every submitted slug on
+  the server. A project made public or hidden before approval is dropped
+  from the prefill.
 - Follow repo CLAUDE.md: shadcn, semantic tokens, `space-y-*`, `&apos;`,
   single quotes, no build run.
 
@@ -93,6 +118,8 @@ row menu shows "Needs a demo" for them.
 - Teaser + lock on the locked page.
 - On approve: copy the reply and email it yourself (as today).
 - On decline: silent (as today).
+- Visitors can ask for several projects in one request.
+- Repeat guests keep their password; new projects are added to it.
 
 ## Claude's calls (Kiran may override)
 
@@ -116,6 +143,9 @@ row menu shows "Needs a demo" for them.
   working (or are reissued) after the change.
 - Whether the unlock form and request dialog are shared components or a
   `(site)` variant, within the group isolation rule.
-- Tests: gate decisions for `/projects/<slug>` at every level, including
+- Request form layout for the project checkboxes, within shadcn components.
+- Tests: approving an existing guest keeps their old password working for
+  old and new projects and returns no password; multi-project request saved and prefilled on approve; slugs that
+  aren't password protected rejected; gate decisions for `/projects/<slug>` at every level, including
   database down; cookie reaching both paths; menu wording; the action
   accepting Unlocked for a project without a demo.
