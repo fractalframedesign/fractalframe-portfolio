@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { Inbox } from "lucide-react";
-import { unstable_rethrow } from "next/navigation";
-import { useState, useTransition } from "react";
+import { Inbox } from 'lucide-react';
+import { unstable_rethrow } from 'next/navigation';
+import { useState, useTransition } from 'react';
 
-import { declineRequest } from "@/app/(admin)/admin/actions";
+import { declineRequest } from '@/app/(admin)/admin/actions';
 import AddGuestDialog, {
   type GuestDefaults,
   type ProjectOption,
-} from "@/components/admin/add-guest-dialog";
-import { Button } from "@/components/ui/button";
+} from '@/components/admin/add-guest-dialog';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -17,14 +17,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 
-import SectionCard from "./section-card";
+import SectionCard from './section-card';
 
 export type RequestRow = {
   id: string;
@@ -43,7 +43,7 @@ type RequestsTableProps = {
   projects: ProjectOption[];
 };
 
-const DECLINE_ERROR = "Couldn’t decline. Try again.";
+const DECLINE_ERROR = 'Couldn’t decline. Try again.';
 
 export default function RequestsTable({
   requests,
@@ -165,7 +165,7 @@ function RequestTableRow({
             onClick={decline}
             disabled={pending}
           >
-            {pending ? "Declining…" : "Decline"}
+            {pending ? 'Declining…' : 'Decline'}
           </Button>
         </div>
         {error && (

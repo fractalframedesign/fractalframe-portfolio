@@ -1,11 +1,5 @@
 // @vitest-environment jsdom
-import {
-  act,
-  cleanup,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { redirect } from 'next/navigation';
 import { Component, type ComponentProps, type ReactNode } from 'react';
@@ -113,7 +107,9 @@ describe('AccessSwitch: saving after confirming', () => {
     render(<AccessSwitch {...project} level="unlocked" onSave={onSave} />);
 
     const user = await choose('Public');
-    await user.click(await screen.findByRole('button', { name: 'Make public' }));
+    await user.click(
+      await screen.findByRole('button', { name: 'Make public' }),
+    );
 
     await expectSaved();
     expect(onSave).toHaveBeenCalledTimes(1);
@@ -144,7 +140,9 @@ describe('AccessSwitch: saving after confirming', () => {
     render(<AccessSwitch {...project} level="unlocked" onSave={onSave} />);
 
     const user = await choose('Public');
-    await user.click(await screen.findByRole('button', { name: 'Make public' }));
+    await user.click(
+      await screen.findByRole('button', { name: 'Make public' }),
+    );
 
     expect((await screen.findByRole('alert')).textContent).toBe(
       'Couldn’t save. Try again.',

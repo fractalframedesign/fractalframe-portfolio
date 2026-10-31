@@ -1,19 +1,19 @@
-import type { Metadata } from "next";
+import type { Metadata } from 'next';
 
-import RequestsTable from "@/components/admin/console/requests-table";
-import TopBar from "@/components/admin/console/top-bar";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { formatAdminDate } from "@/lib/access/admin-format";
-import { resolveLevel } from "@/lib/access/levels";
-import { getStoredLevels } from "@/lib/access/repo/products";
-import { listPendingRequests } from "@/lib/access/repo/requests";
-import { requireAdmin } from "@/lib/access/require-admin";
-import { getDb } from "@/lib/db/client";
-import { getAllProjects } from "@/lib/projects";
+import RequestsTable from '@/components/admin/console/requests-table';
+import TopBar from '@/components/admin/console/top-bar';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { formatAdminDate } from '@/lib/access/admin-format';
+import { resolveLevel } from '@/lib/access/levels';
+import { getStoredLevels } from '@/lib/access/repo/products';
+import { listPendingRequests } from '@/lib/access/repo/requests';
+import { requireAdmin } from '@/lib/access/require-admin';
+import { getDb } from '@/lib/db/client';
+import { getAllProjects } from '@/lib/projects';
 
-export const metadata: Metadata = { title: "Requests" };
+export const metadata: Metadata = { title: 'Requests' };
 
-const PAGE_TITLE = "Requests";
+const PAGE_TITLE = 'Requests';
 
 async function loadRequests() {
   const db = getDb();
@@ -31,14 +31,14 @@ async function loadRequests() {
       id: request.id,
       name: request.name,
       email: request.email,
-      message: request.message ?? "",
+      message: request.message ?? '',
       productSlug: request.productSlug,
       projectName: names.get(request.productSlug) ?? request.productSlug,
       receivedLabel: formatAdminDate(request.createdAt),
     })),
     // Only protected projects can be preselected in the invite dialog
     protectedProjects: projects
-      .filter((project) => resolveLevel(project.slug, levels) === "unlocked")
+      .filter((project) => resolveLevel(project.slug, levels) === 'unlocked')
       .map(({ slug, name }) => ({ slug, name })),
   };
 }
@@ -50,7 +50,7 @@ export default async function RequestsPage() {
   try {
     data = await loadRequests();
   } catch (error) {
-    console.error("Admin requests failed to load", error);
+    console.error('Admin requests failed to load', error);
     return <DatabaseDown />;
   }
 

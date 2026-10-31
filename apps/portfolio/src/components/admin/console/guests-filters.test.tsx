@@ -1,7 +1,15 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 
 import GuestsFilters from './guests-filters';
 
@@ -39,9 +47,7 @@ async function choose(filter: string, option: string) {
 describe('GuestsFilters', () => {
   it('sets the status in the URL and keeps the project', async () => {
     search = 'project=fintech-components';
-    render(
-      <GuestsFilters projects={projects} project="fintech-components" />,
-    );
+    render(<GuestsFilters projects={projects} project="fintech-components" />);
 
     await choose('Status', 'Paused');
 
