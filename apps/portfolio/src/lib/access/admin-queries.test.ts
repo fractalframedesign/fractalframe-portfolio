@@ -97,10 +97,25 @@ test('requests say when the email is already a guest, in any case', async () => 
     productSlug: 'bloom',
   });
 
-  const rows = await listRequestsWithGuests(db);
+  const rows = await listRequestsWithGuests(db, now);
   const byName = new Map(rows.map((row) => [row.name, row.existingGuest]));
-  expect(byName.get('Ada')).toEqual({ guestId, expiresAt: inDays(3) });
+  expect(byName.get('Ada')).toEqual({
+    guestId,
+    expiresAt: inDays(3),
+    state: 'active',
+  });
   expect(byName.get('Bo')).toBeNull();
+
+  await setGuestStatus(db, guestId, 'paused');
+  const [paused] = (await listRequestsWithGuests(db, now)).filter(
+    (row) => row.name === 'Ada',
+  );
+  expect(paused?.existingGuest?.state).toBe('paused');
+  expect(
+    (await listRequestsWithGuests(db, inDays(4))).find(
+      (row) => row.name === 'Ada',
+    )?.existingGuest?.state,
+  ).toBe('expired');
 });
 
 test('getProjectRows lists every project with its level', async () => {

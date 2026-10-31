@@ -15,7 +15,7 @@ const PAGE_TITLE = 'Requests';
 
 async function loadRequests() {
   const [pending, projects] = await Promise.all([
-    listRequestsWithGuests(getDb()),
+    listRequestsWithGuests(getDb(), new Date()),
     getAllProjects(),
   ]);
   const names = new Map(

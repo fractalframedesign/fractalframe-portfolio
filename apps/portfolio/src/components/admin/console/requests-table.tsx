@@ -5,10 +5,6 @@ import { unstable_rethrow } from 'next/navigation';
 import { useState, useTransition } from 'react';
 
 import { declineRequest } from '@/app/(admin)/admin/actions';
-import AddGuestDialog, {
-  type GuestDefaults,
-} from '@/components/admin/add-guest-dialog';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Table,
@@ -24,19 +20,19 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import {
+  GuestStateBadge,
+  replyLabel,
+  type ReplyRequest,
+  useRequestReply,
+} from './request-reply';
 import SectionCard from './section-card';
 
-export type RequestRow = {
-  id: string;
-  name: string;
-  email: string;
+export type RequestRow = ReplyRequest & {
   message: string;
-  productSlug: string;
   projectName: string;
   /** Already formatted in Tokyo time */
   receivedLabel: string;
-  /** Set when the email already belongs to a guest */
-  existingGuest: { expiresAt: Date | null } | null;
 };
 
 type RequestsTableProps = { requests: RequestRow[] };
@@ -44,10 +40,7 @@ type RequestsTableProps = { requests: RequestRow[] };
 const DECLINE_ERROR = 'Couldn’t decline. Try again.';
 
 export default function RequestsTable({ requests }: RequestsTableProps) {
-  // Lives outside the table so the password stays on screen after the
-  // approved request drops out of it.
-  const [approving, setApproving] = useState<GuestDefaults>();
-  const [open, setOpen] = useState(false);
+  const reply = useRequestReply();
 
   return (
     <SectionCard title="New and pending requests" icon={Inbox}>
@@ -73,33 +66,24 @@ export default function RequestsTable({ requests }: RequestsTableProps) {
               <RequestTableRow
                 key={request.id}
                 request={request}
-                onApprove={() => {
-                  setApproving({
-                    name: request.name,
-                    email: request.email,
-                    requestId: request.id,
-                    projectSlug: request.productSlug,
-                    existingGuest: request.existingGuest ?? undefined,
-                  });
-                  setOpen(true);
-                }}
+                onReply={() => reply.start(request)}
               />
             ))}
           </TableBody>
         </Table>
       )}
 
-      <AddGuestDialog open={open} onOpenChange={setOpen} defaults={approving} />
+      {reply.dialogs}
     </SectionCard>
   );
 }
 
 function RequestTableRow({
   request,
-  onApprove,
+  onReply,
 }: {
   request: RequestRow;
-  onApprove: () => void;
+  onReply: () => void;
 }) {
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string>();
@@ -124,9 +108,7 @@ function RequestTableRow({
       <TableCell>
         <div className="flex flex-wrap items-center gap-2">
           <p className="font-medium">{request.name}</p>
-          {request.existingGuest && (
-            <Badge variant="secondary">Already a guest</Badge>
-          )}
+          <GuestStateBadge request={request} />
         </div>
         <p className="text-muted-foreground text-sm">{request.email}</p>
       </TableCell>
@@ -152,8 +134,8 @@ function RequestTableRow({
       </TableCell>
       <TableCell>
         <div className="flex justify-end gap-2">
-          <Button size="sm" onClick={onApprove}>
-            {request.existingGuest ? 'Resend access' : 'Approve'}
+          <Button size="sm" onClick={onReply}>
+            {replyLabel(request)}
           </Button>
           <Button
             size="sm"

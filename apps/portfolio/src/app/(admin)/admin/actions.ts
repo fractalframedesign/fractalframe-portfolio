@@ -327,10 +327,14 @@ export async function newPassword(
   }
 }
 
-/** Emails the invitation Kiran wrote to the guest; replies go to Kiran */
+/**
+ * Emails the invitation Kiran wrote to the guest; replies go to Kiran.
+ * With a requestId, a successful send marks that request as answered.
+ */
 export async function sendInvite(
   guestId: string,
   input: { subject: string; message: string },
+  requestId?: string,
 ): Promise<ActionResult<{ sentTo: string }>> {
   await requireAdmin();
   const id = idSchema.safeParse(guestId);
@@ -357,9 +361,127 @@ export async function sendInvite(
     subject: parsed.data.subject,
     text: parsed.data.message,
   });
-  return sent
-    ? { ok: true, sentTo: to }
-    : { ok: false, error: MESSAGES.emailFailed };
+  if (!sent) return { ok: false, error: MESSAGES.emailFailed };
+
+  const request = idSchema.safeParse(requestId);
+  if (request.success) {
+    try {
+      await requestsRepo.approveIfPending(getDb(), request.data);
+      refreshAdmin();
+    } catch (error) {
+      // The email went out; the request just stays in the list
+      console.error('Marking the request answered failed', error);
+    }
+  }
+  return { ok: true, sentTo: to };
+}
+
+type GuestMessage = ActionResult<{
+  guestId: string;
+  name: string;
+  email: string;
+  reply: string;
+}>;
+
+const resumeSchema = z.object({
+  expiry: expiryChoiceSchema,
+  expiryCustom: expiryCustomSchema,
+  requestId: idSchema.optional(),
+  project: slugSchema.optional(),
+});
+
+/**
+ * A paused or expired guest asked again: turns their access back on with the
+ * same password and a new end date, and writes the message (links only).
+ */
+export async function resumeGuest(
+  guestId: string,
+  formData: FormData,
+): Promise<GuestMessage> {
+  await requireAdmin();
+  const id = idSchema.safeParse(guestId);
+  const parsed = resumeSchema.safeParse({
+    expiry: text(formData, 'expiry'),
+    expiryCustom: text(formData, 'expiryCustom') || undefined,
+    requestId: text(formData, 'requestId') || undefined,
+    project: text(formData, 'project') || undefined,
+  });
+  if (!id.success || !parsed.success) {
+    return { ok: false, error: MESSAGES.invalid };
+  }
+  const expiry = resolveExpiry(
+    parsed.data.expiry,
+    new Date(),
+    parsed.data.expiryCustom,
+  );
+  if (!expiry.ok) {
+    return { ok: false, fieldErrors: { expiryCustom: [expiry.error] } };
+  }
+
+  try {
+    const db = getDb();
+    await accessRepo.setGuestExpiry(db, id.data, expiry.expiresAt);
+    await accessRepo.setGuestStatus(db, id.data, 'active');
+    if (parsed.data.requestId) {
+      await requestsRepo.approveIfPending(db, parsed.data.requestId);
+    }
+    const result = await writeGuestMessage(id.data, {
+      kind: 'resume',
+      project: parsed.data.project,
+      expiresAt: expiry.expiresAt,
+    });
+    refreshAdmin();
+    return result;
+  } catch (error) {
+    return failed('resumeGuest', error);
+  }
+}
+
+/** The project links again for a guest who still has access; changes nothing */
+export async function guestMessage(
+  guestId: string,
+  project?: string,
+): Promise<GuestMessage> {
+  await requireAdmin();
+  const id = idSchema.safeParse(guestId);
+  const slug = slugSchema.optional().safeParse(project || undefined);
+  if (!id.success || !slug.success) {
+    return { ok: false, error: MESSAGES.invalid };
+  }
+  try {
+    return await writeGuestMessage(id.data, {
+      kind: 'reminder',
+      project: slug.data,
+    });
+  } catch (error) {
+    return failed('guestMessage', error);
+  }
+}
+
+async function writeGuestMessage(
+  guestId: string,
+  options: {
+    kind: 'resume' | 'reminder';
+    project?: string;
+    expiresAt?: Date | null;
+  },
+): Promise<GuestMessage> {
+  const guest = await accessRepo.getGuest(getDb(), guestId);
+  if (!guest?.email) return { ok: false, error: MESSAGES.noEmail };
+  return {
+    ok: true,
+    guestId,
+    name: guest.name,
+    email: guest.email,
+    reply: copyReplyText({
+      name: guest.name,
+      password: null,
+      expiresAt:
+        options.expiresAt === undefined ? guest.expiresAt : options.expiresAt,
+      projects: await inviteProjects(options.project),
+      kind: options.kind,
+    }),
+  };
 }
 
 export async function updateGuest(

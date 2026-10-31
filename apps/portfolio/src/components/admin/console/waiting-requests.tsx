@@ -1,35 +1,27 @@
 'use client';
 
 import { Inbox } from 'lucide-react';
-import { useState } from 'react';
 
-import AddGuestDialog, {
-  type GuestDefaults,
-} from '@/components/admin/add-guest-dialog';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
+import {
+  GuestStateBadge,
+  replyLabel,
+  type ReplyRequest,
+  useRequestReply,
+} from './request-reply';
 import SectionCard from './section-card';
 
-export type WaitingRequest = {
-  id: string;
-  name: string;
-  email: string;
-  productSlug: string;
+export type WaitingRequest = ReplyRequest & {
   projectName: string;
   /** Already formatted in Tokyo time */
   receivedLabel: string;
-  /** Set when the email already belongs to a guest */
-  existingGuest: { expiresAt: Date | null } | null;
 };
 
 type WaitingRequestsProps = { requests: WaitingRequest[] };
 
 export default function WaitingRequests({ requests }: WaitingRequestsProps) {
-  // Lives outside the list so the password stays on screen after the
-  // approved request drops out of it.
-  const [approving, setApproving] = useState<GuestDefaults>();
-  const [open, setOpen] = useState(false);
+  const reply = useRequestReply();
 
   return (
     <SectionCard title="Waiting for you" icon={Inbox}>
@@ -45,9 +37,7 @@ export default function WaitingRequests({ requests }: WaitingRequestsProps) {
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
                   <p className="truncate text-sm font-medium">{request.name}</p>
-                  {request.existingGuest && (
-                    <Badge variant="secondary">Already a guest</Badge>
-                  )}
+                  <GuestStateBadge request={request} />
                 </div>
                 <p className="text-muted-foreground truncate text-sm">
                   {request.projectName} · {request.receivedLabel}
@@ -56,25 +46,16 @@ export default function WaitingRequests({ requests }: WaitingRequestsProps) {
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => {
-                  setApproving({
-                    name: request.name,
-                    email: request.email,
-                    requestId: request.id,
-                    projectSlug: request.productSlug,
-                    existingGuest: request.existingGuest ?? undefined,
-                  });
-                  setOpen(true);
-                }}
+                onClick={() => reply.start(request)}
               >
-                {request.existingGuest ? 'Resend access' : 'Approve'}
+                {replyLabel(request)}
               </Button>
             </li>
           ))}
         </ul>
       )}
 
-      <AddGuestDialog open={open} onOpenChange={setOpen} defaults={approving} />
+      {reply.dialogs}
     </SectionCard>
   );
 }

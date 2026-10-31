@@ -47,4 +47,28 @@ Kiran`);
     expect(reply).toContain('Password: amber-river-42');
     expect(reply).not.toContain('It works until');
   });
+
+  test('resume and reminder messages point to the password they already have', () => {
+    const resume = copyReplyText({
+      name: 'Sam',
+      password: null,
+      expiresAt: null,
+      projects,
+      kind: 'resume',
+    });
+    expect(resume).toContain('Your access to my private projects is back on:');
+    expect(resume).toContain('Password: use the one I sent you before.');
+    expect(resume).toContain('https://example.com/projects/cactus-plant');
+
+    const reminder = copyReplyText({
+      name: 'Sam',
+      password: null,
+      expiresAt: null,
+      projects,
+      kind: 'reminder',
+    });
+    expect(reminder).toContain(
+      'Here are the links to my private projects again:',
+    );
+  });
 });

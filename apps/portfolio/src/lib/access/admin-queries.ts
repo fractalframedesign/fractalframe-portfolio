@@ -16,7 +16,11 @@ export type PendingRequest = typeof accessRequests.$inferSelect;
 
 /** A pending request, and the guest it belongs to when the email is known */
 export type RequestRow = PendingRequest & {
-  existingGuest: { guestId: string; expiresAt: Date | null } | null;
+  existingGuest: {
+    guestId: string;
+    expiresAt: Date | null;
+    state: 'active' | 'paused' | 'expired';
+  } | null;
 };
 
 export type OverviewStats = {
@@ -60,6 +64,7 @@ async function loadActiveGuests(db: Db, now: Date) {
 async function attachGuests(
   db: Db,
   requests: PendingRequest[],
+  now: Date,
 ): Promise<RequestRow[]> {
   const emails = [...new Set(requests.map((request) => request.email))];
   const known = emails.length
@@ -68,6 +73,7 @@ async function attachGuests(
           guestId: guests.id,
           email: guests.email,
           expiresAt: guests.accessExpiresAt,
+          status: guests.accessStatus,
         })
         .from(guests)
         .where(
@@ -86,7 +92,15 @@ async function attachGuests(
     return {
       ...request,
       existingGuest: guest
-        ? { guestId: guest.guestId, expiresAt: guest.expiresAt }
+        ? {
+            guestId: guest.guestId,
+            expiresAt: guest.expiresAt,
+            // Expired wins over paused, as on the Guests page
+            state:
+              guest.expiresAt && guest.expiresAt.getTime() <= now.getTime()
+                ? 'expired'
+                : guest.status,
+          }
         : null,
     };
   });
@@ -102,8 +116,11 @@ async function pendingRequests(db: Db, limit?: number) {
 }
 
 /** Pending requests, newest first, each marked when it's from an existing guest */
-export async function listRequestsWithGuests(db: Db): Promise<RequestRow[]> {
-  return attachGuests(db, await pendingRequests(db));
+export async function listRequestsWithGuests(
+  db: Db,
+  now: Date,
+): Promise<RequestRow[]> {
+  return attachGuests(db, await pendingRequests(db), now);
 }
 
 export async function getOverview(
@@ -142,7 +159,7 @@ export async function getOverview(
       activeGuests: active.length,
       expiringThisWeek: expiringAll.length,
     },
-    waiting: await attachGuests(db, waiting),
+    waiting: await attachGuests(db, waiting, now),
     expiring: expiringAll.slice(0, LIST_LIMIT).map((row) => ({
       guestId: row.guestId,
       guestName: row.name,

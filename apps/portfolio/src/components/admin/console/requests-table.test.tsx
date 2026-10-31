@@ -9,6 +9,8 @@ const actions = vi.hoisted(() => ({
   addGuest: vi.fn(),
   declineRequest: vi.fn(),
   sendInvite: vi.fn(),
+  resumeGuest: vi.fn(),
+  guestMessage: vi.fn(),
 }));
 vi.mock('@/app/(admin)/admin/actions', () => actions);
 
@@ -21,7 +23,10 @@ beforeAll(() => {
   };
 });
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.clearAllMocks();
+});
 
 const base = {
   message: '',
@@ -36,9 +41,16 @@ const requests: RequestRow[] = [
     id: 'r1',
     name: 'Ada',
     email: 'ada@x.com',
-    existingGuest: { expiresAt: null },
+    existingGuest: { guestId: 'g-ada', expiresAt: null, state: 'paused' },
   },
   { ...base, id: 'r2', name: 'Bo', email: 'bo@x.com', existingGuest: null },
+  {
+    ...base,
+    id: 'r3',
+    name: 'Cy',
+    email: 'cy@x.com',
+    existingGuest: { guestId: 'g-cy', expiresAt: null, state: 'active' },
+  },
 ];
 
 function row(name: string) {
@@ -46,24 +58,102 @@ function row(name: string) {
 }
 
 describe('RequestsTable', () => {
-  it('marks existing guests and offers Resend access instead of Approve', () => {
+  it('one clear button per situation', () => {
     render(<RequestsTable requests={requests} />);
 
     const ada = within(row('Ada'));
-    expect(ada.getByText('Already a guest')).toBeTruthy();
-    expect(ada.getByRole('button', { name: 'Resend access' })).toBeTruthy();
-    expect(ada.queryByRole('button', { name: 'Approve' })).toBeNull();
+    expect(ada.getByText('Paused')).toBeTruthy();
+    expect(ada.getByRole('button', { name: 'Resume access' })).toBeTruthy();
 
     const bo = within(row('Bo'));
-    expect(bo.queryByText('Already a guest')).toBeNull();
     expect(bo.getByRole('button', { name: 'Approve' })).toBeTruthy();
+
+    const cy = within(row('Cy'));
+    expect(cy.getByText('Has access')).toBeTruthy();
+    expect(cy.getByRole('button', { name: 'Send links again' })).toBeTruthy();
   });
 
-  it('Resend access warns that the old password stops, with no project picker', async () => {
+  it('Resume access keeps the password: pick an end date, then send the links', async () => {
+    actions.resumeGuest.mockResolvedValue({
+      ok: true,
+      guestId: 'g-ada',
+      name: 'Ada',
+      email: 'ada@x.com',
+      reply: 'Hi Ada, Password: use the one I sent you before.',
+    });
+    actions.sendInvite.mockResolvedValue({ ok: true, sentTo: 'ada@x.com' });
+    render(<RequestsTable requests={requests} />);
+    const user = userEvent.setup();
+    await user.click(
+      within(row('Ada')).getByRole('button', { name: 'Resume access' }),
+    );
+
+    const dialog = await screen.findByRole('dialog');
+    expect(
+      within(dialog).getByRole('heading', { name: 'Resume access for Ada' }),
+    ).toBeTruthy();
+    expect(dialog.textContent).toContain('Their password stays the same.');
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Resume access' }),
+    );
+
+    expect(actions.resumeGuest).toHaveBeenCalledWith(
+      'g-ada',
+      expect.any(FormData),
+    );
+    const form = actions.resumeGuest.mock.calls[0]![1] as FormData;
+    expect(form.get('requestId')).toBe('r1');
+    expect(form.get('project')).toBe('cactus-plant');
+
+    const message = (await within(dialog).findByLabelText(
+      'Message',
+    )) as HTMLTextAreaElement;
+    expect(message.value).toContain('use the one I sent you before');
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Send invitation' }),
+    );
+    expect(actions.sendInvite).toHaveBeenCalledWith(
+      'g-ada',
+      expect.objectContaining({ message: message.value }),
+      'r1',
+    );
+  });
+
+  it('Send links again goes straight to the message', async () => {
+    actions.guestMessage.mockResolvedValue({
+      ok: true,
+      guestId: 'g-cy',
+      name: 'Cy',
+      email: 'cy@x.com',
+      reply: 'Hi Cy, here are the links again',
+    });
     render(<RequestsTable requests={requests} />);
     await userEvent
       .setup()
-      .click(within(row('Ada')).getByRole('button', { name: 'Resend access' }));
+      .click(
+        within(row('Cy')).getByRole('button', { name: 'Send links again' }),
+      );
+
+    const dialog = await screen.findByRole('dialog');
+    expect(
+      ((await within(dialog).findByLabelText('Message')) as HTMLTextAreaElement)
+        .value,
+    ).toBe('Hi Cy, here are the links again');
+    expect(actions.guestMessage).toHaveBeenCalledWith('g-cy', 'cactus-plant');
+    expect(within(dialog).queryAllByRole('radio')).toHaveLength(0);
+  });
+
+  it('Lost their password? switches to making a new one', async () => {
+    render(<RequestsTable requests={requests} />);
+    const user = userEvent.setup();
+    await user.click(
+      within(row('Ada')).getByRole('button', { name: 'Resume access' }),
+    );
+    await user.click(
+      await screen.findByRole('button', {
+        name: 'Lost their password? Make a new one',
+      }),
+    );
 
     const dialog = await screen.findByRole('dialog');
     expect(
@@ -71,11 +161,6 @@ describe('RequestsTable', () => {
     ).toBeTruthy();
     expect(dialog.textContent).toContain(
       'This makes a new password. Their old one stops working.',
-    );
-    expect(within(dialog).queryAllByRole('checkbox')).toHaveLength(0);
-    expect(within(dialog).getByRole('radio', { name: 'Never' })).toHaveProperty(
-      'ariaChecked',
-      'true',
     );
   });
 

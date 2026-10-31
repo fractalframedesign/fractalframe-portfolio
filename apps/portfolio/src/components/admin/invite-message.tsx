@@ -22,7 +22,9 @@ type InviteMessageProps = {
   /** Prefilled invitation with the link and password */
   reply: string;
   /** An existing guest got a new password, so their old one stopped working */
-  renewed: boolean;
+  renewed?: boolean;
+  /** The request this answers; marked answered once the email is sent */
+  requestId?: string;
 };
 
 const FAILED = 'The email didn’t send. Try again, or copy the message.';
@@ -33,7 +35,8 @@ export default function InviteMessage({
   name,
   email,
   reply,
-  renewed,
+  renewed = false,
+  requestId,
 }: InviteMessageProps) {
   const id = useId();
   const [subject, setSubject] = useState(INVITE_SUBJECT);
@@ -48,7 +51,10 @@ export default function InviteMessage({
     // Next's RedirectBoundary instead of being shown as a failed send
     startTransition(async () => {
       try {
-        const result = await sendInvite(guestId, { subject, message });
+        const input = { subject, message };
+        const result = requestId
+          ? await sendInvite(guestId, input, requestId)
+          : await sendInvite(guestId, input);
         if (result.ok) setSentTo(result.sentTo);
         else setError(result.error ?? FAILED);
       } catch (caught) {

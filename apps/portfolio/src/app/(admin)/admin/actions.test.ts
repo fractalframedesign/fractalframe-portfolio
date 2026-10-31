@@ -16,7 +16,9 @@ import {
   changeGuestExpiry,
   declineRequest,
   deleteGuest,
+  guestMessage,
   newPassword,
+  resumeGuest,
   sendInvite,
   setGuestAccessStatus,
   setProjectLevel,
@@ -268,6 +270,78 @@ describe('sendInvite', () => {
     expect(
       (await sendInvite(guestId, { subject: 'x', message: '  ' })).ok,
     ).toBe(false);
+    vi.unstubAllGlobals();
+    delete process.env.RESEND_API_KEY;
+    delete process.env.ACCESS_REQUEST_FROM;
+  });
+});
+
+describe('returning guests', () => {
+  async function pausedAda() {
+    const first = await addGuest(guestForm(ada));
+    if (!first.ok) throw new Error('expected ok');
+    await setGuestAccessStatus(first.guestId, 'paused');
+    await saveRequest(db(), {
+      name: 'Ada Lovelace',
+      email: 'ada@example.com',
+      message: 'Again please',
+      productSlug: 'fintech-components',
+    });
+    const [request] = await listPendingRequests(db());
+    return { ...first, requestId: request!.id };
+  }
+
+  test('resumeGuest turns access back on with the same password and approves the request', async () => {
+    const { guestId, password, requestId } = await pausedAda();
+    const data = guestForm({
+      expiry: 'never',
+      requestId,
+      project: 'fintech-components',
+    });
+
+    const result = await resumeGuest(guestId, data);
+    if (!result.ok) throw new Error('expected ok');
+
+    expect(await guestAda()).toMatchObject({
+      status: 'active',
+      expiresAt: null,
+    });
+    expect(
+      await findGuestByPassword(db(), password, new Date()),
+    ).not.toBeNull();
+    expect(await listPendingRequests(db())).toHaveLength(0);
+    expect(result).toMatchObject({
+      name: 'Ada Lovelace',
+      email: 'ada@example.com',
+    });
+    expect(result.reply).toContain('Password: use the one I sent you before.');
+    expect(result.reply).not.toContain(password);
+  });
+
+  test('guestMessage writes the links again without changing anything', async () => {
+    const { guestId } = await pausedAda();
+    const result = await guestMessage(guestId, 'fintech-components');
+    if (!result.ok) throw new Error('expected ok');
+    expect(result.reply).toContain(
+      'Here are the links to my private projects again:',
+    );
+    expect((await guestAda())?.status).toBe('paused');
+    expect(await listPendingRequests(db())).toHaveLength(1);
+  });
+
+  test('a sent message marks the request it answers as done', async () => {
+    const { guestId, requestId } = await pausedAda();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('{}', { status: 200 })),
+    );
+    process.env.RESEND_API_KEY = 'key';
+    process.env.ACCESS_REQUEST_FROM = 'Kiran <hello@example.com>';
+
+    expect(
+      (await sendInvite(guestId, { subject: 's', message: 'm' }, requestId)).ok,
+    ).toBe(true);
+    expect(await listPendingRequests(db())).toHaveLength(0);
     vi.unstubAllGlobals();
     delete process.env.RESEND_API_KEY;
     delete process.env.ACCESS_REQUEST_FROM;
