@@ -2,7 +2,7 @@
 
 ## Now
 
-- [ ] **Showcase admin** (`feat/admin`): access levels, approved people,
+- [x] **Showcase admin** (`feat/admin`, done, pending merge): access levels, approved people,
       request inbox. Design: [2026-10-31-showcase-admin-design.md](superpowers/specs/2026-10-31-showcase-admin-design.md)
 
 ## Next

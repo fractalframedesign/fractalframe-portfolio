@@ -1,6 +1,6 @@
 # Showcase admin: access levels, people and requests
 
-Date: 2026-10-31 · Branch: `feat/admin` · Status: draft for Kiran's approval
+Date: 2026-10-31 · Branch: `feat/admin` · Status: implemented on feat/admin, pending manual check and merge
 
 ## Why
 
