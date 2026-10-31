@@ -8,6 +8,11 @@ import * as schema from '../src/lib/db/schema';
 async function main() {
   const url = process.env.DATABASE_URL;
   if (!url) {
+    // Vercel deployments always have a database; a missing URL there means
+    // the build can't see it (e.g. turbo filtered it out), so stop the deploy
+    if (process.env.VERCEL) {
+      throw new Error('DATABASE_URL is not available to the Vercel build');
+    }
     console.log('DATABASE_URL not set, skipping migrations');
     return;
   }
