@@ -1,6 +1,6 @@
 # One password per person, any project lockable
 
-Date: 2026-10-31 · Branch: `feat/admin` · Status: design, awaiting Kiran's approval
+Date: 2026-10-31 · Branch: `feat/admin` · Status: implemented on feat/admin, pending review and manual check
 
 Builds on [2026-10-31-showcase-admin-design.md](2026-10-31-showcase-admin-design.md)
 and [2026-11-01-admin-console-design.md](2026-11-01-admin-console-design.md).
