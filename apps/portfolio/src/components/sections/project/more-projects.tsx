@@ -2,7 +2,7 @@ import { ProjectCard } from '@/components/project-card';
 import { ProjectFrontmatter } from '@/lib/types';
 
 interface MoreProjectsProps {
-  projects: ProjectFrontmatter[];
+  projects: Array<ProjectFrontmatter & { locked?: boolean }>;
 }
 
 const MoreProjects = ({ projects }: MoreProjectsProps) => {

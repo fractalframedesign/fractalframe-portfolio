@@ -2,37 +2,26 @@
 
 import { useActionState } from 'react';
 
-import {
-  unlock,
-  type UnlockState,
-} from '@/app/(showcase)/showcase/unlock/actions';
+import { login, type LoginState } from '@/app/(admin)/admin/login/actions';
+import PasswordInput from '@/components/admin/console/password-input';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 
-type UnlockFormProps = {
-  project: string;
-  next: string;
-};
-
-export default function UnlockForm({ project, next }: UnlockFormProps) {
-  const [state, action, pending] = useActionState<UnlockState, FormData>(
-    unlock,
+export default function LoginForm() {
+  const [state, action, pending] = useActionState<LoginState, FormData>(
+    login,
     {},
   );
 
   return (
     <form action={action} className="space-y-4">
-      <input type="hidden" name="project" value={project} />
-      <input type="hidden" name="next" value={next} />
-
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
-        <Input
+        <PasswordInput
           id="password"
           name="password"
-          type="password"
-          autoComplete="off"
+          autoComplete="current-password"
           autoFocus
           required
           aria-invalid={Boolean(state.error)}
@@ -49,8 +38,15 @@ export default function UnlockForm({ project, next }: UnlockFormProps) {
         )}
       </div>
 
+      <div className="flex items-center gap-2">
+        <Checkbox id="rememberMe" name="rememberMe" />
+        <Label htmlFor="rememberMe" className="cursor-pointer font-normal">
+          Remember me for 30 days
+        </Label>
+      </div>
+
       <Button type="submit" className="w-full" disabled={pending}>
-        {pending ? 'Checking…' : 'Unlock'}
+        {pending ? 'Checking…' : 'Log in'}
       </Button>
     </form>
   );

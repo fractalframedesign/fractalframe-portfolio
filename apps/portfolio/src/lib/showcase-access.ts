@@ -1,9 +1,10 @@
-import { PROTECTED_SHOWCASE } from '@/lib/constants';
+import { safeEqual } from '@/lib/access/crypto';
 
 /**
  * One entry per person, read from SHOWCASE_ACCESS:
  *   name:password:project+project, name2:password2:*
- * `*` opens every protected project. Delete an entry to revoke it.
+ * `*` opens every project. Delete an entry to revoke it. This is the fallback
+ * that keeps working when the database is unreachable.
  */
 type AccessEntry = {
   name: string;
@@ -13,26 +14,25 @@ type AccessEntry = {
 
 const encoder = new TextEncoder();
 
-/** Returns the protected project slug a /showcase path belongs to, if any */
-export function getProtectedSlug(pathname: string) {
-  const slug = pathname.split('/')[2];
-  return slug && PROTECTED_SHOWCASE.includes(slug) ? slug : undefined;
-}
-
+/** Cookie set by a SHOWCASE_ACCESS password */
 export function accessCookieName(slug: string) {
   return `showcase-access-${slug}`;
 }
 
+/** Cookie set by a guest password from the database: one for every project */
+export const GUEST_PASS_COOKIE = 'guest-pass';
+
 /**
- * A session cookie: no expiry, so the browser drops it when it closes and
- * the password is asked again on the next visit. Scoped to the project.
+ * Session cookies: no expiry, so the browser drops them when it closes and
+ * the password is asked again on the next visit. Path `/` so one unlock
+ * covers both /projects/<slug> and /showcase/<slug>.
  */
-export function accessCookieOptions(slug: string) {
+export function accessCookieOptions() {
   return {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax' as const,
-    path: `/showcase/${slug}`,
+    path: '/',
   };
 }
 
@@ -86,13 +86,4 @@ async function findToken(slug: string, candidate: string) {
     const token = await sign(entry.password, slug);
     if (safeEqual(candidate, token)) return token;
   }
-}
-
-/** Constant-time string comparison */
-function safeEqual(a: string, b: string) {
-  if (a.length !== b.length) return false;
-
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
 }

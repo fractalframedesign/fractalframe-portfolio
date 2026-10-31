@@ -3,10 +3,6 @@
 import { CircleCheck } from 'lucide-react';
 import { useActionState } from 'react';
 
-import {
-  requestAccess,
-  type RequestAccessState,
-} from '@/app/(showcase)/showcase/unlock/request-access';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -21,6 +17,10 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  requestAccess,
+  type RequestAccessState,
+} from '@/lib/access/actions/request-access';
 
 type RequestAccessDialogProps = {
   project: { slug: string; name: string };
@@ -53,8 +53,8 @@ export default function RequestAccessDialog({
               />
               <DialogTitle>Request sent</DialogTitle>
               <DialogDescription>
-                Thanks. I&apos;ll review it and email you a password for{' '}
-                {project.name}.
+                Thanks. I&apos;ll review it and email you a password. It opens
+                all my private projects.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -66,9 +66,10 @@ export default function RequestAccessDialog({
         ) : (
           <form action={action} className="space-y-6">
             <DialogHeader>
-              <DialogTitle>Request access to {project.name}</DialogTitle>
+              <DialogTitle>Request access</DialogTitle>
               <DialogDescription>
-                Tell me who you are and I&apos;ll email you a password.
+                Tell me who you are and I&apos;ll email you one password for all
+                my private projects, {project.name} included.
               </DialogDescription>
             </DialogHeader>
 

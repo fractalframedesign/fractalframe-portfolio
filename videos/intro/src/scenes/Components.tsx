@@ -68,6 +68,7 @@ export const Components: React.FC = () => {
       <AbsoluteFill
         style={{
           justifyContent: "center",
+          alignItems: "flex-start",
           gap: 40,
           padding: "100px 160px",
           width: 900,
@@ -98,7 +99,7 @@ export const Components: React.FC = () => {
             }),
           }}
         >
-          interactive UI components, built to ship
+          interactive UI components
         </Interactive.Div>
       </AbsoluteFill>
 

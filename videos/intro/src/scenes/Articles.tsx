@@ -22,9 +22,15 @@ export const Articles: React.FC = () => {
     <AbsoluteFill style={{ fontFamily: sans, color: "#fafafa" }}>
       <Background />
       <AbsoluteFill
-        style={{ justifyContent: "center", gap: 40, padding: "100px 160px" }}
+        style={{
+          justifyContent: "center",
+          gap: 40,
+          padding: "100px 160px",
+        }}
       >
-        <Label delay={2}>02 · Articles</Label>
+        <div>
+          <Label delay={2}>02 · Articles</Label>
+        </div>
         <Interactive.Div
           name="Intro"
           style={{

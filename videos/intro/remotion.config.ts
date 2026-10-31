@@ -11,3 +11,6 @@ Config.setRspack(true);
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
 Config.setDefaultPremountInSeconds(2);
+// The headless shell crashes on this Mac (missing ICU data); full Chrome for Testing works
+Config.setChromeMode("chrome-for-testing");
+Config.setStudioPort(3100);
