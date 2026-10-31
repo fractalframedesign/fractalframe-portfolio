@@ -10,9 +10,15 @@ import { unlock, type UnlockState } from '@/lib/access/actions/unlock';
 type UnlockFormProps = {
   project: string;
   next: string;
+  /** Off where the form sits below content the visitor should read first */
+  autoFocus?: boolean;
 };
 
-export default function UnlockForm({ project, next }: UnlockFormProps) {
+export default function UnlockForm({
+  project,
+  next,
+  autoFocus = true,
+}: UnlockFormProps) {
   const [state, action, pending] = useActionState<UnlockState, FormData>(
     unlock,
     {},
@@ -30,7 +36,7 @@ export default function UnlockForm({ project, next }: UnlockFormProps) {
           name="password"
           type="password"
           autoComplete="off"
-          autoFocus
+          autoFocus={autoFocus}
           required
           aria-invalid={Boolean(state.error)}
           aria-describedby={state.error ? 'password-error' : undefined}

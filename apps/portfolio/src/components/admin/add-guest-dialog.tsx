@@ -162,6 +162,7 @@ function GuestForm({
             required
             autoComplete="off"
             aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? `${id}-name-error` : undefined}
           />
         </Field>
 
@@ -178,6 +179,7 @@ function GuestForm({
             defaultValue={defaults.email}
             autoComplete="off"
             aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? `${id}-email-error` : undefined}
           />
         </Field>
 
@@ -193,6 +195,7 @@ function GuestForm({
             maxLength={500}
             rows={2}
             aria-invalid={Boolean(errors.note)}
+            aria-describedby={errors.note ? `${id}-note-error` : undefined}
           />
         </Field>
       </fieldset>
@@ -252,7 +255,7 @@ function Field({
         <p className="text-muted-foreground text-xs">{hint}</p>
       )}
       {error && (
-        <p role="alert" className="text-destructive text-sm">
+        <p id={`${id}-error`} role="alert" className="text-destructive text-sm">
           {error}
         </p>
       )}

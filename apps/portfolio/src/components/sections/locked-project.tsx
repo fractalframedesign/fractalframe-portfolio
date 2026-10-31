@@ -54,6 +54,7 @@ export default function LockedProject({ project }: LockedProjectProps) {
             <UnlockForm
               project={project.slug}
               next={`/projects/${project.slug}`}
+              autoFocus={false}
             />
           </CardContent>
           <CardFooter className="text-muted-foreground gap-1 text-sm">

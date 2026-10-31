@@ -5,10 +5,11 @@ import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 
 import RequestsTable, { type RequestRow } from './requests-table';
 
-vi.mock('@/app/(admin)/admin/actions', () => ({
+const actions = vi.hoisted(() => ({
   addGuest: vi.fn(),
   declineRequest: vi.fn(),
 }));
+vi.mock('@/app/(admin)/admin/actions', () => actions);
 
 beforeAll(() => {
   // Radix radio groups measure themselves; jsdom has no ResizeObserver
@@ -88,5 +89,27 @@ describe('RequestsTable', () => {
       within(dialog).getByRole('heading', { name: 'Approve request' }),
     ).toBeTruthy();
     expect(within(dialog).getByLabelText('Name')).toHaveProperty('value', 'Bo');
+  });
+
+  it('links a field error to its field', async () => {
+    actions.addGuest.mockResolvedValue({
+      ok: false,
+      fieldErrors: { name: ['Enter a name.'] },
+    });
+    render(<RequestsTable requests={requests} />);
+    const user = userEvent.setup();
+    await user.click(
+      within(row('Bo')).getByRole('button', { name: 'Approve' }),
+    );
+    const dialog = await screen.findByRole('dialog');
+    await user.click(
+      within(dialog).getByRole('button', { name: 'Create invite' }),
+    );
+
+    const name = await within(dialog).findByLabelText('Name');
+    const describedBy = name.getAttribute('aria-describedby') ?? '';
+    expect(document.getElementById(describedBy)?.textContent).toBe(
+      'Enter a name.',
+    );
   });
 });

@@ -28,6 +28,11 @@ describe('LockedProject', () => {
     ).toBeTruthy();
   });
 
+  it('does not jump focus past the heading to the password box', () => {
+    render(<LockedProject project={project} />);
+    expect(document.activeElement).not.toBe(screen.getByLabelText('Password'));
+  });
+
   it('sends the visitor back to the case study after unlocking', () => {
     const { container } = render(<LockedProject project={project} />);
     const next =

@@ -59,6 +59,11 @@ export default function ProjectsList({ projects }: ProjectsListProps) {
           ))}
         </div>
 
+        {/* Announces the result of a filter change */}
+        <p role="status" className="text-muted-foreground text-sm">
+          {shown.length} {shown.length === 1 ? 'project' : 'projects'}
+        </p>
+
         {shown.length === 0 ? (
           <p className="text-muted-foreground py-6 text-sm">{EMPTY[filter]}</p>
         ) : (
