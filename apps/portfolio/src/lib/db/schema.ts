@@ -80,3 +80,10 @@ export const loginAttempts = pgTable('login_attempts', {
   windowStart: timestamptz('window_start').notNull(),
   lockedUntil: timestamptz('locked_until'),
 });
+
+/** One row (id 'owner'). Once set, it replaces the ADMIN_PASSWORD env var. */
+export const adminAccount = pgTable('admin_account', {
+  id: text('id').primaryKey().default('owner'),
+  passwordHash: text('password_hash').notNull(),
+  passwordChangedAt: timestamptz('password_changed_at').notNull(),
+});

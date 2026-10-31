@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { changeAdminPassword } from '@/lib/access/admin-password';
 import { ADMIN_COOKIE, verifyAdminSession } from '@/lib/access/admin-session';
 import { createTestDb } from '@/lib/db/test-db';
 
@@ -92,16 +93,29 @@ describe('login', () => {
     await expect(loginWith('test-admin-password')).rejects.toThrow('REDIRECT:');
   });
 
-  test('with the database down, a right password still works and a wrong one errors', async () => {
+  test('with the database down, every login is refused', async () => {
     state.dbDown = true;
-    expect(await loginWith('nope')).toEqual({
+    const unavailable = {
+      error: 'Can’t check your password right now. Try again in a minute.',
+    };
+    expect(await loginWith('nope')).toEqual(unavailable);
+    expect(await loginWith('test-admin-password')).toEqual(unavailable);
+    expect(state.cookies.has(ADMIN_COOKIE)).toBe(false);
+    expect(console.error).toHaveBeenCalled();
+  });
+
+  test('after a password change in the console, only the new one works', async () => {
+    await changeAdminPassword(
+      state.db as never,
+      'a brand new password',
+      new Date(),
+    );
+    expect(await loginWith('test-admin-password')).toEqual({
       error: 'That password isn’t right.',
     });
-    await expect(loginWith('test-admin-password')).rejects.toThrow(
+    await expect(loginWith('a brand new password')).rejects.toThrow(
       'REDIRECT:/admin',
     );
-    expect(state.cookies.has(ADMIN_COOKIE)).toBe(true);
-    expect(console.error).toHaveBeenCalled();
   });
 
   test('empty password is rejected', async () => {

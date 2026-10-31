@@ -11,6 +11,7 @@ test('migrations create all tables', async () => {
   )) as { rows: { table_name: string }[] };
   expect(rows.rows.map((r) => r.table_name).sort()).toEqual([
     'access_requests',
+    'admin_account',
     'grants',
     'guests',
     'login_attempts',

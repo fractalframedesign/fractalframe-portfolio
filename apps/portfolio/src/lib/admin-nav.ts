@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   type LucideIcon,
   Package,
+  Settings,
   Users,
 } from 'lucide-react';
 
@@ -47,6 +48,10 @@ export const ADMIN_NAV: NavGroup[] = [
       },
       { title: 'Products', href: '/admin/products', icon: Package, soon: true },
     ],
+  },
+  {
+    label: 'Account',
+    items: [{ title: 'Settings', href: '/admin/settings', icon: Settings }],
   },
 ];
 

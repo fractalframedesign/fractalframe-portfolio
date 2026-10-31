@@ -20,23 +20,40 @@ function sessionSecret() {
   return secret;
 }
 
+/** Token: `issuedAt.expiresAt.signature` (ms since epoch, HMAC over both) */
 export async function createAdminSession(now: Date, rememberMe = false) {
   const duration = rememberMe ? REMEMBERED_SESSION_SECONDS : SESSION_SECONDS;
-  const expiresAtMs = now.getTime() + duration * 1000;
-  return `${expiresAtMs}.${await hmac(sessionSecret(), 'admin:' + expiresAtMs)}`;
+  const issuedAtMs = now.getTime();
+  const expiresAtMs = issuedAtMs + duration * 1000;
+  return `${issuedAtMs}.${expiresAtMs}.${await sign(issuedAtMs, expiresAtMs)}`;
+}
+
+function sign(issuedAt: number | string, expiresAt: number | string) {
+  return hmac(sessionSecret(), `admin:${issuedAt}:${expiresAt}`);
+}
+
+/**
+ * Checks the signature and expiry only (no database, so the proxy can use it).
+ * Returns the session's times, or null when it isn't valid.
+ */
+export async function readAdminSession(token: string | undefined, now: Date) {
+  if (!token || !process.env.ADMIN_SESSION_SECRET) return null;
+  const [issuedAt, expiresAt, signature, ...rest] = token.split('.');
+  if (!issuedAt || !expiresAt || !signature || rest.length) return null;
+  if (!/^\d+$/.test(issuedAt) || !/^\d+$/.test(expiresAt)) return null;
+  if (Number(expiresAt) <= now.getTime()) return null;
+  if (!safeEqual(signature, await sign(issuedAt, expiresAt))) return null;
+
+  const issued = Number(issuedAt);
+  const expires = Number(expiresAt);
+  return {
+    issuedAt: new Date(issued),
+    rememberMe: expires - issued > SESSION_SECONDS * 1000,
+  };
 }
 
 export async function verifyAdminSession(token: string | undefined, now: Date) {
-  if (!token || !process.env.ADMIN_SESSION_SECRET) return false;
-  const [expiresAt, signature, ...rest] = token.split('.');
-  if (!expiresAt || !signature || rest.length || !/^\d+$/.test(expiresAt))
-    return false;
-  if (Number(expiresAt) <= now.getTime()) return false;
-
-  return safeEqual(
-    signature,
-    await hmac(sessionSecret(), 'admin:' + expiresAt),
-  );
+  return (await readAdminSession(token, now)) !== null;
 }
 
 /**

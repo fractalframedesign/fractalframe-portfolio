@@ -81,6 +81,7 @@ Moving between the groups is a full page load. Never import one group's CSS from
 - Showcase access levels (Public / Unlocked / Admin) live in the database (Neon Postgres via Drizzle). Code is in `src/lib/db` and `src/lib/access`.
 - The admin console shows Kiran only Public / Password protected (Hidden appears only for a project already hidden).
 - `SEED_LEVELS` in `src/lib/access/levels.ts` is only the initial seed, not the source of truth.
+- The admin password is changed in the console (Settings) and stored as a scrypt hash in `admin_account`. `ADMIN_PASSWORD` in Vercel only works while that table is empty. Changing it signs out every older session. Forgotten password: run `DELETE FROM admin_account;` in the Neon SQL editor, then log in with `ADMIN_PASSWORD`.
 - Migrations in `apps/portfolio/drizzle/` must be additive (no drops or renames), because Preview builds migrate the shared database.
 - `npm test` (vitest) runs from `apps/portfolio`.
 

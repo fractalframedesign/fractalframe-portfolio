@@ -1,13 +1,14 @@
 'use server';
 
-import { cookies, headers } from 'next/headers';
+import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
+import { checkAdminLogin } from '@/lib/access/admin-password';
+import { clientIp, tryDb } from '@/lib/access/admin-request';
 import {
   ADMIN_COOKIE,
   adminCookieOptions,
-  checkAdminPassword,
   createAdminSession,
 } from '@/lib/access/admin-session';
 import { loginDelay } from '@/lib/access/login-delay';
@@ -16,7 +17,6 @@ import {
   isLocked,
   recordFailure,
 } from '@/lib/access/repo/rate-limit';
-import { getDb } from '@/lib/db/client';
 
 export type LoginState = { error?: string };
 
@@ -28,6 +28,7 @@ const loginSchema = z.object({
 const ERRORS = {
   locked: 'Too many tries. Try again in 15 minutes.',
   wrong: 'That password isn’t right.',
+  unavailable: 'Can’t check your password right now. Try again in a minute.',
 };
 
 const WRONG_PASSWORD_DELAY_MS = 1000;
@@ -48,7 +49,13 @@ export async function login(
     return { error: ERRORS.locked };
   }
 
-  if (await checkAdminPassword(parsed.data.password)) {
+  const correct = await tryDb((db) =>
+    checkAdminLogin(db, parsed.data.password),
+  );
+  // Fail closed: without the database we can't tell which password is current
+  if (correct === undefined) return { error: ERRORS.unavailable };
+
+  if (correct) {
     await tryDb((db) => clearFailures(db, limitKey));
     (await cookies()).set(
       ADMIN_COOKIE,
@@ -66,21 +73,4 @@ export async function login(
 export async function logout() {
   (await cookies()).delete(ADMIN_COOKIE);
   redirect('/admin/login');
-}
-
-/** Runs a database call; on any error logs it and returns undefined */
-async function tryDb<T>(
-  run: (db: ReturnType<typeof getDb>) => Promise<T>,
-): Promise<T | undefined> {
-  try {
-    return await run(getDb());
-  } catch (error) {
-    console.error('Admin login database call failed', error);
-    return undefined;
-  }
-}
-
-async function clientIp() {
-  const forwarded = (await headers()).get('x-forwarded-for');
-  return forwarded?.split(',')[0]?.trim() || 'unknown';
 }
