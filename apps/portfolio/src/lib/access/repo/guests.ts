@@ -127,7 +127,7 @@ export async function findGrantByPassword(
       and(
         eq(guests.passwordLookup, lookup),
         eq(grants.productSlug, slug),
-        eq(products.level, 'unlocked'),
+        eq(products.level, "unlocked"),
       ),
     );
   if (!row || !isGrantActive(row, now)) return null;

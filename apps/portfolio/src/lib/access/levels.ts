@@ -1,38 +1,38 @@
-import { showcaseProjects } from '@/lib/showcase';
+import { showcaseProjects } from "@/lib/showcase";
 
-export type AccessLevel = 'public' | 'unlocked' | 'admin';
+export type AccessLevel = "public" | "unlocked" | "admin";
 
 const PUBLIC_SLUGS = [
-  'bloom',
-  'cactus-plant',
-  'charter',
-  'echo-ui',
-  'echo',
-  'finance-dashboard',
-  'happy-stats',
-  'justos',
-  'neobase',
-  'plasma',
-  'relative',
-  'scalar',
-  'smart-home-dashboard',
-  'sonic',
-  'stellar',
-  'streamline',
+  "bloom",
+  "cactus-plant",
+  "charter",
+  "echo-ui",
+  "echo",
+  "finance-dashboard",
+  "happy-stats",
+  "justos",
+  "neobase",
+  "plasma",
+  "relative",
+  "scalar",
+  "smart-home-dashboard",
+  "sonic",
+  "stellar",
+  "streamline",
 ];
 
 export const SEED_LEVELS: Record<string, AccessLevel> = {
   ...Object.fromEntries(
-    PUBLIC_SLUGS.map((slug) => [slug, 'public' as AccessLevel]),
+    PUBLIC_SLUGS.map((slug) => [slug, "public" as AccessLevel]),
   ),
-  'fintech-components': 'unlocked',
+  "fintech-components": "unlocked",
 };
 
 export function resolveLevel(
   slug: string,
   stored: ReadonlyMap<string, AccessLevel>,
 ): AccessLevel {
-  return stored.get(slug) ?? 'admin';
+  return stored.get(slug) ?? "admin";
 }
 
 export function canBeUnlocked(slug: string): boolean {

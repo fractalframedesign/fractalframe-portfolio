@@ -1,20 +1,20 @@
-import type { Db } from '@/lib/db/client';
+import type { Db } from "@/lib/db/client";
 import {
   accessCookieName,
   guestCookieName,
   hasAccess,
-} from '@/lib/showcase-access';
+} from "@/lib/showcase-access";
 
-import { ADMIN_COOKIE, verifyAdminSession } from './admin-session';
-import { decideAccess } from './decide';
+import { ADMIN_COOKIE, verifyAdminSession } from "./admin-session";
+import { decideAccess } from "./decide";
 import {
   type AccessLevel,
   canBeUnlocked,
   resolveLevel,
   SEED_LEVELS,
-} from './levels';
-import { parseGuestToken, verifyGuestToken } from './passwords';
-import { getStoredLevels } from './repo/products';
+} from "./levels";
+import { parseGuestToken, verifyGuestToken } from "./passwords";
+import { getStoredLevels } from "./repo/products";
 
 export type GateDeps = {
   getLevels(): Promise<Map<string, AccessLevel>>;
@@ -27,10 +27,10 @@ export type GateDeps = {
 };
 
 export type GateResult =
-  | { kind: 'next' }
-  | { kind: 'allow'; recordVisit?: string }
-  | { kind: 'unlock'; slug: string }
-  | { kind: 'not-found' };
+  | { kind: "next" }
+  | { kind: "allow"; recordVisit?: string }
+  | { kind: "unlock"; slug: string }
+  | { kind: "not-found" };
 
 type GateInput = {
   pathname: string;
@@ -50,28 +50,28 @@ export async function gateRequest({
   deps,
 }: GateInput): Promise<GateResult> {
   // Empty segments are dropped so /showcase//slug is gated like /showcase/slug
-  const [section, slug] = pathname.split('/').filter(Boolean);
-  if (!slug) return { kind: 'next' };
-  if (section === 'showcase' && slug === 'unlock') return { kind: 'next' };
-  if (section !== 'showcase' && section !== 'projects') return { kind: 'next' };
+  const [section, slug] = pathname.split("/").filter(Boolean);
+  if (!slug) return { kind: "next" };
+  if (section === "showcase" && slug === "unlock") return { kind: "next" };
+  if (section !== "showcase" && section !== "projects") return { kind: "next" };
 
   const now = deps.now();
   const level = await levelOf(slug, deps);
   const isAdmin = await verifyAdminSession(cookies.get(ADMIN_COOKIE), now);
 
   // Project pages only hide Admin projects; Unlocked ones stay listed
-  if (section === 'projects') {
-    const hidden = level === 'admin' || level === 'unknown-db-down';
-    return hidden && !isAdmin ? { kind: 'not-found' } : { kind: 'next' };
+  if (section === "projects") {
+    const hidden = level === "admin" || level === "unknown-db-down";
+    return hidden && !isAdmin ? { kind: "not-found" } : { kind: "next" };
   }
 
   // Public pages need no cookie, so the proxy adds no no-store header
-  if (level === 'public') return { kind: 'next' };
-  if (level === 'admin')
-    return isAdmin ? { kind: 'allow' } : { kind: 'not-found' };
+  if (level === "public") return { kind: "next" };
+  if (level === "admin")
+    return isAdmin ? { kind: "allow" } : { kind: "not-found" };
 
   const guestGrant =
-    level === 'unlocked' && !isAdmin
+    level === "unlocked" && !isAdmin
       ? await validGuestGrant(slug, cookies.get(guestCookieName(slug)), deps)
       : null;
   const hasFallbackAccess =
@@ -86,22 +86,22 @@ export async function gateRequest({
     hasFallbackAccess,
   });
 
-  if (decision === 'allow')
+  if (decision === "allow")
     return guestGrant
-      ? { kind: 'allow', recordVisit: guestGrant }
-      : { kind: 'allow' };
-  if (decision === 'unlock') return { kind: 'unlock', slug };
-  return { kind: 'not-found' };
+      ? { kind: "allow", recordVisit: guestGrant }
+      : { kind: "allow" };
+  if (decision === "unlock") return { kind: "unlock", slug };
+  return { kind: "not-found" };
 }
 
 async function levelOf(
   slug: string,
   deps: GateDeps,
-): Promise<AccessLevel | 'unknown-db-down'> {
+): Promise<AccessLevel | "unknown-db-down"> {
   try {
     return resolveLevel(slug, await deps.getLevels());
   } catch {
-    return 'unknown-db-down';
+    return "unknown-db-down";
   }
 }
 
@@ -130,7 +130,7 @@ let levelCache: { at: number; levels: Map<string, AccessLevel> } | undefined;
 
 /** By name, so it also matches across module instances (and in mocked tests) */
 function isDatabaseUnset(error: unknown) {
-  return error instanceof Error && error.name === 'DatabaseUnavailableError';
+  return error instanceof Error && error.name === "DatabaseUnavailableError";
 }
 
 export function seedLevels() {
@@ -168,10 +168,10 @@ export async function offersUnlock(
   getLevels: () => Promise<Map<string, AccessLevel>>,
 ) {
   try {
-    return resolveLevel(slug, await getLevels()) === 'unlocked';
+    return resolveLevel(slug, await getLevels()) === "unlocked";
   } catch (error) {
     if (isDatabaseUnset(error))
-      return resolveLevel(slug, seedLevels()) === 'unlocked';
+      return resolveLevel(slug, seedLevels()) === "unlocked";
     return canBeUnlocked(slug);
   }
 }

@@ -1,15 +1,15 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from "vitest";
 
-import { copyReplyText } from './reply';
+import { copyReplyText } from "./reply";
 
-describe('copyReplyText', () => {
-  test('one project with expiry', () => {
+describe("copyReplyText", () => {
+  test("one project with expiry", () => {
     expect(
       copyReplyText({
-        name: 'Jane Doe',
-        projectNames: ['Fintech Components'],
-        password: 'amber-river-42',
-        expiresAt: new Date('2026-11-02T09:00:00Z'),
+        name: "Jane Doe",
+        projectNames: ["Fintech Components"],
+        password: "amber-river-42",
+        expiresAt: new Date("2026-11-02T09:00:00Z"),
       }),
     ).toMatchInlineSnapshot(`
       "Hi Jane,
@@ -25,12 +25,12 @@ describe('copyReplyText', () => {
     `);
   });
 
-  test('two projects without expiry', () => {
+  test("two projects without expiry", () => {
     expect(
       copyReplyText({
-        name: 'Sam',
-        projectNames: ['Alpha', 'Beta'],
-        password: 'amber-river-42',
+        name: "Sam",
+        projectNames: ["Alpha", "Beta"],
+        password: "amber-river-42",
         expiresAt: null,
       }),
     ).toMatchInlineSnapshot(`
@@ -46,14 +46,14 @@ describe('copyReplyText', () => {
     `);
   });
 
-  test('joins three names', () => {
+  test("joins three names", () => {
     expect(
       copyReplyText({
-        name: 'A',
-        projectNames: ['X', 'Y', 'Z'],
-        password: 'p',
+        name: "A",
+        projectNames: ["X", "Y", "Z"],
+        password: "p",
         expiresAt: null,
       }),
-    ).toContain('for X, Y and Z:');
+    ).toContain("for X, Y and Z:");
   });
 });

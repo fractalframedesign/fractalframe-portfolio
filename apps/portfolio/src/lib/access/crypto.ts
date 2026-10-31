@@ -3,21 +3,21 @@ const encoder = new TextEncoder();
 /** HMAC-SHA256 as lowercase hex, using Web Crypto so it also runs in the proxy */
 export async function hmac(secret: string, message: string) {
   const key = await crypto.subtle.importKey(
-    'raw',
+    "raw",
     encoder.encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
+    { name: "HMAC", hash: "SHA-256" },
     false,
-    ['sign'],
+    ["sign"],
   );
   const signature = await crypto.subtle.sign(
-    'HMAC',
+    "HMAC",
     key,
     encoder.encode(message),
   );
 
   return Array.from(new Uint8Array(signature), (byte) =>
-    byte.toString(16).padStart(2, '0'),
-  ).join('');
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
 }
 
 /** Constant-time string comparison */
