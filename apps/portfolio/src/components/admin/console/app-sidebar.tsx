@@ -26,7 +26,7 @@ const ADMIN_USER = {
   name: 'Kiran',
   initial: 'K',
   role: 'Admin',
-  photo: '/images/home/avatar-sm.png',
+  photo: '/favicon/kiran-pingle-192.png',
 };
 
 type AppSidebarProps = { pendingRequests: number };
