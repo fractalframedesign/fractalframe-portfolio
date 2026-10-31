@@ -67,7 +67,14 @@ export default async function AdminPage() {
   return (
     <>
       <TopBar title={PAGE_TITLE} />
-      <div className="space-y-6 p-4 md:p-6">
+      <div className="min-h-[calc(100svh-3.5rem)] space-y-7 bg-muted/30 p-4 md:space-y-8 md:p-8">
+        <div className="space-y-1">
+          <p className="text-muted-foreground text-sm">Access management</p>
+          <h2 className="text-2xl font-semibold tracking-tight">
+            Your portfolio at a glance
+          </h2>
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard
             label="Requests waiting"
@@ -95,7 +102,7 @@ export default async function AdminPage() {
           />
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-5 lg:grid-cols-2">
           <WaitingRequests
             requests={data.waiting}
             projects={data.protectedProjects.map(({ slug, name }) => ({

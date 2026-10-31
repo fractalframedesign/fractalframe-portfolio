@@ -22,11 +22,11 @@ export default function SectionCard({
   children,
 }: SectionCardProps) {
   return (
-    <Card>
+    <Card className="border-border/70 bg-card shadow-sm">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Icon className="text-muted-foreground size-4" aria-hidden />
-          <h2 className="text-base">{title}</h2>
+          <h2 className="text-base font-semibold tracking-tight">{title}</h2>
         </CardTitle>
         {action && <CardAction>{action}</CardAction>}
       </CardHeader>
