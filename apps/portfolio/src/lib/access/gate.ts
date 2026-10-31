@@ -133,7 +133,7 @@ function isDatabaseUnset(error: unknown) {
   return error instanceof Error && error.name === 'DatabaseUnavailableError';
 }
 
-function seedLevels() {
+export function seedLevels() {
   return new Map(Object.entries(SEED_LEVELS));
 }
 

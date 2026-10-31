@@ -8,6 +8,8 @@ import {
   ProjectHero,
 } from '@/components/sections/project';
 import { StackGrid } from '@/components/stack-grid';
+import { getProductLevels } from '@/lib/access/cached-levels';
+import { visibleProjects } from '@/lib/access/visible';
 import {
   getAllProjects,
   getProjectBySlug,
@@ -71,9 +73,12 @@ export default async function ProjectPage({
   const allProjects = await getAllProjects();
 
   // Get related projects specified in the MDX frontmatter
-  const moreProjects = frontmatter.moreProjects
-    .map((slug) => allProjects.find((p) => p.slug === slug))
-    .filter(Boolean) as typeof allProjects;
+  const moreProjects = visibleProjects(
+    frontmatter.moreProjects
+      .map((slug) => allProjects.find((p) => p.slug === slug))
+      .filter(Boolean) as typeof allProjects,
+    await getProductLevels(),
+  );
 
   if (frontmatter.caseStudy) {
     return (

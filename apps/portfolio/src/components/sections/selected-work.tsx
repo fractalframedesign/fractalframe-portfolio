@@ -1,14 +1,19 @@
+import { Lock } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 import { SelectedWorkHeader } from '@/components/selected-work-header';
+import { getProductLevels } from '@/lib/access/cached-levels';
+import { visibleProjects } from '@/lib/access/visible';
 import { getAllProjects } from '@/lib/projects';
 import { cn } from '@/lib/utils';
 
 const SelectedWork = async () => {
   const allProjects = await getAllProjects();
 
-  const projects = allProjects.slice(-3).reverse();
+  const levels = await getProductLevels();
+  // Filter before slicing so hidden projects never take a slot
+  const projects = visibleProjects(allProjects, levels).slice(-3).reverse();
 
   return (
     <section className="border-border/60 border-y section-padding">
@@ -32,7 +37,16 @@ const SelectedWork = async () => {
                 className="group flex h-full overflow-hidden rounded-lg border border-border bg-card focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex min-w-0 flex-1 flex-col justify-center gap-3 p-5 sm:p-8">
-                  <h3 className="text-xl leading-snug md:text-2xl">{project.name}</h3>
+                  <h3 className="flex items-center gap-2 text-xl leading-snug md:text-2xl">
+                    {project.name}
+                    {project.locked && (
+                      <Lock
+                        role="img"
+                        aria-label="Password protected"
+                        className="text-muted-foreground size-4"
+                      />
+                    )}
+                  </h3>
                   <p className="text-muted-foreground text-base leading-relaxed">
                     {project.description}
                   </p>
