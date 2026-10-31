@@ -8,8 +8,8 @@ import AddGuestDialog, {
 import { Button } from '@/components/ui/button';
 
 type InviteButtonProps = {
-  /** The project to preselect */
-  slug: string;
+  /** The project to preselect; none when left out */
+  slug?: string;
   /** Unlocked projects only */
   projects: ProjectOption[];
 };
@@ -26,7 +26,7 @@ export default function InviteButton({ slug, projects }: InviteButtonProps) {
         open={open}
         onOpenChange={setOpen}
         projects={projects}
-        defaults={{ products: [slug] }}
+        defaults={slug ? { products: [slug] } : undefined}
       />
     </>
   );

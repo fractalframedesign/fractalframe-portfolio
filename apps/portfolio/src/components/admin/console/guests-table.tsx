@@ -1,15 +1,20 @@
 'use client';
 
-import { MoreHorizontal, Plus } from 'lucide-react';
-import { type FormEvent, useState, useTransition } from 'react';
+import { MoreHorizontal, Users } from 'lucide-react';
+import Link from 'next/link';
+import { unstable_rethrow } from 'next/navigation';
+import { useState, useTransition } from 'react';
 
 import {
   type ActionResult,
-  changeExpiry,
+  deleteGuest,
   newPassword,
   removeGrant,
   setGrantStatus,
 } from '@/app/(admin)/admin/actions';
+import ConfirmDialog from '@/components/admin/confirm-dialog';
+import GrantStatusBadge from '@/components/admin/grant-status-badge';
+import PasswordReveal from '@/components/admin/password-reveal';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -39,17 +44,15 @@ import { lastVisitLabel } from '@/lib/access/admin-format';
 import { timeLeftLabel } from '@/lib/access/expiry';
 import type { GrantView } from '@/lib/access/repo/guests';
 
-import AddGuestDialog, { type ProjectOption } from './add-guest-dialog';
-import ConfirmDialog from './confirm-dialog';
-import ExpiryField from './expiry-field';
-import GrantStatusBadge from './grant-status-badge';
-import PasswordReveal from './password-reveal';
+import EditGuestDialog from './edit-guest-dialog';
+import ExpiryDialog from './expiry-dialog';
+import SectionCard from './section-card';
 
-type GuestTableProps = {
-  project: ProjectOption;
-  grants: GrantView[];
-  /** Unlocked projects, for the add dialog */
-  projects: ProjectOption[];
+type GuestsTableProps = {
+  rows: GrantView[];
+  projectNames: Record<string, string>;
+  /** True when a project or status filter is set */
+  filtered: boolean;
   /** Server time, so labels match between server and browser */
   now: Date;
 };
@@ -57,17 +60,15 @@ type GuestTableProps = {
 const FAILED = 'Something went wrong. Try again.';
 
 type Pending =
-  | { kind: 'expiry'; grant: GrantView }
-  | { kind: 'remove'; grant: GrantView }
+  | { kind: 'expiry' | 'edit' | 'remove' | 'delete'; grant: GrantView }
   | { kind: 'password'; name: string; password: string; reply: string };
 
-export default function GuestTable({
-  project,
-  grants,
-  projects,
+export default function GuestsTable({
+  rows,
+  projectNames,
+  filtered,
   now,
-}: GuestTableProps) {
-  const [adding, setAdding] = useState(false);
+}: GuestsTableProps) {
   // Dialogs live here, not in rows, so they survive the refresh after a change
   const [dialog, setDialog] = useState<Pending>();
   const [open, setOpen] = useState(false);
@@ -78,35 +79,27 @@ export default function GuestTable({
     setOpen(true);
   }
 
+  const projectName = (slug: string) => projectNames[slug] ?? slug;
+  // The command menu links to a guest's first row
+  const seen = new Set<string>();
+
   return (
-    <section aria-labelledby={`guests-${project.slug}`} className="space-y-3">
-      <div className="flex items-center justify-between gap-4">
-        <h3 id={`guests-${project.slug}`} className="font-medium">
-          {project.name}
-        </h3>
-        <Button size="sm" variant="outline" onClick={() => setAdding(true)}>
-          <Plus aria-hidden />
-          Invite
-        </Button>
-      </div>
+    <SectionCard title="Guest access" icon={Users}>
+      <div className="space-y-3">
+        {error && (
+          <p role="alert" className="text-destructive text-sm">
+            {error}
+          </p>
+        )}
 
-      {error && (
-        <p role="alert" className="text-destructive text-sm">
-          {error}
-        </p>
-      )}
-
-      {grants.length === 0 ? (
-        <p className="text-muted-foreground rounded-lg border p-4 text-sm">
-          No guests yet. Add one, or approve a request.
-        </p>
-      ) : (
-        <div className="rounded-lg border">
+        {rows.length === 0 ? (
+          <EmptyState filtered={filtered} />
+        ) : (
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Note</TableHead>
+                <TableHead>Guest</TableHead>
+                <TableHead>Project</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Time left</TableHead>
                 <TableHead>Last visit</TableHead>
@@ -117,39 +110,58 @@ export default function GuestTable({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {grants.map((grant) => (
-                <GrantRow
-                  key={grant.grantId}
-                  grant={grant}
-                  now={now}
-                  onError={setError}
-                  onShow={show}
-                />
-              ))}
+              {rows.map((grant) => {
+                const first = !seen.has(grant.guestId);
+                seen.add(grant.guestId);
+                return (
+                  <GuestRow
+                    key={grant.grantId}
+                    grant={grant}
+                    anchor={first ? `guest-${grant.guestId}` : undefined}
+                    projectName={projectName(grant.productSlug)}
+                    now={now}
+                    onError={setError}
+                    onShow={show}
+                  />
+                );
+              })}
             </TableBody>
           </Table>
-        </div>
-      )}
-
-      <AddGuestDialog
-        open={adding}
-        onOpenChange={setAdding}
-        projects={projects}
-        defaults={{ products: [project.slug] }}
-      />
+        )}
+      </div>
 
       {dialog?.kind === 'expiry' && (
         <ExpiryDialog grant={dialog.grant} open={open} onOpenChange={setOpen} />
+      )}
+
+      {dialog?.kind === 'edit' && (
+        <EditGuestDialog
+          key={dialog.grant.guestId}
+          guest={dialog.grant}
+          open={open}
+          onOpenChange={setOpen}
+        />
       )}
 
       {dialog?.kind === 'remove' && (
         <ConfirmDialog
           open={open}
           onOpenChange={setOpen}
-          title={`Remove ${dialog.grant.name} from ${project.name}?`}
+          title={`Remove ${dialog.grant.name} from ${projectName(dialog.grant.productSlug)}?`}
           description="Their password stops working for this project straight away. Other projects they can open aren’t affected."
           confirmLabel="Remove"
           onConfirm={() => removeGrant(dialog.grant.grantId)}
+        />
+      )}
+
+      {dialog?.kind === 'delete' && (
+        <ConfirmDialog
+          open={open}
+          onOpenChange={setOpen}
+          title={`Delete ${dialog.grant.name}?`}
+          description="Their password stops working on every project and they’re removed from every list. This can’t be undone."
+          confirmLabel="Delete guest"
+          onConfirm={() => deleteGuest(dialog.grant.guestId)}
         />
       )}
 
@@ -176,17 +188,40 @@ export default function GuestTable({
           </DialogContent>
         </Dialog>
       )}
-    </section>
+    </SectionCard>
   );
 }
 
-function GrantRow({
+function EmptyState({ filtered }: { filtered: boolean }) {
+  if (!filtered) {
+    return (
+      <p className="text-muted-foreground text-sm">
+        No one has access yet. Invite someone, or approve a request.
+      </p>
+    );
+  }
+  return (
+    <p className="text-muted-foreground text-sm">
+      No guests match these filters.{' '}
+      <Button variant="link" asChild className="h-auto p-0">
+        <Link href="/admin/guests">Clear filters</Link>
+      </Button>
+    </p>
+  );
+}
+
+function GuestRow({
   grant,
+  anchor,
+  projectName,
   now,
   onError,
   onShow,
 }: {
   grant: GrantView;
+  /** Set on a guest's first row, for links from the command menu */
+  anchor?: string;
+  projectName: string;
   now: Date;
   onError: (error: string | undefined) => void;
   onShow: (dialog: Pending) => void;
@@ -194,44 +229,56 @@ function GrantRow({
   const [pending, startTransition] = useTransition();
   const paused = grant.status === 'paused';
 
-  function run(action: () => Promise<ActionResult>) {
+  // Inside a transition so a thrown redirect (session expired) reaches
+  // Next's RedirectBoundary instead of being shown as a failure
+  function run<T extends ActionResult>(
+    action: () => Promise<T>,
+    onDone?: (result: T & { ok: true }) => void,
+  ) {
     onError(undefined);
     startTransition(async () => {
-      const result = await action();
-      if (!result.ok) onError(result.error ?? FAILED);
+      try {
+        const result = await action();
+        if (!result.ok) return onError(result.error ?? FAILED);
+        onDone?.(result as T & { ok: true });
+      } catch (caught) {
+        unstable_rethrow(caught);
+        onError(FAILED);
+      }
     });
   }
 
   function issuePassword() {
-    onError(undefined);
-    startTransition(async () => {
-      const result = await newPassword(grant.guestId);
-      if (!result.ok) return onError(result.error ?? FAILED);
-      onShow({
-        kind: 'password',
-        name: grant.name,
-        password: result.password,
-        reply: result.reply,
-      });
-    });
+    run(
+      () => newPassword(grant.guestId),
+      (result) =>
+        onShow({
+          kind: 'password',
+          name: grant.name,
+          password: result.password,
+          reply: result.reply,
+        }),
+    );
   }
 
   return (
-    <TableRow aria-busy={pending}>
+    <TableRow id={anchor} aria-busy={pending} className="scroll-mt-20">
       <TableCell>
-        <div className="font-medium">{grant.name}</div>
+        <p className="font-medium">{grant.name}</p>
         {grant.email && (
-          <div className="text-muted-foreground text-xs">{grant.email}</div>
+          <p className="text-muted-foreground text-sm">{grant.email}</p>
         )}
       </TableCell>
-      <TableCell className="text-muted-foreground max-w-48 truncate">
-        {grant.note || '—'}
-      </TableCell>
+      <TableCell>{projectName}</TableCell>
       <TableCell>
         <GrantStatusBadge grant={grant} now={now} />
       </TableCell>
-      <TableCell>{timeLeftLabel(grant.expiresAt, now)}</TableCell>
-      <TableCell>{lastVisitLabel(grant.lastVisitAt, now)}</TableCell>
+      <TableCell className="tabular-nums">
+        {timeLeftLabel(grant.expiresAt, now)}
+      </TableCell>
+      <TableCell className="text-muted-foreground tabular-nums">
+        {lastVisitLabel(grant.lastVisitAt, now)}
+      </TableCell>
       <TableCell className="text-right tabular-nums">
         {grant.visitCount}
       </TableCell>
@@ -241,7 +288,7 @@ function GrantRow({
             <Button
               variant="ghost"
               size="icon-sm"
-              aria-label={`Actions for ${grant.name}`}
+              aria-label={`Actions for ${grant.name} on ${projectName}`}
               disabled={pending}
             >
               <MoreHorizontal aria-hidden />
@@ -265,6 +312,9 @@ function GrantRow({
             <DropdownMenuItem onSelect={issuePassword}>
               New password
             </DropdownMenuItem>
+            <DropdownMenuItem onSelect={() => onShow({ kind: 'edit', grant })}>
+              Edit name &amp; note
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               variant="destructive"
@@ -272,71 +322,15 @@ function GrantRow({
             >
               Remove from project
             </DropdownMenuItem>
+            <DropdownMenuItem
+              variant="destructive"
+              onSelect={() => onShow({ kind: 'delete', grant })}
+            >
+              Delete guest
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </TableCell>
     </TableRow>
-  );
-}
-
-function ExpiryDialog({
-  grant,
-  open,
-  onOpenChange,
-}: {
-  grant: GrantView;
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
-}) {
-  const [pending, startTransition] = useTransition();
-  const [errors, setErrors] = useState<{ form?: string; custom?: string }>({});
-
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    startTransition(async () => {
-      const result = await changeExpiry(
-        grant.grantId,
-        String(data.get('expiry')),
-        String(data.get('expiryCustom') ?? ''),
-      );
-      if (result.ok) onOpenChange(false);
-      else
-        setErrors({
-          form: result.error,
-          custom: result.fieldErrors?.expiryCustom?.[0],
-        });
-    });
-  }
-
-  return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Change expiry for {grant.name}</DialogTitle>
-          <DialogDescription>
-            The new time counts from now. Their password stays the same.
-          </DialogDescription>
-        </DialogHeader>
-        <form onSubmit={submit} className="space-y-5" noValidate>
-          <ExpiryField error={errors.custom} />
-          {errors.form && (
-            <p role="alert" className="text-destructive text-sm">
-              {errors.form}
-            </p>
-          )}
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button type="submit" disabled={pending}>
-              {pending ? 'Saving…' : 'Save'}
-            </Button>
-          </DialogFooter>
-        </form>
-      </DialogContent>
-    </Dialog>
   );
 }

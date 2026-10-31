@@ -1,18 +1,19 @@
 'use client';
 
-import { useState, useTransition } from 'react';
+import { unstable_rethrow } from 'next/navigation';
+import { type MouseEvent, useState, useTransition } from 'react';
 
 import type { ActionResult } from '@/app/(admin)/admin/actions';
-import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 type ConfirmDialogProps = {
   open: boolean;
@@ -22,6 +23,8 @@ type ConfirmDialogProps = {
   confirmLabel: string;
   onConfirm: () => Promise<ActionResult>;
 };
+
+const FAILED = 'Something went wrong. Try again.';
 
 /** Asks before a destructive action; stays open with the error if it fails */
 export default function ConfirmDialog({
@@ -36,39 +39,52 @@ export default function ConfirmDialog({
   const [error, setError] = useState<string>();
 
   function handleOpenChange(next: boolean) {
+    if (pending) return;
     if (!next) setError(undefined);
     onOpenChange(next);
   }
 
-  function confirm() {
+  function confirm(event: MouseEvent) {
+    // Stay open until the action answers, so a failure can be shown here
+    event.preventDefault();
+    setError(undefined);
+    // Inside a transition so a thrown redirect (session expired) reaches
+    // Next's RedirectBoundary instead of being shown as a failure
     startTransition(async () => {
-      const result = await onConfirm();
-      if (result.ok) handleOpenChange(false);
-      else setError(result.error ?? 'Something went wrong. Try again.');
+      try {
+        const result = await onConfirm();
+        if (result.ok) onOpenChange(false);
+        else setError(result.error ?? FAILED);
+      } catch (caught) {
+        unstable_rethrow(caught);
+        setError(FAILED);
+      }
     });
   }
 
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
-        </DialogHeader>
+    <AlertDialog open={open} onOpenChange={handleOpenChange}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>{title}</AlertDialogTitle>
+          <AlertDialogDescription>{description}</AlertDialogDescription>
+        </AlertDialogHeader>
         {error && (
           <p role="alert" className="text-destructive text-sm">
             {error}
           </p>
         )}
-        <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
-          <Button variant="destructive" onClick={confirm} disabled={pending}>
+        <AlertDialogFooter>
+          <AlertDialogCancel disabled={pending}>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            variant="destructive"
+            onClick={confirm}
+            disabled={pending}
+          >
             {pending ? 'Working…' : confirmLabel}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }
