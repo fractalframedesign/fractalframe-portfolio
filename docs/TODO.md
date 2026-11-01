@@ -2,7 +2,7 @@
 
 ## Next session: start here
 
-Branch `feat/admin` is pushed and on the Preview test site, not merged to `main`.
+Branch `feat/admin` is on Preview. PR #18 put the admin live; newer changes wait for a second PR (item 4).
 Design: [2026-10-31-password-any-project-design.md](superpowers/specs/2026-10-31-password-any-project-design.md)
 
 1. [ ] **Email sender (Gmail)**: set up, waiting for a test on Preview.
@@ -26,11 +26,12 @@ Design: [2026-10-31-password-any-project-design.md](superpowers/specs/2026-10-31
 3. [ ] **Check Vercel Production env vars**: `DATABASE_URL`,
        `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET` (same value as Preview, or
        every guest password breaks), `RESEND_API_KEY`, plus the Gmail ones.
-4. [ ] **Open the pull request** `feat/admin` → `main` (not created yet:
-       `gh` isn't logged in). Either run `gh auth login` once so Claude can
-       open it, or use
+4. [ ] **Second pull request** `feat/admin` → `main`. The first one (#18)
+       was merged on 2026-10-31 up to "release review fixes". Still only on
+       Preview: I sent it myself, Hi there greeting, sidebar photo, Gmail
+       sending, the admin guide. Open it after the Gmail test passes:
        https://github.com/fractalframedesign/fractalframe-portfolio/compare/main...feat/admin?expand=1
-       Wait for green checks; merge only after Kiran says go.
+       Merge only after Kiran says go.
 
 ### Known, deferred
 - Every guest page view writes a visit-count update to the database (only one
