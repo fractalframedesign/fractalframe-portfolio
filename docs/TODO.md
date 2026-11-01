@@ -5,25 +5,20 @@
 Branch `feat/admin` is pushed and on the Preview test site, not merged to `main`.
 Design: [2026-10-31-password-any-project-design.md](superpowers/specs/2026-10-31-password-any-project-design.md)
 
-1. [ ] **Set up the email sender** so **Send invitation** emails guests
-       (today it says "Email to guests isn't set up yet"; Copy message and
-       **I sent it myself** work meanwhile). Kiran chose **Gmail**:
-   - [ ] Kiran: turn on 2-Step Verification for kiranspingle@gmail.com
-         (Google Account → Security).
-   - [ ] Kiran: create an **App password** named "Portfolio" (Security →
-         App passwords). Keep it private; never paste it into chat.
-   - [ ] Kiran: in Vercel → Settings → Environment Variables add
-         `GMAIL_USER` = `kiranspingle@gmail.com` and `GMAIL_APP_PASSWORD` =
-         the app password, for **Production and Preview**.
-   - [ ] Claude: restore the Gmail code from the git stash
-         `wip: gmail sending (nodemailer) - paused by Kiran`
-         (`git stash list`, then `git stash pop`). It holds the `nodemailer`
-         dependency and `send-email.test.ts`; `send-email.ts` still needs the
-         Gmail path written (falls back to Resend). Test first, then push.
-   - [ ] Redeploy, then test: invite yourself, press Send invitation, check
+1. [ ] **Email sender (Gmail)**: set up, waiting for a test on Preview.
+       Emails go from fractalframe.design@gmail.com; replies go to
+       kiranspingle@gmail.com.
+   - [x] Kiran: 2-Step Verification on fractalframe.design@gmail.com (Okta Verify).
+   - [x] Kiran: App password "Portfolio" (the first one leaked in a
+         screenshot and was deleted; a new one is in use).
+   - [x] Kiran: `GMAIL_USER` and `GMAIL_APP_PASSWORD` (Secret) in Vercel,
+         Production and Preview.
+   - [x] Claude: Gmail sending in `send-email.ts` (Resend stays as the
+         fallback), tested and pushed.
+   - [ ] Kiran: on Preview, invite yourself, press **Send invitation**, check
          the email arrives with the links and password.
    - Later, optional: own domain with Resend instead (`ACCESS_REQUEST_FROM`
-     on a verified domain); no code change needed.
+     on a verified domain); remove the Gmail variables to switch.
 2. [ ] **Test on Preview** (newest `feat/admin` deployment): invite, approve,
        pause (open pages lock within ~30 s), Resume access (same password),
        Send links again, I sent it myself, locked case study teaser, admin
