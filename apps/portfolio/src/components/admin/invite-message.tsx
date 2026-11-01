@@ -115,10 +115,11 @@ export default function InviteMessage({
           id={`${id}-message`}
           value={message}
           onChange={(event) => setMessage(event.target.value)}
-          rows={12}
           maxLength={5000}
           disabled={done}
-          className="font-mono text-sm"
+          // Grows with the message up to a cap, then scrolls inside, so the
+          // Send button stays on screen however many projects are listed
+          className="max-h-72 min-h-40 font-mono text-sm"
         />
       </div>
 
