@@ -15,7 +15,7 @@ export function SharePayCard({ last4 = '2422', balance = 'AED 5,089.00' }: Share
   const [revealed, setRevealed] = useState(true)
 
   return (
-    <Tile className="justify-between gap-6 overflow-hidden bg-gradient-to-br from-[#5a4633] to-[#2a2015]">
+    <Tile className="justify-between gap-6 overflow-hidden bg-gradient-to-br from-accent-4 to-accent-4-deep">
       <div className="flex items-center justify-between">
         <span className="text-sm font-semibold tracking-wide">SHAREPay</span>
         <span className="text-xs text-white/60">**** {last4}</span>

@@ -61,9 +61,11 @@
   --color-accent-1-soft: var(--accent-1-soft);
   --color-accent-2: var(--accent-2);
   --color-accent-2-soft: var(--accent-2-soft);
+  --color-accent-2-deep: var(--accent-2-deep);
   --color-accent-3: var(--accent-3);
   --color-accent-3-deep: var(--accent-3-deep);
   --color-accent-4: var(--accent-4);
+  --color-accent-4-deep: var(--accent-4-deep);
 
   --animate-cctv-scan: cctv-scan 5s linear infinite;
 }
@@ -119,9 +121,11 @@
   --accent-1-soft: oklch(0.85 0.08 275);
   --accent-2: oklch(0.85 0.2 125);
   --accent-2-soft: oklch(0.93 0.1 125);
+  --accent-2-deep: oklch(0.55 0.15 125);
   --accent-3: oklch(0.65 0.22 15);
   --accent-3-deep: oklch(0.55 0.22 15);
   --accent-4: oklch(0.75 0.1 275);
+  --accent-4-deep: oklch(0.6 0.1 275);
 }
 
 .dark {

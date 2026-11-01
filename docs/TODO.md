@@ -36,8 +36,6 @@ Design: [2026-10-31-password-any-project-design.md](superpowers/specs/2026-10-31
 ### Known, deferred
 - Every guest page view writes a visit-count update to the database (only one
   per hour counts); could skip the write. Small cost.
-- Two Finance dashboard demo cards use hex colours (`#5a4633`, `#00704A`)
-  instead of theme tokens.
 - Older commits on `feat/admin` carry a Co-Authored-By line, against
   CLAUDE.md. Rewriting them needs Kiran's OK; new commits don't have it.
 

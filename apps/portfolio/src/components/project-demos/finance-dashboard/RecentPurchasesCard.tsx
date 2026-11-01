@@ -9,7 +9,7 @@ type RecentPurchasesCardProps = {
 
 const defaultPurchases: Purchase[] = [
   { name: 'Dior', amount: 'AED 17,800.00', tone: 'bg-black text-white', initial: 'D' },
-  { name: 'Starbucks', amount: 'AED 17.00', tone: 'bg-[#00704A] text-white', initial: 'S' },
+  { name: 'Starbucks', amount: 'AED 17.00', tone: 'bg-accent-2-deep text-white', initial: 'S' },
 ]
 
 export function RecentPurchasesCard({
