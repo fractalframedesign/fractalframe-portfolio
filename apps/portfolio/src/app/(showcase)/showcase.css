@@ -1,7 +1,8 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import '../../styles/drawing.css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark (&:is(.dark *, .drawing-dark *));
 
 /*
   Showcase theme, fully separate from the portfolio site (app/(site)/globals.css).
@@ -195,4 +196,12 @@
     background-image: radial-gradient(var(--border) 1px, transparent 1px);
     background-size: 22px 22px;
   }
+}
+
+/* Global drawing mode on showcase pages: the page background becomes graph paper */
+:is(.drawing, .drawing-dark) body {
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
 }

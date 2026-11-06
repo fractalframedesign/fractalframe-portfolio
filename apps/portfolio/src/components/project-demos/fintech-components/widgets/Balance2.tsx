@@ -3,6 +3,7 @@
 import { ArrowDownToLine, ArrowUp, ArrowUpFromLine, ArrowUpRight, Minus, Plus, RefreshCw, Repeat } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
@@ -117,7 +118,7 @@ export function Balance2({
         </div>
         <div className="flex w-full items-center justify-between">
           <div className="flex flex-1 flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.32px] text-foreground">{amount}</p>
+            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.32px] text-foreground"><NumberPopIn value={String(amount)} /></p>
             <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">{amountLabel}</p>
           </div>
           <Badge className="gap-1 bg-secondary px-2 py-1 text-[18px] font-medium text-primary">

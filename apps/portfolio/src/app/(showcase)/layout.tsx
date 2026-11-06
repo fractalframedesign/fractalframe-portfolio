@@ -3,6 +3,8 @@ import './showcase.css';
 import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
 
+import DrawingInspector from '@/components/drawing/drawing-inspector';
+import { THEMES } from '@/components/drawing/drawing-theme';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { TooltipProvider } from '@/components/ui/tooltip';
 
@@ -20,13 +22,19 @@ export default function ShowcaseRootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} min-h-screen antialiased`}>
+      {/* Extensions like Grammarly add attributes to body before React loads */}
+      <body
+        suppressHydrationWarning
+        className={`${GeistSans.variable} min-h-screen antialiased`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
+          themes={THEMES}
           disableTransitionOnChange
         >
           <TooltipProvider delayDuration={300}>{children}</TooltipProvider>
+          <DrawingInspector />
         </ThemeProvider>
       </body>
     </html>

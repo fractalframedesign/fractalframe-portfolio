@@ -3,6 +3,7 @@
 import { ChevronDown, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
@@ -107,7 +108,7 @@ export function SaveMoney({
       <div className="flex w-full flex-col items-center gap-1">
         <p className="text-lg font-medium text-muted-foreground">Period</p>
         <p className="text-[48px] leading-[1.15] font-semibold tracking-[-1.44px] text-foreground">{active.months} Month</p>
-        <p className="text-2xl font-semibold tracking-[0.24px] text-foreground">{targetAmount}</p>
+        <p className="text-2xl font-semibold tracking-[0.24px] text-foreground"><NumberPopIn value={String(targetAmount)} /></p>
       </div>
 
       <div className="flex w-full flex-col gap-8">

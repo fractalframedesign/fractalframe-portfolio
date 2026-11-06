@@ -16,7 +16,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProjectFrontmatter } from '@/lib/types';
 
 type ProjectsTabsProps = {
-  projects: ProjectFrontmatter[];
+  projects: Array<ProjectFrontmatter & { locked?: boolean }>;
 };
 
 const tabParser = parseAsString.withDefault('all').withOptions({

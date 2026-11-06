@@ -3,6 +3,7 @@
 import { ArrowLeftRight, Check, ChevronDown, Copy, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
@@ -99,7 +100,7 @@ function AccountPanel({
               className="w-full min-w-0 bg-transparent font-semibold text-3xl text-foreground tabular-nums outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
             />
           ) : (
-            <span className="font-semibold text-3xl text-foreground tabular-nums">{formatAmount(account.amount)}</span>
+            <span className="font-semibold text-3xl text-foreground tabular-nums"><NumberPopIn value={String(formatAmount(account.amount))} /></span>
           )}
         </div>
         <button

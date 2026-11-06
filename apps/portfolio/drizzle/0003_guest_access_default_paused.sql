@@ -1,0 +1,1 @@
+ALTER TABLE "guests" ALTER COLUMN "access_status" SET DEFAULT 'paused';

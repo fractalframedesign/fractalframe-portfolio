@@ -6,6 +6,8 @@ import type { Metadata } from 'next';
 import { Source_Serif_4 } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
+import DrawingInspector from '@/components/drawing/drawing-inspector';
+import { THEMES } from '@/components/drawing/drawing-theme';
 import Footer from '@/components/layout/footer';
 import Navbar from '@/components/layout/navbar';
 import { NavigationProvider } from '@/components/providers/navigation-provider';
@@ -19,7 +21,7 @@ const sourceSerif4 = Source_Serif_4({
   variable: '--font-source-serif',
   weight: ['400', '500', '600'],
   style: ['normal', 'italic'],
-  display: 'optional',   // don't swap — use fallback if font not ready on first paint
+  display: 'optional', // don't swap — use fallback if font not ready on first paint
   preload: true,
   adjustFontFallback: true, // size-adjust the fallback to match Source Serif 4 metrics
 });
@@ -27,7 +29,6 @@ const sourceSerif4 = Source_Serif_4({
 const siteTitle = 'Kiran Pingle';
 const siteDescription =
   'Portfolio of Kiran Pingle — Product Designer and Design Engineer with 20 years of experience building products that are as clear to use as they are to look at.';
-
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
@@ -56,10 +57,24 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon/kiran-pingle-96.png', sizes: '96x96', type: 'image/png' },
-      { url: '/favicon/kiran-pingle-512.png', sizes: '512x512', type: 'image/png' },
+      {
+        url: '/favicon/kiran-pingle-96.png',
+        sizes: '96x96',
+        type: 'image/png',
+      },
+      {
+        url: '/favicon/kiran-pingle-512.png',
+        sizes: '512x512',
+        type: 'image/png',
+      },
     ],
-    apple: [{ url: '/favicon/kiran-pingle-180.png', sizes: '180x180', type: 'image/png' }],
+    apple: [
+      {
+        url: '/favicon/kiran-pingle-180.png',
+        sizes: '180x180',
+        type: 'image/png',
+      },
+    ],
     shortcut: [{ url: '/favicon/kiran-pingle-96.png', type: 'image/png' }],
   },
   openGraph: {
@@ -99,10 +114,14 @@ export default async function RootLayout({
         className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable}`}
       >
         {/* Global dot grid background */}
-        <div className="bg-dot-grid pointer-events-none fixed inset-0 -z-10" aria-hidden="true" />
+        <div
+          className="bg-dot-grid pointer-events-none fixed inset-0 -z-10"
+          aria-hidden="true"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
+          themes={THEMES}
           disableTransitionOnChange
         >
           <MotionConfig reducedMotion="user">
@@ -122,6 +141,8 @@ export default async function RootLayout({
                   >
                     <div className="from-background/50 h-full w-full bg-linear-to-t to-transparent" />
                   </div>
+
+                  <DrawingInspector />
                 </NavigationProvider>
               </TooltipProvider>
             </NuqsAdapter>

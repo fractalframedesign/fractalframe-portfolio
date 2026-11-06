@@ -64,14 +64,36 @@
 
 ## Architecture
 
-### Two isolated apps in one Next.js project
+### Isolated apps in one Next.js project
 
-`apps/portfolio/src/app` has two route groups, each with its **own root layout and stylesheet**, so themes never leak between them:
+`apps/portfolio/src/app` has three route groups, each with its **own root layout and stylesheet**, so themes never leak between them:
 
 - `(site)/` is the portfolio (home, about, articles, projects). Styles: `(site)/globals.css`.
 - `(showcase)/showcase/` is the component showcase that opens in a new window. Styles: `(showcase)/showcase.css`.
+- `(admin)/` is the admin area for the showcase. Styles: `(admin)/admin.css`.
+  - The console lives in `(admin)/admin/(console)/` with a shared sidebar layout; `/admin/login` sits outside it.
+  - Add a section with one entry in `src/lib/admin-nav.ts` and one route folder.
 
 Moving between the groups is a full page load. Never import one group's CSS from the other.
+
+### Access levels and database
+
+- Project access levels (Public / Unlocked / Admin) live in the database (Neon Postgres via Drizzle). Code is in `src/lib/db` and `src/lib/access`. Any project can be Unlocked, demo or not; the console row menu says **Add password** / **Make public**.
+- Guests are people: one password per email opens every Unlocked project (case studies and demos, including ones locked later). Status and expiry live on `guests`; the proxy checks one `guest-pass` cookie (path `/`). The per-project `grants` table is kept, unused, for selling products later.
+- A locked `/projects/<slug>` is rewritten by the proxy to the `(site)/locked/[slug]` teaser, so the full case study is never sent without access. Unlock and request actions live in `src/lib/access/actions/` and are shared by the teaser and `/showcase/unlock`.
+- `SEED_LEVELS` in `src/lib/access/levels.ts` is only the initial seed, not the source of truth.
+- The admin password is changed in the console (Settings) and stored as a scrypt hash in `admin_account`. `ADMIN_PASSWORD` in Vercel only works while that table is empty. Changing it signs out every older session. Forgotten password: run `DELETE FROM admin_account;` in the Neon SQL editor, then log in with `ADMIN_PASSWORD`.
+- Migrations in `apps/portfolio/drizzle/` must be additive (no drops or renames), because Preview builds migrate the shared database.
+- `npm test` (vitest) runs from `apps/portfolio`.
+
+### References (`/references/`)
+
+`references/` at the repo root holds cloned repos and design notes kept for inspiration and learning. It is gitignored and is not part of the project.
+
+- Read it for ideas only. Never import from it, link to its files, or copy its code in as-is.
+- Anything taken from it must be rewritten to follow this file: shadcn components, semantic tokens (no hex values), the folder structure and the code style above.
+- When a reference and these rules disagree, these rules win.
+- Don't edit files in `references/` unless asked.
 
 ### Content
 
@@ -87,7 +109,7 @@ To add a showcase project:
 1. Components go in `src/components/project-demos/<slug>/`. Use only the semantic tokens (`canvas`, `surface`, `surface-border`, `ink`, `ink-muted`, `accent-1..4`), never hex values.
 2. Create `src/app/(showcase)/showcase/<slug>/` with `layout.tsx`, `page.tsx`, `docs/page.tsx`, `case-study/page.tsx` and `theme.css` (copy an existing project).
 3. In `theme.css`, define the token values under `[data-project='<scope>']` only. No global `body` or `html` rules, no `@theme`.
-4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page from `ComponentSection` bands (see `fintech-components`); widgets that read `var(--color-*)` need a `data-preview` scope and their palette in `theme.css`.
+4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page as a `ComponentGallery` (Pinterest-style masonry with category chips, each item linking to its own `[widget]` page; see `fintech-components`) or from `ComponentSection` bands; widgets that read `var(--color-*)` need a `data-preview` scope and their palette in `theme.css`.
 5. Add the portfolio card as `content/projects/<slug>.mdx` with `category: upcoming`, `liveUrl: /showcase/<slug>` and `sourceUrl: /showcase/<slug>/docs`.
 
 ### Checks

@@ -1,6 +1,6 @@
 'use client';
 
-import type { LucideIcon } from 'lucide-react';
+import { Lock, type LucideIcon } from 'lucide-react';
 import { motion } from 'motion/react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -10,7 +10,7 @@ import { ProjectFrontmatter } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
 type ProjectCardProps = {
-  project: ProjectFrontmatter;
+  project: ProjectFrontmatter & { locked?: boolean };
   icon?: LucideIcon;
   delay?: number;
 };
@@ -55,6 +55,13 @@ export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps
           <h3 className="flex items-center gap-3 text-xl leading-snug">
             {Icon && <Icon className="text-muted-foreground size-4" />}
             {project.name}
+            {project.locked && (
+              <Lock
+                role="img"
+                aria-label="Password protected"
+                className="text-muted-foreground size-4"
+              />
+            )}
           </h3>
           <p className="text-muted-foreground text-base leading-relaxed">
             {project.description}

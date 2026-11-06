@@ -2,8 +2,8 @@ import { Lock } from 'lucide-react';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import RequestAccessDialog from '@/components/showcase/request-access-dialog';
-import UnlockForm from '@/components/showcase/unlock-form';
+import RequestAccessDialog from '@/components/access/request-access-dialog';
+import UnlockForm from '@/components/access/unlock-form';
 import {
   Card,
   CardContent,
@@ -12,8 +12,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { offersUnlock } from '@/lib/access/gate';
+import { getStoredLevels } from '@/lib/access/repo/products';
+import { getDb } from '@/lib/db/client';
 import { getShowcaseProject } from '@/lib/showcase';
-import { getProtectedSlug } from '@/lib/showcase-access';
 
 export const metadata: Metadata = {
   title: 'Password required',
@@ -26,9 +28,10 @@ export default async function UnlockPage({
   searchParams: Promise<{ project?: string; next?: string }>;
 }) {
   const { project, next } = await searchParams;
-  const slug = getProtectedSlug(`/showcase/${project}`);
-  const showcase = slug && getShowcaseProject(slug);
-  if (!slug || !showcase) notFound();
+  const slug = project ?? '';
+  const showcase = getShowcaseProject(slug);
+  if (!showcase || !(await offersUnlock(slug, () => getStoredLevels(getDb()))))
+    notFound();
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-16">

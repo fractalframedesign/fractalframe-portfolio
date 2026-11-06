@@ -3,6 +3,11 @@
 import { motion } from 'motion/react';
 import { useTheme } from 'next-themes';
 
+import {
+  drawingThemeFor,
+  isDrawingTheme,
+  saveThemeBeforeDrawing,
+} from '@/components/drawing/drawing-theme';
 import { Button } from '@/components/ui/button';
 
 const sunPath =
@@ -56,10 +61,14 @@ const rayVariant = {
 
 export const ThemeToggle = () => {
   const { resolvedTheme, setTheme } = useTheme();
-  const isDark = resolvedTheme === 'dark';
+  const drawing = isDrawingTheme(resolvedTheme);
+  const isDark = resolvedTheme === 'dark' || resolvedTheme === 'drawing-dark';
 
   const toggleTheme = async () => {
-    const newTheme = isDark ? 'light' : 'dark';
+    const plainTheme = isDark ? 'light' : 'dark';
+    // In drawing mode, flip the sheet's tone and leave drawing mode in that tone
+    if (drawing) saveThemeBeforeDrawing(plainTheme);
+    const newTheme = drawing ? drawingThemeFor(!isDark) : plainTheme;
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches;

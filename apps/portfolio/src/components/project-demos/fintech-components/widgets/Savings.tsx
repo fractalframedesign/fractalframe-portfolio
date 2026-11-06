@@ -3,6 +3,7 @@
 import { ChevronDown, Minus, MoreHorizontal, Plus, Target } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card } from '@/components/project-demos/fintech-components/ui/card'
 import { Separator } from '@/components/project-demos/fintech-components/ui/separator'
@@ -182,7 +183,7 @@ export function Savings({
               )}
             </div>
             <div className="flex flex-col gap-1">
-              <p className="text-3xl font-bold tracking-tight text-foreground">{formatCurrency(balance)}</p>
+              <p className="text-3xl font-bold tracking-tight text-foreground"><NumberPopIn value={String(formatCurrency(balance))} /></p>
               <p className="text-base font-medium text-muted-foreground">End: {goal.endDate}</p>
             </div>
           </div>

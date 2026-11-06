@@ -3,6 +3,7 @@
 import { RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/project-demos/fintech-components/ui/card'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
@@ -187,7 +188,7 @@ export function ExpensesBreakdown({
               </svg>
               <div className="absolute inset-x-0 bottom-0 flex flex-col items-center gap-1 text-center">
                 <p className="text-sm font-medium text-muted-foreground">Spending this {period.toLowerCase()}</p>
-                <p className="text-3xl font-semibold tracking-tight text-foreground">{formatCurrency(total)}</p>
+                <p className="text-3xl font-semibold tracking-tight text-foreground"><NumberPopIn value={String(formatCurrency(total))} /></p>
               </div>
             </div>
 

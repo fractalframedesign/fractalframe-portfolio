@@ -1,0 +1,3 @@
+# CLAUDE.md: "Prefer named exports for icons, default exports for components"
+rules:
+  TS002: ignore

@@ -3,7 +3,10 @@
 import { motion } from 'motion/react'
 import * as React from 'react'
 
+import { useMotion } from '@/components/project-demos/fintech-components/motion/settings'
 import { cn } from '@/lib/utils'
+
+const originalSpring = { type: 'spring', stiffness: 600, damping: 32 } as const
 
 export function Switch({
   checked,
@@ -23,6 +26,7 @@ export function Switch({
   const [internal, setInternal] = React.useState(defaultChecked ?? false)
   const isControlled = checked !== undefined
   const isOn = isControlled ? checked : internal
+  const m = useMotion()
 
   function toggle() {
     if (disabled) return
@@ -45,10 +49,12 @@ export function Switch({
         className,
       )}
     >
+      {/* Studio motion retunes the spring (Bouncy gives an overshoot); otherwise the original one */}
       <motion.span
         className="pointer-events-none block size-4 rounded-full bg-white shadow"
+        initial={false}
         animate={{ x: isOn ? 18 : 4 }}
-        transition={{ type: 'spring', stiffness: 600, damping: 32 }}
+        transition={m.enabled ? m.spring(380) : originalSpring}
       />
     </button>
   )

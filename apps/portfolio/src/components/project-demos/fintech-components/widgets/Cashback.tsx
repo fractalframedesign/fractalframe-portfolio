@@ -3,6 +3,7 @@
 import { MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
@@ -107,7 +108,7 @@ export function Cashback({
       </div>
 
       <div className="flex items-end gap-2">
-        <p className="text-2xl font-semibold tracking-wide text-foreground">{totalAmount}</p>
+        <p className="text-2xl font-semibold tracking-wide text-foreground"><NumberPopIn value={String(totalAmount)} /></p>
         <p className="pb-0.5 text-sm font-medium text-muted-foreground">Total cashback this month</p>
       </div>
 

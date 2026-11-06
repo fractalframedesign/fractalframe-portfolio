@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import ProjectsTabs from '@/components/sections/projects-tabs';
+import { getProductLevels } from '@/lib/access/cached-levels';
+import { visibleProjects } from '@/lib/access/visible';
 import { getAllProjects } from '@/lib/projects';
 
 export const metadata: Metadata = {
@@ -11,7 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await getAllProjects();
+  const projects = visibleProjects(
+    await getAllProjects(),
+    await getProductLevels(),
+  );
 
   return (
     <section className="hero-padding">
