@@ -4,13 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run db:migrate && next build",
+    "build": "npm run env:check && npm run db:migrate && next build",
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
-    "db:migrate": "tsx scripts/db-migrate.ts"
+    "db:migrate": "tsx scripts/db-migrate.ts",
+    "env:check": "tsx scripts/check-env.ts"
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",
@@ -53,12 +54,13 @@
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.13",
+    "@kiran/typescript-config": "*",
     "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.19",
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.31.11",
