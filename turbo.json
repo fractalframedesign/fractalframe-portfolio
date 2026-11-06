@@ -1,12 +1,24 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
+  "globalDependencies": [".nvmrc"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "env": ["DATABASE_URL"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "env": [
+        "DATABASE_URL",
+        "ADMIN_PASSWORD",
+        "ADMIN_SESSION_SECRET",
+        "RESEND_API_KEY",
+        "ACCESS_REQUEST_FROM",
+        "SHOWCASE_ACCESS",
+        "NEXT_PUBLIC_SITE_URL",
+        "VERCEL",
+        "VERCEL_ENV",
+        "VERCEL_PROJECT_PRODUCTION_URL"
+      ],
+      "outputs": [".next/**", "!.next/cache/**", "out/**"]
     },
     "dev": {
       "cache": false,
@@ -17,6 +29,10 @@
     },
     "typecheck": {
       "dependsOn": ["^typecheck"]
+    },
+    "test": {
+      "dependsOn": ["^test"],
+      "outputs": []
     }
   }
 }
