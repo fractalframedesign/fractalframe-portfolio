@@ -12,7 +12,7 @@ const Screen = ({ active = false }: { active?: boolean }) => (
     <span
       className={cn(
         'absolute inset-x-1.5 top-2 h-1 rounded-full',
-        active ? 'bg-muted-foreground' : 'bg-muted',
+        active ? 'bg-muted-foreground' : 'bg-muted-foreground/30',
       )}
     />
   </span>
@@ -30,19 +30,23 @@ export const FlowArt = () => (
   </div>
 );
 
+// Steps of the foreground colour so all six differ in light and dark mode
 const SWATCHES = [
   'bg-foreground',
-  'bg-muted-foreground',
-  'bg-muted-foreground/50',
-  'bg-border',
-  'bg-muted',
+  'bg-foreground/70',
+  'bg-foreground/45',
+  'bg-foreground/25',
+  'bg-foreground/10',
   'bg-success',
 ];
 
 export const SwatchArt = () => (
   <div aria-hidden="true" className="grid grid-cols-3 gap-2">
     {SWATCHES.map((swatch) => (
-      <span key={swatch} className={cn('block size-7 rounded-lg', swatch)} />
+      <span
+        key={swatch}
+        className={cn('ring-border block size-7 rounded-lg ring-1', swatch)}
+      />
     ))}
   </div>
 );
