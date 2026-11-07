@@ -36,6 +36,17 @@ describe('ProjectsList', () => {
     expect(screen.queryByRole('link', { name: /Charter.*Charter/ })).toBeNull();
   });
 
+  it('renders the image placeholder instead of an image for placeholder projects', () => {
+    render(
+      <ProjectsList
+        projects={[project({ image: '', imagePlaceholder: true })]}
+      />,
+    );
+
+    expect(screen.getByRole('link', { name: /Charter/ })).toBeTruthy();
+    expect(document.querySelector('img')).toBeNull();
+  });
+
   it('links showcase projects straight to their page, in a new tab when set', () => {
     render(
       <ProjectsList

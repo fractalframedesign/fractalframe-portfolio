@@ -22,4 +22,42 @@ describe('getProjectsBySlugs', () => {
 
     expect(projects).toHaveLength(1);
   });
+
+  it('uses clear placeholders for the template-derived projects', async () => {
+    const slugs = [
+      'echo-ui',
+      'justos',
+      'happy-stats',
+      'cactus-plant',
+      'stellar',
+      'neobase',
+      'charter',
+      'echo',
+      'plasma',
+      'scalar',
+      'sonic',
+      'streamline',
+      'relative',
+      'bloom',
+    ];
+    const projects = await getProjectsBySlugs(slugs);
+
+    expect(projects.map((project) => project.name)).toEqual(
+      slugs.map((_, index) => `Project ${String(index + 1).padStart(2, '0')}`),
+    );
+    expect(
+      projects.every(
+        (project) =>
+          project.category === 'upcoming' &&
+          project.imagePlaceholder &&
+          project.image === '' &&
+          project.stack.length === 0 &&
+          project.highlights.length === 0 &&
+          project.liveUrl === undefined &&
+          project.sourceUrl === undefined &&
+          project.images.length === 1 &&
+          project.images[0].placeholder,
+      ),
+    ).toBe(true);
+  });
 });

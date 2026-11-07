@@ -8,6 +8,8 @@ import Link from 'next/link';
 import type { ProjectFrontmatter } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
+import ProjectImagePlaceholder from './project/project-image-placeholder';
+
 type ListedProject = ProjectFrontmatter & { locked?: boolean };
 
 /** Internal links (e.g. a showcase page) go there directly; others open the case study */
@@ -32,16 +34,24 @@ const ProjectRow = ({ project }: { project: ListedProject }) => (
       {/* Centred, so a project can show a small logo (wrapperClassName) instead of a full image */}
       <span className="bg-muted outline-foreground/10 flex aspect-video items-center justify-center overflow-hidden rounded-2xl outline -outline-offset-1">
         <span className={cn('relative size-full', project.wrapperClassName)}>
-          <Image
-            src={project.image}
-            alt=""
-            fill
-            sizes="(min-width: 952px) 912px, 100vw"
-            className={cn(
-              'object-cover transition-transform duration-500 group-hover:scale-102',
-              project.imageClassName,
-            )}
-          />
+          {project.imagePlaceholder ? (
+            <ProjectImagePlaceholder
+              label="Project image placeholder"
+              decorative
+              className="size-full"
+            />
+          ) : (
+            <Image
+              src={project.image}
+              alt=""
+              fill
+              sizes="(min-width: 952px) 912px, 100vw"
+              className={cn(
+                'object-cover transition-transform duration-500 group-hover:scale-102',
+                project.imageClassName,
+              )}
+            />
+          )}
         </span>
       </span>
 

@@ -9,6 +9,8 @@ import { Card } from '@/components/ui/card';
 import { ProjectFrontmatter } from '@/lib/types';
 import { cn } from '@/lib/utils';
 
+import ProjectImagePlaceholder from './sections/project/project-image-placeholder';
+
 type ProjectCardProps = {
   project: ProjectFrontmatter & { locked?: boolean };
   icon?: LucideIcon;
@@ -39,15 +41,23 @@ export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps
       >
         <Card className="xs:h-80 group flex h-62 items-center justify-center overflow-hidden p-0">
           <div className={cn('relative size-full', project.wrapperClassName)}>
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              className={cn(
-                'object-cover transition-all duration-500 group-hover:scale-105',
-                project.imageClassName,
-              )}
-            />
+            {project.imagePlaceholder ? (
+              <ProjectImagePlaceholder
+                label="Project image placeholder"
+                decorative
+                className="size-full"
+              />
+            ) : (
+              <Image
+                src={project.image}
+                alt=""
+                fill
+                className={cn(
+                  'object-cover transition-transform duration-500 group-hover:scale-105',
+                  project.imageClassName,
+                )}
+              />
+            )}
           </div>
         </Card>
 

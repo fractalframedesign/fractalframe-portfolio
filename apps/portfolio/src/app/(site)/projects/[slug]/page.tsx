@@ -104,17 +104,20 @@ export default async function ProjectPage({
         liveUrl={frontmatter.liveUrl}
         sourceUrl={frontmatter.sourceUrl}
         coverImage={frontmatter.image}
+        imagePlaceholder={frontmatter.imagePlaceholder}
         longDescription={frontmatter.longDescription}
         category={frontmatter.category}
         wrapperClassName={frontmatter.wrapperClassName}
         imageClassName={frontmatter.imageClassName}
       />
 
-      <StackGrid
-        stack={frontmatter.stack}
-        title="Project stack"
-        className="hero-padding pt-0!"
-      />
+      {frontmatter.stack.length > 0 && (
+        <StackGrid
+          stack={frontmatter.stack}
+          title="Project stack"
+          className="hero-padding pt-0!"
+        />
+      )}
 
       <ProjectDetails
         images={frontmatter.images}

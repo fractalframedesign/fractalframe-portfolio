@@ -5,11 +5,14 @@ import { Card } from '@/components/ui/card';
 import { PROJECT_CATEGORY_LABELS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
+import ProjectImagePlaceholder from './project-image-placeholder';
+
 interface ProjectHeroProps {
   name: string;
-  liveUrl: string;
-  sourceUrl: string;
+  liveUrl?: string;
+  sourceUrl?: string;
   coverImage: string;
+  imagePlaceholder?: boolean;
   longDescription: string;
   category?: string;
   wrapperClassName?: string;
@@ -21,6 +24,7 @@ const ProjectHero = ({
   liveUrl,
   sourceUrl,
   coverImage,
+  imagePlaceholder,
   longDescription,
   category,
   wrapperClassName,
@@ -42,37 +46,50 @@ const ProjectHero = ({
           {longDescription}
         </p>
 
-        <div className="flex items-center gap-4 pt-2">
-          <Link
-            href={liveUrl}
-            className="link-underline text-base leading-none"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            View live
-          </Link>
-          <div className="bg-border h-4 w-px" />
-          <Link
-            href={sourceUrl}
-            className="link-underline text-base leading-none"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Source code
-          </Link>
-        </div>
+        {(liveUrl || sourceUrl) && (
+          <div className="flex items-center gap-4 pt-2">
+            {liveUrl && (
+              <Link
+                href={liveUrl}
+                className="link-underline text-base leading-none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View live
+              </Link>
+            )}
+            {liveUrl && sourceUrl && <div className="bg-border h-4 w-px" />}
+            {sourceUrl && (
+              <Link
+                href={sourceUrl}
+                className="link-underline text-base leading-none"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Source code
+              </Link>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="bigger-container my-15 md:my-18">
         <Card className="flex aspect-video items-center justify-center overflow-hidden p-0">
           <div className={cn('relative size-full', wrapperClassName)}>
-            <Image
-              src={coverImage}
-              alt={name}
-              fill
-              className={cn('object-cover', imageClassName)}
-              priority
-            />
+            {imagePlaceholder ? (
+              <ProjectImagePlaceholder
+                label="Replace with a project cover image"
+                className="size-full"
+              />
+            ) : (
+              <Image
+                src={coverImage}
+                alt={name}
+                fill
+                className={cn('object-cover', imageClassName)}
+                priority
+              />
+            )}
           </div>
         </Card>
       </div>
