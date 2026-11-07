@@ -37,7 +37,7 @@ const NameRow = () => (
       className="size-12 rounded-xl object-cover"
     />
     <div>
-      <h1 className="text-base leading-snug">Kiran Pingle</h1>
+      <h1 className="text-xl leading-snug">Kiran Pingle</h1>
       <p className="text-muted-foreground leading-snug">
         Product Designer
       </p>
