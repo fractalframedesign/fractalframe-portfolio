@@ -12,7 +12,7 @@ describe('Hero', () => {
 
     const photo = screen.getByRole('img', { name: 'Kiran Pingle' });
     expect(photo.getAttribute('src')).toContain('Kiran-Pingle.png');
-    expect(screen.getByText('Product Designer, Rakuten')).toBeTruthy();
+    expect(screen.getByText('Product Designer')).toBeTruthy();
   });
 
   it('shows the three intro paragraphs', () => {

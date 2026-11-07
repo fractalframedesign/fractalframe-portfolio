@@ -39,7 +39,7 @@ const NameRow = () => (
     <div>
       <h1 className="text-base leading-snug">Kiran Pingle</h1>
       <p className="text-muted-foreground leading-snug">
-        Product Designer, Rakuten
+        Product Designer
       </p>
     </div>
   </motion.div>
