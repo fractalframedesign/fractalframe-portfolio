@@ -37,7 +37,7 @@ const PROFILE_ICONS = {
 
 const ProfileLinks = () => (
   <motion.ul
-    className="mt-6 -ml-2 flex items-center gap-1"
+    className="mt-6 -ms-2 flex items-center gap-1"
     variants={itemVariants}
   >
     {PROFILE_LINKS.map(({ name, href }) => {
@@ -68,7 +68,7 @@ const NameRow = () => (
   <motion.div className="mt-8 flex items-center gap-3" variants={itemVariants}>
     <Image
       src="/images/home/Kiran-Pingle.png"
-      alt="Kiran Pingle"
+      alt=""
       width={48}
       height={48}
       priority
@@ -94,18 +94,21 @@ const Intro = () => (
     <p>
       Before Rakuten I was at <Key>Reliance Jio</Key>, where design had to work
       for hundreds of millions of people. That gave me{' '}
-      <Link href="/about#principles" className="link-underline text-success">
+      <Link
+        href="/about#principles"
+        className="link-underline text-success-text"
+      >
         5 guiding principles
       </Link>{' '}
       that I use as my north star.
     </p>
     <p>
-      I write about what I learn on{' '}
-      <Link href="/articles" className="link-underline text-success">
-        Articles
+      I write about what I learn in{' '}
+      <Link href="/articles" className="link-underline text-success-text">
+        Stories
       </Link>
-      , and share my work on{' '}
-      <Link href="/projects" className="link-underline text-success">
+      , and share my work in{' '}
+      <Link href="/projects" className="link-underline text-success-text">
         Projects
       </Link>
       .

@@ -12,7 +12,7 @@ const project = (slug: string, name: string) =>
   ({
     slug,
     name,
-    description: `${name} description`,
+    description: `Summary of ${slug}`,
     image: `/images/projects/${slug}/cover.png`,
     liveUrl: `/showcase/${slug}`,
   }) as ProjectFrontmatter;
@@ -34,8 +34,10 @@ describe('Highlights', () => {
       expect(link.getAttribute('target')).toBe('_blank');
       expect(link.getAttribute('rel')).toContain('noopener');
     }
-    expect(screen.getByRole('img', { name: 'Alpha' })).toBeTruthy();
-    expect(screen.getByText('Alpha description')).toBeTruthy();
+    // The name sits under the image, so the image is decorative
+    expect(document.querySelector('img')?.getAttribute('alt')).toBe('');
+    expect(screen.queryByRole('link', { name: /Alpha.*Alpha/ })).toBeNull();
+    expect(screen.getByText('Summary of alpha')).toBeTruthy();
     expect(screen.queryByText(/20\d\d/)).toBeNull();
   });
 

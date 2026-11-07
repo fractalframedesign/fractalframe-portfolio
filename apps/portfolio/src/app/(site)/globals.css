@@ -40,6 +40,7 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
+  --color-success-text: var(--success-text);
   --color-success-hover: var(--success-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -123,6 +124,8 @@
   --destructive: oklch(0.577 0.245 27.33);
   --destructive-foreground: oklch(0.985 0 0);
   --success: oklch(0.586 0.166 142.5);
+  /* Green for text: 5.15:1 on white, 4.72:1 on muted surfaces */
+  --success-text: oklch(0.52 0.166 142.5);
   --success-hover: oklch(0.507 0.145 142.5);
   --border: oklch(0.918 0 0);
   --input: oklch(0.918 0 0);
@@ -196,6 +199,7 @@
   --destructive: oklch(0.577 0.245 27.33);
   --destructive-foreground: oklch(0.985 0 0);
   --success: oklch(0.723 0.191 142.5);
+  --success-text: oklch(0.723 0.191 142.5);
   --success-hover: oklch(0.586 0.166 142.5);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
@@ -356,7 +360,7 @@ body {
     @apply py-15 md:py-20 lg:py-30;
   }
   .link-underline {
-    @apply decoration-border hover:decoration-foreground underline decoration-dotted underline-offset-4 transition-all duration-300 hover:underline-offset-6 rounded-xs outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply decoration-border hover:decoration-foreground underline decoration-dotted underline-offset-4 transition-[color,text-decoration-color,text-underline-offset] duration-300 hover:underline-offset-6 rounded-xs outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 }
 
@@ -378,8 +382,10 @@ body {
   @media (width >= --theme(--breakpoint-sm)) {
     max-width: none;
   }
-  @media (width >= 880px) {
-    max-width: 880px;
+  /* The site's one reading column: 42rem of text plus the side padding,
+     centred on every page. Wide content uses bigger-container. */
+  @media (width >= 712px) {
+    max-width: 712px;
   }
   @media (width >= --theme(--breakpoint-md)) {
     padding-inline: 1.25rem;
