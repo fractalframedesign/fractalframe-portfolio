@@ -1,13 +1,9 @@
 'use client';
 
-import {
-  animate,
-  motion,
-  useInView,
-  useReducedMotion,
-} from 'motion/react';
+import { animate, motion, useInView, useReducedMotion } from 'motion/react';
 import { useEffect, useRef } from 'react';
 
+import { DesignMotivation } from '@/components/sections/design-motivation';
 import { Principles } from '@/components/sections/principles';
 import { WhatIDo } from '@/components/sections/what-i-do';
 
@@ -27,11 +23,6 @@ const stats = [
   { value: 15, suffix: '+', label: 'Years designing digital products' },
   { value: 100, suffix: 'M+', label: 'Users reached at Reliance Jio' },
   { value: 4, suffix: '', label: 'Companies across my career' },
-];
-
-const BACKGROUND_PARAGRAPHS = [
-  'I lead Digital Product Design at Rakuten, focusing on design systems and workflows that let design and engineering scale together. Before Rakuten, I designed large-scale digital experiences for hundreds of millions of users at Reliance Jio. That taught me that great design relies on strong systems, close teamwork, and consistent execution.',
-  'My work bridges design craftsmanship, frontend development, and AI. What sets me apart is my ability to translate complex ideas into products that are not only functional but so intuitive that the right choice feels obvious.',
 ];
 
 /** Counts up from zero the first time it scrolls into view. */
@@ -80,8 +71,8 @@ const About = () => {
             className="text-muted-foreground max-w-xl text-lg leading-relaxed"
             variants={riseVariants}
           >
-            Fifteen years of design, frontend engineering, and product
-            strategy, and what that looks like in practice.
+            Fifteen years of design, frontend engineering, and product strategy,
+            and what that looks like in practice.
           </motion.p>
         </motion.div>
       </section>
@@ -95,7 +86,11 @@ const About = () => {
           viewport={{ once: true, margin: '-60px' }}
         >
           {stats.map((stat) => (
-            <motion.li key={stat.label} className="space-y-3" variants={riseVariants}>
+            <motion.li
+              key={stat.label}
+              className="space-y-3"
+              variants={riseVariants}
+            >
               <p className="font-display font-weight-display text-5xl leading-none tracking-tight md:text-6xl">
                 <StatNumber value={stat.value} suffix={stat.suffix} />
               </p>
@@ -107,35 +102,15 @@ const About = () => {
 
       <WhatIDo />
 
-      <section className="section-padding container">
-        <div className="max-w-2xl space-y-5">
-          <motion.h2
-            className="text-2xl leading-none"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            Background
-          </motion.h2>
-          <div className="space-y-6 text-lg leading-relaxed md:space-y-8">
-            {BACKGROUND_PARAGRAPHS.map((text, i) => (
-              <motion.p
-                key={text}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.55, ease: EASE, delay: i * 0.1 }}
-              >
-                {text}
-              </motion.p>
-            ))}
-          </div>
-        </div>
+      <section
+        id="principles"
+        className="section-padding container scroll-mt-20"
+      >
+        <Principles />
       </section>
 
       <section className="container pb-12.5 md:pb-15 lg:pb-18.75">
-        <Principles />
+        <DesignMotivation />
       </section>
     </>
   );

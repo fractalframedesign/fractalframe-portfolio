@@ -12,6 +12,7 @@
   --font-display: var(--font-geist-sans);
   --font-text: var(--font-geist-sans);
   --font-serif: var(--font-source-serif, 'Georgia', serif);
+  --font-hand: var(--font-caveat, cursive);
 
   --breakpoint-xs: 40rem;
   --breakpoint-3xl: 112.5rem;
