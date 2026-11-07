@@ -8,6 +8,7 @@ import {
 } from 'motion/react';
 import { useEffect, useRef } from 'react';
 
+import { DesignMotivation } from '@/components/sections/design-motivation';
 import { Principles } from '@/components/sections/principles';
 import { WhatIDo } from '@/components/sections/what-i-do';
 
@@ -136,6 +137,10 @@ const About = () => {
 
       <section className="container pb-12.5 md:pb-15 lg:pb-18.75">
         <Principles />
+      </section>
+
+      <section className="container pb-12.5 md:pb-15 lg:pb-18.75">
+        <DesignMotivation />
       </section>
     </>
   );
