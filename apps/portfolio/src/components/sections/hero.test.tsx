@@ -56,6 +56,16 @@ describe('Hero', () => {
     ).toBe('/about#principles');
   });
 
+  it('shows the in-text links in the green accent', () => {
+    renderHero();
+
+    for (const name of ['5 guiding principles', 'Articles', 'Projects']) {
+      expect(screen.getByRole('link', { name }).className).toContain(
+        'text-success',
+      );
+    }
+  });
+
   it('links to LinkedIn, Medium and Dribbble in new tabs', () => {
     renderHero();
 
