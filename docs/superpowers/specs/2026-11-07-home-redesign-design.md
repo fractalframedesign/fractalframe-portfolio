@@ -1,6 +1,6 @@
 # Home page redesign
 
-Status: draft, awaiting Kiran's approval
+Status: approved by Kiran, 2026-11-07
 
 Calls Claude made (check these while reading):
 
