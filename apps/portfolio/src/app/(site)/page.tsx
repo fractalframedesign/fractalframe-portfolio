@@ -1,51 +1,35 @@
-// import { BrandsScroll } from '@/components/sections/brands-scroll';
-import { DesignMotivation } from '@/components/sections/design-motivation';
 import Experience from '@/components/sections/experience';
 import Hero from '@/components/sections/hero';
-import { ArticlesList } from '@/components/sections/latest-writing';
-import { Principles } from '@/components/sections/principles';
+import Highlights from '@/components/sections/highlights';
 import { WhatIDo } from '@/components/sections/what-i-do';
+import Writing from '@/components/sections/writing';
 import { getAllArticles } from '@/lib/articles';
+import { HIGHLIGHT_PROJECT_SLUGS, HOME_ARTICLE_SLUGS } from '@/lib/constants';
+import { getProjectsBySlugs } from '@/lib/projects';
 
 export default async function Home() {
-  const articles = await getAllArticles();
-  const recentStorySlugs = [
-    'design-to-motivate',
-    'stop-bringing-more-options-to-the-meeting',
-    'nature-shipped-it-first',
-    'stop-making-users-read-your-dashboard',
-    'proactive-ux',
-  ];
-  const recentStories = recentStorySlugs.flatMap((slug) => {
-    const article = articles.find((item) => item.slug === slug);
+  const [allArticles, projects] = await Promise.all([
+    getAllArticles(),
+    getProjectsBySlugs(HIGHLIGHT_PROJECT_SLUGS),
+  ]);
+  const articles = HOME_ARTICLE_SLUGS.flatMap((slug) => {
+    const article = allArticles.find((item) => item.slug === slug);
     return article ? [article] : [];
   });
 
   return (
     <>
       <Hero />
-      <div className="border-border/60 border-b">
-        <WhatIDo className="section-padding" />
+      <WhatIDo className="section-padding" />
+      <div className="section-padding">
+        <Highlights projects={projects} />
       </div>
-      <div className="border-border/60 border-b">
-        <ArticlesList
-          articles={recentStories}
-          showHeader
-          headerTitle="Recent stories"
-          containerSize="standard"
-        />
+      <div className="section-padding">
+        <Writing articles={articles} />
       </div>
-      <section className="border-border/60 border-b section-padding">
-        <div className="container">
-          <Principles />
-        </div>
-      </section>
-      <section className="border-border/60 border-b section-padding">
-        <div className="container">
-          <DesignMotivation />
-        </div>
-      </section>
-      <Experience />
+      <div className="section-padding">
+        <Experience />
+      </div>
     </>
   );
 }

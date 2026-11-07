@@ -85,7 +85,10 @@ const Hero = () => {
   const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <section ref={sectionRef} className="hero-padding relative overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden pt-15 md:pt-20 lg:pt-30"
+    >
       <div className="container">
         <motion.div
           className="max-w-2xl"
