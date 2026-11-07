@@ -14,7 +14,7 @@ export default function Writing({
   return (
     <section className="container">
       <div className="mx-auto max-w-2xl space-y-8">
-        <SectionTitle>Writing</SectionTitle>
+        <SectionTitle>Stories</SectionTitle>
         <ul className="divide-y border-y">
           {articles.map((article) => (
             <li key={article.slug}>

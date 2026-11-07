@@ -24,6 +24,14 @@ const withoutImage: ArticleFrontmatter = {
 };
 
 describe('Writing', () => {
+  it('is titled Stories', () => {
+    render(<Writing articles={[withImage]} />);
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Stories' }),
+    ).toBeTruthy();
+  });
+
   it('links each row to its article', () => {
     render(<Writing articles={[withImage, withoutImage]} />);
 
