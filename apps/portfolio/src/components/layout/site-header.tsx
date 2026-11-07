@@ -97,8 +97,11 @@ export function SiteHeader({
               className="object-cover"
             />
           </span>
-          <span className="hidden text-sm whitespace-nowrap sm:inline">
-            Kiran Pingle
+          <span className="hidden flex-col whitespace-nowrap sm:flex">
+            <span className="text-sm leading-tight">Kiran Pingle</span>
+            <span className="text-muted-foreground text-xs leading-tight">
+              Product Designer
+            </span>
           </span>
         </Link>
 

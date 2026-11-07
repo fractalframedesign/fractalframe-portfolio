@@ -9,6 +9,14 @@ afterEach(cleanup);
 const menu = () => within(screen.getByRole('list'));
 
 describe('SiteHeader', () => {
+  it('shows the role under the name next to the photo', () => {
+    render(<SiteHeader activePath="/" themeToggle={null} />);
+
+    const home = screen.getByRole('link', { name: /Kiran Pingle/ });
+    expect(home.getAttribute('href')).toBe('/');
+    expect(within(home).getByText('Product Designer')).toBeTruthy();
+  });
+
   it('starts the menu with a Home link', () => {
     render(<SiteHeader activePath="/about" themeToggle={null} />);
 
