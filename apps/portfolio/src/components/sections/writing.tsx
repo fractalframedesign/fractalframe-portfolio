@@ -34,7 +34,9 @@ export default function Writing({
                   </span>
                 )}
                 <span className="min-w-0 flex-1">
-                  <span className="block leading-snug">{article.title}</span>
+                  <span className="block text-2xl leading-snug">
+                    {article.title}
+                  </span>
                   <span className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
                     {article.description}
                   </span>

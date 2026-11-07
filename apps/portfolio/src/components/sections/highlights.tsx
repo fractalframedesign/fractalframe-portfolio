@@ -36,7 +36,9 @@ export default function Highlights({
                 />
               </span>
               <span className="block">
-                <span className="block leading-snug">{project.name}</span>
+                <span className="block text-lg leading-snug">
+                  {project.name}
+                </span>
                 <span className="text-muted-foreground block text-sm leading-relaxed">
                   {project.description}
                 </span>
