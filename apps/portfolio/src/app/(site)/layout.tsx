@@ -3,7 +3,7 @@ import './globals.css';
 import { GeistSans } from 'geist/font/sans';
 import { MotionConfig } from 'motion/react';
 import type { Metadata } from 'next';
-import { Source_Serif_4 } from 'next/font/google';
+import { Caveat, Source_Serif_4 } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import DrawingInspector from '@/components/drawing/drawing-inspector';
@@ -24,6 +24,14 @@ const sourceSerif4 = Source_Serif_4({
   display: 'optional', // don't swap — use fallback if font not ready on first paint
   preload: true,
   adjustFontFallback: true, // size-adjust the fallback to match Source Serif 4 metrics
+});
+
+// Handwritten section titles (SectionTitle) only
+const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--font-caveat',
+  weight: ['500'],
+  display: 'swap',
 });
 
 const siteTitle = 'Kiran Pingle';
@@ -111,7 +119,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable}`}
+        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable} ${caveat.variable}`}
       >
         {/* Global dot grid background */}
         <div
