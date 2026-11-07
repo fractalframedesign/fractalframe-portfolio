@@ -378,8 +378,10 @@ body {
   @media (width >= --theme(--breakpoint-sm)) {
     max-width: none;
   }
-  @media (width >= 880px) {
-    max-width: 880px;
+  /* The site's one reading column: 42rem of text plus the side padding,
+     centred on every page. Wide content uses bigger-container. */
+  @media (width >= 712px) {
+    max-width: 712px;
   }
   @media (width >= --theme(--breakpoint-md)) {
     padding-inline: 1.25rem;
