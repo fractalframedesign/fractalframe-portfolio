@@ -36,3 +36,12 @@ export const HIGHLIGHT_PROJECT_SLUGS = [
   'finance-dashboard',
   'smart-home-dashboard',
 ] as const;
+
+/** Articles in the home page Writing list, in order */
+export const HOME_ARTICLE_SLUGS = [
+  'design-to-motivate',
+  'stop-bringing-more-options-to-the-meeting',
+  'nature-shipped-it-first',
+  'stop-making-users-read-your-dashboard',
+  'proactive-ux',
+] as const;
