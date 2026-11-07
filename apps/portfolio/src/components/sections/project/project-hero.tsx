@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Card } from '@/components/ui/card';
+import { PROJECT_CATEGORY_LABELS } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 
 interface ProjectHeroProps {
@@ -14,13 +15,6 @@ interface ProjectHeroProps {
   wrapperClassName?: string;
   imageClassName?: string;
 }
-
-const categoryLabel: Record<string, string> = {
-  featured: 'Featured Project',
-  'open-source': 'Open Source',
-  personal: 'Personal Project',
-  upcoming: 'Upcoming Project',
-};
 
 const ProjectHero = ({
   name,
@@ -37,10 +31,12 @@ const ProjectHero = ({
       <div className="container space-y-6 md:space-y-8">
         {category && (
           <div className="text-success text-xs font-semibold tracking-widest uppercase">
-            {categoryLabel[category] ?? category}
+            {PROJECT_CATEGORY_LABELS[category] ?? category}
           </div>
         )}
-        <h1 className="text-3xl leading-[1.08] text-balance md:text-4xl lg:text-5xl">{name}</h1>
+        <h1 className="text-3xl leading-[1.08] text-balance md:text-4xl lg:text-5xl">
+          {name}
+        </h1>
 
         <p className="text-muted-foreground max-w-2xl text-xl leading-relaxed">
           {longDescription}

@@ -53,3 +53,11 @@ export const PROFILE_LINKS = [
   { name: 'Medium', href: 'https://medium.com/' },
   { name: 'Dribbble', href: 'https://dribbble.com/' },
 ] as const;
+
+/** Category label shown above a project's name (project pages and the Projects list) */
+export const PROJECT_CATEGORY_LABELS: Record<string, string> = {
+  featured: 'Featured Project',
+  'open-source': 'Open Source',
+  personal: 'Personal Project',
+  upcoming: 'Upcoming Project',
+};

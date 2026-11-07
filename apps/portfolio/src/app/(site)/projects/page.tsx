@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 
-import ProjectsTabs from '@/components/sections/projects-tabs';
+import ProjectsList from '@/components/sections/projects-list';
 import { getProductLevels } from '@/lib/access/cached-levels';
 import { visibleProjects } from '@/lib/access/visible';
 import { getAllProjects } from '@/lib/projects';
@@ -28,9 +27,7 @@ export default async function ProjectsPage() {
         </p>
       </div>
 
-      <Suspense>
-        <ProjectsTabs projects={projects} />
-      </Suspense>
+      <ProjectsList projects={projects} />
     </section>
   );
 }
