@@ -29,7 +29,7 @@ const Key = ({ children }: { children: ReactNode }) => (
 const NameRow = () => (
   <motion.div className="mt-8 flex items-center gap-3" variants={itemVariants}>
     <Image
-      src="/images/home/avatar-sm.png"
+      src="/images/home/Kiran-Pingle.png"
       alt="Kiran Pingle"
       width={48}
       height={48}

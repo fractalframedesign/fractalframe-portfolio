@@ -11,7 +11,7 @@ describe('Hero', () => {
     render(<Hero />);
 
     const photo = screen.getByRole('img', { name: 'Kiran Pingle' });
-    expect(photo.getAttribute('src')).toContain('avatar-sm.png');
+    expect(photo.getAttribute('src')).toContain('Kiran-Pingle.png');
     expect(screen.getByText('Product Design Director, Rakuten')).toBeTruthy();
   });
 
