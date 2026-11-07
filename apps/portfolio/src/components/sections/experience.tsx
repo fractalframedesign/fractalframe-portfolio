@@ -49,7 +49,7 @@ const itemVariants = {
 const Experience = () => {
   return (
     <section className="container">
-      <div className="max-w-2xl space-y-8">
+      <div className="mx-auto max-w-2xl space-y-8">
         <SectionTitle>Work</SectionTitle>
         <motion.ul
           className="divide-y border-y"

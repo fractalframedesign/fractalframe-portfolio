@@ -72,7 +72,7 @@ const ServiceTile = ({
 export const WhatIDo = ({ className }: { className?: string }) => {
   return (
     <section className={cn('container', className)}>
-      <div className="max-w-2xl space-y-8">
+      <div className="mx-auto max-w-2xl space-y-8">
         <div className="space-y-3">
           <SectionTitle>What I do</SectionTitle>
           <p className="text-muted-foreground text-lg leading-relaxed">

@@ -91,7 +91,7 @@ const Hero = () => {
     >
       <div className="container">
         <motion.div
-          className="max-w-2xl"
+          className="mx-auto max-w-2xl"
           variants={containerVariants}
           initial="hidden"
           animate="visible"

@@ -15,7 +15,7 @@ export default function Highlights({
   return (
     <section className="space-y-8">
       <div className="container">
-        <SectionTitle className="max-w-2xl">Highlights</SectionTitle>
+        <SectionTitle className="mx-auto max-w-2xl">Highlights</SectionTitle>
       </div>
       <ul className="bigger-container grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-4">
         {projects.map((project) => (

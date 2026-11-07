@@ -13,7 +13,7 @@ export default function Writing({
 }) {
   return (
     <section className="container">
-      <div className="max-w-2xl space-y-8">
+      <div className="mx-auto max-w-2xl space-y-8">
         <SectionTitle>Writing</SectionTitle>
         <ul className="divide-y border-y">
           {articles.map((article) => (
