@@ -6,7 +6,14 @@ import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { useRef } from 'react';
 
+import {
+  DribbbleIcon,
+  LinkedInIcon,
+  MediumIcon,
+} from '@/components/icons/social';
 import { LocalTime } from '@/components/local-time';
+import { Button } from '@/components/ui/button';
+import { PROFILE_LINKS } from '@/lib/constants';
 
 const containerVariants = {
   hidden: {},
@@ -21,6 +28,37 @@ const itemVariants = {
     transition: { duration: 0.55, ease: [0.23, 1, 0.32, 1] as const },
   },
 };
+
+const PROFILE_ICONS = {
+  LinkedIn: LinkedInIcon,
+  Medium: MediumIcon,
+  Dribbble: DribbbleIcon,
+};
+
+const ProfileLinks = () => (
+  <motion.ul
+    className="mt-6 -ml-2 flex items-center gap-1"
+    variants={itemVariants}
+  >
+    {PROFILE_LINKS.map(({ name, href }) => {
+      const Icon = PROFILE_ICONS[name];
+      return (
+        <li key={name}>
+          <Button asChild variant="ghost" size="icon" tooltip={name}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={name}
+            >
+              <Icon aria-hidden="true" className="size-4" />
+            </a>
+          </Button>
+        </li>
+      );
+    })}
+  </motion.ul>
+);
 
 const Key = ({ children }: { children: ReactNode }) => (
   <strong className="text-foreground font-medium">{children}</strong>
@@ -38,9 +76,7 @@ const NameRow = () => (
     />
     <div>
       <h1 className="text-xl leading-snug">Kiran Pingle</h1>
-      <p className="text-muted-foreground leading-snug">
-        Product Designer
-      </p>
+      <p className="text-muted-foreground leading-snug">Product Designer</p>
     </div>
   </motion.div>
 );
@@ -106,6 +142,7 @@ const Hero = () => {
 
           <NameRow />
           <Intro />
+          <ProfileLinks />
         </motion.div>
       </div>
     </section>

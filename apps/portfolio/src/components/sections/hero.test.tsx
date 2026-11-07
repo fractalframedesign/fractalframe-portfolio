@@ -2,13 +2,23 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 
+import { TooltipProvider } from '@/components/ui/tooltip';
+
 import Hero from './hero';
 
 afterEach(cleanup);
 
+// The site layout provides this; the profile icons' tooltips need it
+const renderHero = () =>
+  render(
+    <TooltipProvider>
+      <Hero />
+    </TooltipProvider>,
+  );
+
 describe('Hero', () => {
   it('shows the name row', () => {
-    render(<Hero />);
+    renderHero();
 
     const photo = screen.getByRole('img', { name: 'Kiran Pingle' });
     expect(photo.getAttribute('src')).toContain('Kiran-Pingle.png');
@@ -16,7 +26,7 @@ describe('Hero', () => {
   });
 
   it('shows the three intro paragraphs', () => {
-    render(<Hero />);
+    renderHero();
 
     expect(
       screen.getByText(/good products need all four to agree/),
@@ -26,7 +36,7 @@ describe('Hero', () => {
   });
 
   it('links to articles and projects in the last paragraph', () => {
-    render(<Hero />);
+    renderHero();
 
     expect(
       screen.getByRole('link', { name: 'Articles' }).getAttribute('href'),
@@ -37,7 +47,7 @@ describe('Hero', () => {
   });
 
   it('links the principles to the About page section', () => {
-    render(<Hero />);
+    renderHero();
 
     expect(
       screen
@@ -46,8 +56,19 @@ describe('Hero', () => {
     ).toBe('/about#principles');
   });
 
+  it('links to LinkedIn, Medium and Dribbble in new tabs', () => {
+    renderHero();
+
+    for (const name of ['LinkedIn', 'Medium', 'Dribbble']) {
+      const link = screen.getByRole('link', { name });
+      expect(link.getAttribute('target')).toBe('_blank');
+      expect(link.getAttribute('rel')).toContain('noopener');
+      expect(link.querySelector('svg')).toBeTruthy();
+    }
+  });
+
   it('has no buttons, and the name is the only h1', () => {
-    render(<Hero />);
+    renderHero();
 
     expect(screen.queryAllByRole('button')).toHaveLength(0);
     const headings = screen.getAllByRole('heading', { level: 1 });

@@ -45,3 +45,11 @@ export const HOME_ARTICLE_SLUGS = [
   'stop-making-users-read-your-dashboard',
   'proactive-ux',
 ] as const;
+
+// TODO(Kiran): replace with your own profile addresses before merging
+/** Profiles shown as icons under the home intro */
+export const PROFILE_LINKS = [
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/' },
+  { name: 'Medium', href: 'https://medium.com/' },
+  { name: 'Dribbble', href: 'https://dribbble.com/' },
+] as const;
