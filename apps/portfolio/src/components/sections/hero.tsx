@@ -94,18 +94,18 @@ const Intro = () => (
     <p>
       Before Rakuten I was at <Key>Reliance Jio</Key>, where design had to work
       for hundreds of millions of people. That gave me{' '}
-      <Link href="/about#principles" className="link-underline text-foreground">
+      <Link href="/about#principles" className="link-underline text-success">
         5 guiding principles
       </Link>{' '}
       that I use as my north star.
     </p>
     <p>
       I write about what I learn on{' '}
-      <Link href="/articles" className="link-underline text-foreground">
+      <Link href="/articles" className="link-underline text-success">
         Articles
       </Link>
       , and share my work on{' '}
-      <Link href="/projects" className="link-underline text-foreground">
+      <Link href="/projects" className="link-underline text-success">
         Projects
       </Link>
       .
