@@ -1,22 +1,10 @@
 // @vitest-environment jsdom
 import { cleanup, render, screen } from '@testing-library/react';
-import { afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
 
 import { WhatIDo } from './what-i-do';
 
 afterEach(cleanup);
-
-// motion's whileInView needs IntersectionObserver, which jsdom lacks
-beforeAll(() => {
-  globalThis.IntersectionObserver ??= class {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-    takeRecords() {
-      return [];
-    }
-  } as unknown as typeof IntersectionObserver;
-});
 
 describe('WhatIDo', () => {
   it('shows the title and intro line', () => {
