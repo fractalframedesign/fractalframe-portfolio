@@ -2,6 +2,8 @@
 
 import { motion } from 'motion/react';
 
+import SectionTitle from '@/components/section-title';
+
 const principles = [
   {
     title: 'Clarity Over Complexity',
@@ -30,19 +32,24 @@ const principles = [
   },
 ];
 
-export function Principles() {
+/** `handwritten` matches the home page's section titles */
+export function Principles({ handwritten = false }: { handwritten?: boolean }) {
   return (
     <div className="space-y-8 md:space-y-10">
       <div className="max-w-2xl space-y-3">
-        <motion.h2
-          className="text-2xl leading-none"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: '-60px' }}
-          transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
-        >
-          Principles
-        </motion.h2>
+        {handwritten ? (
+          <SectionTitle>Principles</SectionTitle>
+        ) : (
+          <motion.h2
+            className="text-2xl leading-none"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+          >
+            Principles
+          </motion.h2>
+        )}
         <p className="text-muted-foreground text-lg leading-relaxed">
           5 principles guide how I approach the design engineering.
         </p>
@@ -55,7 +62,11 @@ export function Principles() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.55, ease: [0.23, 1, 0.32, 1], delay: index * 0.08 }}
+            transition={{
+              duration: 0.55,
+              ease: [0.23, 1, 0.32, 1],
+              delay: index * 0.08,
+            }}
           >
             <span className="text-muted-foreground pt-1 text-sm">
               {String(index + 1).padStart(2, '0')}
