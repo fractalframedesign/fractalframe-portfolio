@@ -81,7 +81,7 @@ export function SiteHeader({
           href="/"
           className="flex shrink-0 items-center gap-3 font-medium"
         >
-          <span className="relative size-9 shrink-0 overflow-hidden rounded-full ">
+          <span className="relative size-9 shrink-0 overflow-hidden rounded-lg">
             <Image
               src="/images/home/Kiran-Pingle.png"
               alt="Kiran Pingle"
