@@ -2,6 +2,7 @@
 
 import {
   GalleryVerticalEnd,
+  House,
   type LucideIcon,
   PencilLine,
   UserRound,
@@ -13,6 +14,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const siteLinks: Array<{ href: string; label: string; icon: LucideIcon }> = [
+  { href: '/', label: 'Home', icon: House },
   { href: '/projects', label: 'Projects', icon: GalleryVerticalEnd },
   { href: '/about', label: 'Profile', icon: UserRound },
   { href: '/articles', label: 'Articles', icon: PencilLine },
