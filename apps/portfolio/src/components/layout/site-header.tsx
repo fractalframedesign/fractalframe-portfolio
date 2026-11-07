@@ -1,6 +1,11 @@
 'use client';
 
-import { GalleryVerticalEnd, type LucideIcon, PencilLine, UserRound } from 'lucide-react';
+import {
+  GalleryVerticalEnd,
+  type LucideIcon,
+  PencilLine,
+  UserRound,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -73,13 +78,14 @@ export function SiteHeader({
       <nav
         aria-label="Main"
         className={cn(
-          'mx-auto flex items-center gap-2 py-3 md:gap-4',
+          // Three columns so the links sit in the true centre
+          'mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-2 py-3 md:gap-4',
           widthClassName,
         )}
       >
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-3 font-medium"
+          className="flex shrink-0 items-center gap-3 justify-self-start font-medium"
         >
           <span className="relative size-9 shrink-0 overflow-hidden rounded-lg">
             <Image
@@ -97,7 +103,8 @@ export function SiteHeader({
         <ul className="flex items-center gap-0.5 sm:gap-1">
           {siteLinks.map((link) => {
             const isActive =
-              activePath === link.href || activePath.startsWith(`${link.href}/`);
+              activePath === link.href ||
+              activePath.startsWith(`${link.href}/`);
             return (
               <li key={link.href}>
                 <NavLink link={link} isActive={isActive} />
@@ -106,7 +113,7 @@ export function SiteHeader({
           })}
         </ul>
 
-        <div className="ml-auto shrink-0">{themeToggle}</div>
+        <div className="shrink-0 justify-self-end">{themeToggle}</div>
       </nav>
     </header>
   );
