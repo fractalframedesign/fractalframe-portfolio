@@ -7,6 +7,13 @@ import About from './about';
 afterEach(cleanup);
 
 describe('About', () => {
+  it('has no Background section', () => {
+    render(<About />);
+
+    expect(screen.queryByRole('heading', { name: 'Background' })).toBeNull();
+    expect(screen.queryByText(/What sets me apart/)).toBeNull();
+  });
+
   it('lets the home page link straight to Principles', () => {
     const { container } = render(<About />);
 

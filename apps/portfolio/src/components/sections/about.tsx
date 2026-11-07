@@ -25,11 +25,6 @@ const stats = [
   { value: 4, suffix: '', label: 'Companies across my career' },
 ];
 
-const BACKGROUND_PARAGRAPHS = [
-  'I lead Digital Product Design at Rakuten, focusing on design systems and workflows that let design and engineering scale together. Before Rakuten, I designed large-scale digital experiences for hundreds of millions of users at Reliance Jio. That taught me that great design relies on strong systems, close teamwork, and consistent execution.',
-  'My work bridges design craftsmanship, frontend development, and AI. What sets me apart is my ability to translate complex ideas into products that are not only functional but so intuitive that the right choice feels obvious.',
-];
-
 /** Counts up from zero the first time it scrolls into view. */
 const StatNumber = ({ value, suffix }: { value: number; suffix: string }) => {
   const ref = useRef<HTMLSpanElement>(null);
@@ -107,36 +102,9 @@ const About = () => {
 
       <WhatIDo />
 
-      <section className="section-padding container">
-        <div className="max-w-2xl space-y-5">
-          <motion.h2
-            className="text-2xl leading-none"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.5, ease: EASE }}
-          >
-            Background
-          </motion.h2>
-          <div className="space-y-6 text-lg leading-relaxed md:space-y-8">
-            {BACKGROUND_PARAGRAPHS.map((text, i) => (
-              <motion.p
-                key={text}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: '-40px' }}
-                transition={{ duration: 0.55, ease: EASE, delay: i * 0.1 }}
-              >
-                {text}
-              </motion.p>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section
         id="principles"
-        className="container scroll-mt-20 pb-12.5 md:pb-15 lg:pb-18.75"
+        className="section-padding container scroll-mt-20"
       >
         <Principles />
       </section>
