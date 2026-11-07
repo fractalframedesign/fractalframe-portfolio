@@ -1,11 +1,6 @@
 'use client';
 
-import {
-  animate,
-  motion,
-  useInView,
-  useReducedMotion,
-} from 'motion/react';
+import { animate, motion, useInView, useReducedMotion } from 'motion/react';
 import { useEffect, useRef } from 'react';
 
 import { DesignMotivation } from '@/components/sections/design-motivation';
@@ -81,8 +76,8 @@ const About = () => {
             className="text-muted-foreground max-w-xl text-lg leading-relaxed"
             variants={riseVariants}
           >
-            Fifteen years of design, frontend engineering, and product
-            strategy, and what that looks like in practice.
+            Fifteen years of design, frontend engineering, and product strategy,
+            and what that looks like in practice.
           </motion.p>
         </motion.div>
       </section>
@@ -96,7 +91,11 @@ const About = () => {
           viewport={{ once: true, margin: '-60px' }}
         >
           {stats.map((stat) => (
-            <motion.li key={stat.label} className="space-y-3" variants={riseVariants}>
+            <motion.li
+              key={stat.label}
+              className="space-y-3"
+              variants={riseVariants}
+            >
               <p className="font-display font-weight-display text-5xl leading-none tracking-tight md:text-6xl">
                 <StatNumber value={stat.value} suffix={stat.suffix} />
               </p>
@@ -135,7 +134,10 @@ const About = () => {
         </div>
       </section>
 
-      <section className="container pb-12.5 md:pb-15 lg:pb-18.75">
+      <section
+        id="principles"
+        className="container scroll-mt-20 pb-12.5 md:pb-15 lg:pb-18.75"
+      >
         <Principles />
       </section>
 

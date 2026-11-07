@@ -18,10 +18,10 @@ describe('Hero', () => {
   it('shows the three intro paragraphs', () => {
     render(<Hero />);
 
-    expect(screen.getByText(/good products need all four to agree/)).toBeTruthy();
     expect(
-      screen.getByText(/clarity comes from systems, not screens/),
+      screen.getByText(/good products need all four to agree/),
     ).toBeTruthy();
+    expect(screen.getByText(/as my north star/)).toBeTruthy();
     expect(screen.getByText(/I write about what I learn on/)).toBeTruthy();
   });
 
@@ -34,6 +34,16 @@ describe('Hero', () => {
     expect(
       screen.getByRole('link', { name: 'Projects' }).getAttribute('href'),
     ).toBe('/projects');
+  });
+
+  it('links the principles to the About page section', () => {
+    render(<Hero />);
+
+    expect(
+      screen
+        .getByRole('link', { name: '5 guiding principles' })
+        .getAttribute('href'),
+    ).toBe('/about#principles');
   });
 
   it('has no buttons, and the name is the only h1', () => {

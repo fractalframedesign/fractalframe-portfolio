@@ -57,8 +57,11 @@ const Intro = () => (
     </p>
     <p>
       Before Rakuten I was at <Key>Reliance Jio</Key>, where design had to work
-      for hundreds of millions of people. That taught me that clarity comes from
-      systems, not screens.
+      for hundreds of millions of people. That gave me{' '}
+      <Link href="/about#principles" className="link-underline text-foreground">
+        5 guiding principles
+      </Link>{' '}
+      that I use as my north star.
     </p>
     <p>
       I write about what I learn on{' '}

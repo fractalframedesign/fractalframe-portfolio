@@ -7,6 +7,13 @@ import About from './about';
 afterEach(cleanup);
 
 describe('About', () => {
+  it('lets the home page link straight to Principles', () => {
+    const { container } = render(<About />);
+
+    const target = container.querySelector('#principles');
+    expect(target?.querySelector('h2')?.textContent).toBe('Principles');
+  });
+
   it('shows Design to motivate right after Principles', () => {
     render(<About />);
 
