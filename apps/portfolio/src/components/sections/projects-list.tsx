@@ -30,11 +30,11 @@ const ProjectRow = ({ project }: { project: ListedProject }) => (
       className="group focus-visible:ring-ring focus-visible:ring-offset-background block space-y-5 rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
     >
       {/* Centred, so a project can show a small logo (wrapperClassName) instead of a full image */}
-      <span className="bg-muted flex aspect-video items-center justify-center overflow-hidden rounded-2xl border">
+      <span className="bg-muted outline-foreground/10 flex aspect-video items-center justify-center overflow-hidden rounded-2xl outline -outline-offset-1">
         <span className={cn('relative size-full', project.wrapperClassName)}>
           <Image
             src={project.image}
-            alt={project.name}
+            alt=""
             fill
             sizes="(min-width: 952px) 912px, 100vw"
             className={cn(
@@ -57,8 +57,9 @@ const ProjectRow = ({ project }: { project: ListedProject }) => (
               />
             )}
           </h2>
-          <span className="text-success flex shrink-0 items-center gap-1.5">
-            View project
+          <span className="text-success-text flex shrink-0 items-center gap-1.5">
+            {/* Arrow only on phones, so long names keep their room */}
+            <span className="max-sm:sr-only">View project</span>
             <ArrowRight
               aria-hidden="true"
               className="size-4 transition-transform group-hover:translate-x-0.5"

@@ -50,7 +50,7 @@ const Experience = () => {
   return (
     <section className="container">
       <div className="mx-auto max-w-2xl space-y-8">
-        <SectionTitle>Professional Journey</SectionTitle>
+        <SectionTitle>Professional journey</SectionTitle>
         <motion.ul
           className="divide-y border-y"
           variants={listVariants}

@@ -22,22 +22,25 @@ export default function Writing({
                 href={`/articles/${article.slug}`}
                 className="group flex items-center gap-4 py-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
-                {article.image && (
-                  <span className="bg-muted relative block h-14 w-20 shrink-0 overflow-hidden rounded-lg border">
+                <span
+                  data-thumbnail
+                  className="bg-muted outline-foreground/10 relative block h-14 w-20 shrink-0 overflow-hidden rounded-lg outline -outline-offset-1"
+                >
+                  {article.image && (
                     <Image
                       src={article.image}
-                      alt={article.title}
+                      alt=""
                       fill
                       sizes="80px"
                       className="object-cover"
                     />
-                  </span>
-                )}
+                  )}
+                </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-2xl leading-snug">
                     {article.title}
                   </span>
-                  <span className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
+                  <span className="text-muted-foreground line-clamp-2 text-base leading-relaxed">
                     {article.description}
                   </span>
                 </span>
@@ -50,7 +53,7 @@ export default function Writing({
           ))}
         </ul>
         <Link href="/articles" className="link-underline text-foreground">
-          Read all
+          Read all stories
         </Link>
       </div>
     </section>

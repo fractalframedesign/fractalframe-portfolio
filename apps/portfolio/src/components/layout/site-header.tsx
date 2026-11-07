@@ -17,7 +17,7 @@ const siteLinks: Array<{ href: string; label: string; icon: LucideIcon }> = [
   { href: '/', label: 'Home', icon: House },
   { href: '/projects', label: 'Projects', icon: GalleryVerticalEnd },
   { href: '/about', label: 'Profile', icon: UserRound },
-  { href: '/articles', label: 'Articles', icon: PencilLine },
+  { href: '/articles', label: 'Stories', icon: PencilLine },
 ];
 
 type NavLinkProps = {
@@ -34,7 +34,8 @@ function NavLink({ link, isActive }: NavLinkProps) {
       asChild
       variant={isActive ? 'secondary' : 'ghost'}
       size="sm"
-      className="group max-sm:px-2.5"
+      // 40px tall on phones, where the links are icon-only touch targets
+      className="group max-sm:h-10 max-sm:px-3"
     >
       <Link
         href={link.href}
@@ -92,7 +93,7 @@ export function SiteHeader({
           <span className="relative size-9 shrink-0 overflow-hidden rounded-lg">
             <Image
               src="/images/home/Kiran-Pingle.png"
-              alt="Kiran Pingle"
+              alt=""
               fill
               className="object-cover"
             />
@@ -105,7 +106,7 @@ export function SiteHeader({
           </span>
         </Link>
 
-        <ul className="flex items-center gap-0.5 sm:gap-1">
+        <ul className="flex items-center gap-2 sm:gap-1">
           {siteLinks.map((link) => {
             const isActive =
               activePath === link.href ||

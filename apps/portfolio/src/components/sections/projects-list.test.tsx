@@ -32,7 +32,8 @@ describe('ProjectsList', () => {
       within(card).getByText('Legal services made accessible'),
     ).toBeTruthy();
     expect(within(card).getByText(/View project/)).toBeTruthy();
-    expect(within(card).getByRole('img', { name: 'Charter' })).toBeTruthy();
+    expect(card.querySelector('img')?.getAttribute('alt')).toBe('');
+    expect(screen.queryByRole('link', { name: /Charter.*Charter/ })).toBeNull();
   });
 
   it('links showcase projects straight to their page, in a new tab when set', () => {

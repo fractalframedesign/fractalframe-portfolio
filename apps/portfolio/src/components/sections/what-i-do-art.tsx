@@ -59,12 +59,12 @@ const PEOPLE = [
 ];
 
 export const TeamArt = () => (
-  <div aria-hidden="true" className="flex pl-3">
+  <div aria-hidden="true" className="flex ps-3">
     {PEOPLE.map((person) => (
       <span
         key={person}
         className={cn(
-          'border-card -ml-3 block size-10 rounded-full border-4',
+          'border-card -ms-3 block size-10 rounded-full border-4',
           person,
         )}
       />

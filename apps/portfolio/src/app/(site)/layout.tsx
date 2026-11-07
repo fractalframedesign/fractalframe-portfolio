@@ -138,8 +138,17 @@ export default async function RootLayout({
                 <NavigationProvider>
                   <StyleGlideProvider />
 
+                  {/* First focusable element: lets keyboard users jump past the menu */}
+                  <a
+                    href="#content"
+                    className="bg-background text-foreground focus-visible:ring-ring sr-only z-60 rounded-md px-4 py-2 focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:start-3 focus-visible:ring-2"
+                  >
+                    Skip to content
+                  </a>
                   <Navbar />
-                  <main className="flex-1 pt-16 md:pt-0">{children}</main>
+                  <main id="content" className="flex-1 pt-16 md:pt-0">
+                    {children}
+                  </main>
                   <Footer />
 
                   {/* Fixed bottom fade for premium feel */}

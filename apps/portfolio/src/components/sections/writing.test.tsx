@@ -44,19 +44,33 @@ describe('Writing', () => {
     expect(screen.getByText('About the second thing')).toBeTruthy();
   });
 
-  it('shows a thumbnail only when the article has an image', () => {
-    render(<Writing articles={[withImage, withoutImage]} />);
+  it('keeps a thumbnail box on every row so titles share one edge', () => {
+    const { container } = render(
+      <Writing articles={[withImage, withoutImage]} />,
+    );
 
-    const images = screen.getAllByRole('img');
+    expect(container.querySelectorAll('[data-thumbnail]')).toHaveLength(2);
+    // Only the article with an image shows one, and it is decorative
+    const images = container.querySelectorAll('img');
     expect(images).toHaveLength(1);
-    expect(images[0].getAttribute('alt')).toBe('First article');
+    expect(images[0].getAttribute('alt')).toBe('');
+  });
+
+  it('names each link once', () => {
+    render(<Writing articles={[withImage]} />);
+
+    expect(
+      screen.queryByRole('link', { name: /First article.*First article/ }),
+    ).toBeNull();
   });
 
   it('links to all articles', () => {
     render(<Writing articles={[withImage]} />);
 
     expect(
-      screen.getByRole('link', { name: /read all/i }).getAttribute('href'),
+      screen
+        .getByRole('link', { name: 'Read all stories' })
+        .getAttribute('href'),
     ).toBe('/articles');
   });
 });

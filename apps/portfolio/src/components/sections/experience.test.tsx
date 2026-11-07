@@ -27,11 +27,11 @@ describe('Experience', () => {
     expect(screen.getByText('2008 - 2015')).toBeTruthy();
   });
 
-  it('has the Professional Journey title and no skills list', () => {
+  it('has the Professional journey title and no skills list', () => {
     render(<Experience />);
 
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Professional Journey' }),
+      screen.getByRole('heading', { level: 2, name: 'Professional journey' }),
     ).toBeTruthy();
     expect(screen.queryByText('Stakeholder Management')).toBeNull();
   });

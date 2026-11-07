@@ -30,7 +30,7 @@ const ProjectHero = ({
     <section className="hero-padding">
       <div className="container space-y-6 md:space-y-8">
         {category && (
-          <div className="text-success text-xs font-semibold tracking-widest uppercase">
+          <div className="text-success-text text-xs font-semibold tracking-widest uppercase">
             {PROJECT_CATEGORY_LABELS[category] ?? category}
           </div>
         )}

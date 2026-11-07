@@ -20,8 +20,9 @@ describe('Hero', () => {
   it('shows the name row', () => {
     renderHero();
 
-    const photo = screen.getByRole('img', { name: 'Kiran Pingle' });
-    expect(photo.getAttribute('src')).toContain('Kiran-Pingle.png');
+    // The name sits right beside the photo, so the photo is decorative
+    const photo = document.querySelector('img[src*="Kiran-Pingle"]');
+    expect(photo?.getAttribute('alt')).toBe('');
     expect(screen.getByText('Product Designer')).toBeTruthy();
   });
 
@@ -32,14 +33,14 @@ describe('Hero', () => {
       screen.getByText(/good products need all four to agree/),
     ).toBeTruthy();
     expect(screen.getByText(/as my north star/)).toBeTruthy();
-    expect(screen.getByText(/I write about what I learn on/)).toBeTruthy();
+    expect(screen.getByText(/I write about what I learn in/)).toBeTruthy();
   });
 
   it('links to articles and projects in the last paragraph', () => {
     renderHero();
 
     expect(
-      screen.getByRole('link', { name: 'Articles' }).getAttribute('href'),
+      screen.getByRole('link', { name: 'Stories' }).getAttribute('href'),
     ).toBe('/articles');
     expect(
       screen.getByRole('link', { name: 'Projects' }).getAttribute('href'),
@@ -59,9 +60,9 @@ describe('Hero', () => {
   it('shows the in-text links in the green accent', () => {
     renderHero();
 
-    for (const name of ['5 guiding principles', 'Articles', 'Projects']) {
+    for (const name of ['5 guiding principles', 'Stories', 'Projects']) {
       expect(screen.getByRole('link', { name }).className).toContain(
-        'text-success',
+        'text-success-text',
       );
     }
   });

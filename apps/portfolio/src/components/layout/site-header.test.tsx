@@ -15,6 +15,9 @@ describe('SiteHeader', () => {
     const home = screen.getByRole('link', { name: /Kiran Pingle/ });
     expect(home.getAttribute('href')).toBe('/');
     expect(within(home).getByText('Product Designer')).toBeTruthy();
+    expect(
+      screen.queryByRole('link', { name: /Kiran Pingle.*Kiran Pingle/ }),
+    ).toBeNull();
   });
 
   it('starts the menu with a Home link', () => {
@@ -25,7 +28,7 @@ describe('SiteHeader', () => {
       'Home',
       'Projects',
       'Profile',
-      'Articles',
+      'Stories',
     ]);
     expect(links[0].getAttribute('href')).toBe('/');
   });

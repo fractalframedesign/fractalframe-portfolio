@@ -26,10 +26,10 @@ export default function Highlights({
               rel="noopener noreferrer"
               className="group block space-y-3 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
-              <span className="bg-muted relative block aspect-video overflow-hidden rounded-xl border">
+              <span className="bg-muted outline-foreground/10 relative block aspect-video overflow-hidden rounded-xl outline -outline-offset-1">
                 <Image
                   src={project.image}
-                  alt={project.name}
+                  alt=""
                   fill
                   sizes="(min-width: 640px) 320px, 100vw"
                   className="object-cover transition-transform duration-500 group-hover:scale-102"
@@ -39,7 +39,7 @@ export default function Highlights({
                 <span className="block text-lg leading-snug">
                   {project.name}
                 </span>
-                <span className="text-muted-foreground block text-sm leading-relaxed">
+                <span className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
                   {project.description}
                 </span>
               </span>
