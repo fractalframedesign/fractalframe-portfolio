@@ -10,15 +10,15 @@ Replace fictional, template-derived project content with clear placeholders so t
 
 Update these 14 projects under `apps/portfolio/content/projects/`:
 
-- `scalar`, `plasma`, `bloom`, `relative`, `echo-ui`, `streamline`, `happy-stats`
-- `neobase`, `cactus-plant`, `sonic`, `stellar`, `justos`, `charter`, `echo`
+- `echo-ui`, `justos`, `happy-stats`, `cactus-plant`, `stellar`, `neobase`
+- `charter`, `echo`, `plasma`, `scalar`, `sonic`, `streamline`, `relative`, `bloom`
 
 The existing showcase projects (`fintech-components`, `finance-dashboard`, and `smart-home-dashboard`) are real project entries and are not part of this replacement.
 
 ## Design
 
 - Preserve all 14 slugs, routes, project ordering, and `moreProjects` references.
-- Rename the placeholder entries `Project 01` through `Project 14`, in the order listed above, so fictional sample names are not mistaken for actual client or product work.
+- Rename the placeholder entries `Project 01` through `Project 14`, in the existing projects-page order, so fictional sample names are not mistaken for actual client or product work.
 - Mark each placeholder as `upcoming`.
 - Replace each summary and detail paragraph with concise, explicit prompts for the real project summary, context, role, and work. Remove unsupported metrics, implementation claims, and case-study narrative.
 - Clear technology stacks and outcomes until verified information is provided.
