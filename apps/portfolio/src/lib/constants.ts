@@ -30,3 +30,9 @@ export const LOCATION = {
   timeZone: 'Asia/Tokyo',
 };
 
+/** Showcase projects on the home page Highlights row, in order */
+export const HIGHLIGHT_PROJECT_SLUGS = [
+  'fintech-components',
+  'finance-dashboard',
+  'smart-home-dashboard',
+] as const;

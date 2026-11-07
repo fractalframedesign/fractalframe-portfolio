@@ -1,5 +1,6 @@
 import { createContentSource } from '@/lib/content';
 import { projectSchema } from '@/lib/schemas';
+import type { ProjectFrontmatter } from '@/lib/types';
 
 const projects = createContentSource({
   dir: 'projects',
@@ -10,3 +11,11 @@ const projects = createContentSource({
 export const getProjectSlugs = projects.getSlugs;
 export const getProjectBySlug = projects.getBySlug;
 export const getAllProjects = projects.getAll;
+
+/** Frontmatter for the given slugs, in that order; unknown slugs are skipped */
+export async function getProjectsBySlugs(
+  slugs: readonly string[],
+): Promise<ProjectFrontmatter[]> {
+  const entries = await Promise.all(slugs.map(getProjectBySlug));
+  return entries.flatMap((entry) => (entry ? [entry.frontmatter] : []));
+}
