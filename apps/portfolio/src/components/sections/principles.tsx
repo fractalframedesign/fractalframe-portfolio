@@ -47,7 +47,7 @@ export function Principles() {
           5 principles guide how I approach the design engineering.
         </p>
       </div>
-      <ul className="space-y-8">
+      <ul className="max-w-2xl space-y-8">
         {principles.map((principle, index) => (
           <motion.li
             key={principle.title}
@@ -63,7 +63,7 @@ export function Principles() {
             <h3 className="text-xl leading-snug md:text-2xl">
               {principle.title}
             </h3>
-            <p className="text-muted-foreground col-start-2 max-w-2xl text-lg leading-relaxed">
+            <p className="text-muted-foreground col-start-2 text-lg leading-relaxed">
               {principle.description}
             </p>
           </motion.li>

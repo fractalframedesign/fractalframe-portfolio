@@ -76,7 +76,7 @@ export function DesignMotivation() {
           </p>
         </div>
       </div>
-      <ol className="space-y-8">
+      <ol className="max-w-2xl space-y-8">
         {levels.map((level, index) => (
           <motion.li
             key={level.title}
@@ -90,7 +90,7 @@ export function DesignMotivation() {
               {String(index + 1).padStart(2, '0')}
             </span>
             <h3 className="text-xl leading-snug md:text-2xl">{level.title}</h3>
-            <p className="text-muted-foreground col-start-2 max-w-2xl text-lg leading-relaxed">
+            <p className="text-muted-foreground col-start-2 text-lg leading-relaxed">
               {level.description}
             </p>
           </motion.li>
