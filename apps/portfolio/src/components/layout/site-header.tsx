@@ -1,6 +1,12 @@
 'use client';
 
-import { GalleryVerticalEnd, type LucideIcon, PencilLine, UserRound } from 'lucide-react';
+import {
+  GalleryVerticalEnd,
+  House,
+  type LucideIcon,
+  PencilLine,
+  UserRound,
+} from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -8,9 +14,10 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 const siteLinks: Array<{ href: string; label: string; icon: LucideIcon }> = [
+  { href: '/', label: 'Home', icon: House },
   { href: '/projects', label: 'Projects', icon: GalleryVerticalEnd },
   { href: '/about', label: 'Profile', icon: UserRound },
-  { href: '/articles', label: 'Articles', icon: PencilLine },
+  { href: '/articles', label: 'Stories', icon: PencilLine },
 ];
 
 type NavLinkProps = {
@@ -27,7 +34,8 @@ function NavLink({ link, isActive }: NavLinkProps) {
       asChild
       variant={isActive ? 'secondary' : 'ghost'}
       size="sm"
-      className="group max-sm:px-2.5"
+      // 40px tall on phones, where the links are icon-only touch targets
+      className="group max-sm:h-10 max-sm:px-3"
     >
       <Link
         href={link.href}
@@ -73,31 +81,36 @@ export function SiteHeader({
       <nav
         aria-label="Main"
         className={cn(
-          'mx-auto flex items-center gap-2 py-3 md:gap-4',
+          // Three columns so the links sit in the true centre
+          'mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-2 py-3 md:gap-4',
           widthClassName,
         )}
       >
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-3 font-medium"
+          className="flex shrink-0 items-center gap-3 justify-self-start font-medium"
         >
-          <span className="relative size-9 shrink-0 overflow-hidden rounded-full ">
+          <span className="relative size-9 shrink-0 overflow-hidden rounded-lg">
             <Image
               src="/images/home/Kiran-Pingle.png"
-              alt="Kiran Pingle"
+              alt=""
               fill
               className="object-cover"
             />
           </span>
-          <span className="hidden text-sm whitespace-nowrap sm:inline">
-            Kiran Pingle
+          <span className="hidden flex-col whitespace-nowrap sm:flex">
+            <span className="text-sm leading-tight">Kiran Pingle</span>
+            <span className="text-muted-foreground text-xs leading-tight">
+              Product Designer
+            </span>
           </span>
         </Link>
 
-        <ul className="flex items-center gap-0.5 sm:gap-1">
+        <ul className="flex items-center gap-2 sm:gap-1">
           {siteLinks.map((link) => {
             const isActive =
-              activePath === link.href || activePath.startsWith(`${link.href}/`);
+              activePath === link.href ||
+              activePath.startsWith(`${link.href}/`);
             return (
               <li key={link.href}>
                 <NavLink link={link} isActive={isActive} />
@@ -106,7 +119,7 @@ export function SiteHeader({
           })}
         </ul>
 
-        <div className="ml-auto shrink-0">{themeToggle}</div>
+        <div className="shrink-0 justify-self-end">{themeToggle}</div>
       </nav>
     </header>
   );

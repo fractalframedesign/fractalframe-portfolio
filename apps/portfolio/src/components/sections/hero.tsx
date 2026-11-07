@@ -1,12 +1,19 @@
 'use client';
 
-import { ArrowRight } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'motion/react';
+import Image from 'next/image';
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import { useRef } from 'react';
 
+import {
+  DribbbleIcon,
+  LinkedInIcon,
+  MediumIcon,
+} from '@/components/icons/social';
 import { LocalTime } from '@/components/local-time';
 import { Button } from '@/components/ui/button';
+import { PROFILE_LINKS } from '@/lib/constants';
 
 const containerVariants = {
   hidden: {},
@@ -22,6 +29,93 @@ const itemVariants = {
   },
 };
 
+const PROFILE_ICONS = {
+  LinkedIn: LinkedInIcon,
+  Medium: MediumIcon,
+  Dribbble: DribbbleIcon,
+};
+
+const ProfileLinks = () => (
+  <motion.ul
+    className="mt-6 -ms-2 flex items-center gap-1"
+    variants={itemVariants}
+  >
+    {PROFILE_LINKS.map(({ name, href }) => {
+      const Icon = PROFILE_ICONS[name];
+      return (
+        <li key={name}>
+          <Button asChild variant="ghost" size="icon" tooltip={name}>
+            <a
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={name}
+            >
+              <Icon aria-hidden="true" className="size-4" />
+            </a>
+          </Button>
+        </li>
+      );
+    })}
+  </motion.ul>
+);
+
+const Key = ({ children }: { children: ReactNode }) => (
+  <strong className="text-foreground font-medium">{children}</strong>
+);
+
+const NameRow = () => (
+  <motion.div className="mt-8 flex items-center gap-3" variants={itemVariants}>
+    <Image
+      src="/images/home/Kiran-Pingle.png"
+      alt=""
+      width={48}
+      height={48}
+      priority
+      className="size-12 rounded-xl object-cover"
+    />
+    <div>
+      <h1 className="text-xl leading-snug">Kiran Pingle</h1>
+      <p className="text-muted-foreground leading-snug">Product Designer</p>
+    </div>
+  </motion.div>
+);
+
+const Intro = () => (
+  <motion.div
+    className="text-muted-foreground mt-8 space-y-4 text-lg leading-relaxed"
+    variants={itemVariants}
+  >
+    <p>
+      I lead product design at <Key>Rakuten</Key>. I work across{' '}
+      <Key>strategy</Key>, <Key>interaction</Key>, <Key>design systems</Key>,
+      and <Key>frontend</Key>, because good products need all four to agree.
+    </p>
+    <p>
+      Before Rakuten I was at <Key>Reliance Jio</Key>, where design had to work
+      for hundreds of millions of people. That gave me{' '}
+      <Link
+        href="/about#principles"
+        className="link-underline text-success-text"
+      >
+        5 guiding principles
+      </Link>{' '}
+      that I use as my north star.
+    </p>
+    <p>
+      I write about what I learn in{' '}
+      <Link href="/articles" className="link-underline text-success-text">
+        Stories
+      </Link>
+      , and share my work in{' '}
+      <Link href="/projects" className="link-underline text-success-text">
+        Projects
+      </Link>
+      .
+    </p>
+  </motion.div>
+);
+
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
@@ -35,60 +129,25 @@ const Hero = () => {
   return (
     <section
       ref={sectionRef}
-      className="border-border/60 relative overflow-hidden border-b pt-15 pb-12.5 md:pt-20 md:pb-15 lg:pt-30 lg:pb-18.75"
+      className="relative overflow-hidden pt-15 md:pt-20 lg:pt-30"
     >
-      <motion.div
-        className="container flex flex-col items-center gap-8 text-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={{ y, opacity }}
-      >
-        <motion.div variants={itemVariants}>
-          <LocalTime />
-        </motion.div>
-
-        <motion.div className="flex flex-col gap-1" variants={itemVariants}>
-          <span className="text-xl leading-snug">
-            👋 Hi! I am Kiran Pingle
-          </span>
-          <span className="text-muted-foreground text-lg">
-            Digital Product Designer and Design Engineer
-          </span>
-        </motion.div>
-
-        <motion.h1
-          className="max-w-3xl text-4xl leading-[1.08] text-balance md:text-5xl"
-          variants={itemVariants}
-        >
-          I lead product design and build the systems that make complex products feel clear.
-        </motion.h1>
-
-        <motion.p
-          className="text-muted-foreground max-w-xl text-xl leading-relaxed"
-          variants={itemVariants}
-        >
-          I bring product strategy, design systems, and frontend engineering together to shape clear, scalable digital experiences.
-        </motion.p>
-
+      <div className="container">
         <motion.div
-          className="flex flex-wrap items-center justify-center gap-3"
-          variants={itemVariants}
+          className="mx-auto max-w-2xl"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          style={{ y, opacity }}
         >
-          <Button asChild size="lg">
-            <Link href="/projects">
-              Explore projects <ArrowRight aria-hidden="true" />
-            </Link>
-          </Button>
-          <Button asChild variant="outline" size="lg">
-            <Link href="/about"> Know More </Link>
-          </Button>
-        </motion.div>
+          <motion.div variants={itemVariants}>
+            <LocalTime />
+          </motion.div>
 
-        <motion.p className="text-muted-foreground text-sm" variants={itemVariants}>
-          Product Design Director at Rakuten · Previously at Reliance Jio
-        </motion.p>
-      </motion.div>
+          <NameRow />
+          <Intro />
+          <ProfileLinks />
+        </motion.div>
+      </div>
     </section>
   );
 };

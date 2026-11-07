@@ -30,3 +30,34 @@ export const LOCATION = {
   timeZone: 'Asia/Tokyo',
 };
 
+/** Showcase projects on the home page Highlights row, in order */
+export const HIGHLIGHT_PROJECT_SLUGS = [
+  'fintech-components',
+  'finance-dashboard',
+  'smart-home-dashboard',
+] as const;
+
+/** Articles in the home page Writing list, in order */
+export const HOME_ARTICLE_SLUGS = [
+  'design-to-motivate',
+  'stop-bringing-more-options-to-the-meeting',
+  'nature-shipped-it-first',
+  'stop-making-users-read-your-dashboard',
+  'proactive-ux',
+] as const;
+
+// TODO(Kiran): replace with your own profile addresses before merging
+/** Profiles shown as icons under the home intro */
+export const PROFILE_LINKS = [
+  { name: 'LinkedIn', href: 'https://www.linkedin.com/' },
+  { name: 'Medium', href: 'https://medium.com/' },
+  { name: 'Dribbble', href: 'https://dribbble.com/' },
+] as const;
+
+/** Category label shown above a project's name (project pages and the Projects list) */
+export const PROJECT_CATEGORY_LABELS: Record<string, string> = {
+  featured: 'Featured Project',
+  'open-source': 'Open Source',
+  personal: 'Personal Project',
+  upcoming: 'Upcoming Project',
+};

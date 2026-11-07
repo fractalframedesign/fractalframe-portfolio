@@ -34,6 +34,7 @@
 ## Typography
 
 - Fonts: Geist Sans for all UI, headings and short copy; Source Serif 4 (`font-serif`) only for long-form article body text
+- Handwritten section titles use Caveat (`font-hand`), only through `SectionTitle` (`src/components/section-title.tsx`). Don't use it for anything else
 - Monospace (`font-mono`, system stack) only for code and demo labels
 - already font medium set in globals.css don't need to set it again
 - Headings use `font-display` and `font-weight-display` utilities
