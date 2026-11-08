@@ -43,6 +43,7 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-logo: var(--logo);
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -96,6 +97,7 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
+  --logo: #131313;
 
   /* Neutral fallbacks for the project palette */
   --accent-1: oklch(0.55 0.2 275);
@@ -130,6 +132,7 @@
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.556 0 0);
+  --logo: #dedede;
 }
 
 
