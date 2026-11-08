@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="overflow-hidden rounded-3xl bg-canvas">
+    <div data-preview="finance" className="overflow-hidden rounded-3xl bg-background">
       <FinanceDashboard />
     </div>
   );

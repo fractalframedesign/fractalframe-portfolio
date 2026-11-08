@@ -3,11 +3,11 @@
 import { MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Checkbox } from '@/components/project-demos/fintech-components/ui/checkbox'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface NotificationPreference {
   id: string
@@ -33,7 +33,7 @@ const DEFAULT_PREFERENCES: NotificationPreference[] = [
 
 function NotificationPreferencesSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-36" />
         <Skeleton className="size-9 rounded-full" />
@@ -69,7 +69,7 @@ export function NotificationPreferences({
   }
 
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh preferences" onClick={refresh}>

@@ -3,13 +3,13 @@
 import { ArrowUp, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Separator } from '@/components/project-demos/fintech-components/ui/separator'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface InvestmentCategory {
   id: string
@@ -87,7 +87,7 @@ export function MicroInvestments({
               <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
               {isNew && <Badge className="bg-primary px-3 py-1 text-base font-semibold text-primary-foreground">New</Badge>}
             </div>
-            <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh investments" onClick={refresh}>
+            <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh investments" onClick={refresh}>
               <MoreHorizontal className="size-4" />
             </Button>
           </div>

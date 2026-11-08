@@ -1,7 +1,7 @@
 import { Download } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/project-demos/fintech-components/shell-ui/button';
+import { Card, CardContent } from '@/components/project-demos/fintech-components/shell-ui/card';
 
 const principles = [
   {

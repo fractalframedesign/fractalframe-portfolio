@@ -3,11 +3,11 @@
 import { Check, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { Slider } from '@/components/project-demos/fintech-components/ui/slider'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface SavingsGoalsProps {
   className?: string
@@ -143,7 +143,7 @@ export function SavingsGoals({
       <Button
         variant="default"
         size="lg"
-        className="w-full rounded-2xl py-6 text-lg"
+        className="w-full"
         onClick={handleSave}
       >
         {saved ? (

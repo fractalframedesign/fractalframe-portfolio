@@ -29,20 +29,20 @@ import {
   WalletCards,
 } from 'lucide-react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Progress } from '@/components/project-demos/fintech-components/ui/progress'
 import { Slider } from '@/components/project-demos/fintech-components/ui/slider'
 import { Switch } from '@/components/project-demos/fintech-components/ui/switch'
-import { cn } from '@/lib/utils'
 
-const mastercardLogo = '/images/projects/fintech-components/cards/mastercard-logo.svg'
-const sendMoneyAvatar1 = '/images/projects/fintech-components/figma-widgets/send-money-avatar-1.png'
-const sendMoneyAvatar2 = '/images/projects/fintech-components/figma-widgets/send-money-avatar-2.png'
-const sendMoneyAvatar3 = '/images/projects/fintech-components/figma-widgets/send-money-avatar-3.png'
-const sendMoneyAvatarMain = '/images/projects/fintech-components/figma-widgets/send-money-avatar-main.png'
-const sendMoneyAvatar5 = '/images/projects/fintech-components/figma-widgets/send-money-avatar-5.png'
-const sendMoneyAvatar6 = '/images/projects/fintech-components/figma-widgets/send-money-avatar-6.png'
-const sendMoneyAvatar7 = '/images/projects/fintech-components/figma-widgets/send-money-avatar-7.png'
+const mastercardLogo = '/showcase/fintech-components/cards/mastercard-logo.svg'
+const sendMoneyAvatar1 = '/showcase/fintech-components/figma-widgets/send-money-avatar-1.png'
+const sendMoneyAvatar2 = '/showcase/fintech-components/figma-widgets/send-money-avatar-2.png'
+const sendMoneyAvatar3 = '/showcase/fintech-components/figma-widgets/send-money-avatar-3.png'
+const sendMoneyAvatarMain = '/showcase/fintech-components/figma-widgets/send-money-avatar-main.png'
+const sendMoneyAvatar5 = '/showcase/fintech-components/figma-widgets/send-money-avatar-5.png'
+const sendMoneyAvatar6 = '/showcase/fintech-components/figma-widgets/send-money-avatar-6.png'
+const sendMoneyAvatar7 = '/showcase/fintech-components/figma-widgets/send-money-avatar-7.png'
 
 type WidgetKind =
   | 'scan'
@@ -131,13 +131,13 @@ const figmaWidgets: FigmaWidget[] = [
 export const FIGMA_BANKING_WIDGET_COUNT = figmaWidgets.length
 
 const sendMoneyAvatars = [
-  { src: sendMoneyAvatar1, size: 70, bg: '#bce9d3' },
-  { src: sendMoneyAvatar2, size: 80, bg: '#b2edff' },
-  { src: sendMoneyAvatar3, size: 90, bg: '#f0e8ff' },
-  { src: sendMoneyAvatarMain, size: 104, bg: '#fccbc9', main: true },
-  { src: sendMoneyAvatar5, size: 90, bg: '#bce9d3' },
-  { src: sendMoneyAvatar6, size: 80, bg: '#b2edff' },
-  { src: sendMoneyAvatar7, size: 70, bg: '#f0e8ff' },
+  { src: sendMoneyAvatar1, size: 70, bg: 'color-mix(in oklch, var(--chart-2) 20%, transparent)' },
+  { src: sendMoneyAvatar2, size: 80, bg: 'color-mix(in oklch, var(--chart-1) 20%, transparent)' },
+  { src: sendMoneyAvatar3, size: 90, bg: 'color-mix(in oklch, var(--chart-4) 20%, transparent)' },
+  { src: sendMoneyAvatarMain, size: 104, bg: 'color-mix(in oklch, var(--chart-5) 20%, transparent)', main: true },
+  { src: sendMoneyAvatar5, size: 90, bg: 'color-mix(in oklch, var(--chart-2) 20%, transparent)' },
+  { src: sendMoneyAvatar6, size: 80, bg: 'color-mix(in oklch, var(--chart-1) 20%, transparent)' },
+  { src: sendMoneyAvatar7, size: 70, bg: 'color-mix(in oklch, var(--chart-4) 20%, transparent)' },
 ]
 
 export function FigmaBankingWidgets({ className }: { className?: string }) {
@@ -149,7 +149,7 @@ export function FigmaBankingWidgets({ className }: { className?: string }) {
           Components from the Banking Widgets Figma canvas, adapted to this app&apos;s theme tokens.
         </p>
       </div>
-      <div className="flex flex-wrap justify-center gap-8 lg:justify-start">
+      <div className="grid grid-cols-1 justify-items-center gap-8 lg:grid-cols-2">
         {figmaWidgets.map((widget) => (
           <FigmaWidgetCard key={widget.title} widget={widget} />
         ))}
@@ -160,7 +160,7 @@ export function FigmaBankingWidgets({ className }: { className?: string }) {
 
 function FigmaWidgetCard({ widget }: { widget: FigmaWidget }) {
   return (
-    <article className="flex min-h-152 max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-sm">
+    <article className="flex min-h-120 w-full max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-sm">
       <WidgetHeader widget={widget} />
       <div className="flex flex-1 flex-col justify-between gap-5">
         <WidgetBody widget={widget} />
@@ -281,7 +281,7 @@ function WidgetFooter({ widget }: { widget: FigmaWidget }) {
   }
 
   return (
-    <Button className="h-16 w-full rounded-2xl text-lg font-bold" size="lg">
+    <Button className="w-full" size="lg">
       {labelByKind[widget.kind] ?? 'Continue'}
     </Button>
   )
@@ -473,7 +473,7 @@ function ReceiptWidget() {
         </div>
         <ReviewBox rows={[['Receipt', '#RC-2048'], ['Merchant', 'Apple Store'], ['Total', '$240.24']]} emphasizedLast />
       </div>
-      <Button variant="outline" className="h-12 rounded-full">
+      <Button variant="outline" size="lg" className="rounded-full">
         <Download className="size-4" />
         Download PDF
       </Button>

@@ -3,11 +3,11 @@
 import { MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { Stepper, type StepStatus } from '@/components/project-demos/fintech-components/ui/step'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface VerificationStepsProps {
   className?: string
@@ -73,7 +73,7 @@ export function VerificationSteps({
 
       <Button
         size="lg"
-        className="h-11 w-full rounded-xl"
+        className="w-full"
         onClick={() => {
           if (isLast) refresh()
           else setActiveIndex((i) => Math.min(i + 1, labels.length - 1))

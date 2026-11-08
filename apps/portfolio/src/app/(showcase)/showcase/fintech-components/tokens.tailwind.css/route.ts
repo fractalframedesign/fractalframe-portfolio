@@ -1,4 +1,4 @@
-import { buildTailwindTokens } from '@/lib/tailwind-tokens';
+import { buildTailwindTokens } from '@/components/project-demos/fintech-components/lib/tailwind-tokens';
 
 export const dynamic = 'force-static';
 

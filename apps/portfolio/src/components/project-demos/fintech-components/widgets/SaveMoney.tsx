@@ -3,12 +3,12 @@
 import { ChevronDown, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface SavePlan {
   id: 'easy' | 'medium' | 'hard'
@@ -98,7 +98,7 @@ export function SaveMoney({
               {periodLabel}
               <ChevronDown className="size-6" />
             </button>
-            <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh savings plan" onClick={refresh}>
+            <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh savings plan" onClick={refresh}>
               <MoreHorizontal className="size-4" />
             </Button>
           </div>
@@ -113,7 +113,7 @@ export function SaveMoney({
 
       <div className="flex w-full flex-col gap-8">
         <div className="relative flex h-8 w-full items-center">
-          <div className="absolute h-4 w-full overflow-hidden rounded-full bg-gradient-to-r from-[#00e5c3] via-[#14c1f9] to-[#711bfe]" />
+          <div className="absolute h-4 w-full overflow-hidden rounded-full bg-gradient-to-r from-chart-2 via-chart-1 to-chart-4" />
           <input
             type="range"
             min={0}

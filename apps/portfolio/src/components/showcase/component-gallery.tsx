@@ -95,7 +95,7 @@ export default function ComponentGallery({
               className="mb-8 break-inside-avoid scroll-mt-24"
             >
               <article className="mx-auto w-fit max-w-full space-y-3">
-                <div className="bg-muted/60 flex justify-center overflow-x-auto rounded-3xl p-3 sm:rounded-4xl sm:p-4">
+                <div className="bg-muted/60 flex justify-center overflow-x-auto rounded-[2.5rem] p-4">
                   <div className="w-120 shrink-0">{item.preview}</div>
                 </div>
 

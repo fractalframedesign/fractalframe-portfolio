@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/project-demos/rakuten-link/lib/utils';
 
 import { Avatar } from './Avatar';
 
@@ -34,13 +34,13 @@ const ControlButton = ({
   >
     <span
       className={cn(
-        'flex size-16 items-center justify-center rounded-full transition-colors group-focus-visible:ring-2 group-focus-visible:ring-white',
-        pressed ? 'bg-white text-accent-3' : 'bg-white/10 text-white',
+        'flex size-16 items-center justify-center rounded-full transition-colors group-focus-visible:ring-2 group-focus-visible:ring-primary-foreground',
+        pressed ? 'bg-card text-foreground' : 'bg-primary-foreground/10 text-primary-foreground',
       )}
     >
       <Icon aria-hidden="true" className="size-6" />
     </span>
-    <span className="text-sm text-white" aria-hidden="true">
+    <span className="text-sm text-primary-foreground" aria-hidden="true">
       {label}
     </span>
   </button>
@@ -83,24 +83,24 @@ export function CallScreen({
       role="dialog"
       aria-label={`Call with ${name}`}
       className={cn(
-        'from-accent-3 to-accent-3-deep absolute inset-0 z-20 flex flex-col items-center bg-linear-to-b px-6 pt-12 pb-10 text-white',
+        'from-foreground to-[color-mix(in_oklab,var(--foreground)_35%,black)] absolute inset-0 z-20 flex flex-col items-center bg-linear-to-b px-6 pt-12 pb-10 text-background',
         className,
       )}
     >
       <ChevronDown
         aria-hidden="true"
-        className="absolute start-5 top-12 size-8 rounded-full bg-white p-2 text-accent-3"
+        className="absolute start-5 top-12 size-8 rounded-full bg-card p-2 text-foreground"
       />
       <p className="font-(family-name:--font-link-display) text-2xl font-medium">
         {name}
       </p>
-      <p className="font-(family-name:--font-link-display) mt-2 font-light text-white/80 tabular-nums">
+      <p className="font-(family-name:--font-link-display) mt-2 font-light text-primary-foreground/80 tabular-nums">
         {phone}
       </p>
       <p className="mt-2" aria-live="polite">
         {timer ?? (
           <>
-            Calling via <span className="text-accent-1">Rakuten Link</span>
+            Calling via <span className="text-primary">Rakuten Link</span>
           </>
         )}
       </p>
@@ -108,11 +108,11 @@ export function CallScreen({
       <span className="mt-16 flex flex-1 items-start justify-center">
         <span
           className={cn(
-            'rounded-full bg-white/15 p-5',
+            'rounded-full bg-primary-foreground/15 p-5',
             timer === null && 'motion-safe:animate-pulse',
           )}
         >
-          <Avatar name={name} size="xl" className="ring-accent-3 ring-2" />
+          <Avatar name={name} size="xl" className="ring-foreground ring-2" />
         </span>
       </span>
 
@@ -135,7 +135,7 @@ export function CallScreen({
           type="button"
           aria-label="End call"
           onClick={onEnd}
-          className="bg-destructive mx-auto flex size-16 items-center justify-center rounded-full text-white outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+          className="bg-destructive mx-auto flex size-16 items-center justify-center rounded-full text-primary-foreground outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground focus-visible:ring-offset-2"
         >
           <PhoneOff aria-hidden="true" className="size-7" />
         </button>

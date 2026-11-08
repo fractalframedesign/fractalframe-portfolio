@@ -5,8 +5,8 @@ import { AnimatePresence, motion } from 'motion/react'
 import * as React from 'react'
 
 import { CodeBlock } from '@/components/project-demos/fintech-components/code-block'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
-import { cn } from '@/lib/utils'
 
 export function WidgetCard({
   id,

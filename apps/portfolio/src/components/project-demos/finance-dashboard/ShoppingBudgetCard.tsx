@@ -3,7 +3,7 @@
 import { ShoppingBag } from 'lucide-react'
 import { motion } from 'motion/react'
 
-import { Tile } from '@/components/ui/tile'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type ShoppingBudgetCardProps = {
   remainPercent?: number
@@ -20,7 +20,7 @@ export function ShoppingBudgetCard({
 
   return (
     <Tile className="items-center gap-4 text-center">
-      <span className="self-start text-xs font-semibold tracking-widest text-ink-muted">
+      <span className="self-start text-xs font-semibold tracking-widest text-muted-foreground">
         SHOPPING
       </span>
 
@@ -32,7 +32,7 @@ export function ShoppingBudgetCard({
             stroke="currentColor"
             strokeWidth="8"
             strokeLinecap="round"
-            className="text-white/10"
+            className="text-foreground/10"
           />
           <motion.path
             d="M 14 60 A 46 46 0 0 1 106 60"
@@ -40,7 +40,7 @@ export function ShoppingBudgetCard({
             stroke="currentColor"
             strokeWidth="8"
             strokeLinecap="round"
-            className="text-accent-1"
+            className="text-primary"
             strokeDasharray={circumference}
             initial={{ strokeDashoffset: circumference }}
             animate={{ strokeDashoffset: offset }}
@@ -48,12 +48,12 @@ export function ShoppingBudgetCard({
           />
         </svg>
         <div className="absolute bottom-1 flex flex-col items-center gap-1">
-          <ShoppingBag className="h-4 w-4 text-accent-1" />
-          <span className="text-xs tracking-wide text-ink-muted">REMAIN</span>
+          <ShoppingBag className="h-4 w-4 text-primary" />
+          <span className="text-xs tracking-wide text-muted-foreground">REMAIN</span>
         </div>
       </div>
 
-      <div className="flex w-full justify-between text-xs text-ink-muted">
+      <div className="flex w-full justify-between text-xs text-muted-foreground">
         <span>0%</span>
         <span>50%</span>
         <span>100%</span>
@@ -61,7 +61,7 @@ export function ShoppingBudgetCard({
 
       <p className="self-start text-xl font-semibold">
         {remainAmount.split('.')[0]}
-        <span className="text-ink-muted">.{remainAmount.split('.')[1]}</span>
+        <span className="text-muted-foreground">.{remainAmount.split('.')[1]}</span>
       </p>
     </Tile>
   )

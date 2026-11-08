@@ -1,4 +1,4 @@
-import './theme.css';
+import '@/components/project-demos/fintech-components/theme.css';
 import '@/components/project-demos/fintech-components/tokens/tokens.css';
 
 import { ShowcaseShell } from '@/components/showcase/showcase-shell';

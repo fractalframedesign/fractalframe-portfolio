@@ -1,0 +1,66 @@
+/* Smart home dashboard palette, scoped to this project only.
+   --brand-primary and --brand-secondary are the only colour inputs. Every
+   token below derives from them, so changing one value re-colours the demo. */
+[data-project='smart-home'] {
+  --brand-primary: #5b6bf5;
+  --brand-secondary: #e2ff4d;
+
+  /* Header accents for the showcase shell */
+  --accent-1: var(--brand-primary);
+  --accent-2: var(--brand-secondary);
+}
+
+/* Standard shadcn token names for the dashboard (light). */
+[data-preview='smart-home'] {
+  --background: #e9eaec;
+  --foreground: #0b0b0d;
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--brand-secondary);
+  --secondary-foreground: #0b0b0d;
+
+  --muted: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --muted-foreground: color-mix(in oklab, var(--foreground) 62%, transparent);
+
+  --accent: oklch(from var(--primary) 0.87 0.06 h);
+  --accent-foreground: oklch(from var(--primary) 0.45 0.17 h);
+
+  --success: #4ade80;
+  --success-foreground: #0b0b0d;
+  --warning: #f5793a;
+  --warning-foreground: #0b0b0d;
+
+  --border: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --input: var(--border);
+  --ring: var(--primary);
+
+  --chart-1: var(--primary);
+  --chart-2: oklch(from var(--primary) 0.74 0.1 h);
+  --chart-3: var(--warning);
+}
+
+/* Dark: surfaces and text flip, the brand colours stay. */
+[data-preview='smart-home'].dark,
+.dark [data-preview='smart-home'],
+.drawing-dark [data-preview='smart-home'] {
+  --background: #0b0b0d;
+  --foreground: #ffffff;
+
+  --card: #17181c;
+
+  --muted: color-mix(in oklab, var(--foreground) 10%, transparent);
+  --muted-foreground: color-mix(in oklab, var(--foreground) 60%, transparent);
+
+  --accent: oklch(from var(--primary) 0.3 0.09 h);
+  --accent-foreground: oklch(from var(--primary) 0.87 0.06 h);
+
+  --border: color-mix(in oklab, var(--foreground) 10%, transparent);
+}

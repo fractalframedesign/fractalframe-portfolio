@@ -3,12 +3,12 @@
 import { Check, Clock, MoreHorizontal, X } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
-const merchantLogo = '/images/projects/fintech-components/online-payment-confirmation-1/netflix.png'
+const merchantLogo = '/showcase/fintech-components/online-payment-confirmation-1/netflix.png'
 
 export type PaymentConfirmationStatus = 'pending' | 'accepted' | 'declined'
 
@@ -117,13 +117,15 @@ export function OnlinePaymentConfirmation1({
             <div className="flex w-full items-center gap-4">
               <Button
                 variant="secondary"
-                className="h-11 flex-1 rounded-xl text-base font-medium"
+                size="lg"
+                className="flex-1"
                 onClick={() => setStatus('declined')}
               >
                 Not Now
               </Button>
               <Button
-                className="h-11 flex-1 rounded-xl text-base font-semibold"
+                size="lg"
+                className="flex-1"
                 onClick={() => setStatus('accepted')}
                 disabled={secondsLeft === 0}
               >

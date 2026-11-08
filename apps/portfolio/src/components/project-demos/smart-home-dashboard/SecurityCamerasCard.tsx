@@ -82,20 +82,20 @@ function CameraTile({ camera, index }: { camera: Camera; index: number }) {
       whileHover={{ scale: 1.015 }}
       className={`group relative aspect-video overflow-hidden rounded-2xl bg-gradient-to-br shadow-[0_10px_24px_-14px_rgba(0,0,0,0.4)] ${FEED_GRADIENTS[index % FEED_GRADIENTS.length]} ${isLive ? '' : 'grayscale'}`}
     >
-      <CameraIcon className="absolute inset-0 m-auto size-10 text-white/10" />
+      <CameraIcon className="absolute inset-0 m-auto size-10 text-primary-foreground/10" />
 
       {isLive ? (
         <div
           aria-hidden
-          className="motion-safe:animate-cctv-scan pointer-events-none absolute inset-x-0 h-1/3 bg-gradient-to-b from-white/0 via-white/10 to-white/0"
+          className="motion-safe:animate-cctv-scan pointer-events-none absolute inset-x-0 h-1/3 bg-gradient-to-b from-primary-foreground/0 via-primary-foreground/10 to-primary-foreground/0"
         />
       ) : null}
 
-      <div className="absolute top-3 left-2.5 flex items-center gap-2 rounded-full bg-black/45 px-2 py-1 backdrop-blur-sm">
+      <div className="absolute top-3 left-2 flex items-center gap-2 rounded-full bg-black/45 px-2 py-1 backdrop-blur-sm">
         <span
           className={`size-2 rounded-full ${isLive ? 'motion-safe:animate-pulse bg-red-500' : 'bg-white/40'}`}
         />
-        <span className="text-xs font-bold tracking-wide text-white uppercase">
+        <span className="text-xs font-bold tracking-wide text-primary-foreground uppercase">
           {isLive ? 'Live' : 'Offline'}
         </span>
       </div>
@@ -106,15 +106,15 @@ function CameraTile({ camera, index }: { camera: Camera; index: number }) {
           onClick={() => setMuted((v) => !v)}
           aria-label={muted ? `Unmute ${camera.name}` : `Mute ${camera.name}`}
           aria-pressed={!muted}
-          className="absolute top-3 right-2.5 flex size-6 items-center justify-center rounded-full bg-black/45 text-white/80 backdrop-blur-sm transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+          className="absolute top-2 right-2 flex size-8 items-center justify-center rounded-full bg-black/45 text-primary-foreground/80 backdrop-blur-sm transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60"
         >
           <SpeakerIcon muted={muted} />
         </button>
       ) : null}
 
       <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent px-3 pt-6 pb-3">
-        <p className="truncate text-sm font-bold text-white">{camera.name}</p>
-        <p className="truncate text-xs text-white/60">
+        <p className="truncate text-sm font-bold text-primary-foreground">{camera.name}</p>
+        <p className="truncate text-xs text-primary-foreground/60">
           {isLive ? camera.location : 'No signal'}
         </p>
       </div>
@@ -135,16 +135,16 @@ export function SecurityCamerasCard({
 
   return (
     <div
-      className={`mx-auto flex w-full min-w-70 max-w-295 flex-col rounded-[1.75rem] bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-black/[0.03] dark:bg-[#17181c] dark:ring-white/[0.06] ${className}`}
+      className={`mx-auto flex w-full min-w-70 max-w-295 flex-col rounded-[1.75rem] bg-card p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-border ${className}`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-full bg-ink/5 text-ink dark:bg-white/10 dark:text-white">
+          <div className="flex size-10 items-center justify-center rounded-full bg-muted text-foreground">
             <CameraIcon className="size-5" />
           </div>
           <div>
-            <p className="text-base font-bold tracking-tight text-ink dark:text-white">{title}</p>
-            <p className="text-sm text-ink/45 dark:text-white/40">{computedSubtitle}</p>
+            <p className="text-base font-bold tracking-tight text-foreground">{title}</p>
+            <p className="text-sm text-muted-foreground">{computedSubtitle}</p>
           </div>
         </div>
 
@@ -153,7 +153,7 @@ export function SecurityCamerasCard({
           aria-label="View all cameras"
           whileHover={{ scale: 1.08, rotate: 6 }}
           whileTap={{ scale: 0.9 }}
-          className="flex size-10 items-center justify-center rounded-full bg-ink text-white outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 dark:bg-white dark:text-ink dark:focus-visible:ring-white dark:focus-visible:ring-offset-[#17181c]"
+          className="flex size-10 items-center justify-center rounded-full bg-foreground text-background outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-card"
         >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
             <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -161,7 +161,7 @@ export function SecurityCamerasCard({
         </motion.button>
       </div>
 
-      <div className={`mt-5 grid grid-cols-2 gap-4 ${isFourColumns ? 'sm:grid-cols-4' : ''}`}>
+      <div className={`mt-5 grid grid-cols-1 gap-4 min-[30rem]:grid-cols-2 ${isFourColumns ? 'lg:grid-cols-4' : ''}`}>
         {cameras.map((camera, index) => (
           <CameraTile key={camera.id} camera={camera} index={index} />
         ))}

@@ -3,18 +3,18 @@
 import { ChevronDown, MoreHorizontal, Plus } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Input } from '@/components/project-demos/fintech-components/ui/input'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
-const avatar1 = '/images/projects/fintech-components/quick-transfer/avatar-1.png'
-const avatar2 = '/images/projects/fintech-components/quick-transfer/avatar-2.png'
-const avatar3 = '/images/projects/fintech-components/quick-transfer/avatar-3.png'
-const avatar4 = '/images/projects/fintech-components/quick-transfer/avatar-4.png'
-const avatar5 = '/images/projects/fintech-components/quick-transfer/avatar-5.png'
-const avatar6 = '/images/projects/fintech-components/quick-transfer/avatar-6.png'
+const avatar1 = '/showcase/fintech-components/quick-transfer/avatar-1.png'
+const avatar2 = '/showcase/fintech-components/quick-transfer/avatar-2.png'
+const avatar3 = '/showcase/fintech-components/quick-transfer/avatar-3.png'
+const avatar4 = '/showcase/fintech-components/quick-transfer/avatar-4.png'
+const avatar5 = '/showcase/fintech-components/quick-transfer/avatar-5.png'
+const avatar6 = '/showcase/fintech-components/quick-transfer/avatar-6.png'
 
 export interface QuickTransferContact {
   id: string
@@ -49,7 +49,7 @@ function formatCardNumber(value: string) {
 
 function QuickTransferSkeleton({ className }: { className?: string }) {
   return (
- <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-28" />
         <Skeleton className="size-9 rounded-full" />
@@ -106,7 +106,7 @@ export function QuickTransfer({
   }
 
   return (
- <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -180,12 +180,12 @@ export function QuickTransfer({
       </div>
 
       <div className="flex w-full gap-2">
-        <Button variant="secondary" size="lg" className="h-15 flex-1 rounded-2xl text-lg font-bold">
+        <Button variant="secondary" size="lg" className="flex-1">
           Add New
         </Button>
         <Button
           size="lg"
-          className="h-15 flex-1 rounded-2xl text-lg font-bold"
+          className="flex-1"
           onClick={handleSend}
           disabled={!canSend}
         >

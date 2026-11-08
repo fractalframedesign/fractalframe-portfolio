@@ -2,12 +2,12 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { TailwindTokensGuide } from '@/components/project-demos/fintech-components/docs/tailwind-tokens';
+import { TokenExplorer } from '@/components/project-demos/fintech-components/docs/token-explorer';
 import { TokenGuide } from '@/components/project-demos/fintech-components/docs/token-guide';
-import { TokenExplorer } from '@/components/showcase/token-explorer';
+import { getDesignTokens } from '@/components/project-demos/fintech-components/lib/design-tokens';
+import { buildTailwindTokens } from '@/components/project-demos/fintech-components/lib/tailwind-tokens';
 import { Button } from '@/components/ui/button';
-import { getDesignTokens } from '@/lib/design-tokens';
 import { getComponentCount, getShowcaseProject } from '@/lib/showcase';
-import { buildTailwindTokens } from '@/lib/tailwind-tokens';
 
 export const metadata: Metadata = { title: 'Docs' };
 

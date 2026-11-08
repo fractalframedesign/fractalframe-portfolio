@@ -1,4 +1,4 @@
-import './theme.css';
+import '@/components/project-demos/rakuten-link/theme.css';
 
 import { linkFonts } from '@/components/project-demos/rakuten-link/fonts';
 import { ShowcaseShell } from '@/components/showcase/showcase-shell';

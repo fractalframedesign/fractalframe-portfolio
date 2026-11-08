@@ -4,12 +4,12 @@ import { ArrowUp, Check, ChevronDown, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis } from 'recharts'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card } from '@/components/project-demos/fintech-components/ui/card'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface TransactionsChartPoint {
   label: string
@@ -125,7 +125,7 @@ export function Transactions2({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
         <div className="flex w-full flex-col gap-4">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-24" />
@@ -151,7 +151,7 @@ export function Transactions2({
   }
 
   return (
-    <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full items-center justify-between gap-2">

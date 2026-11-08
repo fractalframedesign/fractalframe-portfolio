@@ -3,10 +3,10 @@
 import { Minus, MoreHorizontal, Plus, TriangleAlert } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface SlippageProps {
   className?: string
@@ -82,7 +82,7 @@ export function Slippage({
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-          <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh slippage settings" onClick={refresh}>
+          <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh slippage settings" onClick={refresh}>
             <MoreHorizontal className="size-4" />
           </Button>
         </div>
@@ -137,10 +137,10 @@ export function Slippage({
         </div>
 
         <div className="flex w-full items-center gap-2">
-          <Button variant="secondary" size="lg" className="flex-1 rounded-2xl py-6 text-lg font-bold text-muted-foreground">
+          <Button variant="secondary" size="lg" className="flex-1 text-muted-foreground">
             Back Home
           </Button>
-          <Button size="lg" className="flex-1 rounded-2xl py-6 text-lg font-bold" onClick={handleSendAgain} disabled={sending}>
+          <Button size="lg" className="flex-1" onClick={handleSendAgain} disabled={sending}>
             {sending ? 'Sending…' : 'Send Again'}
           </Button>
         </div>

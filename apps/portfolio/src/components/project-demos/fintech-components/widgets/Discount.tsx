@@ -3,11 +3,11 @@
 import { Plus, Sparkles } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
-const memojiFemale7 = '/images/projects/fintech-components/discount/memoji-female-7.png'
+const memojiFemale7 = '/showcase/fintech-components/discount/memoji-female-7.png'
 
 export interface DiscountProps {
   storeName?: string
@@ -52,9 +52,9 @@ export function Discount({
 
   return (
  <div className={cn('flex max-w-120 flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-1', className)}>
-      <div className="relative flex w-full flex-col items-start overflow-hidden rounded-xl bg-[oklch(0.75_0.16_180)]">
+      <div className="relative flex w-full flex-col items-start overflow-hidden rounded-xl bg-success">
         <div className="flex w-full items-center justify-between p-5">
-          <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-[oklch(0.2_0.01_260)]">
+          <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-success-foreground">
             Discount
           </p>
           <button
@@ -68,7 +68,7 @@ export function Discount({
           </button>
         </div>
         <div className="relative h-59 w-full">
-          <div className="absolute bottom-5 left-5 flex min-w-14 items-center gap-1 rounded-full bg-[oklch(0.2_0.01_260)] p-1 pr-2">
+          <div className="absolute bottom-5 left-5 flex min-w-14 items-center gap-1 rounded-full bg-foreground p-1 pr-2">
             <span className="flex size-6 items-center justify-center rounded-full bg-background/10">
               <Sparkles className="size-4 text-background" />
             </span>

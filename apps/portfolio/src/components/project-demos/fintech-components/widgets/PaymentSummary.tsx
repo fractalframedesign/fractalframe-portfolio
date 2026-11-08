@@ -3,14 +3,14 @@
 import { Check, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
-const avatar1 = '/images/projects/fintech-components/quick-transfer/avatar-1.png'
-const avatar2 = '/images/projects/fintech-components/quick-transfer/avatar-2.png'
-const avatar3 = '/images/projects/fintech-components/quick-transfer/avatar-3.png'
+const avatar1 = '/showcase/fintech-components/quick-transfer/avatar-1.png'
+const avatar2 = '/showcase/fintech-components/quick-transfer/avatar-2.png'
+const avatar3 = '/showcase/fintech-components/quick-transfer/avatar-3.png'
 
 export interface PaymentSummaryTransfer {
   recipientName: string
@@ -78,7 +78,7 @@ function VisaIcon({ className }: { className?: string }) {
 
 function PaymentSummarySkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="size-9 rounded-full" />
@@ -135,7 +135,7 @@ export function PaymentSummary({
   }
 
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -204,14 +204,14 @@ export function PaymentSummary({
         <Button
           variant="secondary"
           size="lg"
-          className="h-12 flex-1 rounded-xl text-sm font-semibold active:scale-[0.96]"
+          className="flex-1"
           onClick={refresh}
         >
           Back Home
         </Button>
         <Button
           size="lg"
-          className="h-12 flex-1 rounded-xl text-sm font-semibold active:scale-[0.96]"
+          className="flex-1"
           onClick={handleSendAgain}
         >
           Send Again

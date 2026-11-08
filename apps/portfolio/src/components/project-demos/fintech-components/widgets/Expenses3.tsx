@@ -12,11 +12,11 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface ExpenseCategory {
   key: string
@@ -102,7 +102,7 @@ export function Expenses3({
           </p>
           <Button
             type="button"
-            size="icon"
+            size="icon-sm"
             variant="secondary"
             className="rounded-full"
             aria-label="Refresh expenses"

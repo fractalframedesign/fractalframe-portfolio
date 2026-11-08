@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/project-demos/rakuten-link/lib/utils';
 
 import { Avatar } from './Avatar';
 import { type Contact, CONTACTS, GROUPS } from './data';
@@ -24,8 +24,8 @@ const SectionHeader = ({
   action?: string;
 }) => (
   <div className="flex items-center justify-between px-4 pt-5 pb-3">
-    <h3 className="text-ink text-lg font-bold">{title}</h3>
-    {action && <span className="text-accent-2 text-sm">{action}</span>}
+    <h3 className="text-foreground text-lg font-bold">{title}</h3>
+    {action && <span className="text-secondary text-sm">{action}</span>}
   </div>
 );
 
@@ -49,33 +49,33 @@ export function CallsScreen({
 
   return (
     <div className="relative flex min-h-0 flex-1 flex-col">
-      <header className="bg-surface px-4 pt-2 pb-3">
+      <header className="bg-card px-4 pt-2 pb-3">
         <div className="relative flex h-11 items-center justify-center">
-          <h2 className="text-ink text-lg font-semibold">Calls</h2>
-          <span className="text-accent-2 absolute end-0 flex gap-4">
+          <h2 className="text-foreground text-lg font-semibold">Calls</h2>
+          <span className="text-secondary absolute end-0 flex gap-4">
             <Voicemail aria-label="Voicemail" className="size-6" />
             <UserPlus aria-label="Add contact" className="size-6" />
           </span>
         </div>
-        <label className="bg-canvas text-ink-muted mt-2 flex items-center gap-2 rounded-xl px-3 py-2">
+        <label className="bg-background text-muted-foreground mt-2 flex items-center gap-2 rounded-xl px-3 py-2">
           <Search aria-hidden="true" className="size-4" />
           <input
             aria-label="Search contacts"
             placeholder="Search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            className="text-ink placeholder:text-ink-muted min-w-0 flex-1 bg-transparent text-base outline-none"
+            className="text-foreground placeholder:text-muted-foreground min-w-0 flex-1 bg-transparent text-base outline-none"
           />
         </label>
       </header>
 
-      <div className="bg-surface min-h-0 flex-1 overflow-y-auto pb-24">
+      <div className="bg-card min-h-0 flex-1 overflow-y-auto pb-24">
         {!query && (
           <>
             <SectionHeader
               title={
                 <span className="flex items-center gap-2">
-                  <Star aria-hidden="true" className="fill-ink size-4" />{' '}
+                  <Star aria-hidden="true" className="fill-foreground size-4" />{' '}
                   Favorite
                 </span>
               }
@@ -85,7 +85,7 @@ export function CallsScreen({
               {CONTACTS.filter((c) => c.favorite).map((c) => (
                 <li key={c.id} className="w-16 shrink-0 text-center">
                   <Avatar name={c.name} size="lg" />
-                  <span className="text-ink mt-1 block truncate text-xs">
+                  <span className="text-foreground mt-1 block truncate text-xs">
                     {c.name.split(' ')[0]}
                   </span>
                 </li>
@@ -96,29 +96,29 @@ export function CallsScreen({
             <ul className="flex gap-4 overflow-x-auto px-4">
               {GROUPS.map((g) => (
                 <li key={g.name} className="w-16 shrink-0 text-center">
-                  <span className="bg-accent-2-soft text-ink-muted flex size-16 items-center justify-center rounded-full">
+                  <span className="bg-muted text-muted-foreground flex size-16 items-center justify-center rounded-full">
                     <UserPlus aria-hidden="true" className="size-6" />
                   </span>
-                  <span className="text-ink mt-1 block truncate text-xs">
+                  <span className="text-foreground mt-1 block truncate text-xs">
                     {g.name}
                   </span>
-                  <span className="text-ink-muted block text-xs">
+                  <span className="text-muted-foreground block text-xs">
                     ({g.count})
                   </span>
                 </li>
               ))}
               <li className="w-16 shrink-0 text-center">
-                <span className="border-ink-muted/40 text-ink-muted flex size-16 items-center justify-center rounded-full border">
+                <span className="border-muted-foreground/40 text-muted-foreground flex size-16 items-center justify-center rounded-full border">
                   <Plus aria-hidden="true" className="size-6" />
                 </span>
-                <span className="text-ink mt-1 block text-xs">Create</span>
+                <span className="text-foreground mt-1 block text-xs">Create</span>
               </li>
             </ul>
           </>
         )}
 
         <div className="flex items-center justify-between px-4 pt-5 pb-3">
-          <h3 className="text-ink text-lg font-bold">
+          <h3 className="text-foreground text-lg font-bold">
             Contacts ({contacts.length})
           </h3>
           <div role="tablist" aria-label="Show contacts" className="flex gap-4">
@@ -131,7 +131,7 @@ export function CallsScreen({
                 onClick={() => setFilter(value)}
                 className={cn(
                   'text-lg',
-                  filter === value ? 'text-ink font-bold' : 'text-ink-muted',
+                  filter === value ? 'text-foreground font-bold' : 'text-muted-foreground',
                 )}
               >
                 {value === 'all' ? 'All' : 'Link'}
@@ -142,7 +142,7 @@ export function CallsScreen({
 
         {letters.map((letter) => (
           <section key={letter} aria-label={letter}>
-            <p className="bg-canvas text-ink-muted px-4 py-1 text-sm">
+            <p className="bg-background text-muted-foreground px-4 py-1 text-sm">
               {letter}
             </p>
             <ul>
@@ -154,14 +154,14 @@ export function CallsScreen({
                     className="flex items-center gap-3 px-4 py-3"
                   >
                     <Avatar name={c.name} onLink={c.onLink} />
-                    <span className="text-ink flex-1 truncate text-base">
+                    <span className="text-foreground flex-1 truncate text-base">
                       {c.name}
                     </span>
                     <button
                       type="button"
                       aria-label={`Call ${c.name}`}
                       onClick={() => onCall(c)}
-                      className="text-accent-1 focus-visible:ring-accent-1 flex size-10 items-center justify-center rounded-full outline-none focus-visible:ring-2"
+                      className="text-primary focus-visible:ring-primary flex size-10 items-center justify-center rounded-full outline-none focus-visible:ring-2"
                     >
                       <Phone
                         aria-hidden="true"
@@ -179,7 +179,7 @@ export function CallsScreen({
         type="button"
         aria-label="Open keypad"
         onClick={onOpenKeypad}
-        className="bg-accent-2 focus-visible:ring-accent-2 absolute end-4 bottom-4 flex size-16 items-center justify-center rounded-full text-white shadow-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+        className="bg-secondary focus-visible:ring-secondary absolute end-4 bottom-4 flex size-16 items-center justify-center rounded-full text-primary-foreground shadow-lg outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
       >
         <Grid3x3 aria-hidden="true" className="size-7" />
       </button>

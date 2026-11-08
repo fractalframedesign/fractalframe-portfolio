@@ -3,12 +3,12 @@
 import { Cloud, MoreHorizontal, Music2, PenTool, Tv } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card } from '@/components/project-demos/fintech-components/ui/card'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { Switch } from '@/components/project-demos/fintech-components/ui/switch'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface Subscription {
   id: string
@@ -61,7 +61,7 @@ export function MonthlySubscriptions({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-40" />
@@ -94,7 +94,7 @@ export function MonthlySubscriptions({
   }
 
   return (
-    <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between gap-2">

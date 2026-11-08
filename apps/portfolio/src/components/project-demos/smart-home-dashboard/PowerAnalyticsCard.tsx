@@ -77,11 +77,11 @@ export function PowerAnalyticsCard({
 
   return (
     <div
-      className={`mx-auto flex w-full min-w-70 max-w-145 flex-col rounded-[1.75rem] bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-black/[0.03] dark:bg-[#17181c] dark:ring-white/[0.06] ${className}`}
+      className={`mx-auto flex w-full min-w-70 max-w-145 flex-col rounded-[1.75rem] bg-card p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-border ${className}`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-full bg-ink/5 dark:bg-white/10">
+          <div className="flex size-10 items-center justify-center rounded-full bg-muted">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
               <path
                 d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"
@@ -92,8 +92,8 @@ export function PowerAnalyticsCard({
             </svg>
           </div>
           <div>
-            <p className="text-base font-bold tracking-tight text-ink dark:text-white">{title}</p>
-            <p className="text-sm text-ink/45 dark:text-white/40">{subtitle}</p>
+            <p className="text-base font-bold tracking-tight text-foreground">{title}</p>
+            <p className="text-sm text-muted-foreground">{subtitle}</p>
           </div>
         </div>
 
@@ -102,7 +102,7 @@ export function PowerAnalyticsCard({
           aria-label="Open full analytics"
           whileHover={{ scale: 1.08, rotate: 6 }}
           whileTap={{ scale: 0.9 }}
-          className="flex size-10 items-center justify-center rounded-full bg-ink text-white outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 dark:bg-white dark:text-ink dark:focus-visible:ring-white dark:focus-visible:ring-offset-[#17181c]"
+          className="flex size-10 items-center justify-center rounded-full bg-foreground text-background outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-card"
         >
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
             <path d="M7 17 17 7M9 7h8v8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -124,15 +124,15 @@ export function PowerAnalyticsCard({
               transition={{ delay: 0.05 * index, type: 'spring', duration: 0.5, bounce: 0.25 }}
               whileTap={{ scale: 0.99 }}
               aria-expanded={isOpen}
-              className="group w-full rounded-2xl bg-black/[0.035] px-4 py-4 text-left transition-colors hover:bg-black/[0.055] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] dark:focus-visible:ring-white/30"
+              className="group w-full rounded-2xl bg-muted px-4 py-4 text-left transition-colors hover:bg-foreground/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foreground/30 dark:hover:bg-foreground/15"
             >
               <div className="flex items-center gap-4">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white text-ink shadow-sm dark:bg-white/10 dark:text-white">
+                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-card text-foreground shadow-sm dark:bg-muted">
                   <DeviceIcon icon={device.icon} />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold text-ink dark:text-white">{device.name}</p>
-                  <p className="text-sm text-ink/40 tabular-nums dark:text-white/40">
+                  <p className="truncate font-semibold text-foreground">{device.name}</p>
+                  <p className="text-sm text-muted-foreground tabular-nums">
                     {device.units} unit &nbsp;|&nbsp; {device.kWh}kWh
                   </p>
                 </div>
@@ -143,19 +143,19 @@ export function PowerAnalyticsCard({
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  className="shrink-0 text-ink/30 group-hover:text-ink/60 dark:text-white/30 dark:group-hover:text-white/60"
+                  className="shrink-0 text-muted-foreground group-hover:text-foreground/60"
                 >
                   <path d="m9 6 6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </motion.svg>
               </div>
 
               {showUsageBars ? (
-                <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/5 dark:bg-white/10">
+                <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-muted">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${barPct}%` }}
                     transition={{ delay: 0.15 + 0.05 * index, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className="h-full rounded-full bg-gradient-to-r from-(--color-accent-1) to-(--color-accent-4)"
+                    className="h-full rounded-full bg-gradient-to-r from-primary to-chart-2"
                   />
                 </div>
               ) : null}

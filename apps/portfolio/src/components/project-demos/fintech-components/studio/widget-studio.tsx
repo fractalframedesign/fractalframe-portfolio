@@ -14,16 +14,16 @@ import {
   MotionSettingsProvider,
 } from '@/components/project-demos/fintech-components/motion/settings'
 import { MotionStage } from '@/components/project-demos/fintech-components/motion/stage'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/project-demos/fintech-components/shell-ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import ScrubField from '@/components/ui/scrub-field'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+} from '@/components/project-demos/fintech-components/shell-ui/dropdown-menu'
+import ScrubField from '@/components/project-demos/fintech-components/shell-ui/scrub-field'
+import { Tabs, TabsList, TabsTrigger } from '@/components/project-demos/fintech-components/shell-ui/tabs'
 
 type NumericSetting = Exclude<keyof MotionSettings, 'ease'>
 

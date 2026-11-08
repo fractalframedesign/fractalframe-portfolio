@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 import { useMotion } from './settings'
 

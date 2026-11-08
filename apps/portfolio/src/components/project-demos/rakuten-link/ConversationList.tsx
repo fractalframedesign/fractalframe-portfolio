@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/project-demos/rakuten-link/lib/utils';
 
 import { Avatar } from './Avatar';
 import { contactById, type Conversation } from './data';
@@ -32,7 +32,7 @@ export function ConversationList({
   onOpen: (contactId: string) => void;
 }) {
   return (
-    <ul className="divide-surface-border divide-y">
+    <ul className="divide-border divide-y">
       {conversations.map((conversation) => {
         const contact = contactById(conversation.contactId);
         const preview = lastPreview(conversation);
@@ -43,26 +43,26 @@ export function ConversationList({
               onClick={() => onOpen(contact.id)}
               aria-current={activeId === contact.id ? 'true' : undefined}
               className={cn(
-                'hover:bg-canvas focus-visible:ring-accent-1 flex w-full items-center gap-3 px-4 py-3 text-start outline-none focus-visible:ring-2 focus-visible:ring-inset',
-                activeId === contact.id && 'bg-canvas',
+                'hover:bg-background focus-visible:ring-primary flex w-full items-center gap-3 px-4 py-3 text-start outline-none focus-visible:ring-2 focus-visible:ring-inset',
+                activeId === contact.id && 'bg-background',
               )}
             >
               <Avatar name={contact.name} onLink={contact.onLink} />
               <span className="min-w-0 flex-1">
                 <span className="flex items-baseline justify-between gap-2">
-                  <span className="text-ink truncate font-semibold">
+                  <span className="text-foreground truncate font-semibold">
                     {contact.name}
                   </span>
-                  <span className="text-ink-muted shrink-0 text-xs">
+                  <span className="text-muted-foreground shrink-0 text-xs">
                     {preview.time}
                   </span>
                 </span>
                 <span className="flex items-center justify-between gap-2">
-                  <span className="text-ink-muted truncate text-sm">
+                  <span className="text-muted-foreground truncate text-sm">
                     {contact.onLink ? preview.text : `SMS · ${preview.text}`}
                   </span>
                   {conversation.unread ? (
-                    <span className="bg-accent-1 shrink-0 rounded-full px-2 text-xs leading-5 font-semibold text-white">
+                    <span className="bg-primary shrink-0 rounded-full px-2 text-xs leading-5 font-semibold text-primary-foreground">
                       {conversation.unread}
                       <span className="sr-only"> unread</span>
                     </span>

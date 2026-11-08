@@ -3,13 +3,13 @@
 import { ArrowUpRight, Check, Copy, Eye, EyeOff, RefreshCw } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/project-demos/fintech-components/ui/card'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
-const mastercardLogo = '/images/projects/fintech-components/cards/mastercard-logo.svg'
+const mastercardLogo = '/showcase/fintech-components/cards/mastercard-logo.svg'
 
 export interface BankCard {
   id: string

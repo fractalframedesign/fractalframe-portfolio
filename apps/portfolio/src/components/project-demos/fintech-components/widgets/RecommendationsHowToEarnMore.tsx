@@ -3,11 +3,11 @@
 import { ArrowUpRight, MoreHorizontal, TrendingUp } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface EarnTip {
   key: string
@@ -66,7 +66,7 @@ export function RecommendationsHowToEarnMore({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <Skeleton className="h-4 w-56" />
@@ -90,7 +90,7 @@ export function RecommendationsHowToEarnMore({
   }
 
   return (
- <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-muted-foreground">
@@ -98,7 +98,7 @@ export function RecommendationsHowToEarnMore({
           </p>
           <Button
             type="button"
-            size="icon"
+            size="icon-sm"
             variant="secondary"
             className="rounded-full"
             aria-label="Refresh recommendations"

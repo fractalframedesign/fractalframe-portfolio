@@ -3,11 +3,11 @@
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface Recommendation {
   key: string
@@ -101,7 +101,7 @@ export function AiRecommendations({
           </div>
           <Button
             type="button"
-            size="icon"
+            size="icon-sm"
             variant="secondary"
             className="rounded-full"
             aria-label="Refresh recommendations"
@@ -145,7 +145,7 @@ export function AiRecommendations({
       <button
         type="button"
         onClick={() => setExpandedAll((v) => !v)}
-        className="flex h-13 w-full items-center justify-center rounded-xl bg-secondary text-base font-semibold text-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-12 w-full items-center justify-center rounded-xl bg-secondary text-base font-semibold text-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {expandedAll ? 'Show Less' : 'View Full'}
       </button>

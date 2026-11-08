@@ -3,7 +3,7 @@
 import { Leaf } from 'lucide-react'
 import { motion } from 'motion/react'
 
-import { Tile } from '@/components/ui/tile'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type GroceriesSpendingCardProps = {
   total?: string
@@ -25,19 +25,19 @@ export function GroceriesSpendingCard({
 
       <div className="flex h-12 items-end justify-end gap-2">
         {bars.map((value, index) => (
-          <div key={index} className="flex h-full w-3 items-end overflow-hidden rounded-full bg-white/15">
+          <div key={index} className="flex h-full w-3 items-end overflow-hidden rounded-full bg-foreground/15">
             <motion.div
               initial={{ height: 0 }}
               animate={{ height: `${value}%` }}
               transition={{ type: 'spring', stiffness: 110, damping: 16, delay: index * 0.04 }}
-              className={index === bars.length - 1 ? 'w-full rounded-full bg-white' : 'w-full rounded-full bg-white/50'}
+              className={index === bars.length - 1 ? 'w-full rounded-full bg-foreground' : 'w-full rounded-full bg-foreground/50'}
             />
           </div>
         ))}
       </div>
 
       <div>
-        <p className="text-xs tracking-wide text-white/70">THIS WEEK SPENDING</p>
+        <p className="text-xs tracking-wide text-foreground/70">THIS WEEK SPENDING</p>
         <p className="mt-1 text-xl font-semibold">{total}</p>
       </div>
     </Tile>

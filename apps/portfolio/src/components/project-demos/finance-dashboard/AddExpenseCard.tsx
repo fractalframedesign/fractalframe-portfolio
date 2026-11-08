@@ -4,7 +4,7 @@ import { Plus, X } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 
-import { Tile } from '@/components/ui/tile'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type AddExpenseCardProps = {
   onAddExpense?: (amount: number) => void
@@ -26,7 +26,7 @@ export function AddExpenseCard({ onAddExpense }: AddExpenseCardProps) {
 
   return (
     <Tile className="items-center justify-center gap-4 text-center">
-      <span className="self-start text-xs font-semibold tracking-widest text-ink-muted">
+      <span className="self-start text-xs font-semibold tracking-widest text-muted-foreground">
         SHARE
       </span>
 
@@ -46,19 +46,19 @@ export function AddExpenseCard({ onAddExpense }: AddExpenseCardProps) {
               value={amount}
               onChange={(event) => setAmount(event.target.value)}
               placeholder="AED 0.00"
-              className="w-full rounded-xl border border-surface-border bg-white/5 px-3 py-2 text-center text-sm outline-none focus:border-accent-1"
+              className="w-full rounded-xl border border-border bg-foreground/5 px-3 py-2 text-center text-sm outline-none focus:border-primary"
             />
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="rounded-full bg-accent-1 px-4 py-2 text-xs font-semibold"
+                className="rounded-full bg-primary px-4 py-2 text-xs font-semibold"
               >
                 Add
               </button>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-center rounded-full bg-white/10 p-2"
+                className="flex items-center justify-center rounded-full bg-foreground/10 p-2"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -74,14 +74,14 @@ export function AddExpenseCard({ onAddExpense }: AddExpenseCardProps) {
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.94 }}
             onClick={() => setOpen(true)}
-            className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10"
+            className="flex h-16 w-16 items-center justify-center rounded-full bg-foreground/10"
           >
             <Plus className="h-6 w-6" />
           </motion.button>
         )}
       </AnimatePresence>
 
-      {!open && <span className="text-xs tracking-wide text-ink-muted">ADD EXPENSE</span>}
+      {!open && <span className="text-xs tracking-wide text-muted-foreground">ADD EXPENSE</span>}
     </Tile>
   )
 }

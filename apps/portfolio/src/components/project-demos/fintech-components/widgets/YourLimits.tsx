@@ -3,11 +3,11 @@
 import { ArrowLeftRight, HandCoins, MoreHorizontal, TrendingUp } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { Slider } from '@/components/project-demos/fintech-components/ui/slider'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface LimitItem {
   id: string
@@ -59,7 +59,7 @@ export function YourLimits({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-5', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-24" />
@@ -83,11 +83,11 @@ export function YourLimits({
   }
 
   return (
- <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-5 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-6 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-          <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh limits" onClick={refresh}>
+          <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh limits" onClick={refresh}>
             <MoreHorizontal className="size-4" />
           </Button>
         </div>
@@ -133,7 +133,7 @@ export function YourLimits({
         })}
       </div>
 
-      <Button size="lg" className="w-full rounded-2xl py-5 text-lg font-bold" onClick={refresh}>
+      <Button size="lg" className="w-full" onClick={refresh}>
         Change Limits
       </Button>
     </div>

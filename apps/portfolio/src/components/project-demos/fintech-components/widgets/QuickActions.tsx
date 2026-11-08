@@ -3,11 +3,11 @@
 import { ArrowDownLeft, ArrowUpRight, CreditCard, MoreHorizontal, Plus } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { ActionButtonCard } from '@/components/project-demos/fintech-components/ui/action-button-card'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface QuickAction {
   id: string

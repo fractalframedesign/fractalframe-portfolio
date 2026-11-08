@@ -3,13 +3,13 @@
 import { ChevronDown, Minus, MoreHorizontal, Plus, Target } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card } from '@/components/project-demos/fintech-components/ui/card'
 import { Separator } from '@/components/project-demos/fintech-components/ui/separator'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
 
 export interface SavingsGoal {
   id: string
@@ -194,7 +194,7 @@ export function Savings({
 
         <div className="flex w-full items-center gap-4">
           <div ref={actionsRef} className="relative flex-1">
-            <Button className="w-full rounded-xl px-3 py-6" onClick={() => setActionsOpen((v) => !v)} aria-expanded={actionsOpen} aria-haspopup="menu">
+            <Button size="lg" className="w-full px-3" onClick={() => setActionsOpen((v) => !v)} aria-expanded={actionsOpen} aria-haspopup="menu">
               <Plus className="size-5" />
               Actions
             </Button>
@@ -226,13 +226,14 @@ export function Savings({
           </div>
           <Button
             variant="secondary"
-            className="flex-1 rounded-xl px-3 py-6"
+            size="lg"
+            className="flex-1 px-3"
             onClick={() => setHistoryOpen((v) => !v)}
             aria-expanded={historyOpen}
           >
             History
           </Button>
-          <Button variant="secondary" size="icon" className="size-12 shrink-0 rounded-full" aria-label="More options">
+          <Button variant="secondary" size="icon-sm" className="size-12 shrink-0 rounded-full" aria-label="More options">
             <MoreHorizontal className="size-5" />
           </Button>
         </div>

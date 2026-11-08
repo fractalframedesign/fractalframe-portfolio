@@ -3,8 +3,8 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
 
-import { Tile } from '@/components/ui/tile'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/finance-dashboard/lib/utils'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type DayValue = { label: string; value: number }
 
@@ -33,22 +33,22 @@ export function SavingsOverviewCard({
 
   return (
     <Tile className="justify-between gap-6">
-      <span className="text-xs font-semibold tracking-widest text-ink-muted">SHARE</span>
+      <span className="text-xs font-semibold tracking-widest text-muted-foreground">SHARE</span>
 
       <div className="flex flex-wrap items-baseline gap-x-10 gap-y-3">
         <div>
           <p className="flex items-baseline gap-2 text-2xl font-semibold">
-            <span className="h-2 w-2 rounded-full bg-accent-2" />
+            <span className="h-2 w-2 rounded-full bg-success" />
             {monthlySave}
           </p>
-          <p className="mt-1 text-xs tracking-wide text-ink-muted">MONTHLY SAVE</p>
+          <p className="mt-1 text-xs tracking-wide text-muted-foreground">MONTHLY SAVE</p>
         </div>
         <div>
           <p className="flex items-baseline gap-2 text-2xl font-semibold">
-            <span className="h-2 w-2 rounded-full bg-white" />
+            <span className="h-2 w-2 rounded-full bg-foreground" />
             {monthlySpending}
           </p>
-          <p className="mt-1 text-xs tracking-wide text-ink-muted">MONTHLY SPENDING</p>
+          <p className="mt-1 text-xs tracking-wide text-muted-foreground">MONTHLY SPENDING</p>
         </div>
       </div>
 
@@ -62,21 +62,21 @@ export function SavingsOverviewCard({
               onClick={() => setActiveDay(isActive ? null : day.label)}
               className="flex flex-col items-center gap-2"
             >
-              <div className="flex h-16 w-3 items-end overflow-hidden rounded-full bg-white/5">
+              <div className="flex h-16 w-3 items-end overflow-hidden rounded-full bg-foreground/5">
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${day.value}%` }}
                   transition={{ type: 'spring', stiffness: 120, damping: 18, delay: 0.05 }}
                   className={cn(
                     'w-full rounded-full',
-                    isActive ? 'bg-accent-2' : 'bg-accent-2/70',
+                    isActive ? 'bg-success' : 'bg-success/70',
                   )}
                 />
               </div>
               <span
                 className={cn(
                   'text-xs transition-colors',
-                  isActive ? 'text-white' : 'text-ink-muted',
+                  isActive ? 'text-foreground' : 'text-muted-foreground',
                 )}
               >
                 {day.label}
