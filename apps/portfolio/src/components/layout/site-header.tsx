@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   GalleryVerticalEnd,
@@ -6,18 +6,18 @@ import {
   type LucideIcon,
   PencilLine,
   UserRound,
-} from 'lucide-react';
-import Link from 'next/link';
+} from "lucide-react";
+import Link from "next/link";
 
-import { KiranLogoIcon } from '@/components/icons';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import { KiranLogoIcon } from "@/components/icons";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 const siteLinks: Array<{ href: string; label: string; icon: LucideIcon }> = [
-  { href: '/', label: 'Home', icon: House },
-  { href: '/projects', label: 'Projects', icon: GalleryVerticalEnd },
-  { href: '/about', label: 'Profile', icon: UserRound },
-  { href: '/articles', label: 'Stories', icon: PencilLine },
+  { href: "/", label: "Home", icon: House },
+  { href: "/projects", label: "Projects", icon: GalleryVerticalEnd },
+  { href: "/about", label: "Profile", icon: UserRound },
+  { href: "/articles", label: "Stories", icon: PencilLine },
 ];
 
 type NavLinkProps = {
@@ -32,15 +32,15 @@ function NavLink({ link, isActive }: NavLinkProps) {
   return (
     <Button
       asChild
-      variant={isActive ? 'secondary' : 'ghost'}
+      variant={isActive ? "secondary" : "ghost"}
       size="sm"
-      // 40px tall on phones, where the links are icon-only touch targets
-      className="group max-sm:h-10 max-sm:px-3"
+      // 40px tall and pill-shaped, matching the buttons on the right of the bar
+      className="group h-10 rounded-full px-3 sm:px-4"
     >
       <Link
         href={link.href}
         aria-label={link.label}
-        aria-current={isActive ? 'page' : undefined}
+        aria-current={isActive ? "page" : undefined}
       >
         <Icon
           aria-hidden="true"
@@ -69,12 +69,12 @@ export function SiteHeader({
   activePath,
   themeToggle,
   className,
-  widthClassName = 'max-w-7xl px-4 md:px-8',
+  widthClassName = "max-w-7xl px-4 md:px-8",
 }: SiteHeaderProps) {
   return (
     <header
       className={cn(
-        'bg-background/80 border-border z-50 border-b backdrop-blur',
+        "bg-background/80 border-border z-50 border-b backdrop-blur",
         className,
       )}
     >
@@ -82,15 +82,20 @@ export function SiteHeader({
         aria-label="Main"
         className={cn(
           // Three columns so the links sit in the true centre
-          'mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-2 py-3 md:gap-4',
+          "mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-2 py-3 md:gap-4",
           widthClassName,
         )}
       >
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-3 justify-self-start font-medium"
+          // The name is hidden on phones, so the link needs its own label
+          aria-label="Kiran Pingle, home"
+          className="focus-visible:ring-ring/50 flex shrink-0 items-center gap-3 justify-self-start rounded-lg font-medium outline-none focus-visible:ring-[3px]"
         >
-          <KiranLogoIcon aria-hidden="true" className="text-logo size-9 shrink-0" />
+          <KiranLogoIcon
+            aria-hidden="true"
+            className="text-logo size-9 shrink-0"
+          />
           <span className="hidden flex-col whitespace-nowrap sm:flex">
             <span className="text-sm leading-tight">Kiran Pingle</span>
             <span className="text-muted-foreground text-xs leading-tight">
