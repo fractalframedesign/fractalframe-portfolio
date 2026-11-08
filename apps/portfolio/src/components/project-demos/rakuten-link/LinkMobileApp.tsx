@@ -40,7 +40,7 @@ const StatusBar = ({ dark = false }: { dark?: boolean }) => (
     aria-hidden="true"
     className={cn(
       'flex h-11 shrink-0 items-center justify-between px-7 text-sm font-semibold',
-      dark ? 'text-white' : 'text-ink',
+      dark ? 'text-primary-foreground' : 'text-foreground',
     )}
   >
     <span>9:41</span>
@@ -59,7 +59,7 @@ const TabBar = ({
   tab: Tab;
   onChange: (tab: Tab) => void;
 }) => (
-  <nav className="bg-surface border-surface-border shrink-0 border-t pb-5">
+  <nav className="bg-card border-border shrink-0 border-t pb-5">
     <div role="tablist" aria-label="Rakuten Link" className="grid grid-cols-5">
       {TABS.map(({ id, label, icon: Icon }) => (
         <button
@@ -69,8 +69,8 @@ const TabBar = ({
           aria-selected={tab === id}
           onClick={() => onChange(id)}
           className={cn(
-            'focus-visible:ring-accent-1 relative flex flex-col items-center gap-1 pt-2 text-xs font-semibold outline-none focus-visible:ring-2 focus-visible:ring-inset',
-            tab === id ? 'text-ink' : 'text-ink-muted',
+            'focus-visible:ring-primary relative flex flex-col items-center gap-1 pt-2 text-xs font-semibold outline-none focus-visible:ring-2 focus-visible:ring-inset',
+            tab === id ? 'text-foreground' : 'text-muted-foreground',
           )}
         >
           <Icon
@@ -82,7 +82,7 @@ const TabBar = ({
           />
           {label}
           {id === 'messages' && unreadTotal > 0 && (
-            <span className="bg-accent-1 absolute top-1 left-1/2 ms-1 rounded-full px-2 text-xs leading-4 text-white">
+            <span className="bg-primary absolute top-1 left-1/2 ms-1 rounded-full px-2 text-xs leading-4 text-primary-foreground">
               {unreadTotal}
               <span className="sr-only"> unread</span>
             </span>
@@ -95,8 +95,8 @@ const TabBar = ({
 
 /** The other tabs exist in the app but aren't part of this demo */
 const PlaceholderTab = ({ label }: { label: string }) => (
-  <div className="text-ink-muted flex flex-1 flex-col items-center justify-center gap-2 px-10 text-center">
-    <p className="text-ink font-semibold">{label}</p>
+  <div className="text-muted-foreground flex flex-1 flex-col items-center justify-center gap-2 px-10 text-center">
+    <p className="text-foreground font-semibold">{label}</p>
     <p className="text-sm">Not part of this demo. Try Calls or Messages.</p>
   </div>
 );
@@ -131,10 +131,10 @@ export function LinkMobileApp({
     CONVERSATIONS.find((c) => c.contactId === chatId)?.days ?? [];
 
   return (
-    <div className="bg-surface border-ink relative mx-auto flex h-190 scheme-light w-full max-w-95 flex-col overflow-hidden rounded-[3rem] border-[10px] shadow-2xl">
+    <div className="bg-card border-foreground relative mx-auto flex h-190 scheme-light w-full max-w-95 flex-col overflow-hidden rounded-[3rem] border-[10px] shadow-2xl">
       {splash ? (
         <div className="flex flex-1 items-center justify-center">
-          <p className="text-accent-1 text-3xl font-bold tracking-tight">
+          <p className="text-primary text-3xl font-bold tracking-tight">
             Rakuten Link
           </p>
         </div>
@@ -143,19 +143,19 @@ export function LinkMobileApp({
           <StatusBar />
           {chatContact ? (
             <div className="flex min-h-0 flex-1 flex-col">
-              <header className="bg-surface border-surface-border flex h-14 shrink-0 items-center gap-2 border-b px-2">
+              <header className="bg-card border-border flex h-14 shrink-0 items-center gap-2 border-b px-2">
                 <button
                   type="button"
                   aria-label="Back"
                   onClick={() => setChatId(null)}
-                  className="text-ink p-2"
+                  className="text-foreground p-2"
                 >
                   <ChevronLeft aria-hidden="true" className="size-6" />
                 </button>
-                <h2 className="text-ink min-w-0 flex-1 truncate text-lg font-bold">
+                <h2 className="text-foreground min-w-0 flex-1 truncate text-lg font-bold">
                   {chatContact.name}
                   {!chatContact.onLink && (
-                    <span className="text-ink-muted block text-xs font-normal">
+                    <span className="text-muted-foreground block text-xs font-normal">
                       SMS
                     </span>
                   )}
@@ -164,13 +164,13 @@ export function LinkMobileApp({
                   type="button"
                   aria-label={`Call ${chatContact.name}`}
                   onClick={() => startCall(chatContact)}
-                  className="text-ink p-2"
+                  className="text-foreground p-2"
                 >
                   <Phone aria-hidden="true" className="size-5" />
                 </button>
                 <MoreHorizontal
                   aria-hidden="true"
-                  className="text-ink me-2 size-6"
+                  className="text-foreground me-2 size-6"
                 />
               </header>
               <ChatThread contact={chatContact} days={chatDays} />
@@ -184,8 +184,8 @@ export function LinkMobileApp({
                 />
               )}
               {tab === 'messages' && (
-                <div className="bg-surface min-h-0 flex-1 overflow-y-auto">
-                  <h2 className="text-ink flex h-14 items-center justify-center text-lg font-semibold">
+                <div className="bg-card min-h-0 flex-1 overflow-y-auto">
+                  <h2 className="text-foreground flex h-14 items-center justify-center text-lg font-semibold">
                     Messages
                   </h2>
                   <ConversationList

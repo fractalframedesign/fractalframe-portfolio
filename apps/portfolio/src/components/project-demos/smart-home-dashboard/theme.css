@@ -28,7 +28,7 @@
   --secondary-foreground: #0b0b0d;
 
   --muted: color-mix(in oklab, var(--foreground) 5%, transparent);
-  --muted-foreground: color-mix(in oklab, var(--foreground) 45%, transparent);
+  --muted-foreground: color-mix(in oklab, var(--foreground) 62%, transparent);
 
   --accent: oklch(from var(--primary) 0.87 0.06 h);
   --accent-foreground: oklch(from var(--primary) 0.45 0.17 h);
@@ -57,7 +57,7 @@
   --card: #17181c;
 
   --muted: color-mix(in oklab, var(--foreground) 10%, transparent);
-  --muted-foreground: color-mix(in oklab, var(--foreground) 40%, transparent);
+  --muted-foreground: color-mix(in oklab, var(--foreground) 60%, transparent);
 
   --accent: oklch(from var(--primary) 0.3 0.09 h);
   --accent-foreground: oklch(from var(--primary) 0.87 0.06 h);

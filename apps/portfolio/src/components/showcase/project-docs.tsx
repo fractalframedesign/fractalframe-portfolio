@@ -14,13 +14,14 @@ export function ProjectDocs({
       <section className="max-w-3xl space-y-3">
         <h2 className="text-xl font-semibold">Theming</h2>
         <p className="text-muted-foreground">
-          Colours come from semantic tokens (canvas, surface, ink, accent-1 to
-          accent-4) defined under{' '}
+          Colours use the standard token names (primary, secondary, muted,
+          accent, card, border, ring). The brand colours are set under{' '}
           <code className="bg-muted rounded px-2 py-1 text-sm">
             [data-project=&quot;{project.scope}&quot;]
           </code>{' '}
-          in this project&apos;s theme.css. The tokens are scoped, so they
-          never affect the portfolio or other projects.
+          in this project&apos;s theme.css, and every token derives from them.
+          Change one brand colour and the whole project follows. The tokens
+          are scoped, so they never affect the portfolio or other projects.
         </p>
       </section>
       )}

@@ -35,26 +35,13 @@
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
+  --color-logo: var(--logo);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-text: var(--success-text);
-  /* Token names the embedded demos use on project detail pages (their values come from each demo's own theme.css) */
-  --color-canvas: var(--canvas);
-  --color-surface: var(--surface);
-  --color-surface-border: var(--surface-border);
-  --color-ink: var(--ink);
-  --color-ink-muted: var(--ink-muted);
-  --color-accent-1: var(--accent-1);
-  --color-accent-1-soft: var(--accent-1-soft);
-  --color-accent-1-deep: var(--accent-1-deep);
-  --color-accent-2: var(--accent-2);
-  --color-accent-2-soft: var(--accent-2-soft);
-  --color-accent-3: var(--accent-3);
-  --color-accent-3-deep: var(--accent-3-deep);
-  --color-accent-4: var(--accent-4);
   --color-success-hover: var(--success-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -144,6 +131,7 @@
   --border: oklch(0.918 0 0);
   --input: oklch(0.918 0 0);
   --ring: oklch(0.21 0 0);
+  --logo: #131313;
   --chart-1: oklch(0.646 0.177 36);
   --chart-2: oklch(0.6 0.1 179);
   --chart-3: oklch(0.35 0.04 220);
@@ -218,6 +206,7 @@
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
   --ring: oklch(0.87 0 0);
+  --logo: #dedede;
   --chart-1: oklch(0.623 0.214 259);
   --chart-2: oklch(0.723 0.191 142.5);
   --chart-3: oklch(0.77 0.14 55);

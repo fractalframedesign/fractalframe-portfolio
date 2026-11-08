@@ -22,7 +22,7 @@ import { cn } from '@/lib/utils';
 const Lines = ({ widths }: { widths: string[] }) => (
   <span className="block space-y-2">
     {widths.map((w, i) => (
-      <span key={i} className={cn('bg-ink/15 block h-1 rounded-full', w)} />
+      <span key={i} className={cn('bg-foreground/15 block h-1 rounded-full', w)} />
     ))}
   </span>
 );
@@ -30,7 +30,7 @@ const Lines = ({ widths }: { widths: string[] }) => (
 const Pin = ({ n, className }: { n: number; className?: string }) => (
   <span
     className={cn(
-      'bg-accent-1 ring-surface absolute flex size-6 items-center justify-center rounded-full rounded-bl-none text-xs font-bold text-white shadow ring-2',
+      'bg-primary ring-card absolute flex size-6 items-center justify-center rounded-full rounded-bl-none text-xs font-bold text-primary-foreground shadow ring-2',
       className,
     )}
   >
@@ -47,19 +47,19 @@ const MiniScreen = ({
 }) => (
   <span
     className={cn(
-      'border-ink/20 block w-full rounded-xl border-2 p-2',
-      dark ? 'bg-accent-3' : 'bg-surface',
+      'border-foreground/20 block w-full rounded-xl border-2 p-2',
+      dark ? 'bg-foreground' : 'bg-card',
       className,
     )}
   >
-    <span className="bg-accent-1 block h-1 w-1/2 rounded-full" />
+    <span className="bg-primary block h-1 w-1/2 rounded-full" />
     <span className="mt-2 block space-y-2">
       {[0, 1, 2, 3, 4].map((i) => (
         <span
           key={i}
           className={cn(
             'block h-2 rounded',
-            dark ? 'bg-white/15' : 'bg-accent-2-soft',
+            dark ? 'bg-primary-foreground/15' : 'bg-muted',
           )}
         />
       ))}
@@ -89,7 +89,7 @@ const Cursor = ({
     />
     <span
       className={cn(
-        'mt-3 rounded-full px-2 py-1 text-xs font-semibold text-white',
+        'mt-3 rounded-full px-2 py-1 text-xs font-semibold text-primary-foreground',
         tone.replace('text-', 'bg-'),
       )}
     >
@@ -104,7 +104,7 @@ const Cursor = ({
 const DRAFTS = Array.from({ length: 15 }, (_, i) => i);
 
 const CanvasScene = () => (
-  <div className="bg-canvas relative flex size-full gap-[3%] overflow-hidden bg-[radial-gradient(color-mix(in_oklch,var(--color-ink)_18%,transparent)_1px,transparent_1px)] bg-size-[16px_16px] p-[4%]">
+  <div className="bg-background relative flex size-full gap-[3%] overflow-hidden bg-[radial-gradient(color-mix(in_oklch,var(--foreground)_18%,transparent)_1px,transparent_1px)] bg-size-[16px_16px] p-[4%]">
     <ul className="grid flex-1 grid-cols-5 grid-rows-3 gap-[4%]">
       {DRAFTS.map((i) => (
         <li key={i} className="relative">
@@ -121,16 +121,16 @@ const CanvasScene = () => (
     <div className="relative w-[24%] space-y-4 self-center">
       {[
         {
-          tone: 'bg-accent-4',
+          tone: 'bg-chart-2',
           w: ['w-full', 'w-3/4', 'w-1/2'],
           tilt: '-rotate-2',
         },
         {
-          tone: 'bg-accent-1-soft',
+          tone: 'bg-accent',
           w: ['w-5/6', 'w-full', 'w-2/3'],
           tilt: 'rotate-2',
         },
-        { tone: 'bg-accent-2-soft', w: ['w-full', 'w-1/2'], tilt: '-rotate-1' },
+        { tone: 'bg-muted', w: ['w-full', 'w-1/2'], tilt: '-rotate-1' },
       ].map((note) => (
         <span
           key={note.tone}
@@ -139,11 +139,11 @@ const CanvasScene = () => (
           <Lines widths={note.w} />
         </span>
       ))}
-      <span className="bg-surface border-surface-border block rounded-xl border p-3 text-left shadow-lg">
-        <span className="text-ink flex items-center gap-2 text-xs font-semibold">
+      <span className="bg-card border-border block rounded-xl border p-3 text-left shadow-lg">
+        <span className="text-foreground flex items-center gap-2 text-xs font-semibold">
           <MessageCircle aria-hidden="true" className="size-4" /> Brand
         </span>
-        <span className="text-ink-muted mt-1 block text-xs leading-snug">
+        <span className="text-muted-foreground mt-1 block text-xs leading-snug">
           Pink only for calling. Can we keep it off the chat screens?
         </span>
       </span>
@@ -152,44 +152,44 @@ const CanvasScene = () => (
 );
 
 const DesignToolScene = () => (
-  <div className="bg-surface flex size-full overflow-hidden">
-    <span className="border-surface-border hidden w-[18%] border-e p-3 sm:block">
+  <div className="bg-card flex size-full overflow-hidden">
+    <span className="border-border hidden w-[18%] border-e p-3 sm:block">
       <Lines widths={['w-3/4', 'w-1/2', 'w-2/3', 'w-1/2', 'w-3/4', 'w-1/3']} />
     </span>
-    <span className="bg-canvas relative flex flex-1 items-center justify-center gap-6">
-      <span className="border-ink bg-surface relative block h-[78%] w-[22%] min-w-24 rounded-2xl border-4 p-2">
-        <span className="bg-accent-1 block h-2 w-1/3 rounded-full" />
+    <span className="bg-background relative flex flex-1 items-center justify-center gap-6">
+      <span className="border-foreground bg-card relative block h-[78%] w-[22%] min-w-24 rounded-2xl border-4 p-2">
+        <span className="bg-primary block h-2 w-1/3 rounded-full" />
         <span className="mt-3 block space-y-2">
           {[0, 1, 2, 3, 4, 5].map((i) => (
             <span key={i} className="flex items-center gap-2">
-              <span className="bg-accent-2-soft block size-4 shrink-0 rounded-full" />
-              <span className="bg-ink/15 block h-1 flex-1 rounded-full" />
-              <span className="bg-accent-1 block size-2 rounded-full" />
+              <span className="bg-muted block size-4 shrink-0 rounded-full" />
+              <span className="bg-foreground/15 block h-1 flex-1 rounded-full" />
+              <span className="bg-primary block size-2 rounded-full" />
             </span>
           ))}
         </span>
         <Pin n={5} className="top-[30%] -right-3" />
       </span>
-      <span className="border-ink bg-accent-3 relative hidden h-[78%] w-[22%] min-w-24 rounded-2xl border-4 sm:block">
-        <span className="mx-auto mt-[40%] block size-10 rounded-full bg-white/20" />
+      <span className="border-foreground bg-foreground relative hidden h-[78%] w-[22%] min-w-24 rounded-2xl border-4 sm:block">
+        <span className="mx-auto mt-[40%] block size-10 rounded-full bg-primary-foreground/20" />
         <span className="bg-destructive mx-auto mt-[60%] block size-6 rounded-full" />
         <Pin n={6} className="bottom-[14%] -left-3" />
       </span>
       <Cursor
         label="PM"
-        tone="text-accent-2"
+        tone="text-secondary"
         className="top-[18%] left-[18%]"
         drift={{ x: [0, 40, 10, 0], y: [0, 20, 50, 0] }}
       />
       <Cursor
         label="Brand"
-        tone="text-accent-1"
+        tone="text-primary"
         className="top-[60%] left-[30%]"
         drift={{ x: [0, -20, 30, 0], y: [0, -30, -10, 0] }}
       />
       <Cursor
         label="Eng"
-        tone="text-accent-3"
+        tone="text-foreground"
         className="top-[30%] right-[22%]"
         drift={{ x: [0, 25, -15, 0], y: [0, 35, 10, 0] }}
       />
@@ -200,7 +200,7 @@ const DesignToolScene = () => (
         drift={{ x: [0, -30, -10, 0], y: [0, -15, -40, 0] }}
       />
     </span>
-    <span className="border-surface-border w-[26%] space-y-3 border-s p-3 max-sm:hidden">
+    <span className="border-border w-[26%] space-y-3 border-s p-3 max-sm:hidden">
       {[
         {
           who: 'PM',
@@ -209,11 +209,11 @@ const DesignToolScene = () => (
         { who: 'Eng', text: 'Desktop can reuse the same chat bubble.' },
         { who: 'Kiran', text: 'Updated: one call button size across apps.' },
       ].map((c) => (
-        <span key={c.who} className="bg-canvas block rounded-lg p-2">
-          <span className="text-ink block text-xs font-semibold">
+        <span key={c.who} className="bg-background block rounded-lg p-2">
+          <span className="text-foreground block text-xs font-semibold">
             {c.who}
           </span>
-          <span className="text-ink-muted block text-xs leading-snug">
+          <span className="text-muted-foreground block text-xs leading-snug">
             {c.text}
           </span>
         </span>
@@ -223,10 +223,10 @@ const DesignToolScene = () => (
 );
 
 const CallScene = () => (
-  <div className="bg-accent-3-deep flex size-full flex-col gap-2 p-3">
+  <div className="bg-[color-mix(in_oklab,var(--foreground)_35%,black)] flex size-full flex-col gap-2 p-3">
     <span className="grid flex-1 grid-cols-3 grid-rows-2 gap-2">
-      <span className="bg-surface relative col-span-2 row-span-2 rounded-xl p-3">
-        <span className="text-ink-muted block text-xs">
+      <span className="bg-card relative col-span-2 row-span-2 rounded-xl p-3">
+        <span className="text-muted-foreground block text-xs">
           Kiran is sharing a screen
         </span>
         <span className="mt-2 flex h-[80%] items-center justify-center gap-3">
@@ -241,9 +241,9 @@ const CallScene = () => (
       {['PM', 'Brand', 'Eng', 'Biz'].slice(0, 2).map((who) => (
         <span
           key={who}
-          className="bg-accent-3 relative flex items-center justify-center rounded-xl"
+          className="bg-foreground relative flex items-center justify-center rounded-xl"
         >
-          <span className="bg-accent-2-soft text-ink flex size-10 items-center justify-center rounded-full text-xs font-bold">
+          <span className="bg-muted text-foreground flex size-10 items-center justify-center rounded-full text-xs font-bold">
             {who}
           </span>
         </span>
@@ -253,22 +253,22 @@ const CallScene = () => (
       {['Eng', 'Biz', 'QA', 'Legal'].map((who) => (
         <span
           key={who}
-          className="bg-accent-3 flex h-12 items-center justify-center rounded-lg"
+          className="bg-foreground flex h-12 items-center justify-center rounded-lg"
         >
-          <span className="bg-accent-2-soft text-ink flex size-7 items-center justify-center rounded-full text-xs font-bold">
+          <span className="bg-muted text-foreground flex size-7 items-center justify-center rounded-full text-xs font-bold">
             {who}
           </span>
         </span>
       ))}
     </span>
     <span className="flex justify-center gap-3 pt-1" aria-hidden="true">
-      <span className="flex size-8 items-center justify-center rounded-full bg-white/15 text-white">
+      <span className="flex size-8 items-center justify-center rounded-full bg-primary-foreground/15 text-primary-foreground">
         <Mic className="size-4" />
       </span>
-      <span className="flex size-8 items-center justify-center rounded-full bg-white/15 text-white">
+      <span className="flex size-8 items-center justify-center rounded-full bg-primary-foreground/15 text-primary-foreground">
         <Video className="size-4" />
       </span>
-      <span className="bg-destructive flex size-8 items-center justify-center rounded-full text-white">
+      <span className="bg-destructive flex size-8 items-center justify-center rounded-full text-primary-foreground">
         <PhoneOff className="size-4" />
       </span>
     </span>
@@ -286,11 +286,11 @@ const FLOW_BOXES = [
 ];
 
 const WhiteboardScene = () => (
-  <div className="bg-surface size-full">
+  <div className="bg-card size-full">
     <svg
       aria-hidden="true"
       viewBox="0 0 410 225"
-      className="text-ink size-full"
+      className="text-foreground size-full"
       fill="none"
     >
       <defs>
@@ -327,7 +327,7 @@ const WhiteboardScene = () => (
             width={w}
             height={32}
             rx={7}
-            className="fill-surface"
+            className="fill-card"
             stroke="currentColor"
             strokeWidth="1.5"
             strokeDasharray={dashed ? '4 3' : undefined}
@@ -336,7 +336,7 @@ const WhiteboardScene = () => (
             x={x + w / 2}
             y={y + 20}
             textAnchor="middle"
-            className="fill-ink text-xs font-semibold"
+            className="fill-foreground text-xs font-semibold"
           >
             {label}
           </text>
@@ -349,12 +349,12 @@ const WhiteboardScene = () => (
           width="90"
           height="50"
           rx="2"
-          className="fill-accent-1-soft"
+          className="fill-accent"
         />
-        <text x="318" y="166" className="fill-ink text-xs">
+        <text x="318" y="166" className="fill-foreground text-xs">
           Not on Link?
         </text>
-        <text x="318" y="178" className="fill-ink text-xs">
+        <text x="318" y="178" className="fill-foreground text-xs">
           Send them to SMS.
         </text>
       </g>
@@ -402,12 +402,13 @@ export default function RakutenLinkProcess() {
 
       <div
         data-project="rakuten-link"
+        data-preview="rakuten-link"
         className={cn(linkFonts, 'bigger-container space-y-4')}
       >
         <div
           aria-roledescription="slide"
           aria-label={`${index + 1} of ${SLIDES.length}: ${caption}`}
-          className="border-surface-border aspect-video overflow-hidden rounded-2xl border scheme-light"
+          className="border-border aspect-video overflow-hidden rounded-2xl border scheme-light"
         >
           <Scene />
         </div>

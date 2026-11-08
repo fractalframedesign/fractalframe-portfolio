@@ -61,7 +61,7 @@ export function ScenesPanel({
 
   return (
     <div
-      className={`mx-auto flex w-full min-w-70 max-w-145 flex-col gap-4 rounded-[1.75rem] bg-muted p-5 ${className}`}
+      className={`mx-auto flex w-full min-w-70 max-w-145 flex-col gap-4 rounded-[1.75rem] bg-muted p-6 ${className}`}
     >
       <div className="grid grid-cols-2 gap-4">
         {scenes.map((scene, index) => {
@@ -81,19 +81,19 @@ export function ScenesPanel({
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.97 }}
               aria-pressed={active}
-              className="relative flex flex-col items-start gap-6 rounded-3xl p-4 text-left shadow-[0_10px_24px_-14px_rgba(0,0,0,0.3)]"
+              className="relative flex flex-col items-start gap-6 rounded-3xl p-4 text-left shadow-[0_10px_24px_-14px_rgba(0,0,0,0.3)] outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
             >
               <div className="flex w-full items-center justify-between">
                 <span
                   className={`flex size-9 items-center justify-center rounded-full transition-colors ${
  active
  ? 'bg-primary-foreground text-chart-2'
- : 'bg-muted text-foreground/50 dark:text-foreground/60'
+ : 'bg-muted text-muted-foreground dark:text-foreground/60'
  }`}
                 >
                   <SceneIcon icon={scene.icon} />
                 </span>
-                <span className={active ? 'text-primary-foreground/80' : 'text-foreground/30'}>
+                <span className={active ? 'text-primary-foreground/80' : 'text-muted-foreground'}>
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <circle cx="8" cy="2.5" r="1.3" fill="currentColor" />
                     <circle cx="8" cy="8" r="1.3" fill="currentColor" />
@@ -102,8 +102,8 @@ export function ScenesPanel({
                 </span>
               </div>
               <div>
-                <p className={`font-bold ${active ? 'text-primary-foreground' : 'text-foreground'}`}>{scene.name}</p>
-                <p className={`text-sm ${active ? 'text-primary-foreground/70' : 'text-foreground/40'}`}>
+                <p className={`font-bold ${active ? 'text-secondary-foreground' : 'text-foreground'}`}>{scene.name}</p>
+                <p className={`text-sm ${active ? 'text-secondary-foreground/70' : 'text-muted-foreground'}`}>
                   {scene.deviceCount} Devices
                 </p>
               </div>
@@ -125,14 +125,14 @@ export function ScenesPanel({
             </svg>
           </motion.span>
           <div className="min-w-0 flex-1">
-            <p className="truncate font-bold text-foreground">You created {scenesCreated} scenes</p>
-            <p className="text-sm text-foreground/40 tabular-nums">{devicesInUse} devices in use</p>
+            <p className="font-bold text-foreground text-pretty">You created {scenesCreated} scenes</p>
+            <p className="text-sm text-muted-foreground tabular-nums">{devicesInUse} devices in use</p>
           </div>
           <motion.button
             type="button"
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.95 }}
-            className="shrink-0 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background transition-colors hover:bg-foreground/85"
+            className="shrink-0 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background transition-colors hover:bg-foreground/85 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
           >
             See All
           </motion.button>

@@ -41,36 +41,31 @@ import RakutenLinkProcess from './rakuten-link-process';
 
 // Rakuten Mobile foundation colours
 const SWATCHES = [
-  { label: 'Pink', role: 'Primary', hex: '#FF008C', className: 'bg-accent-1' },
+  { label: 'Pink', role: 'Primary', hex: '#FF008C' },
   {
     label: 'Blue',
     role: 'Ground',
     hex: '#000033',
-    className: 'bg-accent-3-deep',
   },
   {
     label: 'UI blue',
     role: 'Functional',
     hex: '#3B3BA3',
-    className: 'bg-accent-2',
   },
   {
     label: 'Yellow',
     role: 'Accent',
     hex: '#FFD900',
-    className: 'bg-(--link-yellow)',
   },
   {
     label: 'Purple',
     role: 'Accent',
     hex: '#5C00CC',
-    className: 'bg-(--link-purple)',
   },
   {
     label: 'Link blue',
     role: 'Links',
     hex: '#007ACC',
-    className: 'bg-(--link-blue)',
   },
 ];
 
@@ -98,7 +93,7 @@ const noop = () => {};
 /** A full-screen phone component at real phone size, scaled to fit a bento cell */
 const PhoneScale = ({ children }: { children: ReactNode }) => (
   <div className="relative m-auto h-143 w-71 shrink-0">
-    <div className="bg-surface absolute top-0 left-0 h-190 w-95 origin-top-left scale-75 overflow-hidden rounded-[2rem]">
+    <div className="bg-card absolute top-0 left-0 h-190 w-95 origin-top-left scale-75 overflow-hidden rounded-[2rem]">
       {children}
     </div>
   </div>
@@ -115,8 +110,8 @@ const Bubble = ({
 }) => (
   <span
     className={cn(
-      'text-ink max-w-[70%] rounded-2xl px-3 py-2 text-sm',
-      mine ? 'bg-accent-4 self-end' : 'bg-surface self-start',
+      'text-foreground max-w-[70%] rounded-2xl px-3 py-2 text-sm',
+      mine ? 'bg-chart-2 self-end' : 'bg-card self-start',
       className,
     )}
   >
@@ -126,7 +121,7 @@ const Bubble = ({
 
 const Meta = ({
   children,
-  tone = 'text-ink-muted',
+  tone = 'text-muted-foreground',
 }: {
   children: ReactNode;
   tone?: string;
@@ -140,7 +135,7 @@ const Meta = ({
 const ChatStates = () => (
   <div className="flex w-full flex-col gap-2 p-5">
     <Bubble mine={false}>
-      <span className="text-accent-1 block text-xs font-semibold">
+      <span className="text-primary block text-xs font-semibold">
         Maya Rao
       </span>
       Are you coming tonight too?
@@ -148,12 +143,12 @@ const ChatStates = () => (
     <Bubble>👋 Hi Aiko</Bubble>
     <Meta>
       Seen{' '}
-      <CheckCheck aria-hidden="true" className="text-(--link-blue) size-4" />{' '}
+      <CheckCheck aria-hidden="true" className="text-chart-4 size-4" />{' '}
       10:38 AM
     </Meta>
     <Bubble>
-      <span className="border-accent-1 mb-1 block border-s-2 ps-2 text-xs">
-        <span className="text-accent-1 block font-semibold">Ben Ito</span>
+      <span className="border-primary mb-1 block border-s-2 ps-2 text-xs">
+        <span className="text-primary block font-semibold">Ben Ito</span>
         Yes, it will be fun.
       </span>
       Great!
@@ -161,15 +156,15 @@ const ChatStates = () => (
     <Meta>
       Sending <Clock aria-hidden="true" className="size-3" />
     </Meta>
-    <Bubble className="border-destructive bg-surface border">
+    <Bubble className="border-destructive bg-card border">
       Call me later.
     </Bubble>
-    <Meta tone="text-accent-1">
+    <Meta tone="text-primary">
       Retry <RotateCw aria-hidden="true" className="size-3" />
     </Meta>
-    <Bubble className="text-ink-muted italic">You deleted this message</Bubble>
+    <Bubble className="text-muted-foreground italic">You deleted this message</Bubble>
     <Bubble>
-      <span className="text-ink-muted block text-xs">Forwarded</span>
+      <span className="text-muted-foreground block text-xs">Forwarded</span>
       Meet at the east exit.
     </Bubble>
   </div>
@@ -178,21 +173,21 @@ const ChatStates = () => (
 /** Dialog styles and the snackbar from the component library */
 const Dialogs = () => (
   <div className="m-auto flex w-full flex-col items-center gap-5 p-5">
-    <div className="bg-surface w-full max-w-60 rounded-xl shadow-lg">
-      <p className="text-ink px-4 pt-4 text-center text-sm font-semibold">
+    <div className="bg-card w-full max-w-60 rounded-xl shadow-lg">
+      <p className="text-foreground px-4 pt-4 text-center text-sm font-semibold">
         Clear chat
       </p>
-      <p className="text-ink-muted px-4 pt-2 pb-4 text-center text-xs leading-relaxed">
+      <p className="text-muted-foreground px-4 pt-2 pb-4 text-center text-xs leading-relaxed">
         Delete all messages and shared content between you and Maya Rao?
       </p>
-      <div className="border-surface-border grid grid-cols-2 border-t text-xs font-semibold">
-        <span className="text-ink py-3 text-center">CANCEL</span>
-        <span className="text-accent-1 border-surface-border border-s py-3 text-center">
+      <div className="border-border grid grid-cols-2 border-t text-xs font-semibold">
+        <span className="text-foreground py-3 text-center">CANCEL</span>
+        <span className="text-primary border-border border-s py-3 text-center">
           CLEAR
         </span>
       </div>
     </div>
-    <span className="bg-accent-3 rounded-md px-4 py-2 text-xs text-white">
+    <span className="bg-foreground rounded-md px-4 py-2 text-xs text-background">
       Muted successfully
     </span>
   </div>
@@ -212,19 +207,19 @@ const Specimen = ({
 }) => (
   <li
     className={cn(
-      'bg-surface border-surface-border flex flex-col overflow-hidden rounded-2xl border',
+      'bg-card border-border flex flex-col overflow-hidden rounded-2xl border',
       className,
     )}
   >
     <div
       inert
-      className="bg-canvas relative flex min-h-0 flex-1 overflow-hidden"
+      className="bg-background relative flex min-h-0 flex-1 overflow-hidden"
     >
       {children}
     </div>
     <div className="px-4 py-3">
-      <h3 className="text-ink text-sm font-semibold">{title}</h3>
-      <p className="text-ink-muted text-xs">{note}</p>
+      <h3 className="text-foreground text-sm font-semibold">{title}</h3>
+      <p className="text-muted-foreground text-xs">{note}</p>
     </div>
   </li>
 );
@@ -275,12 +270,13 @@ export default function RakutenLinkStory({
         </div>
         <div
           data-project="rakuten-link"
+          data-preview="rakuten-link"
           className={cn(linkFonts, 'bigger-container space-y-10')}
         >
-          <div className="bg-canvas rounded-3xl p-6 md:p-10">
+          <div className="bg-background rounded-3xl p-6 md:p-10">
             <LinkMobileApp />
           </div>
-          <div className="bg-canvas rounded-3xl p-4 md:p-8">
+          <div className="bg-background rounded-3xl p-4 md:p-8">
             <LinkDesktopApp />
           </div>
         </div>
@@ -299,6 +295,7 @@ export default function RakutenLinkStory({
         </div>
         <ul
           data-project="rakuten-link"
+          data-preview="rakuten-link"
           className={cn(
             linkFonts,
             'bigger-container grid grid-cols-1 gap-4 md:grid-cols-6',
@@ -331,7 +328,7 @@ export default function RakutenLinkStory({
             note="Last message, time and unread count"
             className="h-170 md:col-span-2"
           >
-            <div className="bg-surface w-full overflow-hidden">
+            <div className="bg-card w-full overflow-hidden">
               <ConversationList conversations={CONVERSATIONS} onOpen={noop} />
             </div>
           </Specimen>
@@ -359,6 +356,7 @@ export default function RakutenLinkStory({
         </div>
         <ul
           data-project="rakuten-link"
+          data-preview="rakuten-link"
           className={cn(
             linkFonts,
             'bigger-container grid grid-cols-1 gap-4 md:grid-cols-6',
@@ -373,15 +371,13 @@ export default function RakutenLinkStory({
               {SWATCHES.map((swatch) => (
                 <li key={swatch.label} className="space-y-2">
                   <span
-                    className={cn(
-                      'outline-ink/10 block h-14 rounded-xl outline -outline-offset-1',
-                      swatch.className,
-                    )}
+                    className="outline-foreground/10 block h-14 rounded-xl outline -outline-offset-1"
+                    style={{ backgroundColor: swatch.hex }}
                   />
-                  <span className="text-ink block text-xs font-semibold">
+                  <span className="text-foreground block text-xs font-semibold">
                     {swatch.label}
                   </span>
-                  <span className="text-ink-muted block text-xs">
+                  <span className="text-muted-foreground block text-xs">
                     {swatch.role} ·{' '}
                     <span className="tabular-nums">{swatch.hex}</span>
                   </span>
@@ -394,14 +390,14 @@ export default function RakutenLinkStory({
             note="Rubik for display and numbers, Noto Sans for text"
             className="md:col-span-2"
           >
-            <div className="text-ink m-auto flex flex-col items-center gap-6 p-6">
+            <div className="text-foreground m-auto flex flex-col items-center gap-6 p-6">
               <div className="text-center">
                 <p className={cn(DISPLAY, 'flex gap-3 text-5xl')}>
                   <span className="font-light">00</span>
                   <span className="font-medium">00</span>
                   <span className="font-bold">00</span>
                 </p>
-                <p className="text-ink-muted mt-2 text-xs">
+                <p className="text-muted-foreground mt-2 text-xs">
                   Rubik · Light, Medium, Bold
                 </p>
               </div>
@@ -409,7 +405,7 @@ export default function RakutenLinkStory({
                 <p className="text-5xl">
                   Aa <span className="font-bold">Aa</span>
                 </p>
-                <p className="text-ink-muted mt-2 text-xs">
+                <p className="text-muted-foreground mt-2 text-xs">
                   Noto Sans · Medium, Bold
                 </p>
               </div>
@@ -420,11 +416,11 @@ export default function RakutenLinkStory({
             note="Reduced to the simplest form, readable at small sizes"
             className="md:col-span-2"
           >
-            <ul className="text-ink m-auto grid grid-cols-5 gap-3 p-6">
+            <ul className="text-foreground m-auto grid grid-cols-5 gap-3 p-6">
               {ICONS.map((Icon, i) => (
                 <li
                   key={i}
-                  className="bg-surface flex size-10 items-center justify-center rounded-lg"
+                  className="bg-card flex size-10 items-center justify-center rounded-lg"
                 >
                   <Icon
                     aria-hidden="true"

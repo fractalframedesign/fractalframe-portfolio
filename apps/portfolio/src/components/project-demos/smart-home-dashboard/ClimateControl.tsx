@@ -172,7 +172,7 @@ export function ClimateControl({
           </div>
           <div>
             <p className="text-base font-bold tracking-tight text-foreground">{label}</p>
-            <p className="text-sm text-foreground/45">{subtitle}</p>
+            <p className="text-sm text-muted-foreground">{subtitle}</p>
           </div>
         </div>
 
@@ -213,7 +213,7 @@ export function ClimateControl({
             type="button"
             onClick={() => setTimerIndex((i) => (i + 1) % TIMER_STEPS.length)}
             whileTap={{ scale: 0.94 }}
-            className="flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors hover:brightness-105"
+            className="flex items-center gap-2 rounded-full bg-accent px-4 py-2 text-sm font-semibold text-accent-foreground transition-colors hover:brightness-105 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.6" />
@@ -268,8 +268,20 @@ export function ClimateControl({
             aria-valuetext={`${value} degrees`}
             aria-disabled={!on}
             onKeyDown={handleKeyDown}
+            className="group/handle outline-none"
             style={{ outline: 'none' }}
           >
+            {/* 52-unit invisible target so the handle is easy to hit */}
+            <circle cx={handlePos.x} cy={handlePos.y} r={26} fill="transparent" />
+            {/* keyboard focus ring */}
+            <circle
+              cx={handlePos.x}
+              cy={handlePos.y}
+              r={21}
+              fill="none"
+              strokeWidth={3}
+              className="stroke-ring opacity-0 transition-opacity duration-150 group-focus-visible/handle:opacity-100"
+            />
             <circle cx={handlePos.x} cy={handlePos.y} r={13} fill={handleFill} stroke={accent} strokeWidth={4} />
           </g>
         </svg>
@@ -287,13 +299,13 @@ export function ClimateControl({
               {value}°
             </motion.span>
           </AnimatePresence>
-          <p className="mt-1 text-sm font-medium text-foreground/40">Temperature</p>
+          <p className="mt-1 text-sm font-medium text-muted-foreground">Temperature</p>
         </div>
 
-        <span className="pointer-events-none absolute bottom-1 left-2 text-sm font-medium text-foreground/35 tabular-nums">
+        <span className="pointer-events-none absolute bottom-1 left-2 text-sm font-medium text-muted-foreground tabular-nums">
           {min}°
         </span>
-        <span className="pointer-events-none absolute right-2 bottom-1 text-sm font-medium text-foreground/35 tabular-nums">
+        <span className="pointer-events-none absolute right-2 bottom-1 text-sm font-medium text-muted-foreground tabular-nums">
           {max}°
         </span>
       </div>

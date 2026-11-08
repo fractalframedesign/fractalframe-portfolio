@@ -7,9 +7,9 @@ import {
   PencilLine,
   UserRound,
 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 
+import { KiranLogoIcon } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
@@ -90,14 +90,7 @@ export function SiteHeader({
           href="/"
           className="flex shrink-0 items-center gap-3 justify-self-start font-medium"
         >
-          <span className="relative size-9 shrink-0 overflow-hidden rounded-lg">
-            <Image
-              src="/images/home/Kiran-Pingle.png"
-              alt=""
-              fill
-              className="object-cover"
-            />
-          </span>
+          <KiranLogoIcon aria-hidden="true" className="text-logo size-9 shrink-0" />
           <span className="hidden flex-col whitespace-nowrap sm:flex">
             <span className="text-sm leading-tight">Kiran Pingle</span>
             <span className="text-muted-foreground text-xs leading-tight">

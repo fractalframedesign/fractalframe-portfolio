@@ -1,21 +1,50 @@
-/* Rakuten Link palette, scoped to this project only. From the Rakuten Mobile foundation colours. */
+/* Rakuten Link palette, scoped to this project only. From the Rakuten Mobile
+   foundation colours. --brand-* are the colour inputs. Every token below
+   derives from them, so changing one value re-colours the demo. */
 [data-project='rakuten-link'] {
-  --canvas: #f5f5fa;
-  --surface: #ffffff;
-  --surface-border: #e4e4ee;
-  --ink: #232361;
-  --ink-muted: #6b6b94;
-  --accent-1: #ff008c;
-  --accent-1-soft: #ffcce8;
-  --accent-1-deep: #cc0070;
-  --accent-2: #3b3ba3;
-  --accent-2-soft: #e8e8f4;
-  --accent-3: #232361;
-  --accent-3-deep: #000033;
-  --accent-4: #d2dff7;
-  --link-yellow: #ffd900;
-  --link-orange: #ffae00;
-  --link-purple: #5c00cc;
-  --link-blue: #007acc;
+  --brand-primary: #ff008c; /* pink */
+  --brand-secondary: #3b3ba3; /* UI blue */
+  --brand-ground: #232361; /* navy text and dark screens */
+
   font-family: var(--font-link-text), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Standard shadcn token names for the app (it is always light). */
+[data-preview='rakuten-link'] {
+  --background: #f5f5fa;
+  --foreground: var(--brand-ground);
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--brand-secondary);
+  --secondary-foreground: #ffffff;
+
+  --muted: #e8e8f4;
+  --muted-foreground: #6b6b94;
+
+  --accent: oklch(from var(--primary) 0.9 0.07 h);
+  --accent-foreground: oklch(from var(--primary) 0.5 0.2 h);
+
+  --destructive: oklch(0.58 0.22 25);
+  --destructive-foreground: #ffffff;
+  --warning: #ffae00;
+  --warning-foreground: #232361;
+
+  --border: #e4e4ee;
+  --input: var(--border);
+  --ring: var(--primary);
+
+  /* chart-1 is the brand pink; the rest are the app's fixed accents */
+  --chart-1: var(--primary);
+  --chart-2: #d2dff7; /* pale blue: own message bubbles */
+  --chart-3: #ffd900; /* yellow */
+  --chart-4: #007acc; /* link blue: links, read ticks */
+  --chart-5: #5c00cc; /* purple */
 }

@@ -28,14 +28,14 @@ export function VoiceRecorder({
     <div
       role="dialog"
       aria-label="Voice recording"
-      className="bg-surface absolute inset-0 z-10 flex flex-col"
+      className="bg-card absolute inset-0 z-10 flex flex-col"
     >
-      <header className="border-surface-border relative flex h-14 items-center justify-center border-b">
-        <h2 className="text-ink text-lg font-semibold">Voice Recording</h2>
+      <header className="border-border relative flex h-14 items-center justify-center border-b">
+        <h2 className="text-foreground text-lg font-semibold">Voice Recording</h2>
         <button
           type="button"
           onClick={onCancel}
-          className="text-accent-2 absolute end-4"
+          className="text-secondary absolute end-4"
         >
           Cancel
         </button>
@@ -43,17 +43,17 @@ export function VoiceRecorder({
 
       <div className="flex flex-1 flex-col items-center justify-center gap-10">
         <div className="text-center">
-          <p className="text-accent-1-deep font-(family-name:--font-link-display) text-5xl font-light tabular-nums">
+          <p className="text-accent-foreground font-(family-name:--font-link-display) text-5xl font-light tabular-nums">
             00:{String(seconds).padStart(2, '0')}
           </p>
-          <p className="text-ink-muted mt-2">
+          <p className="text-muted-foreground mt-2">
             {paused ? 'Paused' : 'Recording…'}
           </p>
         </div>
-        <span className="border-accent-1-soft rounded-full border-4 p-3">
+        <span className="border-accent rounded-full border-4 p-3">
           <span
             className={cn(
-              'bg-accent-1 flex size-24 items-center justify-center rounded-full text-white',
+              'bg-primary flex size-24 items-center justify-center rounded-full text-primary-foreground',
               !paused && 'motion-safe:animate-pulse',
             )}
           >
@@ -63,9 +63,9 @@ export function VoiceRecorder({
         <button
           type="button"
           onClick={() => setPaused(!paused)}
-          className="text-ink flex flex-col items-center gap-2"
+          className="text-foreground flex flex-col items-center gap-2"
         >
-          <span className="border-ink flex size-14 items-center justify-center rounded-full border-2">
+          <span className="border-foreground flex size-14 items-center justify-center rounded-full border-2">
             {paused ? (
               <Play aria-hidden="true" className="size-5" />
             ) : (
@@ -76,14 +76,14 @@ export function VoiceRecorder({
         </button>
       </div>
 
-      <footer className="border-surface-border flex items-center gap-3 border-t px-4 py-3">
-        <p className="text-ink-muted flex-1 text-center">Send to {recipient}</p>
+      <footer className="border-border flex items-center gap-3 border-t px-4 py-3">
+        <p className="text-muted-foreground flex-1 text-center">Send to {recipient}</p>
         <button
           type="button"
           aria-label="Send voice message"
           disabled={seconds === 0}
           onClick={() => onSend(seconds)}
-          className="bg-accent-2 flex size-12 items-center justify-center rounded-full text-white disabled:opacity-50"
+          className="bg-secondary flex size-12 items-center justify-center rounded-full text-primary-foreground disabled:opacity-50"
         >
           <SendHorizontal aria-hidden="true" className="size-5" />
         </button>

@@ -163,7 +163,9 @@ To add a showcase project:
 4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page as a `ComponentGallery` (see `fintech-components`) or from `ComponentSection` bands.
 5. Add the portfolio card as `content/projects/<slug>.mdx` (a project detail, not showcase) with `category: upcoming`, `liveUrl: /showcase/<slug>` and `sourceUrl: /showcase/<slug>/docs`.
 
-Status: `fintech-components`, `finance-dashboard` and `smart-home-dashboard` follow these rules. `rakuten-link` is self-contained but still uses the old token names (`canvas`, `surface`, `ink`, `accent-1..4`); migrate it the same way.
+Status: all four projects (`fintech-components`, `finance-dashboard`, `smart-home-dashboard`, `rakuten-link`) follow these rules. The one remaining literal set is Rakuten's brand-colour swatches on its project detail page, which document the real brand hex values on purpose.
+
+A `[data-preview]` scope covers only the demo, never the page chrome around it (headings and captions use the showcase's own tokens). A project's `[data-project]` can appear twice on a page (layout wrapper and `ShowcaseShell`); the inner one wins, so test brand changes on the element closest to the demo.
 
 ### Checks
 
