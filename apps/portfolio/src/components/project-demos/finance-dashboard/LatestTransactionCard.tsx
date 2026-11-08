@@ -29,18 +29,18 @@ export function LatestTransactionCard({
       </div>
 
       <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-[10px] font-black text-black">
+        <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-xs font-black text-black">
           {merchant.slice(0, 2)}
         </span>
         <div className="flex items-center">
-          <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-orange-300 text-[9px]">
+          <span className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-orange-300 text-xs">
             🙂
           </span>
-          <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-pink-300 text-[9px]">
+          <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-pink-300 text-xs">
             🙂
           </span>
           {extraPeople > 0 && (
-            <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-white/20 text-[9px] font-semibold">
+            <span className="-ml-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-surface bg-white/20 text-xs font-semibold">
               +{extraPeople}
             </span>
           )}

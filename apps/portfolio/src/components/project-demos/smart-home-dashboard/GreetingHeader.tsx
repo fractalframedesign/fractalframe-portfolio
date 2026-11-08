@@ -38,7 +38,7 @@ export function GreetingHeader({
   }, [menuOpen])
 
   return (
-    <div className={`mx-auto flex w-full min-w-[280px] max-w-[580px] items-center gap-4 ${className}`}>
+    <div className={`mx-auto flex w-full min-w-70 max-w-145 items-center gap-4 ${className}`}>
       <motion.div
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -53,7 +53,7 @@ export function GreetingHeader({
         initial={{ opacity: 0, x: -16 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: 'spring', duration: 0.6, bounce: 0.3, delay: 0.08 }}
-        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[28px] bg-gradient-to-br from-(--color-accent-2) to-(--color-accent-2-soft) px-7 py-5 shadow-[0_16px_36px_-16px_rgba(180,200,20,0.65)]"
+        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[1.75rem] bg-gradient-to-br from-(--color-accent-2) to-(--color-accent-2-soft) px-7 py-5 shadow-[0_16px_36px_-16px_rgba(180,200,20,0.65)]"
       >
         <div>
           <p className="text-xl font-bold tracking-tight text-ink">
@@ -90,7 +90,7 @@ export function GreetingHeader({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -4 }}
                 transition={{ type: 'spring', duration: 0.3, bounce: 0.2 }}
-                className="absolute top-12 right-0 z-10 w-44 overflow-hidden rounded-2xl bg-white p-1.5 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.35)] ring-1 ring-black/5 dark:bg-[#1c1d21] dark:ring-white/10"
+                className="absolute top-12 right-0 z-10 w-44 overflow-hidden rounded-2xl bg-white p-2 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.35)] ring-1 ring-black/5 dark:bg-[#1c1d21] dark:ring-white/10"
               >
                 {['Edit profile', 'Settings', 'Sign out'].map((item) => (
                   <button

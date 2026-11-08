@@ -4,7 +4,7 @@ import { Card } from '@/components/ui/card';
 
 const AboutHero = () => {
   return (
-    <section className="hero-padding pb-12.5 md:pb-15 lg:pb-18.75">
+    <section className="hero-padding pb-12 md:pb-15 lg:pb-19">
       <div className="container">
         <h1 className="text-3xl md:text-4xl">About me</h1>
       </div>

@@ -17,7 +17,7 @@ export function FiveStatesDemo() {
       controls={
         <span className="flex items-center gap-2">
           <Switch id="d1-disabled" checked={disabled} onCheckedChange={setDisabled} />
-          <Label htmlFor="d1-disabled" className="text-muted-foreground text-[13px] font-normal">
+          <Label htmlFor="d1-disabled" className="text-muted-foreground text-sm font-normal">
             Disabled state
           </Label>
         </span>

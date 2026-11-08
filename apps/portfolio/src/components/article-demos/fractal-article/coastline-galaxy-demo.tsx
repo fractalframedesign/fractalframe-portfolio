@@ -135,7 +135,7 @@ export function CoastlineGalaxyDemo() {
           <div className="mx-auto w-full max-w-60">
             <label
               htmlFor="coast-depth"
-              className="text-muted-foreground mb-2 flex justify-between font-mono text-[11px] tracking-[0.12em] uppercase"
+              className="text-muted-foreground mb-2 flex justify-between font-mono text-xs tracking-[0.12em] uppercase"
             >
               Recursion depth
               <output className="text-foreground">{coastDepth}</output>
@@ -150,7 +150,7 @@ export function CoastlineGalaxyDemo() {
               className="accent-primary w-full"
             />
           </div>
-          <figcaption className="text-muted-foreground text-center font-mono text-[11px] tracking-[0.12em] uppercase">
+          <figcaption className="text-muted-foreground text-center font-mono text-xs tracking-[0.12em] uppercase">
             Coastline · same rule at three zooms — tap to redraw
           </figcaption>
         </figure>
@@ -159,7 +159,7 @@ export function CoastlineGalaxyDemo() {
           <div className="mx-auto w-full max-w-60">
             <label
               htmlFor="galaxy-depth"
-              className="text-muted-foreground mb-2 flex justify-between font-mono text-[11px] tracking-[0.12em] uppercase"
+              className="text-muted-foreground mb-2 flex justify-between font-mono text-xs tracking-[0.12em] uppercase"
             >
               Recursion depth
               <output className="text-foreground">{galaxyDepth}</output>
@@ -174,7 +174,7 @@ export function CoastlineGalaxyDemo() {
               className="accent-primary w-full"
             />
           </div>
-          <figcaption className="text-muted-foreground text-center font-mono text-[11px] tracking-[0.12em] uppercase">
+          <figcaption className="text-muted-foreground text-center font-mono text-xs tracking-[0.12em] uppercase">
             Galaxy · one spiral, every scale
           </figcaption>
         </figure>

@@ -63,7 +63,7 @@ export function ScenesPanel({
 
   return (
     <div
-      className={`mx-auto flex w-full min-w-[280px] max-w-[580px] flex-col gap-4 rounded-[28px] bg-black/[0.04] p-5 dark:bg-white/[0.06] ${className}`}
+      className={`mx-auto flex w-full min-w-70 max-w-145 flex-col gap-4 rounded-[1.75rem] bg-black/[0.04] p-5 dark:bg-white/[0.06] ${className}`}
     >
       <div className="grid grid-cols-2 gap-4">
         {scenes.map((scene, index) => {
@@ -115,7 +115,7 @@ export function ScenesPanel({
       </div>
 
       {showCreateRow ? (
-        <div className="flex items-center gap-3 rounded-3xl bg-white p-3.5 shadow-[0_10px_24px_-16px_rgba(0,0,0,0.3)] dark:bg-[#1c1d21]">
+        <div className="flex items-center gap-3 rounded-3xl bg-white p-4 shadow-[0_10px_24px_-16px_rgba(0,0,0,0.3)] dark:bg-[#1c1d21]">
           <motion.span
             whileHover={{ rotate: 90 }}
             transition={{ type: 'spring', duration: 0.4 }}

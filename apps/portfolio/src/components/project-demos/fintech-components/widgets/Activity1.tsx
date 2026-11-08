@@ -75,7 +75,7 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
   if (!active || !payload?.length) return null
   const point = payload[0].payload
   return (
-    <div className="rounded-full bg-foreground px-3 py-1.5 text-sm font-medium text-background shadow-md">
+    <div className="rounded-full bg-foreground px-3 py-2 text-sm font-medium text-background shadow-md">
       {point.label} &bull; {currency(point.value)}
     </div>
   )
@@ -101,11 +101,11 @@ export function Activity1({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-20" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-20 rounded-full" />
               <Skeleton className="size-8 rounded-full" />
             </div>
@@ -113,25 +113,25 @@ export function Activity1({
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-col gap-2">
               <Skeleton className="h-8 w-40" />
-              <Skeleton className="h-3.5 w-32" />
+              <Skeleton className="h-4 w-32" />
             </div>
             <Skeleton className="h-7 w-16 rounded-full" />
           </div>
         </div>
-        <Skeleton className="h-[232px] w-full rounded-xl" />
+        <Skeleton className="h-58 w-full rounded-xl" />
       </Card>
     )
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between gap-2">
           <h3 className="font-mono text-sm font-normal uppercase tracking-[0.03em] text-muted-foreground">
             {title}
           </h3>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <div className="relative shrink-0">
               <Button
                 type="button"
@@ -149,7 +149,7 @@ export function Activity1({
                 <div
                   role="listbox"
                   aria-label="Select date range"
-                  className="absolute right-0 top-full z-10 mt-1.5 w-44 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
+                  className="absolute right-0 top-full z-10 mt-2 w-44 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
                 >
                   {ranges.map((option, index) => (
                     <button
@@ -162,12 +162,12 @@ export function Activity1({
                         setMenuOpen(false)
                       }}
                       className={cn(
-                        'flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
+                        'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
                         index === rangeIndex ? 'text-primary' : 'text-popover-foreground',
                       )}
                     >
                       {option.label}
-                      {index === rangeIndex && <Check className="size-3.5" />}
+                      {index === rangeIndex && <Check className="size-4" />}
                     </button>
                   ))}
                 </div>
@@ -187,8 +187,8 @@ export function Activity1({
         </div>
 
         <div className="flex w-full items-center justify-between gap-3">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
               {currency(totalAmount)}
             </p>
             <p className="text-sm font-medium text-muted-foreground">{totalLabel}</p>
@@ -201,7 +201,7 @@ export function Activity1({
       </div>
       )}
 
-      <div className="h-[232px] w-full">
+      <div className="h-58 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 8, right: 8, bottom: 0, left: -8 }}>
             <defs>

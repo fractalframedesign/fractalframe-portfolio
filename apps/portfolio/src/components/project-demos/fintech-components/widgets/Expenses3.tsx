@@ -60,7 +60,7 @@ export function Expenses3({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex flex-col gap-2 border-b border-border pb-3">
           <div className="flex items-center justify-between">
             <Skeleton className="h-4 w-28" />
@@ -69,21 +69,21 @@ export function Expenses3({
           <div className="flex items-center justify-between pt-2">
             <div className="flex flex-col gap-1">
               <Skeleton className="h-8 w-36" />
-              <Skeleton className="h-3.5 w-24" />
+              <Skeleton className="h-4 w-24" />
             </div>
             <Skeleton className="h-7 w-20 rounded-full" />
           </div>
         </div>
         <div className="flex gap-6">
-          <div className="flex w-[120px] flex-col justify-between gap-3">
+          <div className="flex w-30 flex-col justify-between gap-3">
             {DEFAULT_CATEGORIES.map((c) => (
               <div key={c.key} className="flex items-center gap-3">
                 <Skeleton className="size-6 rounded-full" />
-                <Skeleton className="h-3.5 w-16" />
+                <Skeleton className="h-4 w-16" />
               </div>
             ))}
           </div>
-          <div className="flex flex-1 flex-col justify-between gap-2.5">
+          <div className="flex flex-1 flex-col justify-between gap-3">
             {DEFAULT_CATEGORIES.map((c) => (
               <Skeleton key={c.key} className="h-6 w-full rounded-md" />
             ))}
@@ -94,7 +94,7 @@ export function Expenses3({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex flex-col gap-2 border-b border-border pb-3">
         <div className="flex items-center justify-between">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-muted-foreground">
@@ -112,8 +112,8 @@ export function Expenses3({
           </Button>
         </div>
         <div className="flex items-center justify-between pt-1">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-tight tracking-tight text-foreground"><NumberPopIn value={String(total)} /></p>
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-tight tracking-tight text-foreground"><NumberPopIn value={String(total)} /></p>
             <p className="text-sm font-medium text-muted-foreground">{period}</p>
           </div>
           <div className="flex items-center gap-1 rounded-full bg-muted px-2 py-1">
@@ -124,7 +124,7 @@ export function Expenses3({
       </div>
 
       <div className="flex gap-6">
-        <div className="flex w-[128px] flex-col justify-between gap-3">
+        <div className="flex w-32 flex-col justify-between gap-3">
           {categories.map((c) => {
             const Icon = c.icon
             const isActive = activeKey === c.key
@@ -135,7 +135,7 @@ export function Expenses3({
                 onClick={() => setActiveKey(isActive ? null : c.key)}
                 aria-pressed={isActive}
                 className={cn(
-                  'flex items-center gap-3 rounded-md px-1 py-0.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                  'flex items-center gap-3 rounded-md px-1 py-1 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
                   isActive ? 'text-primary' : 'text-foreground hover:text-primary/80',
                 )}
               >
@@ -145,7 +145,7 @@ export function Expenses3({
             )
           })}
         </div>
-        <div className="flex flex-1 flex-col justify-between gap-2.5">
+        <div className="flex flex-1 flex-col justify-between gap-3">
           {categories.map((c) => {
             const isActive = activeKey === c.key
             return (

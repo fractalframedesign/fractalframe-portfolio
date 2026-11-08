@@ -62,11 +62,11 @@ export function CardsOverview({
   }
 
   return (
-    <Card className={cn('max-w-[480px] p-6', className)}>
+    <Card className={cn('max-w-120 p-6', className)}>
       <CardHeader className="gap-4 p-0">
         <div className="flex items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-wide text-muted-foreground">{title}</p>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <Button
               variant="secondary"
               size="icon-sm"
@@ -74,7 +74,7 @@ export function CardsOverview({
               aria-label={revealed ? 'Hide balances' : 'Show balances'}
               onClick={() => setRevealed((v) => !v)}
             >
-              {revealed ? <Eye className="size-3.5" /> : <EyeOff className="size-3.5" />}
+              {revealed ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
             </Button>
             <Button
               variant="secondary"
@@ -83,7 +83,7 @@ export function CardsOverview({
               aria-label="Refresh cards"
               onClick={refresh}
             >
-              <RefreshCw className="size-3.5" />
+              <RefreshCw className="size-4" />
             </Button>
           </div>
         </div>
@@ -91,13 +91,13 @@ export function CardsOverview({
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-2">
               <Skeleton className="h-8 w-40" />
-              <Skeleton className="h-3.5 w-28" />
+              <Skeleton className="h-4 w-28" />
             </div>
             <Skeleton className="h-7 w-16 rounded-full" />
           </div>
         ) : (
           <div className="flex items-center justify-between">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-1">
               <p className="text-3xl font-semibold tracking-tight text-foreground">
                 {revealed ? formatCurrency(total) : '••••••'}
               </p>
@@ -115,7 +115,7 @@ export function CardsOverview({
         {loading ? (
           <div className="flex flex-col gap-2">
             {[0, 1, 2].map((i) => (
-              <Skeleton key={i} className="h-[62px] w-full rounded-xl" />
+              <Skeleton key={i} className="h-16 w-full rounded-xl" />
             ))}
           </div>
         ) : (
@@ -155,9 +155,9 @@ export function CardsOverview({
                     >
                       Mastercard {card.last4}
                       {isCopied ? (
-                        <Check className="size-3.5 text-success" />
+                        <Check className="size-4 text-success" />
                       ) : (
-                        <Copy className="size-3.5" />
+                        <Copy className="size-4" />
                       )}
                     </button>
                   </div>

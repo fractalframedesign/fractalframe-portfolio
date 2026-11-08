@@ -49,26 +49,26 @@ function formatCardNumber(value: string) {
 
 function QuickTransferSkeleton({ className }: { className?: string }) {
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-28" />
         <Skeleton className="size-9 rounded-full" />
       </div>
       <div className="flex items-center">
         {[0, 1, 2, 3, 4, 5, 6].map((i) => (
-          <Skeleton key={i} className={cn('size-[60px] shrink-0 rounded-full border-2 border-card', i > 0 && '-ml-1')} />
+          <Skeleton key={i} className={cn('size-15 shrink-0 rounded-full border-2 border-card', i > 0 && '-ml-1')} />
         ))}
       </div>
       <div className="flex flex-col gap-3">
-        <Skeleton className="h-[54px] w-full rounded-xl" />
+        <Skeleton className="h-14 w-full rounded-xl" />
         <div className="flex gap-2">
-          <Skeleton className="h-[54px] flex-1 rounded-xl" />
-          <Skeleton className="h-[54px] w-20 rounded-xl" />
+          <Skeleton className="h-14 flex-1 rounded-xl" />
+          <Skeleton className="h-14 w-20 rounded-xl" />
         </div>
       </div>
       <div className="flex w-full gap-2">
-        <Skeleton className="h-[60px] flex-1 rounded-2xl" />
-        <Skeleton className="h-[60px] flex-1 rounded-2xl" />
+        <Skeleton className="h-15 flex-1 rounded-2xl" />
+        <Skeleton className="h-15 flex-1 rounded-2xl" />
       </div>
     </div>
   )
@@ -106,7 +106,7 @@ export function QuickTransfer({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -124,7 +124,7 @@ export function QuickTransfer({
         <button
           type="button"
           aria-label="Add new contact"
-          className="z-0 flex size-[60px] shrink-0 items-center justify-center rounded-full bg-foreground text-background transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="z-0 flex size-15 shrink-0 items-center justify-center rounded-full bg-foreground text-background transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <Plus className="size-6" />
         </button>
@@ -140,7 +140,7 @@ export function QuickTransfer({
               onClick={() => setSelectedId(contact.id)}
               style={{ zIndex: contacts.length - i }}
               className={cn(
-                '-ml-1 flex size-[60px] shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-card transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                '-ml-1 flex size-15 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-card transition-transform hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                 isSelected && 'ring-2 ring-ring',
               )}
             >
@@ -156,7 +156,7 @@ export function QuickTransfer({
           onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
           placeholder="Card number"
           aria-label="Recipient card number"
-          className="h-[54px] rounded-xl bg-muted px-6 text-sm"
+          className="h-14 rounded-xl bg-muted px-6 text-sm"
         />
         <div className="flex gap-2">
           <Input
@@ -165,12 +165,12 @@ export function QuickTransfer({
             placeholder="Amount"
             aria-label="Transfer amount"
             inputMode="decimal"
-            className="h-[54px] flex-1 rounded-xl bg-muted px-6 text-sm"
+            className="h-14 flex-1 rounded-xl bg-muted px-6 text-sm"
           />
           <button
             type="button"
             onClick={cycleCurrency}
-            className="flex h-[54px] shrink-0 items-center gap-1 rounded-xl bg-secondary px-3 text-base font-medium transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex h-14 shrink-0 items-center gap-1 rounded-xl bg-secondary px-3 text-base font-medium transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={`Currency: ${currency}, click to change`}
           >
             {currency}
@@ -180,12 +180,12 @@ export function QuickTransfer({
       </div>
 
       <div className="flex w-full gap-2">
-        <Button variant="secondary" size="lg" className="h-[60px] flex-1 rounded-2xl text-lg font-bold">
+        <Button variant="secondary" size="lg" className="h-15 flex-1 rounded-2xl text-lg font-bold">
           Add New
         </Button>
         <Button
           size="lg"
-          className="h-[60px] flex-1 rounded-2xl text-lg font-bold"
+          className="h-15 flex-1 rounded-2xl text-lg font-bold"
           onClick={handleSend}
           disabled={!canSend}
         >

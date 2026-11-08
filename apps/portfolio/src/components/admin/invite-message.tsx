@@ -107,7 +107,7 @@ export default function InviteMessage({
       {/* Always rendered so the result is announced */}
       <p role="status" className="text-sm">
         {sentTo && (
-          <span className="text-success-subtle-foreground inline-flex items-center gap-1.5">
+          <span className="text-success-subtle-foreground inline-flex items-center gap-2">
             <CircleCheck className="size-4" aria-hidden />
             Sent to {sentTo}
           </span>

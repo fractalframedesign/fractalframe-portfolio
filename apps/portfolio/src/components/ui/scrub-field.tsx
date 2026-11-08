@@ -57,7 +57,7 @@ export default function ScrubField({
   }
 
   return (
-    <div className={cn('flex items-center gap-1.5', className)}>
+    <div className={cn('flex items-center gap-2', className)}>
       <SliderPrimitive.Root
         value={[value]}
         min={min}
@@ -83,12 +83,12 @@ export default function ScrubField({
           )}
           style={{ width: `calc(2rem + (100% - 2rem) * ${progress})` }}
         >
-          <span className="bg-foreground/70 absolute top-1/2 right-2 h-4.5 w-0.5 -translate-y-1/2 rounded-full opacity-0 transition-opacity group-hover/field:opacity-60 group-data-[dragging]/field:opacity-100" />
+          <span className="bg-foreground/70 absolute top-1/2 right-2 h-5 w-0.5 -translate-y-1/2 rounded-full opacity-0 transition-opacity group-hover/field:opacity-60 group-data-[dragging]/field:opacity-100" />
         </span>
 
         <span
           id={id}
-          className="text-muted-foreground pointer-events-none relative z-10 min-w-0 flex-1 truncate pl-3 text-[13px] font-medium transition-opacity group-data-[dragging]/field:opacity-70"
+          className="text-muted-foreground pointer-events-none relative z-10 min-w-0 flex-1 truncate pl-3 text-sm font-medium transition-opacity group-data-[dragging]/field:opacity-70"
         >
           {label}
         </span>
@@ -107,7 +107,7 @@ export default function ScrubField({
               if (event.key === 'Escape') setEditing(false);
               event.stopPropagation();
             }}
-            className="text-foreground relative z-10 w-18 bg-transparent pr-3 text-right text-[13px] tabular-nums outline-none"
+            className="text-foreground relative z-10 w-18 bg-transparent pr-3 text-right text-sm tabular-nums outline-none"
           />
         ) : (
           <button
@@ -115,7 +115,7 @@ export default function ScrubField({
             tabIndex={-1}
             onPointerDown={(event) => event.stopPropagation()}
             onClick={() => setEditing(true)}
-            className="text-foreground relative z-10 cursor-text pr-3 text-[13px] tabular-nums"
+            className="text-foreground relative z-10 cursor-text pr-3 text-sm tabular-nums"
           >
             {format(value)}
           </button>

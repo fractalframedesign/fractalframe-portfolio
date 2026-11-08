@@ -1,0 +1,93 @@
+'use client';
+
+import { Mic, Pause, Play, SendHorizontal } from 'lucide-react';
+import { useEffect, useState } from 'react';
+
+import { cn } from '@/lib/utils';
+
+/** Voice message: timer, pulsing pink mic, Pause and Send. Nothing is really recorded. */
+export function VoiceRecorder({
+  recipient,
+  onCancel,
+  onSend,
+}: {
+  recipient: string;
+  onCancel: () => void;
+  onSend: (seconds: number) => void;
+}) {
+  const [seconds, setSeconds] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const tick = setTimeout(() => setSeconds((s) => s + 1), 1000);
+    return () => clearTimeout(tick);
+  }, [seconds, paused]);
+
+  return (
+    <div
+      role="dialog"
+      aria-label="Voice recording"
+      className="bg-surface absolute inset-0 z-10 flex flex-col"
+    >
+      <header className="border-surface-border relative flex h-14 items-center justify-center border-b">
+        <h2 className="text-ink text-lg font-semibold">Voice Recording</h2>
+        <button
+          type="button"
+          onClick={onCancel}
+          className="text-accent-2 absolute end-4"
+        >
+          Cancel
+        </button>
+      </header>
+
+      <div className="flex flex-1 flex-col items-center justify-center gap-10">
+        <div className="text-center">
+          <p className="text-accent-1-deep font-(family-name:--font-link-display) text-5xl font-light tabular-nums">
+            00:{String(seconds).padStart(2, '0')}
+          </p>
+          <p className="text-ink-muted mt-2">
+            {paused ? 'Paused' : 'Recording…'}
+          </p>
+        </div>
+        <span className="border-accent-1-soft rounded-full border-4 p-3">
+          <span
+            className={cn(
+              'bg-accent-1 flex size-24 items-center justify-center rounded-full text-white',
+              !paused && 'motion-safe:animate-pulse',
+            )}
+          >
+            <Mic aria-hidden="true" className="size-9" />
+          </span>
+        </span>
+        <button
+          type="button"
+          onClick={() => setPaused(!paused)}
+          className="text-ink flex flex-col items-center gap-2"
+        >
+          <span className="border-ink flex size-14 items-center justify-center rounded-full border-2">
+            {paused ? (
+              <Play aria-hidden="true" className="size-5" />
+            ) : (
+              <Pause aria-hidden="true" className="size-5" />
+            )}
+          </span>
+          {paused ? 'Resume' : 'Pause'}
+        </button>
+      </div>
+
+      <footer className="border-surface-border flex items-center gap-3 border-t px-4 py-3">
+        <p className="text-ink-muted flex-1 text-center">Send to {recipient}</p>
+        <button
+          type="button"
+          aria-label="Send voice message"
+          disabled={seconds === 0}
+          onClick={() => onSend(seconds)}
+          className="bg-accent-2 flex size-12 items-center justify-center rounded-full text-white disabled:opacity-50"
+        >
+          <SendHorizontal aria-hidden="true" className="size-5" />
+        </button>
+      </footer>
+    </div>
+  );
+}

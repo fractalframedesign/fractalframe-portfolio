@@ -77,7 +77,7 @@ export function TransferMoney2({
     return (
       <div
         className={cn(
- 'flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6',
+ 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6',
           className,
         )}
       >
@@ -90,11 +90,11 @@ export function TransferMoney2({
         <div className="flex w-full flex-col items-center gap-4">
           <Skeleton className="h-20 w-full rounded-xl" />
           <div className="flex items-center gap-2">
-            <Skeleton className="size-1.5 rounded-full" />
-            <Skeleton className="h-1.5 w-8 rounded-full" />
-            <Skeleton className="size-1.5 rounded-full" />
+            <Skeleton className="size-2 rounded-full" />
+            <Skeleton className="h-2 w-8 rounded-full" />
+            <Skeleton className="size-2 rounded-full" />
           </div>
-          <Skeleton className="h-[74px] w-full rounded-xl" />
+          <Skeleton className="h-19 w-full rounded-xl" />
         </div>
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-8 w-24" />
@@ -107,7 +107,7 @@ export function TransferMoney2({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
@@ -161,7 +161,7 @@ export function TransferMoney2({
                     </div>
                     <div className="flex h-full flex-col items-end justify-between">
                       <span className="text-sm font-medium text-white">{card.maskedNumber}</span>
-                      <img src={VisaWhite} alt="Visa" className="h-3.5 w-[50px] object-contain" />
+                      <img src={VisaWhite} alt="Visa" className="h-4 w-13 object-contain" />
                     </div>
                   </>
                 ) : (
@@ -180,8 +180,8 @@ export function TransferMoney2({
               aria-label={`Go to card ${i + 1}`}
               aria-current={activeCard === i}
               className={cn(
-                'h-1.5 rounded-full transition-all',
-                activeCard === i ? 'w-8 bg-primary' : 'w-1.5 bg-primary/20 hover:bg-primary/40',
+                'h-2 rounded-full transition-all',
+                activeCard === i ? 'w-8 bg-primary' : 'w-2 bg-primary/20 hover:bg-primary/40',
               )}
             />
           ))}
@@ -189,13 +189,13 @@ export function TransferMoney2({
 
         <button
           type="button"
-          className="flex w-full items-center justify-between rounded-xl bg-muted py-2.5 pr-5 pl-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="flex w-full items-center justify-between rounded-xl bg-muted py-3 pr-5 pl-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label={`Change recipient, currently ${recipient.name}`}
         >
           <div className="flex items-center gap-3">
             <span
               className={cn(
-                'flex size-[60px] shrink-0 items-center justify-center rounded-full text-lg font-medium text-white',
+                'flex size-15 shrink-0 items-center justify-center rounded-full text-lg font-medium text-white',
                 recipient.avatarColor,
               )}
             >
@@ -215,8 +215,8 @@ export function TransferMoney2({
       </div>
 
       <div className="flex w-full items-center justify-between">
-        <div className="flex flex-col items-end gap-0.5">
-          <div className="flex items-baseline gap-0.5">
+        <div className="flex flex-col items-end gap-1">
+          <div className="flex items-baseline gap-1">
             <span className="text-3xl font-semibold tracking-[-0.32px] text-foreground">$</span>
             <input
               type="text"

@@ -39,6 +39,17 @@ const finance = (
   isLayout,
 });
 
+const link = (
+  name: string,
+  description: string,
+  isLayout = false,
+): ShowcaseComponent => ({
+  name,
+  file: `rakuten-link/${name}`,
+  description,
+  isLayout,
+});
+
 const home = (
   name: string,
   description: string,
@@ -52,6 +63,46 @@ const home = (
 
 export const showcaseProjects: ShowcaseProject[] = [
   {
+    slug: 'rakuten-link',
+    scope: 'rakuten-link',
+    name: 'Rakuten Link',
+    eyebrow: 'Calls & Messages',
+    tags: ['React', 'Tailwind CSS', 'Mobile', 'Desktop'],
+    description:
+      'Free calls and messages for Rakuten Mobile customers, on phone and desktop.',
+    components: [
+      link(
+        'LinkMobileApp',
+        'The phone app: Calls and Messages tabs, keypad, calling and voice messages',
+        true,
+      ),
+      link(
+        'LinkDesktopApp',
+        'The desktop window: conversation list beside the open chat',
+        true,
+      ),
+      link(
+        'CallsScreen',
+        'Favourites, contact groups and the All / Link contact list',
+      ),
+      link(
+        'ChatThread',
+        'Messages by day, Seen receipts, location and voice, the composer and SMS hand-off',
+      ),
+      link(
+        'CallScreen',
+        'Calling via Rakuten Link, then a running timer with Mute, Audio and End',
+      ),
+      link('Dialer', 'Round keypad with a big call button'),
+      link('VoiceRecorder', 'Timed voice message with Pause and Send'),
+      link(
+        'ConversationList',
+        'Conversations with the last message, time and unread count',
+      ),
+      link('Avatar', 'Initials avatar with the Link badge'),
+    ],
+  },
+  {
     slug: 'finance-dashboard',
     scope: 'finance',
     name: 'Finance Dashboard',
@@ -60,20 +111,45 @@ export const showcaseProjects: ShowcaseProject[] = [
     description:
       'Interactive bento-grid finance cards built on a shared tile shell.',
     components: [
-      finance('FinanceDashboard', 'Composes every card into the responsive bento grid', true),
-      finance('SavingsOverviewCard', 'Monthly save and spending with a weekday bar chart'),
+      finance(
+        'FinanceDashboard',
+        'Composes every card into the responsive bento grid',
+        true,
+      ),
+      finance(
+        'SavingsOverviewCard',
+        'Monthly save and spending with a weekday bar chart',
+      ),
       finance('ShoppingBudgetCard', 'Remaining shopping budget as a gauge'),
       finance('BudgetUsedCard', 'Saved today and percentage of budget used'),
-      finance('SpendingBreakdownCard', 'Category split with an available balance'),
+      finance(
+        'SpendingBreakdownCard',
+        'Category split with an available balance',
+      ),
       finance('AddExpenseCard', 'Quick action tile to add an expense'),
       finance('RecentPurchasesCard', 'Today spending with recent merchants'),
-      finance('WeeklySpendingCard', 'Weekly spending bars with the current day highlighted'),
-      finance('LatestTransactionCard', 'Latest shared transaction with participants'),
+      finance(
+        'WeeklySpendingCard',
+        'Weekly spending bars with the current day highlighted',
+      ),
+      finance(
+        'LatestTransactionCard',
+        'Latest shared transaction with participants',
+      ),
       finance('SharePayCard', 'Payment card with a balance visibility toggle'),
-      finance('EarningsRingCard', 'Earnings ring with a monthly and yearly toggle'),
-      finance('YesterdayEarningCard', 'Yesterday earnings with a weekday sparkline'),
+      finance(
+        'EarningsRingCard',
+        'Earnings ring with a monthly and yearly toggle',
+      ),
+      finance(
+        'YesterdayEarningCard',
+        'Yesterday earnings with a weekday sparkline',
+      ),
       finance('ScanReceiptCard', 'Quick action tile to scan a receipt'),
-      finance('GroceriesSpendingCard', 'Groceries spending bars in the rose tone'),
+      finance(
+        'GroceriesSpendingCard',
+        'Groceries spending bars in the rose tone',
+      ),
       finance('SendReceiveCard', 'Send and receive quick actions'),
     ],
   },
@@ -86,12 +162,22 @@ export const showcaseProjects: ShowcaseProject[] = [
     description:
       'Climate dial, scenes, power analytics and camera tiles for a connected home.',
     components: [
-      home('SmartHomeDashboard', 'Composes the components into the two-column layout', true),
+      home(
+        'SmartHomeDashboard',
+        'Composes the components into the two-column layout',
+        true,
+      ),
       home('GreetingHeader', 'Avatar and greeting pill with a profile menu'),
-      home('PowerAnalyticsCard', 'Expandable device usage list with animated bars'),
+      home(
+        'PowerAnalyticsCard',
+        'Expandable device usage list with animated bars',
+      ),
       home('ClimateControl', 'Draggable, keyboard-accessible temperature dial'),
       home('ScenesPanel', 'Selectable scene tiles with a create scene row'),
-      home('SecurityCamerasCard', 'Camera tiles with live, offline and mute states'),
+      home(
+        'SecurityCamerasCard',
+        'Camera tiles with live, offline and mute states',
+      ),
       home('ThemeToggle', 'Light and dark switch wired to the site theme'),
     ],
   },

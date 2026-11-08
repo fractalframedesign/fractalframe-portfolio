@@ -160,7 +160,7 @@ export function FigmaBankingWidgets({ className }: { className?: string }) {
 
 function FigmaWidgetCard({ widget }: { widget: FigmaWidget }) {
   return (
-    <article className="flex min-h-[607px] max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-sm">
+    <article className="flex min-h-152 max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card p-6 text-card-foreground shadow-sm">
       <WidgetHeader widget={widget} />
       <div className="flex flex-1 flex-col justify-between gap-5">
         <WidgetBody widget={widget} />
@@ -179,7 +179,7 @@ function WidgetHeader({ widget }: { widget: FigmaWidget }) {
             {widget.title}
           </h3>
           {widget.title === 'Control Panel' && (
-            <span className="rounded-full bg-primary px-3 py-0.5 text-sm font-semibold text-primary-foreground">New</span>
+            <span className="rounded-full bg-primary px-3 py-1 text-sm font-semibold text-primary-foreground">New</span>
           )}
         </div>
         <button
@@ -294,12 +294,12 @@ function ScanWidget() {
         <span className="border-b-4 border-primary pb-3 text-foreground">QR Code</span>
         <span className="border-b-4 border-border pb-3 text-muted-foreground">Barcode</span>
       </div>
-      <div className="relative grid size-[200px] grid-cols-7 grid-rows-7 gap-1 rounded-xl border border-border bg-background p-3">
+      <div className="relative grid size-50 grid-cols-7 grid-rows-7 gap-1 rounded-xl border border-border bg-background p-3">
         {Array.from({ length: 49 }).map((_, index) => (
           <span
             key={index}
             className={cn(
-              'rounded-[2px]',
+              'rounded-xs',
               (index + Math.floor(index / 7)) % 3 === 0 || index % 11 === 0 ? 'bg-foreground' : 'bg-transparent',
             )}
           />
@@ -611,7 +611,7 @@ function ControlGroup({ title, label, value, icon }: { title: string; label: str
         <p className="text-lg font-semibold text-foreground">{title}</p>
         <ChevronUp className="size-5" />
       </div>
-      <div className="rounded-2xl bg-muted p-1.5">
+      <div className="rounded-2xl bg-muted p-2">
         <div className="flex items-center gap-4 rounded-xl border border-dashed border-muted-foreground/35 p-4">
           <span className="flex size-12 items-center justify-center rounded-full bg-card text-primary">{icon}</span>
           <span className="flex-1 text-lg font-medium text-foreground">{label}</span>
@@ -835,7 +835,7 @@ function ScoreWidget() {
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6">
       <div className="relative flex size-44 items-center justify-center rounded-full border-[16px] border-success/20">
-        <div className="absolute inset-[-16px] rounded-full border-[16px] border-transparent border-t-success border-r-success" />
+        <div className="absolute -inset-4 rounded-full border-[16px] border-transparent border-t-success border-r-success" />
         <div className="text-center">
           <p className="text-4xl font-semibold text-foreground">742</p>
           <p className="text-sm text-muted-foreground">Excellent</p>
@@ -878,7 +878,7 @@ function CashbackWidget() {
     <div className="flex flex-1 flex-col justify-center gap-5">
       <div className="flex h-14 items-center justify-between gap-1" role="img" aria-label="Cashback progress">
         {Array.from({ length: 36 }).map((_, index) => (
-          <span key={index} className={cn('h-full w-1.5 rounded-full', index < 15 ? 'bg-primary' : 'bg-primary/15')} />
+          <span key={index} className={cn('h-full w-2 rounded-full', index < 15 ? 'bg-primary' : 'bg-primary/15')} />
         ))}
       </div>
       <div>

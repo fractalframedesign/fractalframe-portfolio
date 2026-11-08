@@ -63,7 +63,7 @@ export function AiRecommendations({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
@@ -82,13 +82,13 @@ export function AiRecommendations({
             </div>
           ))}
         </div>
-        <Skeleton className="h-[50px] w-full rounded-xl" />
+        <Skeleton className="h-13 w-full rounded-xl" />
       </div>
     )
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -96,7 +96,7 @@ export function AiRecommendations({
               AI Recommendations
             </p>
             {showNewBadge && (
-              <Badge className="rounded-full bg-primary px-3 py-0.5 text-primary-foreground">New</Badge>
+              <Badge className="rounded-full bg-primary px-3 py-1 text-primary-foreground">New</Badge>
             )}
           </div>
           <Button
@@ -135,7 +135,7 @@ export function AiRecommendations({
                 </span>
               </button>
               {isOpen && (
-                <p className="px-1 pb-1 pl-[52px] pr-2 text-sm text-muted-foreground">{rec.detail}</p>
+                <p className="px-1 pb-1 pl-13 pr-2 text-sm text-muted-foreground">{rec.detail}</p>
               )}
             </div>
           )
@@ -145,7 +145,7 @@ export function AiRecommendations({
       <button
         type="button"
         onClick={() => setExpandedAll((v) => !v)}
-        className="flex h-[50px] w-full items-center justify-center rounded-xl bg-secondary text-base font-semibold text-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="flex h-13 w-full items-center justify-center rounded-xl bg-secondary text-base font-semibold text-foreground transition-colors hover:bg-secondary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         {expandedAll ? 'Show Less' : 'View Full'}
       </button>

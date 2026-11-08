@@ -17,7 +17,7 @@ export function HitAreaDemo() {
       controls={
         <span className="flex items-center gap-2">
           <Switch id="d3-reveal" checked={reveal} onCheckedChange={setReveal} />
-          <Label htmlFor="d3-reveal" className="text-muted-foreground text-[13px] font-normal">
+          <Label htmlFor="d3-reveal" className="text-muted-foreground text-sm font-normal">
             Reveal hit area
           </Label>
         </span>
@@ -27,7 +27,7 @@ export function HitAreaDemo() {
         <span>Weekly report is ready</span>
         <button
           aria-label="Dismiss"
-          className={`text-muted-foreground hover:text-foreground -m-3.5 rounded-xl p-3.5 transition-colors ${
+          className={`text-muted-foreground hover:text-foreground -m-3.5 rounded-xl p-4 transition-colors ${
             reveal ? 'bg-primary/10 shadow-[inset_0_0_0_1.5px_var(--primary)]' : ''
           }`}
         >

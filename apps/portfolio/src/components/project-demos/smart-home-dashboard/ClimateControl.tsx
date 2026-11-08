@@ -136,7 +136,7 @@ export function ClimateControl({
 
   return (
     <div
-      className={`relative mx-auto flex w-full min-w-[280px] max-w-[580px] flex-col overflow-hidden rounded-[28px] bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-black/[0.03] dark:bg-[#17181c] dark:ring-white/[0.06] ${className}`}
+      className={`relative mx-auto flex w-full min-w-70 max-w-145 flex-col overflow-hidden rounded-[1.75rem] bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-black/[0.03] dark:bg-[#17181c] dark:ring-white/[0.06] ${className}`}
     >
       {on ? (
         <div
@@ -182,7 +182,7 @@ export function ClimateControl({
           aria-checked={on}
           aria-label={`Turn ${label} ${on ? 'off' : 'on'}`}
           onClick={() => setOn((v) => !v)}
-          className="relative flex h-10 w-[74px] items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/30"
+          className="relative flex h-10 w-19 items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/30"
         >
           <span
             className={`pointer-events-none absolute left-3 text-xs font-semibold transition-opacity ${on ? 'opacity-100 text-ink/70 dark:text-white/70' : 'opacity-0'}`}
@@ -213,7 +213,7 @@ export function ClimateControl({
             type="button"
             onClick={() => setTimerIndex((i) => (i + 1) % TIMER_STEPS.length)}
             whileTap={{ scale: 0.94 }}
-            className="flex items-center gap-1.5 rounded-full bg-(--color-accent-1-soft) px-3.5 py-1.5 text-sm font-semibold text-[#3a45c2] transition-colors hover:brightness-105 dark:bg-[#2b2f63] dark:text-[#c7ccfb]"
+            className="flex items-center gap-2 rounded-full bg-(--color-accent-1-soft) px-4 py-2 text-sm font-semibold text-[#3a45c2] transition-colors hover:brightness-105 dark:bg-[#2b2f63] dark:text-[#c7ccfb]"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
               <circle cx="12" cy="12" r="8.5" stroke="currentColor" strokeWidth="1.6" />
@@ -228,7 +228,7 @@ export function ClimateControl({
         <svg
           ref={svgRef}
           viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
-          className={`w-full max-w-[380px] touch-none select-none ${on ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 grayscale'}`}
+          className={`w-full max-w-95 touch-none select-none ${on ? 'cursor-pointer' : 'cursor-not-allowed opacity-50 grayscale'}`}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={endDrag}

@@ -59,7 +59,7 @@ export function YourLimits({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-5', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-5', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-24" />
@@ -69,7 +69,7 @@ export function YourLimits({
         <div className="flex w-full flex-col gap-5">
           {[0, 1, 2].map((i) => (
             <div key={i} className="flex w-full items-center gap-4">
-              <Skeleton className="size-[58px] shrink-0 rounded-full" />
+              <Skeleton className="size-15 shrink-0 rounded-full" />
               <div className="flex flex-1 flex-col gap-2">
                 <Skeleton className="h-5 w-40" />
                 <Skeleton className="h-4 w-24" />
@@ -77,13 +77,13 @@ export function YourLimits({
             </div>
           ))}
         </div>
-        <Skeleton className="h-[60px] w-full rounded-2xl" />
+        <Skeleton className="h-15 w-full rounded-2xl" />
       </div>
     )
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-5 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm px-6 py-5 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
@@ -106,18 +106,18 @@ export function YourLimits({
                 aria-expanded={expanded}
                 className="flex w-full items-center gap-4 rounded-xl text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <span className="flex size-[58px] shrink-0 items-center justify-center rounded-full border-3 border-card bg-accent p-[5px]">
+                <span className="flex size-15 shrink-0 items-center justify-center rounded-full border-3 border-card bg-accent p-1">
                   <Icon className="size-6 text-accent-foreground" />
                 </span>
-                <span className="flex flex-col gap-0.5">
+                <span className="flex flex-col gap-1">
                   <span className="text-lg font-semibold text-foreground">{limit.label}</span>
-                  <span className="max-w-[340px] text-sm font-medium tracking-[0.14px] text-muted-foreground">
+                  <span className="max-w-85 text-sm font-medium tracking-[0.14px] text-muted-foreground">
                     {formatValue(value, limit.isCurrency, limit.unit)} / {formatValue(limit.max, limit.isCurrency, limit.unit)}
                   </span>
                 </span>
               </button>
               {expanded && (
-                <div className="flex w-full flex-col gap-2 pl-[74px]">
+                <div className="flex w-full flex-col gap-2 pl-19">
                   <Slider
                     value={value}
                     min={0}

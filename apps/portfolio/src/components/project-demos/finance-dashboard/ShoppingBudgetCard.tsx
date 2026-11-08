@@ -49,11 +49,11 @@ export function ShoppingBudgetCard({
         </svg>
         <div className="absolute bottom-1 flex flex-col items-center gap-1">
           <ShoppingBag className="h-4 w-4 text-accent-1" />
-          <span className="text-[10px] tracking-wide text-ink-muted">REMAIN</span>
+          <span className="text-xs tracking-wide text-ink-muted">REMAIN</span>
         </div>
       </div>
 
-      <div className="flex w-full justify-between text-[10px] text-ink-muted">
+      <div className="flex w-full justify-between text-xs text-ink-muted">
         <span>0%</span>
         <span>50%</span>
         <span>100%</span>

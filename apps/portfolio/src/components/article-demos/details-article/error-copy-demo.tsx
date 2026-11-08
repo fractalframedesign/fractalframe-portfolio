@@ -41,11 +41,11 @@ export function ErrorCopyDemo() {
       }
     >
       <div className="bg-card w-full max-w-sm rounded-xl border p-5 shadow-xs">
-        <p className="mb-1.5 flex items-center gap-2 text-sm font-semibold">
+        <p className="mb-2 flex items-center gap-2 text-sm font-semibold">
           <span className="bg-destructive size-2 flex-none rounded-full" />
           {v.title}
         </p>
-        <p className="text-muted-foreground text-[13.5px] leading-relaxed">{v.body}</p>
+        <p className="text-muted-foreground text-sm leading-relaxed">{v.body}</p>
         <Button size="sm" variant="outline" className="mt-3">
           {v.action}
         </Button>

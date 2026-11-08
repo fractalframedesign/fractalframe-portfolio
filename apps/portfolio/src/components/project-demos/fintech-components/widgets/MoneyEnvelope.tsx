@@ -55,7 +55,7 @@ export function MoneyEnvelope({
     return (
       <div
         className={cn(
- 'flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6',
+ 'flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6',
           className,
         )}
       >
@@ -82,7 +82,7 @@ export function MoneyEnvelope({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6',
+ 'flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6',
         className,
       )}
     >
@@ -111,16 +111,16 @@ export function MoneyEnvelope({
             <button
               type="button"
               aria-label="Edit envelope icon"
-              className="flex size-[30px] items-center justify-center rounded-full bg-foreground text-background transition-opacity hover:opacity-80"
+              className="flex size-8 items-center justify-center rounded-full bg-foreground text-background transition-opacity hover:opacity-80"
               onClick={refresh}
             >
-              <Pencil className="size-3.5" />
+              <Pencil className="size-4" />
             </button>
           </div>
-          <div className="flex flex-col items-center gap-1.5">
+          <div className="flex flex-col items-center gap-2">
             <p className="text-base font-medium tracking-wide text-muted-foreground">{label}</p>
             <div className="flex flex-col items-center gap-3">
-              <p className="text-center text-[32px] font-bold leading-tight tracking-tight text-foreground">
+              <p className="text-center text-[2rem] font-bold leading-tight tracking-tight text-foreground">
                 {name}
               </p>
               <Separator className="w-full" />

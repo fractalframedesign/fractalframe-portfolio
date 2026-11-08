@@ -49,15 +49,15 @@ export function Cashback({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
-        <div className="flex flex-col gap-1.5">
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+        <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <Skeleton className="h-4 w-24" />
             <Skeleton className="size-9 rounded-full" />
           </div>
-          <Skeleton className="h-3.5 w-64" />
+          <Skeleton className="h-4 w-64" />
         </div>
-        <Skeleton className="h-[46px] w-full rounded-md" />
+        <Skeleton className="h-12 w-full rounded-md" />
         <Skeleton className="h-8 w-56" />
         <div className="flex flex-col gap-2">
           <Skeleton className="h-14 w-full rounded-lg" />
@@ -69,8 +69,8 @@ export function Cashback({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
-      <div className="flex flex-col gap-0.5">
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+      <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-muted-foreground">
             Cashback
@@ -91,12 +91,12 @@ export function Cashback({
         </p>
       </div>
 
-      <div className="flex h-[46px] w-full items-center justify-between gap-1" role="img" aria-label={`Cashback progress, ${sources[0]?.percent ?? 0}% of monthly goal`}>
+      <div className="flex h-12 w-full items-center justify-between gap-1" role="img" aria-label={`Cashback progress, ${sources[0]?.percent ?? 0}% of monthly goal`}>
         {Array.from({ length: BAR_COUNT }).map((_, i) => (
           <div
             key={i}
             className={cn(
-              'h-full w-[5px] rounded-full transition-colors',
+              'h-full w-1 rounded-full transition-colors',
               i < tealBars
                 ? 'bg-success'
                 : i < filledBars
@@ -109,7 +109,7 @@ export function Cashback({
 
       <div className="flex items-end gap-2">
         <p className="text-2xl font-semibold tracking-wide text-foreground"><NumberPopIn value={String(totalAmount)} /></p>
-        <p className="pb-0.5 text-sm font-medium text-muted-foreground">Total cashback this month</p>
+        <p className="pb-1 text-sm font-medium text-muted-foreground">Total cashback this month</p>
       </div>
 
       <div className="flex flex-col gap-2">
@@ -137,7 +137,7 @@ export function Cashback({
                   <span className="text-sm font-medium text-foreground">{s.amount}</span>
                   <span
                     className={cn(
-                      'rounded-md border px-2 py-0.5 text-xs font-medium',
+                      'rounded-md border px-2 py-1 text-xs font-medium',
                       s.tone === 'teal'
                         ? 'border-success/60 bg-success/10 text-success'
                         : 'border-primary bg-primary/5 text-primary',

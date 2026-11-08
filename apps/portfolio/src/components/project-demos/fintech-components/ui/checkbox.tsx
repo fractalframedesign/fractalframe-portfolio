@@ -45,7 +45,7 @@ export function Checkbox({
       onClick={toggle}
       className={cn(
         'flex shrink-0 items-center justify-center rounded-md border-[1.5px] transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-40',
-        size === 'default' ? 'size-6 [&_svg]:size-4' : 'size-4 rounded-[5px] [&_svg]:size-3',
+        size === 'default' ? 'size-6 [&_svg]:size-4' : 'size-4 rounded-sm [&_svg]:size-3',
         isChecked ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-transparent',
         className,
       )}

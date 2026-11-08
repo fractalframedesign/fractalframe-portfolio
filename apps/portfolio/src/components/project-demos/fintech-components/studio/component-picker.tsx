@@ -40,7 +40,7 @@ export default function ComponentPicker({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="bg-primary/10 text-primary hover:bg-primary/15 data-[state=open]:bg-primary/15 focus-visible:ring-ring/50 inline-flex h-8 shrink-0 items-center gap-1 rounded-full pr-2.5 pl-3 text-sm font-medium transition-colors outline-none focus-visible:ring-[3px]">
+      <DropdownMenuTrigger className="bg-primary/10 text-primary hover:bg-primary/15 data-[state=open]:bg-primary/15 focus-visible:ring-ring/50 inline-flex h-8 shrink-0 items-center gap-1 rounded-full pr-3 pl-3 text-sm font-medium transition-colors outline-none focus-visible:ring-[3px]">
         {category?.label ?? 'Components'}
         <ChevronDown className="size-4" />
       </DropdownMenuTrigger>

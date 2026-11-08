@@ -47,7 +47,7 @@ function Ring({
   name: string
   amount: number
 }) {
-  const size = 150
+  const size = 136
   const stroke = 6
   const radius = (size - stroke) / 2
   const circumference = 2 * Math.PI * radius
@@ -60,7 +60,7 @@ function Ring({
       aria-pressed={selected}
       aria-label={`${name}, ${percent}% saved, $${amount.toLocaleString('en-US')}`}
       className={cn(
-        'relative flex size-[150px] shrink-0 items-center justify-center rounded-full outline-none transition-transform focus-visible:ring-2 focus-visible:ring-ring',
+        'relative flex size-34 shrink-0 items-center justify-center rounded-full outline-none transition-transform focus-visible:ring-2 focus-visible:ring-ring',
         selected && 'scale-[1.04]',
       )}
     >
@@ -117,7 +117,7 @@ export function Savings2({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-10 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-10 p-6', className)}>
         <div className="flex w-full flex-col gap-2">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-16" />
@@ -126,14 +126,14 @@ export function Savings2({
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-col gap-2">
               <Skeleton className="h-8 w-40" />
-              <Skeleton className="h-3.5 w-28" />
+              <Skeleton className="h-4 w-28" />
             </div>
             <Skeleton className="h-7 w-16 rounded-full" />
           </div>
         </div>
         <div className="flex w-full items-center justify-between gap-3">
           {[0, 1, 2].map((i) => (
-            <Skeleton key={i} className="size-[150px] shrink-0 rounded-full" />
+            <Skeleton key={i} className="size-34 shrink-0 rounded-full" />
           ))}
         </div>
       </Card>
@@ -141,7 +141,7 @@ export function Savings2({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-10 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-10 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-2">
         <div className="flex w-full items-center justify-between gap-2">
@@ -160,8 +160,8 @@ export function Savings2({
           </Button>
         </div>
         <div className="flex w-full items-center justify-between gap-3">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
               ${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
             </p>
             <p className="text-sm font-medium text-muted-foreground">{totalLabel}</p>

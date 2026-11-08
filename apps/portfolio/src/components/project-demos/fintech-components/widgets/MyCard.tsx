@@ -134,7 +134,7 @@ function MyCardSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6',
+ 'flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6',
         className,
       )}
     >
@@ -208,7 +208,7 @@ export function MyCard({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
@@ -227,7 +227,7 @@ export function MyCard({
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-3">
-            <p className="text-[32px] font-bold leading-none tracking-tight">
+            <p className="text-[2rem] font-bold leading-none tracking-tight">
               {currencyFormatter.format(account.balance).replace('.00', '')}
             </p>
             <button

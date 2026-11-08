@@ -40,7 +40,7 @@ const CONVERT_RATES: Record<Currency, number> = {
 
 function ExchangeRatesSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-36" />
         <Skeleton className="size-9 rounded-full" />
@@ -68,7 +68,7 @@ function ExchangeRatesSkeleton({ className }: { className?: string }) {
         </div>
       </div>
       <Skeleton className="h-5 w-36" />
-      <Skeleton className="h-[140px] rounded-xl" />
+      <Skeleton className="h-35 rounded-xl" />
     </div>
   )
 }
@@ -106,7 +106,7 @@ export function ExchangeRates({
   }
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -121,7 +121,7 @@ export function ExchangeRates({
       </div>
 
       <div className="rounded-xl bg-muted/60 px-4 pb-3 pt-2">
-        <div className="flex items-center justify-between border-b border-border pb-2.5">
+        <div className="flex items-center justify-between border-b border-border pb-3">
           <span className="text-xs text-muted-foreground">Currency</span>
           <div className="flex gap-12 pr-1">
             <span className="text-xs text-muted-foreground">Buying</span>
@@ -143,7 +143,7 @@ export function ExchangeRates({
             </div>
           </React.Fragment>
         ))}
-        <div className="flex items-center justify-between border-t border-border pt-2.5">
+        <div className="flex items-center justify-between border-t border-border pt-3">
           <span className="text-xs text-muted-foreground">Updated on {updatedAt}</span>
           <button
             type="button"
@@ -169,11 +169,11 @@ export function ExchangeRates({
           <button
             type="button"
             onClick={() => setFromCurrency((c) => cycleCurrency(c, toCurrency))}
-            className="flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-sm font-semibold text-background transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={`From currency: ${fromCurrency}`}
           >
             {fromCurrency}
-            <ChevronDown className="size-3.5" />
+            <ChevronDown className="size-4" />
           </button>
         </div>
 
@@ -195,11 +195,11 @@ export function ExchangeRates({
           <button
             type="button"
             onClick={() => setToCurrency((c) => cycleCurrency(c, fromCurrency))}
-            className="flex items-center gap-1.5 rounded-full bg-foreground px-3.5 py-2 text-sm font-semibold text-background transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="flex items-center gap-2 rounded-full bg-foreground px-4 py-2 text-sm font-semibold text-background transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             aria-label={`To currency: ${toCurrency}`}
           >
             {toCurrency}
-            <ChevronDown className="size-3.5" />
+            <ChevronDown className="size-4" />
           </button>
         </div>
       </div>

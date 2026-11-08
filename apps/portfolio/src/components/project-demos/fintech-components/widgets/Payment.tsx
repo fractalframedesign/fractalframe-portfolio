@@ -23,7 +23,7 @@ type Currency = (typeof CURRENCIES)[number]
 
 function PaymentSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <Skeleton className="h-4 w-20" />
@@ -34,8 +34,8 @@ function PaymentSkeleton({ className }: { className?: string }) {
       <Skeleton className="h-36 w-full rounded-2xl" />
       <div className="flex items-center gap-3 rounded-xl bg-muted p-3">
         <Skeleton className="size-8 rounded-full" />
-        <div className="flex flex-1 flex-col gap-1.5">
-          <Skeleton className="h-3.5 w-24" />
+        <div className="flex flex-1 flex-col gap-2">
+          <Skeleton className="h-4 w-24" />
           <Skeleton className="h-3 w-32" />
         </div>
         <Skeleton className="h-4 w-20" />
@@ -45,7 +45,7 @@ function PaymentSkeleton({ className }: { className?: string }) {
         <Skeleton className="h-4 w-28" />
       </div>
       <Skeleton className="h-10 w-3/4" />
-      <Skeleton className="h-3.5 w-32" />
+      <Skeleton className="h-4 w-32" />
       <Skeleton className="h-12 w-full rounded-xl" />
     </div>
   )
@@ -82,11 +82,11 @@ export function Payment({
   }
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
-          <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground">
+          <span className="rounded-full bg-primary px-2 py-1 text-xs font-semibold text-primary-foreground">
             New
           </span>
         </div>
@@ -110,7 +110,7 @@ export function Payment({
       </div>
 
       {/* Balance row */}
-      <div className="flex items-center gap-3 rounded-xl bg-muted/60 px-3 py-2.5">
+      <div className="flex items-center gap-3 rounded-xl bg-muted/60 px-3 py-3">
         <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-foreground text-xs font-bold text-background">
           $
         </div>
@@ -128,7 +128,7 @@ export function Payment({
         <button
           type="button"
           onClick={cycleCurrency}
-          className="flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-sm font-medium transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96]"
+          className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96]"
           aria-label={`Currency: ${currency}`}
         >
           {currency}
@@ -150,7 +150,7 @@ export function Payment({
             type="text"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="min-w-0 flex-1 bg-transparent text-[32px] font-bold tabular-nums leading-tight outline-none placeholder:text-muted-foreground"
+            className="min-w-0 flex-1 bg-transparent text-[2rem] font-bold tabular-nums leading-tight outline-none placeholder:text-muted-foreground"
             placeholder="0,00"
             aria-label="Payment amount"
           />

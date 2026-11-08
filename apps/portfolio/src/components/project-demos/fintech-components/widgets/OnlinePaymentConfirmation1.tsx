@@ -24,25 +24,25 @@ export interface OnlinePaymentConfirmation1Props {
 
 function OnlinePaymentConfirmation1Skeleton({ className }: { className?: string }) {
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-52" />
         <Skeleton className="size-9 rounded-full" />
       </div>
       <div className="flex w-full flex-col gap-4 rounded-xl bg-muted p-5">
-        <Skeleton className="h-3.5 w-40" />
+        <Skeleton className="h-4 w-40" />
         <div className="flex items-center gap-4">
           <Skeleton className="size-20 shrink-0 rounded-xl" />
           <div className="flex flex-1 flex-col gap-2">
             <Skeleton className="h-5 w-48" />
-            <Skeleton className="h-3.5 w-32" />
+            <Skeleton className="h-4 w-32" />
           </div>
         </div>
         <div className="flex w-full gap-4">
           <Skeleton className="h-11 flex-1 rounded-xl" />
           <Skeleton className="h-11 flex-1 rounded-xl" />
         </div>
-        <Skeleton className="h-3.5 w-full" />
+        <Skeleton className="h-4 w-full" />
       </div>
     </div>
   )
@@ -84,7 +84,7 @@ export function OnlinePaymentConfirmation1({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -130,7 +130,7 @@ export function OnlinePaymentConfirmation1({
                 Accept
               </Button>
             </div>
-            <div className="flex flex-col gap-1.5">
+            <div className="flex flex-col gap-2">
               <p className="text-sm text-muted-foreground">
                 {secondsLeft > 0 ? (
                   <>

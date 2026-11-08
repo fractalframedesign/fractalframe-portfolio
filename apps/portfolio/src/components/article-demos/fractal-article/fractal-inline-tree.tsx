@@ -93,7 +93,7 @@ export function FractalInlineTree() {
       <div className="mx-auto w-full max-w-xs">
         <label
           htmlFor="inline-tree-depth"
-          className="text-muted-foreground mb-2 flex justify-between font-mono text-[11px] tracking-[0.12em] uppercase"
+          className="text-muted-foreground mb-2 flex justify-between font-mono text-xs tracking-[0.12em] uppercase"
         >
           Recursion depth
           <output className="text-foreground">{depth}</output>

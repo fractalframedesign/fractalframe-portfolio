@@ -74,17 +74,17 @@ function Swatch({ short, dark }: { short: string; dark?: boolean }) {
 function RoleRow({ role }: { role: Role }) {
   return (
     <tr className="border-border border-b align-middle">
-      <td className="py-2.5 pr-4 font-mono text-xs">{role.name}</td>
-      <td className="text-muted-foreground py-2.5 pr-4 font-mono text-xs">
+      <td className="py-3 pr-4 font-mono text-xs">{role.name}</td>
+      <td className="text-muted-foreground py-3 pr-4 font-mono text-xs">
         {role.source.startsWith('added') ? role.source : `--color-${role.source}`}
       </td>
-      <td className="py-2.5 pr-3">
+      <td className="py-3 pr-3">
         <Swatch short={role.light} />
       </td>
-      <td className="py-2.5 pr-3">
+      <td className="py-3 pr-3">
         <Swatch short={role.dark} dark />
       </td>
-      <td className="py-2.5">
+      <td className="py-3">
         {role.partner ? (
           <Swatch short={role.partner} />
         ) : (
@@ -118,8 +118,8 @@ export function TailwindTokensGuide({ tokens }: { tokens: TailwindTokens }) {
           The Figma library has {stats.original} variables. In a Tailwind codebase most of them
           are already provided: opacity, spacing and button states. This is the same system reduced
           to {stats.total} tokens, generated from the Figma file, so classes like{' '}
-          <code className="bg-muted rounded px-1.5 py-0.5 text-sm">bg-primary</code> and{' '}
-          <code className="bg-muted rounded px-1.5 py-0.5 text-sm">text-muted-foreground</code>{' '}
+          <code className="bg-muted rounded px-2 py-1 text-sm">bg-primary</code> and{' '}
+          <code className="bg-muted rounded px-2 py-1 text-sm">text-muted-foreground</code>{' '}
           work directly.
         </p>
         <div className="flex flex-wrap gap-3 pt-2">
@@ -188,7 +188,7 @@ export function TailwindTokensGuide({ tokens }: { tokens: TailwindTokens }) {
           <h3 className="text-2xl font-semibold tracking-tight">Roles</h3>
           <p className="text-muted-foreground">
             Every role with the Figma token it comes from, in light and dark. The last column shows
-            the <code className="bg-muted rounded px-1.5 py-0.5 text-sm">partner</code> brand
+            the <code className="bg-muted rounded px-2 py-1 text-sm">partner</code> brand
             example: a new brand only overrides the roles that change.
           </p>
         </div>
@@ -245,8 +245,8 @@ export function TailwindTokensGuide({ tokens }: { tokens: TailwindTokens }) {
             <tbody>
               {alphaExamples.map(([from, to]) => (
                 <tr key={from} className="border-border border-b">
-                  <td className="text-muted-foreground py-2.5 pr-4 font-mono text-xs">{from}</td>
-                  <td className="py-2.5 font-mono text-xs">{to}</td>
+                  <td className="text-muted-foreground py-3 pr-4 font-mono text-xs">{from}</td>
+                  <td className="py-3 font-mono text-xs">{to}</td>
                 </tr>
               ))}
             </tbody>

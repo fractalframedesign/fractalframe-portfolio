@@ -114,7 +114,7 @@ function CategoryCard({ category, expanded, onToggle }: { category: SpendingCate
         <ChevronDown className={cn('size-4 transition-transform', expanded && 'rotate-180')} />
       </button>
       {expanded && (
-        <ul className="flex flex-col gap-1.5 pt-1 text-xs">
+        <ul className="flex flex-col gap-2 pt-1 text-xs">
           {category.transactions.map((t) => (
             <li key={t.label} className="flex items-center justify-between text-muted-foreground">
               <span className="truncate">{t.label}</span>
@@ -146,7 +146,7 @@ export function MostSpendings({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-28" />
@@ -170,7 +170,7 @@ export function MostSpendings({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>

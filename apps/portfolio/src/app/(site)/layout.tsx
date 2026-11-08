@@ -3,7 +3,7 @@ import './globals.css';
 import { GeistSans } from 'geist/font/sans';
 import { MotionConfig } from 'motion/react';
 import type { Metadata } from 'next';
-import { Source_Serif_4 } from 'next/font/google';
+import { Caveat, Source_Serif_4 } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import DrawingInspector from '@/components/drawing/drawing-inspector';
@@ -24,6 +24,14 @@ const sourceSerif4 = Source_Serif_4({
   display: 'optional', // don't swap — use fallback if font not ready on first paint
   preload: true,
   adjustFontFallback: true, // size-adjust the fallback to match Source Serif 4 metrics
+});
+
+// Handwritten section titles (SectionTitle) only
+const caveat = Caveat({
+  subsets: ['latin'],
+  variable: '--font-caveat',
+  weight: ['500'],
+  display: 'swap',
 });
 
 const siteTitle = 'Kiran Pingle';
@@ -111,7 +119,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable}`}
+        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable} ${caveat.variable}`}
       >
         {/* Global dot grid background */}
         <div
@@ -130,8 +138,17 @@ export default async function RootLayout({
                 <NavigationProvider>
                   <StyleGlideProvider />
 
+                  {/* First focusable element: lets keyboard users jump past the menu */}
+                  <a
+                    href="#content"
+                    className="bg-background text-foreground focus-visible:ring-ring sr-only z-60 rounded-md px-4 py-2 focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:start-3 focus-visible:ring-2"
+                  >
+                    Skip to content
+                  </a>
                   <Navbar />
-                  <main className="flex-1 pt-16 md:pt-0">{children}</main>
+                  <main id="content" className="flex-1 pt-16 md:pt-0">
+                    {children}
+                  </main>
                   <Footer />
 
                   {/* Fixed bottom fade for premium feel */}

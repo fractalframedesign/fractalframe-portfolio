@@ -60,7 +60,7 @@ export function Balance2({
     return (
       <div
         className={cn(
- 'flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6',
           className,
         )}
       >
@@ -86,7 +86,7 @@ export function Balance2({
           <div className="flex w-full items-center justify-between">
             {actions.map((a) => (
               <div key={a.key} className="flex flex-col items-center gap-3">
-                <Skeleton className="size-[58px] rounded-full" />
+                <Skeleton className="size-15 rounded-full" />
                 <Skeleton className="h-3 w-10" />
               </div>
             ))}
@@ -99,7 +99,7 @@ export function Balance2({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
@@ -117,11 +117,11 @@ export function Balance2({
           </Button>
         </div>
         <div className="flex w-full items-center justify-between">
-          <div className="flex flex-1 flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.32px] text-foreground"><NumberPopIn value={String(amount)} /></p>
+          <div className="flex flex-1 flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-[1.3] tracking-[-0.32px] text-foreground"><NumberPopIn value={String(amount)} /></p>
             <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">{amountLabel}</p>
           </div>
-          <Badge className="gap-1 bg-secondary px-2 py-1 text-[18px] font-medium text-primary">
+          <Badge className="gap-1 bg-secondary px-2 py-1 text-lg font-medium text-primary">
             <ArrowUp className="size-4" />
             {interestPercent}
           </Badge>
@@ -130,7 +130,7 @@ export function Balance2({
 
       <div className="flex w-full flex-col gap-8">
         <div className="flex items-center justify-center">
-          <p className="text-[16px] leading-[1.5] tracking-[0.16px] text-foreground">
+          <p className="text-base leading-[1.5] tracking-[0.16px] text-foreground">
             {expanded ? description : `${description.slice(0, 92)}…`}{' '}
             <button
               type="button"
@@ -153,7 +153,7 @@ export function Balance2({
                   aria-pressed={active}
                   onClick={() => setSelectedAction(key)}
                   className={cn(
-                    'flex size-[58px] items-center justify-center rounded-full bg-foreground text-background outline-none transition-transform duration-150 hover:opacity-90 active:scale-95 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+                    'flex size-15 items-center justify-center rounded-full bg-foreground text-background outline-none transition-transform duration-150 hover:opacity-90 active:scale-95 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background',
                     active && 'ring-2 ring-primary ring-offset-2 ring-offset-background',
                   )}
                 >
@@ -166,8 +166,8 @@ export function Balance2({
         </div>
 
         {selectedAction && (
-          <p className="flex w-full items-center gap-1.5 text-sm text-muted-foreground" role="status">
-            <ArrowUpRight className="size-3.5 shrink-0 text-primary" />
+          <p className="flex w-full items-center gap-2 text-sm text-muted-foreground" role="status">
+            <ArrowUpRight className="size-4 shrink-0 text-primary" />
             {actionMessages[selectedAction]}
           </p>
         )}

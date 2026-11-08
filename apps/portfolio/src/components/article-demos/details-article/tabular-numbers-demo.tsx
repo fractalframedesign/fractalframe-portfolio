@@ -59,13 +59,13 @@ export function TabularNumbersDemo() {
             key={mode}
             className="bg-card rounded-xl border p-4 text-center shadow-xs"
           >
-            <p className="text-muted-foreground mb-2 font-mono text-[10px] tracking-[0.12em] uppercase">
+            <p className="text-muted-foreground mb-2 font-mono text-xs tracking-[0.12em] uppercase">
               {mode}
             </p>
             <p className={`text-3xl font-semibold tracking-tight ${cls}`} style={style}>
               {value}
             </p>
-            <p className="text-muted-foreground mt-1.5 text-xs">{cap}</p>
+            <p className="text-muted-foreground mt-2 text-xs">{cap}</p>
           </div>
         ))}
       </div>

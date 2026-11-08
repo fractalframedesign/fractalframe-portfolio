@@ -48,8 +48,8 @@ export default function DrawingInspector() {
         />
       )}
 
-      <p className="bg-background text-foreground border-foreground absolute bottom-4 left-4 flex items-center gap-2 rounded-full border px-3 py-1.5 font-mono text-[11px] uppercase">
-        <Ruler className="size-3.5" />
+      <p className="bg-background text-foreground border-foreground absolute bottom-4 left-4 flex items-center gap-2 rounded-full border px-3 py-2 font-mono text-xs uppercase">
+        <Ruler className="size-4" />
         Drawing mode · hover to measure · Esc to clear
       </p>
     </div>,

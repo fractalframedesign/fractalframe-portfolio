@@ -19,7 +19,7 @@ export function Step({ status, index, size = 'default', className }: StepProps) 
     <div
       className={cn(
         'flex shrink-0 items-center justify-center rounded-full font-medium tracking-tight',
-        size === 'default' ? 'size-8 text-xs' : 'size-6 text-[11px]',
+        size === 'default' ? 'size-8 text-xs' : 'size-6 text-xs',
         status === 'complete' && 'bg-primary text-primary-foreground',
         status === 'active' && 'border-2 border-primary text-primary',
         status === 'upcoming' && 'border-2 border-border text-muted-foreground',

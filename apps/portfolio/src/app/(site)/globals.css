@@ -12,6 +12,7 @@
   --font-display: var(--font-geist-sans);
   --font-text: var(--font-geist-sans);
   --font-serif: var(--font-source-serif, 'Georgia', serif);
+  --font-hand: var(--font-caveat, cursive);
 
   --breakpoint-xs: 40rem;
   --breakpoint-3xl: 112.5rem;
@@ -39,6 +40,21 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
+  --color-success-text: var(--success-text);
+  /* Showcase demo palettes embedded in project pages (values set per [data-project]) */
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-border: var(--surface-border);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent-1: var(--accent-1);
+  --color-accent-1-soft: var(--accent-1-soft);
+  --color-accent-1-deep: var(--accent-1-deep);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-soft: var(--accent-2-soft);
+  --color-accent-3: var(--accent-3);
+  --color-accent-3-deep: var(--accent-3-deep);
+  --color-accent-4: var(--accent-4);
   --color-success-hover: var(--success-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -122,6 +138,8 @@
   --destructive: oklch(0.577 0.245 27.33);
   --destructive-foreground: oklch(0.985 0 0);
   --success: oklch(0.586 0.166 142.5);
+  /* Green for text: 5.15:1 on white, 4.72:1 on muted surfaces */
+  --success-text: oklch(0.52 0.166 142.5);
   --success-hover: oklch(0.507 0.145 142.5);
   --border: oklch(0.918 0 0);
   --input: oklch(0.918 0 0);
@@ -195,6 +213,7 @@
   --destructive: oklch(0.577 0.245 27.33);
   --destructive-foreground: oklch(0.985 0 0);
   --success: oklch(0.723 0.191 142.5);
+  --success-text: oklch(0.723 0.191 142.5);
   --success-hover: oklch(0.586 0.166 142.5);
   --border: oklch(0.269 0 0);
   --input: oklch(0.269 0 0);
@@ -349,13 +368,13 @@ body {
     backdrop-filter: blur(24px) saturate(180%);
   }
   .section-padding {
-    @apply py-12.5 md:py-15 lg:py-18.75;
+    @apply py-12 md:py-15 lg:py-19;
   }
   .hero-padding {
     @apply py-15 md:py-20 lg:py-30;
   }
   .link-underline {
-    @apply decoration-border hover:decoration-foreground underline decoration-dotted underline-offset-4 transition-all duration-300 hover:underline-offset-6 rounded-xs outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply decoration-border hover:decoration-foreground underline decoration-dotted underline-offset-4 transition-[color,text-decoration-color,text-underline-offset] duration-300 hover:underline-offset-6 rounded-xs outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 }
 
@@ -377,8 +396,10 @@ body {
   @media (width >= --theme(--breakpoint-sm)) {
     max-width: none;
   }
-  @media (width >= 880px) {
-    max-width: 880px;
+  /* The site's one reading column: 42rem of text plus the side padding,
+     centred on every page. Wide content uses bigger-container. */
+  @media (width >= 712px) {
+    max-width: 712px;
   }
   @media (width >= --theme(--breakpoint-md)) {
     padding-inline: 1.25rem;
@@ -492,4 +513,27 @@ html.page-transition-back::view-transition-new(root) {
     linear-gradient(color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* Rakuten Link palette for the demo on its project page. Same values as
+   (showcase)/showcase/rakuten-link/theme.css; groups never share CSS. */
+[data-project='rakuten-link'] {
+  --canvas: #f5f5fa;
+  --surface: #ffffff;
+  --surface-border: #e4e4ee;
+  --ink: #232361;
+  --ink-muted: #6b6b94;
+  --accent-1: #ff008c;
+  --accent-1-soft: #ffcce8;
+  --accent-1-deep: #cc0070;
+  --accent-2: #3b3ba3;
+  --accent-2-soft: #e8e8f4;
+  --accent-3: #232361;
+  --accent-3-deep: #000033;
+  --accent-4: #d2dff7;
+  --link-yellow: #ffd900;
+  --link-orange: #ffae00;
+  --link-purple: #5c00cc;
+  --link-blue: #007acc;
+  font-family: var(--font-link-text), ui-sans-serif, system-ui, sans-serif;
 }

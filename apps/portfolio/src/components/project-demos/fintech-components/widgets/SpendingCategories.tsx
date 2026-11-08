@@ -33,7 +33,7 @@ const DEFAULT_CATEGORIES: SpendingCategory[] = [
 
 function SpendingCategoriesSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-32" />
         <Skeleton className="size-9 rounded-full" />
@@ -69,7 +69,7 @@ export function SpendingCategories({
   }
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh categories" onClick={refresh}>

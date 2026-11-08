@@ -23,9 +23,9 @@ export function GroceriesSpendingCard({
         <span className="text-sm font-semibold">Groceries</span>
       </div>
 
-      <div className="flex h-12 items-end justify-end gap-1.5">
+      <div className="flex h-12 items-end justify-end gap-2">
         {bars.map((value, index) => (
-          <div key={index} className="flex h-full w-2.5 items-end overflow-hidden rounded-full bg-white/15">
+          <div key={index} className="flex h-full w-3 items-end overflow-hidden rounded-full bg-white/15">
             <motion.div
               initial={{ height: 0 }}
               animate={{ height: `${value}%` }}

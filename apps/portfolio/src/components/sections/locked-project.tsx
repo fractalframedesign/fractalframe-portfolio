@@ -31,7 +31,7 @@ export default function LockedProject({ project }: LockedProjectProps) {
     <section className="hero-padding">
       <div className="container space-y-6 md:space-y-8">
         <p className="text-muted-foreground flex items-center gap-2 text-xs font-semibold tracking-widest uppercase">
-          <Lock className="size-3.5" aria-hidden />
+          <Lock className="size-4" aria-hidden />
           Private case study
         </p>
         <h1 className="text-3xl leading-[1.08] text-balance md:text-4xl lg:text-5xl">

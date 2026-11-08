@@ -120,7 +120,7 @@ function Mapping({ title, rows }: { title: string; rows: string[][] }) {
           {rows.map(([label, value]) => (
             <div
               key={label}
-              className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-2.5 text-sm"
+              className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 py-3 text-sm"
             >
               <dt className="text-muted-foreground">{label}</dt>
               <dd className="font-mono text-xs">{value}</dd>
@@ -151,9 +151,9 @@ export function TokenGuide({
           <p className="text-muted-foreground max-w-2xl text-lg text-pretty">
             Design tokens are the source of truth for colour, spacing and radius. Instead of
             hard-coded values, reference CSS variables such as{' '}
-            <code className="bg-muted rounded px-1.5 py-0.5 text-sm">var(--global-purple-5)</code>{' '}
+            <code className="bg-muted rounded px-2 py-1 text-sm">var(--global-purple-5)</code>{' '}
             and{' '}
-            <code className="bg-muted rounded px-1.5 py-0.5 text-sm">
+            <code className="bg-muted rounded px-2 py-1 text-sm">
               var(--spacing-spacing-16)
             </code>{' '}
             so the whole interface stays aligned and easy to update.
@@ -256,9 +256,9 @@ export function TokenGuide({
           {palette.map((swatch) => (
             <li key={swatch.token} className="border-border bg-card overflow-hidden rounded-xl border">
               <div className="h-20" style={{ background: `var(${swatch.token})` }} />
-              <div className="space-y-0.5 p-3">
+              <div className="space-y-1 p-3">
                 <p className="text-sm font-medium">{swatch.name}</p>
-                <p className="text-muted-foreground truncate font-mono text-[11px]">
+                <p className="text-muted-foreground truncate font-mono text-xs">
                   var({swatch.token})
                 </p>
               </div>

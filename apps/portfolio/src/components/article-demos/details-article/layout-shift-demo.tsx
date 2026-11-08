@@ -35,14 +35,14 @@ export function LayoutShiftDemo() {
     >
       <div className="grid w-full max-w-lg grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="bg-card rounded-xl border p-4 shadow-xs">
-          <p className="text-muted-foreground mb-2.5 font-mono text-[10px] tracking-[0.12em] uppercase">
+          <p className="text-muted-foreground mb-3 font-mono text-xs tracking-[0.12em] uppercase">
             No reserved space
           </p>
           <div
             className={`${BANNER} transition-[height] duration-250`}
             style={{ height: arrived ? 64 : 0 }}
           />
-          <p className="text-muted-foreground my-2.5 text-xs">
+          <p className="text-muted-foreground my-3 text-xs">
             Your workspace is ready to share with the team.
           </p>
           <Button size="sm" variant="outline">
@@ -50,7 +50,7 @@ export function LayoutShiftDemo() {
           </Button>
         </div>
         <div className="bg-card rounded-xl border p-4 shadow-xs">
-          <p className="text-muted-foreground mb-2.5 font-mono text-[10px] tracking-[0.12em] uppercase">
+          <p className="text-muted-foreground mb-3 font-mono text-xs tracking-[0.12em] uppercase">
             Reserved space
           </p>
           <div className="bg-foreground/5 h-16 overflow-hidden rounded-lg">
@@ -59,7 +59,7 @@ export function LayoutShiftDemo() {
               style={{ opacity: arrived ? 1 : 0 }}
             />
           </div>
-          <p className="text-muted-foreground my-2.5 text-xs">
+          <p className="text-muted-foreground my-3 text-xs">
             Your workspace is ready to share with the team.
           </p>
           <Button size="sm" variant="outline">

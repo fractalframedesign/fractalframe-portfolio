@@ -84,7 +84,7 @@ export default function AppSidebar({ pendingRequests }: AppSidebarProps) {
 
       <SidebarFooter>
         <SidebarMenu>
-          <SidebarMenuItem className="flex items-center gap-2 px-2 py-1.5 text-sm group-data-[collapsible=icon]:px-0">
+          <SidebarMenuItem className="flex items-center gap-2 px-2 py-2 text-sm group-data-[collapsible=icon]:px-0">
             <Avatar className="size-8 rounded-lg">
               <AvatarFallback className="rounded-lg">
                 {ADMIN_USER.initial}

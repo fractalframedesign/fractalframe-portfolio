@@ -77,7 +77,7 @@ export function PowerAnalyticsCard({
 
   return (
     <div
-      className={`mx-auto flex w-full min-w-[280px] max-w-[580px] flex-col rounded-[28px] bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-black/[0.03] dark:bg-[#17181c] dark:ring-white/[0.06] ${className}`}
+      className={`mx-auto flex w-full min-w-70 max-w-145 flex-col rounded-[1.75rem] bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.35)] ring-1 ring-black/[0.03] dark:bg-[#17181c] dark:ring-white/[0.06] ${className}`}
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -124,9 +124,9 @@ export function PowerAnalyticsCard({
               transition={{ delay: 0.05 * index, type: 'spring', duration: 0.5, bounce: 0.25 }}
               whileTap={{ scale: 0.99 }}
               aria-expanded={isOpen}
-              className="group w-full rounded-2xl bg-black/[0.035] px-4 py-3.5 text-left transition-colors hover:bg-black/[0.055] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] dark:focus-visible:ring-white/30"
+              className="group w-full rounded-2xl bg-black/[0.035] px-4 py-4 text-left transition-colors hover:bg-black/[0.055] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/[0.06] dark:hover:bg-white/[0.1] dark:focus-visible:ring-white/30"
             >
-              <div className="flex items-center gap-3.5">
+              <div className="flex items-center gap-4">
                 <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-white text-ink shadow-sm dark:bg-white/10 dark:text-white">
                   <DeviceIcon icon={device.icon} />
                 </div>
@@ -150,7 +150,7 @@ export function PowerAnalyticsCard({
               </div>
 
               {showUsageBars ? (
-                <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-black/5 dark:bg-white/10">
+                <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-black/5 dark:bg-white/10">
                   <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${barPct}%` }}

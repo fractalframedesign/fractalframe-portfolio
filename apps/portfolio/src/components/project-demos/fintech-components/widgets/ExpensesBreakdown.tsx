@@ -120,11 +120,11 @@ export function ExpensesBreakdown({
   }
 
   return (
-    <Card className={cn('max-w-[480px] p-6', className)}>
+    <Card className={cn('max-w-120 p-6', className)}>
       <CardHeader className="flex-row items-center justify-between p-0">
         <p className="font-mono text-sm uppercase tracking-wide text-muted-foreground">{title}</p>
-        <div className="flex items-center gap-1.5">
-          <div className="inline-flex items-center gap-0.5 rounded-full bg-secondary p-1" role="tablist" aria-label="Time period">
+        <div className="flex items-center gap-2">
+          <div className="inline-flex items-center gap-1 rounded-full bg-secondary p-1" role="tablist" aria-label="Time period">
             {PERIODS.map((p) => (
               <button
                 key={p}
@@ -133,7 +133,7 @@ export function ExpensesBreakdown({
                 aria-selected={period === p}
                 onClick={() => setPeriod(p)}
                 className={cn(
-                  'rounded-full px-2.5 py-1 text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                  'rounded-full px-3 py-1 text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring',
                   period === p ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground',
                 )}
               >
@@ -148,7 +148,7 @@ export function ExpensesBreakdown({
             aria-label="Refresh expenses"
             onClick={refresh}
           >
-            <RefreshCw className={cn('size-3.5', loading && 'animate-spin')} />
+            <RefreshCw className={cn('size-4', loading && 'animate-spin')} />
           </Button>
         </div>
       </CardHeader>
@@ -156,7 +156,7 @@ export function ExpensesBreakdown({
       <CardContent className="p-0 pt-8">
         {loading ? (
           <div className="flex flex-col items-center gap-8">
-            <Skeleton className="h-[130px] w-[260px] rounded-t-full" />
+            <Skeleton className="h-33 w-65 rounded-t-full" />
             <div className="flex w-full items-center justify-between">
               <Skeleton className="h-4 w-20" />
               <Skeleton className="h-4 w-24" />
@@ -165,7 +165,7 @@ export function ExpensesBreakdown({
           </div>
         ) : (
           <div className="flex flex-col gap-10">
-            <div className="relative mx-auto h-[130px] w-[200px]">
+            <div className="relative mx-auto h-33 w-50">
               <svg viewBox="0 0 200 110" className="absolute inset-x-0 top-0 w-full overflow-visible">
                 <path
                   d={describeArc(180, 0)}

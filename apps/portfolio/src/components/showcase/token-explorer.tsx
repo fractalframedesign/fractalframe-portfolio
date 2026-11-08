@@ -49,7 +49,7 @@ function TokenPreview({ token }: { token: DesignToken }) {
   return (
     <span className="border-border flex size-11 shrink-0 items-center overflow-hidden rounded-lg border px-1">
       <span
-        className="bg-primary block h-1.5 rounded-full"
+        className="bg-primary block h-2 rounded-full"
         style={{ width: reference, maxWidth: '100%' }}
       />
     </span>
@@ -212,12 +212,12 @@ export function TokenExplorer({ total, collections }: TokenExplorerProps) {
                       )}
                     >
                       <TokenPreview token={token} />
-                      <span className="min-w-0 flex-1 space-y-0.5">
+                      <span className="min-w-0 flex-1 space-y-1">
                         <span className="block truncate text-sm font-medium">{token.name}</span>
                         <span className="text-muted-foreground block truncate font-mono text-xs">
                           {token.cssName}
                         </span>
-                        <span className="text-muted-foreground block truncate font-mono text-[11px]">
+                        <span className="text-muted-foreground block truncate font-mono text-xs">
                           {value.css === value.resolved
                             ? value.css
                             : `${value.css} → ${value.resolved}`}

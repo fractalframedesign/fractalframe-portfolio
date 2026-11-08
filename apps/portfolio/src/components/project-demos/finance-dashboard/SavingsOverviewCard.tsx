@@ -37,15 +37,15 @@ export function SavingsOverviewCard({
 
       <div className="flex flex-wrap items-baseline gap-x-10 gap-y-3">
         <div>
-          <p className="flex items-baseline gap-1.5 text-2xl font-semibold">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />
+          <p className="flex items-baseline gap-2 text-2xl font-semibold">
+            <span className="h-2 w-2 rounded-full bg-accent-2" />
             {monthlySave}
           </p>
           <p className="mt-1 text-xs tracking-wide text-ink-muted">MONTHLY SAVE</p>
         </div>
         <div>
-          <p className="flex items-baseline gap-1.5 text-2xl font-semibold">
-            <span className="h-1.5 w-1.5 rounded-full bg-white" />
+          <p className="flex items-baseline gap-2 text-2xl font-semibold">
+            <span className="h-2 w-2 rounded-full bg-white" />
             {monthlySpending}
           </p>
           <p className="mt-1 text-xs tracking-wide text-ink-muted">MONTHLY SPENDING</p>
@@ -62,7 +62,7 @@ export function SavingsOverviewCard({
               onClick={() => setActiveDay(isActive ? null : day.label)}
               className="flex flex-col items-center gap-2"
             >
-              <div className="flex h-16 w-2.5 items-end overflow-hidden rounded-full bg-white/5">
+              <div className="flex h-16 w-3 items-end overflow-hidden rounded-full bg-white/5">
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${day.value}%` }}
@@ -75,7 +75,7 @@ export function SavingsOverviewCard({
               </div>
               <span
                 className={cn(
-                  'text-[11px] transition-colors',
+                  'text-xs transition-colors',
                   isActive ? 'text-white' : 'text-ink-muted',
                 )}
               >

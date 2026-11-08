@@ -85,7 +85,7 @@ function Dim({ from, to, label, marker }: DimProps) {
         x={vertical ? mx - 4 : mx}
         y={vertical ? my + 3.5 : my - 4}
         textAnchor={vertical ? 'end' : 'middle'}
-        className="fill-foreground stroke-background font-mono text-[10px]"
+        className="fill-foreground stroke-background font-mono text-xs"
         strokeWidth={3}
         paintOrder="stroke"
       >
@@ -269,11 +269,11 @@ export default function MeasureOverlay({
 
       {/* Spec card beside the selection: right, else left, else below or above */}
       <dl
-        className="bg-background text-foreground border-foreground absolute w-max max-w-64 space-y-0.5 break-words rounded-2xl border px-3.5 py-2.5 font-mono text-[11px] uppercase"
+        className="bg-background text-foreground border-foreground absolute w-max max-w-64 space-y-1 break-words rounded-2xl border px-4 py-3 font-mono text-xs uppercase"
         style={specPosition(box, bounds)}
       >
         {specRows(m).map(([label, value]) => (
-          <div key={label} className="flex gap-1.5">
+          <div key={label} className="flex gap-2">
             <dt className="text-muted-foreground">{label}:</dt>
             <dd>{value}</dd>
           </div>

@@ -174,7 +174,7 @@ export function FintechCaseStudy() {
               <li key={section.id}>
                 <Link
                   href={`#${section.id}`}
-                  className="text-muted-foreground hover:text-foreground block py-1.5 text-sm transition-colors"
+                  className="text-muted-foreground hover:text-foreground block py-2 text-sm transition-colors"
                 >
                   {section.label}
                 </Link>

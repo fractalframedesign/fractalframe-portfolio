@@ -60,7 +60,7 @@ export function MoneyManager({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-32" />
@@ -68,16 +68,16 @@ export function MoneyManager({
           </div>
         )}
         <div className="flex w-full gap-3">
-          <Skeleton className="h-[164px] flex-1 rounded-xl" />
-          <Skeleton className="h-[164px] flex-1 rounded-xl" />
+          <Skeleton className="h-41 flex-1 rounded-xl" />
+          <Skeleton className="h-41 flex-1 rounded-xl" />
         </div>
-        <Skeleton className="h-[124px] w-full rounded-xl" />
+        <Skeleton className="h-31 w-full rounded-xl" />
       </div>
     )
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
@@ -143,7 +143,7 @@ export function MoneyManager({
           <button
             type="button"
             aria-label="Add new contact"
-            className="z-10 -mr-1 flex size-[60px] shrink-0 items-center justify-center rounded-full bg-foreground text-background outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            className="z-10 -mr-1 flex size-15 shrink-0 items-center justify-center rounded-full bg-foreground text-background outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           >
             <Plus className="size-6" />
           </button>
@@ -156,7 +156,7 @@ export function MoneyManager({
               onClick={() => setSelectedContact((cur) => (cur === contact.id ? null : contact.id))}
               style={{ zIndex: visibleContacts.length - i }}
               className={cn(
-                '-mr-1 flex size-[60px] shrink-0 overflow-hidden rounded-full border-2 border-card outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+                '-mr-1 flex size-15 shrink-0 overflow-hidden rounded-full border-2 border-card outline-none transition-transform hover:scale-105 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
                 contact.bg,
                 selectedContact === contact.id && 'ring-2 ring-primary',
               )}

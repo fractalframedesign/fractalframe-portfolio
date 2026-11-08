@@ -78,7 +78,7 @@ function VisaIcon({ className }: { className?: string }) {
 
 function PaymentSummarySkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="size-9 rounded-full" />
@@ -91,17 +91,17 @@ function PaymentSummarySkeleton({ className }: { className?: string }) {
         <Skeleton className="h-6 w-20" />
       </div>
       <Skeleton className="h-px w-full" />
-      <Skeleton className="h-3.5 w-32" />
+      <Skeleton className="h-4 w-32" />
       <div className="flex items-center gap-3">
         <Skeleton className="size-10 rounded-full" />
         <Skeleton className="h-4 w-36" />
-        <Skeleton className="ml-auto h-3.5 w-28" />
+        <Skeleton className="ml-auto h-4 w-28" />
       </div>
       <div className="flex flex-col gap-3 rounded-xl bg-muted p-4">
-        <Skeleton className="h-3.5 w-28" />
+        <Skeleton className="h-4 w-28" />
         <div className="flex items-center gap-3">
           <Skeleton className="h-8 w-12" />
-          <div className="flex flex-1 flex-col gap-1.5">
+          <div className="flex flex-1 flex-col gap-2">
             <Skeleton className="h-4 w-32" />
             <Skeleton className="h-3 w-24" />
           </div>
@@ -135,7 +135,7 @@ export function PaymentSummary({
   }
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -153,7 +153,7 @@ export function PaymentSummary({
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="flex size-6 items-center justify-center rounded-full bg-success text-success-foreground">
-            <Check className="size-3.5" strokeWidth={3} />
+            <Check className="size-4" strokeWidth={3} />
           </div>
           <span className="text-base font-semibold">Successful</span>
         </div>
@@ -187,7 +187,7 @@ export function PaymentSummary({
           ) : (
             <VisaIcon />
           )}
-          <div className="flex flex-1 flex-col gap-0.5">
+          <div className="flex flex-1 flex-col gap-1">
             <span className="text-sm font-semibold">
               {tx.cardBrand} · **** {tx.maskedNumber}
             </span>

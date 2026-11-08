@@ -112,7 +112,7 @@ export default async function WidgetPage({ params }: Props) {
           notes={
             <section
               key="when-to-use"
-              className="bg-card border-border space-y-1.5 rounded-3xl border p-4"
+              className="bg-card border-border space-y-2 rounded-3xl border p-4"
             >
               <h2 className="text-sm font-semibold">When to use</h2>
               <p className="text-muted-foreground text-sm text-pretty">

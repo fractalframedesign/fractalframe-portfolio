@@ -32,7 +32,7 @@ const DEFAULT_ACTIONS: QuickAction[] = [
 
 function QuickActionsSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-28" />
         <Skeleton className="size-9 rounded-full" />
@@ -61,7 +61,7 @@ export function QuickActions({
   if (loading) return <QuickActionsSkeleton className={className} />
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh actions" onClick={refresh}>

@@ -48,7 +48,7 @@ export function Slippage({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-12 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-12 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-24" />
@@ -64,8 +64,8 @@ export function Slippage({
             <Skeleton className="size-16 rounded-full" />
           </div>
           <div className="flex w-full gap-2">
-            <Skeleton className="h-[68px] flex-1 rounded-2xl" />
-            <Skeleton className="h-[68px] flex-1 rounded-2xl" />
+            <Skeleton className="h-17 flex-1 rounded-2xl" />
+            <Skeleton className="h-17 flex-1 rounded-2xl" />
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ export function Slippage({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-12 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-12 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >

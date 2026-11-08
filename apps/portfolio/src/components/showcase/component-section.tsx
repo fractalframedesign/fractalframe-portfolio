@@ -59,7 +59,7 @@ export function ComponentSection({
                   >
                     <span
                       aria-hidden="true"
-                      className="bg-primary/60 size-1.5 shrink-0 rounded-full"
+                      className="bg-primary/60 size-2 shrink-0 rounded-full"
                     />
                     {item.name}
                   </Link>

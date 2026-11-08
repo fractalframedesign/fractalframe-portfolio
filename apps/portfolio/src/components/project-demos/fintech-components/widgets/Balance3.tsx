@@ -57,7 +57,7 @@ export function Balance3({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-20" />
@@ -70,12 +70,12 @@ export function Balance3({
             <Skeleton className="h-9 w-40" />
             <Skeleton className="h-4 w-28" />
           </div>
-          <Skeleton className="aspect-[186/114] h-[114px] shrink-0 rounded-xl" />
+          <Skeleton className="aspect-[186/114] h-29 shrink-0 rounded-xl" />
         </div>
         <div className="flex w-full items-center gap-4">
-          <Skeleton className="h-[52px] flex-1 rounded-xl" />
-          <Skeleton className="h-[52px] flex-1 rounded-xl" />
-          <Skeleton className="h-[52px] flex-1 rounded-xl" />
+          <Skeleton className="h-13 flex-1 rounded-xl" />
+          <Skeleton className="h-13 flex-1 rounded-xl" />
+          <Skeleton className="h-13 flex-1 rounded-xl" />
         </div>
         <Separator />
         <div className="flex w-full items-center justify-between">
@@ -90,7 +90,7 @@ export function Balance3({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
@@ -144,7 +144,7 @@ export function Balance3({
             <p className="text-3xl font-bold tracking-[-0.32px] text-foreground"><NumberPopIn value={String(account.balance)} /></p>
             <p className="text-base font-medium tracking-[0.16px] text-muted-foreground">{balanceLabel}</p>
           </div>
-          <img src={creditCard} alt="Debit card" className="aspect-[186/114] h-[114px] shrink-0 rounded-xl object-contain" />
+          <img src={creditCard} alt="Debit card" className="aspect-[186/114] h-29 shrink-0 rounded-xl object-contain" />
         </div>
 
         <div className="flex w-full items-center gap-4">
@@ -173,7 +173,7 @@ export function Balance3({
         <Separator />
 
         <div className="flex w-full items-center justify-between pb-1">
-          <div className="flex flex-col gap-0.5">
+          <div className="flex flex-col gap-1">
             <p className="text-base font-medium tracking-[0.16px] text-muted-foreground">Funds on Other Cards</p>
             <p className="text-2xl font-semibold tracking-[0.24px] text-foreground">{otherCardsAmount}</p>
           </div>
@@ -189,8 +189,8 @@ export function Balance3({
       </div>
 
       {lastAction && (
-        <p role="status" className="flex items-center gap-1.5 text-sm text-muted-foreground">
-          <ListPlus className="size-3.5 shrink-0 text-primary" />
+        <p role="status" className="flex items-center gap-2 text-sm text-muted-foreground">
+          <ListPlus className="size-4 shrink-0 text-primary" />
           {lastAction} action started.
         </p>
       )}

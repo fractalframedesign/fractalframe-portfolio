@@ -88,26 +88,26 @@ export function Transactions({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
         <div className="flex w-full flex-col gap-4">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-28" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-16 rounded-full" />
               <Skeleton className="size-8 rounded-full" />
             </div>
           </div>
-          <Skeleton className="h-4 w-full max-w-[420px]" />
+          <Skeleton className="h-4 w-full max-w-105" />
         </div>
         <div className="flex w-full flex-col gap-3">
           {[0, 1, 2].map((i) => (
             <div key={i} className="flex w-full items-center gap-3 rounded-xl bg-muted p-4">
               <Skeleton className="size-12 shrink-0 rounded-full" />
-              <div className="flex flex-1 flex-col gap-1.5">
+              <div className="flex flex-1 flex-col gap-2">
                 <Skeleton className="h-4 w-20" />
                 <Skeleton className="h-3 w-24" />
               </div>
-              <div className="flex flex-col items-end gap-1.5">
+              <div className="flex flex-col items-end gap-2">
                 <Skeleton className="h-4 w-16" />
                 <Skeleton className="h-3 w-12" />
               </div>
@@ -119,7 +119,7 @@ export function Transactions({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full items-center justify-between gap-2">
           <h3 className="font-mono text-sm font-normal uppercase tracking-[0.03em] text-muted-foreground">
@@ -137,7 +137,7 @@ export function Transactions({
           </Button>
         </div>
         <p className="text-base leading-normal text-muted-foreground">{description}</p>
-        <div role="group" aria-label="Filter transactions by status" className="flex flex-wrap items-center gap-1.5">
+        <div role="group" aria-label="Filter transactions by status" className="flex flex-wrap items-center gap-2">
           {FILTERS.map((option) => (
             <button
               key={option}
@@ -180,12 +180,12 @@ export function Transactions({
                     <AvatarFallback>{initials(item.name)}</AvatarFallback>
                   )}
                 </Avatar>
-                <div className="flex min-w-0 flex-1 flex-col justify-center gap-0.5">
+                <div className="flex min-w-0 flex-1 flex-col justify-center gap-1">
                   <p className="truncate text-lg font-semibold leading-tight text-foreground">{item.name}</p>
                   <p className="truncate text-sm font-medium text-muted-foreground">{item.date}</p>
                 </div>
                 <div className="flex shrink-0 items-center gap-3">
-                  <div className="flex flex-col items-end gap-0.5">
+                  <div className="flex flex-col items-end gap-1">
                     <p className="text-lg font-semibold leading-tight text-foreground">{currency(item.amount)}</p>
                     <Badge variant={statusBadgeVariant[item.status]}>{item.status}</Badge>
                   </div>
@@ -201,16 +201,16 @@ export function Transactions({
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="shrink-0 gap-1.5 text-xs"
+                    className="shrink-0 gap-2 text-xs"
                     onClick={() => handleCopy(item.id)}
                   >
                     {copiedId === item.id ? (
                       <>
-                        <Check className="size-3.5 text-success" /> Copied
+                        <Check className="size-4 text-success" /> Copied
                       </>
                     ) : (
                       <>
-                        <Copy className="size-3.5" /> Copy ID
+                        <Copy className="size-4" /> Copy ID
                       </>
                     )}
                   </Button>

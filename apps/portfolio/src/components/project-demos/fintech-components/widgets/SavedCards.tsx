@@ -39,7 +39,7 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
 
 function SavedCardsSkeleton({ className }: { className?: string }) {
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-28" />
         <Skeleton className="size-9 rounded-full" />
@@ -47,18 +47,18 @@ function SavedCardsSkeleton({ className }: { className?: string }) {
       <div className="flex flex-col gap-3">
         {[0, 1].map((i) => (
           <div key={i} className="flex items-center gap-4 rounded-xl bg-muted p-4">
-            <Skeleton className="h-[60px] w-[101px] shrink-0 rounded-xl" />
+            <Skeleton className="h-15 w-25 shrink-0 rounded-xl" />
             <div className="flex flex-1 flex-col gap-2">
               <Skeleton className="h-4 w-24" />
-              <Skeleton className="h-3.5 w-32" />
+              <Skeleton className="h-4 w-32" />
             </div>
             <Skeleton className="h-4 w-20" />
           </div>
         ))}
       </div>
       <div className="flex w-full gap-2">
-        <Skeleton className="h-[60px] flex-1 rounded-2xl" />
-        <Skeleton className="h-[60px] flex-1 rounded-2xl" />
+        <Skeleton className="h-15 flex-1 rounded-2xl" />
+        <Skeleton className="h-15 flex-1 rounded-2xl" />
       </div>
     </div>
   )
@@ -82,7 +82,7 @@ export function SavedCards({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -114,13 +114,13 @@ export function SavedCards({
               <img
                 src={cardArt}
                 alt=""
-                className="h-[60px] w-[101px] shrink-0 rounded-xl object-cover"
+                className="h-15 w-25 shrink-0 rounded-xl object-cover"
               />
-              <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+              <span className="flex min-w-0 flex-1 flex-col gap-1">
                 <span className="flex items-center gap-2">
                   <span className="truncate text-lg font-semibold">{card.bank}</span>
                   {isSaved && (
-                    <span className="rounded-full bg-success/15 px-2 py-0.5 text-[10px] font-medium text-success">Saved</span>
+                    <span className="rounded-full bg-success/15 px-2 py-1 text-xs font-medium text-success">Saved</span>
                   )}
                 </span>
                 <span className="truncate text-sm text-muted-foreground">
@@ -140,14 +140,14 @@ export function SavedCards({
         <Button
           variant="secondary"
           size="lg"
-          className="h-[60px] flex-1 gap-2 rounded-2xl text-lg font-bold"
+          className="h-15 flex-1 gap-2 rounded-2xl text-lg font-bold"
         >
           <Plus className="size-5" />
           Add New
         </Button>
         <Button
           size="lg"
-          className="h-[60px] flex-1 rounded-2xl text-lg font-bold"
+          className="h-15 flex-1 rounded-2xl text-lg font-bold"
           onClick={handleSave}
           disabled={!selectedId}
         >

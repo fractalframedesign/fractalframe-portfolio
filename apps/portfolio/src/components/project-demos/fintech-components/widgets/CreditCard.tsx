@@ -90,7 +90,7 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
     return (
       <div
         className={cn(
- 'flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
+ 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
           className,
         )}
       >
@@ -101,7 +101,7 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
             <Skeleton className="size-9 rounded-full" />
           </div>
         </div>
-        <Skeleton className="h-[256px] w-full rounded-2xl" />
+        <Skeleton className="h-64 w-full rounded-2xl" />
         <div className="flex items-center justify-between">
           <Skeleton className="h-2 w-24 rounded-full" />
           <div className="flex gap-2">
@@ -116,7 +116,7 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
+ 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
         className,
       )}
     >
@@ -147,7 +147,7 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
         </div>
       </div>
 
-      <div className="relative h-[256px] w-full">
+      <div className="relative h-64 w-full">
         {cards.map((card, i) => {
           const offset = (i - activeIndex + count) % count
           if (offset > 1) return null
@@ -186,7 +186,7 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
                         aria-label={revealed ? 'Hide card number' : 'Show card number'}
                         className="rounded-full p-1 text-white/80 outline-none transition-colors hover:bg-white/15 hover:text-white focus-visible:ring-2 focus-visible:ring-white/70"
                       >
-                        {revealed ? <EyeOff className="size-3.5" /> : <Eye className="size-3.5" />}
+                        {revealed ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                       </button>
                       <button
                         type="button"
@@ -194,25 +194,25 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
                         aria-label="Copy card number"
                         className="rounded-full p-1 text-white/80 outline-none transition-colors hover:bg-white/15 hover:text-white focus-visible:ring-2 focus-visible:ring-white/70"
                       >
-                        {copied ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+                        {copied ? <Check className="size-4" /> : <Copy className="size-4" />}
                       </button>
                     </div>
                   )}
                 </div>
                 <div className="flex items-end justify-between">
                   <div className="flex gap-8">
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-[11px] text-white/60">Card holder&apos;s name</span>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs text-white/60">Card holder&apos;s name</span>
                       <span className="text-sm font-medium">{card.holder}</span>
                     </div>
-                    <div className="flex flex-col gap-0.5">
-                      <span className="text-[11px] text-white/60">Expiry date</span>
+                    <div className="flex flex-col gap-1">
+                      <span className="text-xs text-white/60">Expiry date</span>
                       <span className="text-sm font-medium">{card.expiry}</span>
                     </div>
                   </div>
                   <div className="h-6 w-8 rounded-md bg-gradient-to-br from-white/70 to-white/40 ring-1 ring-white/40">
-                    <div className="mt-1.5 h-px w-full bg-black/20" />
-                    <div className="mt-1.5 h-px w-full bg-black/20" />
+                    <div className="mt-2 h-px w-full bg-black/20" />
+                    <div className="mt-2 h-px w-full bg-black/20" />
                   </div>
                 </div>
               </div>

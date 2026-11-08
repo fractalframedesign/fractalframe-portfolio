@@ -46,7 +46,7 @@ function RadialProgress({ percent }: { percent: number }) {
   const circumference = 2 * Math.PI * radius
   const offset = circumference - (percent / 100) * circumference
   return (
-    <div className="relative flex size-[58px] shrink-0 items-center justify-center">
+    <div className="relative flex size-15 shrink-0 items-center justify-center">
       <svg width={size} height={size} className="-rotate-90" viewBox={`0 0 ${size} ${size}`}>
         <circle
           cx={size / 2}
@@ -88,7 +88,7 @@ function GoalRow({ goal, expanded, onToggle }: { goal: SavingsGoal; expanded: bo
         className="flex w-full items-center justify-between gap-3 rounded-xl p-3 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <div className="flex w-[45%] min-w-0 items-center gap-4">
-          <span className="flex size-[52px] shrink-0 items-center justify-center rounded-full bg-accent">
+          <span className="flex size-13 shrink-0 items-center justify-center rounded-full bg-accent">
             <Icon className="size-6 text-accent-foreground" />
           </span>
           <span className="flex min-w-0 flex-col gap-1">
@@ -131,7 +131,7 @@ export function Savings3({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-20" />
@@ -141,12 +141,12 @@ export function Savings3({
         <div className="flex w-full flex-col gap-3">
           {[0, 1, 2].map((i) => (
             <div key={i} className="flex w-full items-center gap-4 rounded-xl bg-muted p-3">
-              <Skeleton className="size-[52px] shrink-0 rounded-full" />
+              <Skeleton className="size-13 shrink-0 rounded-full" />
               <div className="flex flex-1 flex-col gap-2">
                 <Skeleton className="h-4 w-24" />
                 <Skeleton className="h-3 w-32" />
               </div>
-              <Skeleton className="size-[58px] shrink-0 rounded-full" />
+              <Skeleton className="size-15 shrink-0 rounded-full" />
             </div>
           ))}
         </div>
@@ -155,7 +155,7 @@ export function Savings3({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>

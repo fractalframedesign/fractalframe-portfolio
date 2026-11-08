@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/card';
 
 const AboutCta = () => {
   return (
-    <section className="bigger-container pb-12.5 md:pb-15 lg:pb-18.75">
+    <section className="bigger-container pb-12 md:pb-15 lg:pb-19">
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}

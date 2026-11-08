@@ -110,22 +110,22 @@ export function Price({ className, loading: forcedLoading, title = 'Price', asse
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-16" />
           <Skeleton className="size-9 rounded-full" />
         </div>
         <div className="flex w-full flex-col gap-1">
           {assets.map((a) => (
-            <div key={a.id} className="flex w-full items-center justify-between py-2.5">
+            <div key={a.id} className="flex w-full items-center justify-between py-3">
               <div className="flex flex-1 items-center gap-4">
-                <Skeleton className="size-[58px] shrink-0 rounded-xl" />
+                <Skeleton className="size-15 shrink-0 rounded-xl" />
                 <div className="flex flex-col gap-2">
                   <Skeleton className="h-4 w-12" />
                   <Skeleton className="h-3 w-10" />
                 </div>
               </div>
-              <Skeleton className="h-9 w-[84px] rounded-md" />
+              <Skeleton className="h-9 w-21 rounded-md" />
               <div className="flex flex-1 flex-col items-end gap-2">
                 <Skeleton className="h-4 w-20" />
                 <Skeleton className="h-3 w-16" />
@@ -140,7 +140,7 @@ export function Price({ className, loading: forcedLoading, title = 'Price', asse
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
@@ -169,13 +169,13 @@ export function Price({ className, loading: forcedLoading, title = 'Price', asse
                 type="button"
                 onClick={() => setExpandedId(expanded ? null : asset.id)}
                 aria-expanded={expanded}
-                className="flex w-full items-center justify-between gap-4 rounded-lg py-2.5 text-left outline-none transition-colors hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex w-full items-center justify-between gap-4 rounded-lg py-3 text-left outline-none transition-colors hover:bg-accent/40 focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <div className="flex flex-1 items-center gap-4">
-                  <div className={cn('flex size-[58px] shrink-0 items-center justify-center rounded-xl', asset.iconBg)}>
+                  <div className={cn('flex size-15 shrink-0 items-center justify-center rounded-xl', asset.iconBg)}>
                     <img src={asset.icon} alt="" className="size-6" />
                   </div>
-                  <div className="flex flex-col gap-0.5">
+                  <div className="flex flex-col gap-1">
                     <p className="text-lg font-semibold leading-[1.4] text-foreground">{asset.symbol}</p>
                     <p className={cn('text-sm font-medium tracking-[0.14px]', positive ? 'text-success' : 'text-destructive')}>
                       {positive ? '+' : ''}
@@ -183,7 +183,7 @@ export function Price({ className, loading: forcedLoading, title = 'Price', asse
                     </p>
                   </div>
                 </div>
-                <div className="h-9 w-[84px] flex-1">
+                <div className="h-9 w-21 flex-1">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={asset.series.map((v, i) => ({ i, v }))} margin={{ top: 2, right: 0, bottom: 2, left: 0 }}>
                       <defs>
@@ -204,7 +204,7 @@ export function Price({ className, loading: forcedLoading, title = 'Price', asse
                   </ResponsiveContainer>
                 </div>
                 <div className="flex flex-1 items-center justify-end gap-3">
-                  <div className="flex flex-col items-end gap-0.5 text-right">
+                  <div className="flex flex-col items-end gap-1 text-right">
                     <p className="text-lg font-semibold leading-[1.4] text-foreground">{asset.price}</p>
                     <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">{asset.holdings}</p>
                   </div>
@@ -212,7 +212,7 @@ export function Price({ className, loading: forcedLoading, title = 'Price', asse
                 </div>
               </button>
               {expanded && (
-                <div className="flex w-full items-center justify-between gap-4 pb-3 pl-[74px] text-sm text-muted-foreground">
+                <div className="flex w-full items-center justify-between gap-4 pb-3 pl-19 text-sm text-muted-foreground">
                   <span>
                     24h high <span className="font-medium text-foreground">{asset.dayHigh}</span>
                   </span>

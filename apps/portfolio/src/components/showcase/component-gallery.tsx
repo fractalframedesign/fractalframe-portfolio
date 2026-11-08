@@ -86,7 +86,7 @@ export default function ComponentGallery({
           </ul>
         </nav>
 
-        <ul className="columns-1 gap-6 md:columns-2 xl:columns-3">
+        <ul className="columns-lg gap-6">
           {items.map((item) => (
             <li
               key={item.id}
@@ -94,13 +94,13 @@ export default function ComponentGallery({
               hidden={active !== ALL && item.category !== active}
               className="mb-8 break-inside-avoid scroll-mt-24"
             >
-              <article className="space-y-3">
-                <div className="bg-muted/60 flex justify-center rounded-3xl p-3 sm:p-4">
-                  <div className="w-full max-w-120">{item.preview}</div>
+              <article className="mx-auto w-fit max-w-full space-y-3">
+                <div className="bg-muted/60 flex justify-center overflow-x-auto rounded-3xl p-3 sm:rounded-4xl sm:p-4">
+                  <div className="w-120 shrink-0">{item.preview}</div>
                 </div>
 
                 <div className="flex items-start justify-between gap-3 px-1">
-                  <div className="min-w-0 space-y-0.5">
+                  <div className="min-w-0 space-y-1">
                     <h3 className="text-sm font-medium">
                       <Link href={item.href} className="hover:underline">
                         {item.name}

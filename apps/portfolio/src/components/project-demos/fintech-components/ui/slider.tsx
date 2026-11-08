@@ -22,8 +22,8 @@ export function Slider({
   const percent = ((value - min) / (max - min)) * 100
   return (
     <div className={cn('relative flex h-4 w-full items-center', className)}>
-      <div className="absolute h-1.5 w-full rounded-full bg-muted" />
-      <div className="absolute h-1.5 rounded-full bg-primary" style={{ width: `${percent}%` }} />
+      <div className="absolute h-2 w-full rounded-full bg-muted" />
+      <div className="absolute h-2 rounded-full bg-primary" style={{ width: `${percent}%` }} />
       <input
         type="range"
         aria-label={ariaLabel}

@@ -62,7 +62,7 @@ export function SavingsGoals({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full flex-col gap-3">
             <div className="flex w-full items-center justify-between">
@@ -83,7 +83,7 @@ export function SavingsGoals({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       {showHeader && (
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
@@ -116,13 +116,13 @@ export function SavingsGoals({
               <span key={m}>${Math.round(m / 10) * 10}</span>
             ))}
           </div>
-          <div className="flex h-[60px] w-full items-center justify-between gap-[3px]" aria-hidden="true">
+          <div className="flex h-15 w-full items-center justify-between gap-1" aria-hidden="true">
             {BAR_HEIGHTS.map((h, i) => (
               <span
                 key={i}
                 style={{ height: `${h * 0.75}px` }}
                 className={cn(
-                  'w-[3px] shrink-0 rounded-full bg-primary/40 transition-all duration-150',
+                  'w-1 shrink-0 rounded-full bg-primary/40 transition-all duration-150',
                   i === activeBarIndex && 'bg-primary opacity-100',
                 )}
               />

@@ -93,7 +93,7 @@ export function Savings({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-4 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-4 p-6', className)}>
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-16" />
           <Skeleton className="size-9 rounded-full" />
@@ -105,7 +105,7 @@ export function Savings({
               <Skeleton className="h-9 w-36" />
               <Skeleton className="h-4 w-32" />
             </div>
-            <Skeleton className="size-[114px] rounded-full" />
+            <Skeleton className="size-29 rounded-full" />
           </div>
           <div className="flex w-full gap-4">
             <Skeleton className="h-12 flex-1 rounded-xl" />
@@ -126,7 +126,7 @@ export function Savings({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-4 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-4 p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-widest text-muted-foreground">Savings</p>
         <Button
@@ -187,7 +187,7 @@ export function Savings({
               <p className="text-base font-medium text-muted-foreground">End: {goal.endDate}</p>
             </div>
           </div>
-          <div className="flex size-[114px] shrink-0 items-center justify-center rounded-full bg-secondary text-5xl">
+          <div className="flex size-29 shrink-0 items-center justify-center rounded-full bg-secondary text-5xl">
             {goal.emoji}
           </div>
         </div>
@@ -259,7 +259,7 @@ export function Savings({
           </div>
           <p className="text-base font-semibold text-primary">{percent}%</p>
         </div>
-        <div className="flex h-10 w-full items-center justify-between gap-[3px]" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}>
+        <div className="flex h-10 w-full items-center justify-between gap-1" role="progressbar" aria-valuenow={percent} aria-valuemin={0} aria-valuemax={100}>
           {Array.from({ length: SEGMENTS }).map((_, i) => (
             <div
               key={i}

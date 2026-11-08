@@ -82,7 +82,7 @@ function SetSpendingBudgetSkeleton({ className }: { className?: string }) {
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6',
         className,
       )}
     >
@@ -143,7 +143,7 @@ export function SetSpendingBudget({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
@@ -166,7 +166,7 @@ export function SetSpendingBudget({
 
       <div className="flex flex-col items-center gap-2 py-1">
         <div className="flex items-baseline justify-center">
-          <span className="text-[40px] font-semibold leading-none tracking-tight">$</span>
+          <span className="text-[2.5rem] font-semibold leading-none tracking-tight">$</span>
           <input
             type="number"
             inputMode="decimal"
@@ -175,7 +175,7 @@ export function SetSpendingBudget({
             value={amount}
             onChange={handleAmountChange}
             aria-label="Spending budget amount"
-            className="w-[140px] border-none bg-transparent text-center text-[40px] font-semibold leading-none tracking-tight tabular-nums text-foreground outline-none [appearance:textfield] focus-visible:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+            className="w-35 border-none bg-transparent text-center text-[2.5rem] font-semibold leading-none tracking-tight tabular-nums text-foreground outline-none [appearance:textfield] focus-visible:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
           />
         </div>
         <p className="text-base font-medium text-muted-foreground">

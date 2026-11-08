@@ -69,7 +69,7 @@ function MiniChart({
   onSelect: (index: number) => void
 }) {
   return (
-    <div className="h-[104px] w-full">
+    <div className="h-26 w-full">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={data}
@@ -85,7 +85,7 @@ function MiniChart({
               if (!active || !payload?.length) return null
               const point = payload[0].payload as TransactionsChartPoint
               return (
-                <div className="rounded-full bg-foreground px-2.5 py-1 text-xs font-semibold text-background shadow-md">
+                <div className="rounded-full bg-foreground px-3 py-1 text-xs font-semibold text-background shadow-md">
                   {point.label}: ${point.value}
                 </div>
               )
@@ -125,11 +125,11 @@ export function Transactions2({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-5 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
         <div className="flex w-full flex-col gap-4">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-24" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-20 rounded-full" />
               <Skeleton className="size-8 rounded-full" />
             </div>
@@ -137,28 +137,28 @@ export function Transactions2({
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-col gap-2">
               <Skeleton className="h-8 w-40" />
-              <Skeleton className="h-3.5 w-36" />
+              <Skeleton className="h-4 w-36" />
             </div>
             <Skeleton className="h-7 w-16 rounded-full" />
           </div>
         </div>
         <div className="flex w-full gap-3">
-          <Skeleton className="h-[232px] flex-1 rounded-xl" />
-          <Skeleton className="h-[232px] flex-1 rounded-xl" />
+          <Skeleton className="h-58 flex-1 rounded-xl" />
+          <Skeleton className="h-58 flex-1 rounded-xl" />
         </div>
       </Card>
     )
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-5 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full items-center justify-between gap-2">
           <h3 className="font-mono text-sm font-normal uppercase tracking-[0.03em] text-muted-foreground">
             {title}
           </h3>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <div className="relative shrink-0">
               <Button
                 type="button"
@@ -176,7 +176,7 @@ export function Transactions2({
                 <div
                   role="listbox"
                   aria-label="Select date range"
-                  className="absolute right-0 top-full z-10 mt-1.5 w-36 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
+                  className="absolute right-0 top-full z-10 mt-2 w-36 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
                 >
                   {RANGE_LABELS.map((label, index) => (
                     <button
@@ -189,12 +189,12 @@ export function Transactions2({
                         setMenuOpen(false)
                       }}
                       className={cn(
-                        'flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
+                        'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
                         index === rangeIndex ? 'text-primary' : 'text-popover-foreground',
                       )}
                     >
                       {label}
-                      {index === rangeIndex && <Check className="size-3.5" />}
+                      {index === rangeIndex && <Check className="size-4" />}
                     </button>
                   ))}
                 </div>
@@ -214,8 +214,8 @@ export function Transactions2({
         </div>
 
         <div className="flex w-full items-center justify-between gap-3">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
               {currency(totalAmount)}
             </p>
             <p className="text-sm font-medium text-muted-foreground">{totalLabel}</p>
@@ -231,7 +231,7 @@ export function Transactions2({
       <div className="flex w-full items-stretch gap-3">
         <div className="flex flex-1 flex-col gap-3 rounded-xl border border-border p-5">
           <div className="flex w-full items-center justify-between">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-1">
               <p className="text-xs font-medium text-muted-foreground">Expenses</p>
               <p className="text-xl font-semibold text-foreground tabular-nums">{currency(expensesAmount)}</p>
             </div>
@@ -250,7 +250,7 @@ export function Transactions2({
         </div>
         <div className="flex flex-1 flex-col gap-3 rounded-xl border border-border p-5">
           <div className="flex w-full items-center justify-between">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-1">
               <p className="text-xs font-medium text-muted-foreground">Incomes</p>
               <p className="text-xl font-semibold text-foreground tabular-nums">{currency(incomeAmount)}</p>
             </div>
