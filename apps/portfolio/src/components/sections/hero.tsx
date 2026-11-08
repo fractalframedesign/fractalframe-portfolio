@@ -65,7 +65,7 @@ const Key = ({ children }: { children: ReactNode }) => (
 );
 
 const NameRow = () => (
-  <motion.div className="mt-8 flex items-center gap-3" variants={itemVariants}>
+  <motion.div className="flex items-start gap-3" variants={itemVariants}>
     <Image
       src="/images/home/Kiran-Pingle.png"
       alt=""
@@ -76,7 +76,10 @@ const NameRow = () => (
     />
     <div>
       <h1 className="text-xl leading-snug">Kiran Pingle</h1>
-      <p className="text-muted-foreground leading-snug">Product Designer</p>
+      <p className="text-muted-foreground text-sm leading-snug">
+        Product Designer
+      </p>
+      <LocalTime />
     </div>
   </motion.div>
 );
@@ -139,10 +142,6 @@ const Hero = () => {
           animate="visible"
           style={{ y, opacity }}
         >
-          <motion.div variants={itemVariants}>
-            <LocalTime />
-          </motion.div>
-
           <NameRow />
           <Intro />
           <ProfileLinks />
