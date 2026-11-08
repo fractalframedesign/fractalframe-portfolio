@@ -3,12 +3,12 @@
 import { ArrowDownLeft, ArrowUpRight, Check, ChevronDown, Copy, Eye, EyeOff, MoreHorizontal, Plus } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Avatar, AvatarFallback } from '@/components/project-demos/fintech-components/ui/avatar'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card } from '@/components/project-demos/fintech-components/ui/card'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface CurrencyOption {
   code: string

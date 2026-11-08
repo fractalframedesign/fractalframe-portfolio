@@ -3,12 +3,12 @@
 import { ArrowLeftRight, ChevronDown, ListPlus, MoreHorizontal, Plus, Repeat } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { NumberPopIn } from '@/components/project-demos/fintech-components/motion/number-pop-in'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Separator } from '@/components/project-demos/fintech-components/ui/separator'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const creditCard = '/showcase/fintech-components/balance-3/credit-card.png'
 

@@ -3,11 +3,11 @@
 import { ChevronDown, MoreHorizontal, Plus } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Input } from '@/components/project-demos/fintech-components/ui/input'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const avatar1 = '/showcase/fintech-components/quick-transfer/avatar-1.png'
 const avatar2 = '/showcase/fintech-components/quick-transfer/avatar-2.png'

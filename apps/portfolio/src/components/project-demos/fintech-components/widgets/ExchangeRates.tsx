@@ -3,10 +3,10 @@
 import { ArrowLeftRight, ChevronDown, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface ExchangeRate {
   currency: string

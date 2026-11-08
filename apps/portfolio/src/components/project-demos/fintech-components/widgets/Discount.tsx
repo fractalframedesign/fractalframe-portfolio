@@ -3,9 +3,9 @@
 import { Plus, Sparkles } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const memojiFemale7 = '/showcase/fintech-components/discount/memoji-female-7.png'
 

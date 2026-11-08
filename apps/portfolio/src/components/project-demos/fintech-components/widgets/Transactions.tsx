@@ -3,13 +3,13 @@
 import { Check, ChevronRight, Copy, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/project-demos/fintech-components/ui/avatar'
 import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card } from '@/components/project-demos/fintech-components/ui/card'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const bitcoinIcon = '/showcase/fintech-components/transactions/bitcoin.svg'
 const ethereumIcon = '/showcase/fintech-components/transactions/ethereum.svg'

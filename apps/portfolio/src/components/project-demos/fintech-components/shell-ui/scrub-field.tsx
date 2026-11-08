@@ -4,6 +4,7 @@ import * as SliderPrimitive from '@radix-ui/react-slider';
 import { ChevronDown } from 'lucide-react';
 import * as React from 'react';
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,7 +13,6 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/components/project-demos/fintech-components/shell-ui/dropdown-menu';
-import { cn } from '@/components/project-demos/fintech-components/lib/utils';
 
 type ScrubFieldProps = {
   label: string;

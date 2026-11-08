@@ -3,8 +3,8 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
 
-import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 import { cn } from '@/components/project-demos/finance-dashboard/lib/utils'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type DayValue = { label: string; value: number }
 
