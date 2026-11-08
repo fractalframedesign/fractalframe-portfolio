@@ -3,10 +3,10 @@
 import { MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const AMOUNT_CHIPS = [0, 10, 20, 50] as const
 type AmountChip = (typeof AMOUNT_CHIPS)[number] | 'other'

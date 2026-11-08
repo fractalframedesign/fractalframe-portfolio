@@ -29,11 +29,11 @@ import {
   WalletCards,
 } from 'lucide-react'
 
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Progress } from '@/components/project-demos/fintech-components/ui/progress'
 import { Slider } from '@/components/project-demos/fintech-components/ui/slider'
 import { Switch } from '@/components/project-demos/fintech-components/ui/switch'
-import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const mastercardLogo = '/showcase/fintech-components/cards/mastercard-logo.svg'
 const sendMoneyAvatar1 = '/showcase/fintech-components/figma-widgets/send-money-avatar-1.png'

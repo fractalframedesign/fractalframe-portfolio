@@ -2,8 +2,8 @@
 
 import { motion } from 'motion/react'
 
-import { useMotion } from '@/components/project-demos/fintech-components/motion/settings'
 import { cn } from '@/components/project-demos/fintech-components/lib/utils'
+import { useMotion } from '@/components/project-demos/fintech-components/motion/settings'
 
 export function Progress({
   value,

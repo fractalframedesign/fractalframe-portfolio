@@ -3,8 +3,8 @@
 import { motion } from 'motion/react'
 import * as React from 'react'
 
-import { useMotion } from '@/components/project-demos/fintech-components/motion/settings'
 import { cn } from '@/components/project-demos/fintech-components/lib/utils'
+import { useMotion } from '@/components/project-demos/fintech-components/motion/settings'
 
 interface TabsContextValue {
   value: string

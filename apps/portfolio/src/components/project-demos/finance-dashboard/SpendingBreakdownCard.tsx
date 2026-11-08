@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 import { cn } from '@/components/project-demos/finance-dashboard/lib/utils'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type Segment = { label: string; percent: number; color: string }
 

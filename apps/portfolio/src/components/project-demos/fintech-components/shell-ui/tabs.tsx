@@ -1,7 +1,7 @@
 'use client';
 
-import * as React from 'react';
 import * as TabsPrimitive from '@radix-ui/react-tabs';
+import * as React from 'react';
 
 import { cn } from '@/components/project-demos/fintech-components/lib/utils';
 import { ScrollArea, ScrollBar } from '@/components/project-demos/fintech-components/shell-ui/scroll-area';
@@ -69,4 +69,4 @@ function TabsContent({
   );
 }
 
-export { Tabs, TabsList, TabsTrigger, TabsContent };
+export { Tabs, TabsContent, TabsList, TabsTrigger };
