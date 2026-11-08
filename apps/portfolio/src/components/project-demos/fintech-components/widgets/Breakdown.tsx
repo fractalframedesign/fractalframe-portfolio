@@ -38,7 +38,7 @@ function DonutSlice({ slice, total }: { slice: BreakdownSlice; total: number }) 
     { name: 'rest', value: Math.max(total - slice.amount, 0) },
   ]
   return (
-    <div className="relative size-[92px] shrink-0">
+    <div className="relative size-23 shrink-0">
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie data={data} dataKey="value" innerRadius={34} outerRadius={44} startAngle={90} endAngle={-270} stroke="none" isAnimationActive={false}>
@@ -64,7 +64,7 @@ function InfoRow({
 }) {
   const [open, setOpen] = React.useState(false)
   return (
-    <div className="flex w-full flex-col gap-1.5">
+    <div className="flex w-full flex-col gap-2">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-1">
           <span className={cn('text-sm font-medium tracking-[0.14px] text-muted-foreground', emphasized && 'text-base font-semibold text-foreground')}>
@@ -110,7 +110,7 @@ export function Breakdown({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-24" />
           <Skeleton className="size-9 rounded-full" />
@@ -118,7 +118,7 @@ export function Breakdown({
         <div className="flex w-full items-center justify-between px-6">
           {slices.map((s) => (
             <div key={s.id} className="flex flex-col items-center gap-3">
-              <Skeleton className="size-[92px] rounded-full" />
+              <Skeleton className="size-23 rounded-full" />
               <Skeleton className="h-6 w-12" />
               <Skeleton className="h-4 w-14" />
             </div>
@@ -137,7 +137,7 @@ export function Breakdown({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >

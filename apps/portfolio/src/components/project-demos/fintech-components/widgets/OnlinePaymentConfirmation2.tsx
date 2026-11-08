@@ -49,7 +49,7 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
 
 function OnlinePaymentConfirmation2Skeleton({ className }: { className?: string }) {
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-52" />
         <Skeleton className="size-9 rounded-full" />
@@ -66,7 +66,7 @@ function OnlinePaymentConfirmation2Skeleton({ className }: { className?: string 
         <div className="flex w-full items-center justify-between">
           <div className="flex flex-col gap-1">
             <Skeleton className="h-6 w-20" />
-            <Skeleton className="h-3.5 w-36" />
+            <Skeleton className="h-4 w-36" />
           </div>
           <Skeleton className="h-7 w-20 rounded-full" />
         </div>
@@ -102,7 +102,7 @@ export function OnlinePaymentConfirmation2({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -151,7 +151,7 @@ export function OnlinePaymentConfirmation2({
       ) : (
         <div className="flex w-full flex-col gap-4 rounded-xl bg-muted p-6">
           <div className="flex w-full items-center justify-between">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-1">
               <p className="text-2xl font-semibold tracking-wide">Orders</p>
               <p className="text-sm text-muted-foreground">
                 Total amount owed <span className="font-semibold text-foreground">{currencyFormatter.format(totalOwed)}</span>

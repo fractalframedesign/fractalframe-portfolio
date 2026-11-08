@@ -22,7 +22,7 @@ export function Tile({ children, className, tone = 'dark', as = 'div', onClick }
     <Comp
       onClick={onClick}
       className={cn(
-        'relative flex flex-col rounded-[28px] p-5 text-left transition-colors duration-200',
+        'relative flex flex-col rounded-[1.75rem] p-5 text-left transition-colors duration-200',
         toneClasses[tone],
         onClick && 'cursor-pointer hover:border-white/20',
         className,

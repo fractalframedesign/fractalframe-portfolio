@@ -54,7 +54,7 @@ const ProjectDetails = ({
           <h2 className="text-2xl leading-none">Highlights</h2>
           <ul className="ms-7 max-w-2xl space-y-2 text-lg leading-relaxed">
             {highlights.map((highlight, index) => (
-              <li key={index} className="list-disc">
+              <li key={index} className="list-disc text-pretty">
                 {highlight}
               </li>
             ))}

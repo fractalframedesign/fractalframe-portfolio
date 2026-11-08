@@ -32,7 +32,7 @@ export function CodeBlock({ code, className }: { code: string; className?: strin
       <Highlight code={code.trim()} language="tsx" theme={themes.dracula}>
         {({ className: preClassName, style, tokens, getLineProps, getTokenProps }) => (
           <pre
-            className={cn(preClassName, 'max-h-[460px] overflow-auto py-4 pr-14 pl-4 text-xs leading-relaxed')}
+            className={cn(preClassName, 'max-h-115 overflow-auto py-4 pr-14 pl-4 text-xs leading-relaxed')}
             style={style}
           >
             {tokens.map((line, i) => (

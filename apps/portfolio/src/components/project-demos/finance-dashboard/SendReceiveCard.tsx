@@ -31,7 +31,7 @@ export function SendReceiveCard({ onSend, onReceive }: SendReceiveCardProps) {
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="text-[11px] font-medium text-accent-2"
+              className="text-xs font-medium text-accent-2"
             >
               {status}
             </motion.span>
@@ -44,10 +44,10 @@ export function SendReceiveCard({ onSend, onReceive }: SendReceiveCardProps) {
           type="button"
           whileTap={{ scale: 0.97 }}
           onClick={() => trigger('send')}
-          className="flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-2.5 text-left transition-colors hover:bg-white/10"
+          className="flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-3 text-left transition-colors hover:bg-white/10"
         >
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-1">
-            <ArrowUpRight className="h-3.5 w-3.5" />
+            <ArrowUpRight className="h-4 w-4" />
           </span>
           <span className="text-xs font-semibold tracking-wide">SEND</span>
         </motion.button>
@@ -56,10 +56,10 @@ export function SendReceiveCard({ onSend, onReceive }: SendReceiveCardProps) {
           type="button"
           whileTap={{ scale: 0.97 }}
           onClick={() => trigger('receive')}
-          className="flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-2.5 text-left transition-colors hover:bg-white/10"
+          className="flex items-center gap-3 rounded-2xl bg-white/5 px-3 py-3 text-left transition-colors hover:bg-white/10"
         >
           <span className="flex h-7 w-7 items-center justify-center rounded-full bg-accent-3">
-            <ArrowDownLeft className="h-3.5 w-3.5" />
+            <ArrowDownLeft className="h-4 w-4" />
           </span>
           <span className="text-xs font-semibold tracking-wide">RECEIVE</span>
         </motion.button>

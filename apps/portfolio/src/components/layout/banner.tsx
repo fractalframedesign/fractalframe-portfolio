@@ -48,14 +48,14 @@ const Banner = ({
           <button
             onClick={handleDismiss}
             className={cn(
-              'absolute top-1/2 right-4 -translate-y-1/2 rounded-sm p-1.5',
+              'absolute top-1/2 right-4 -translate-y-1/2 rounded-sm p-2',
               'text-primary-foreground/70 hover:text-primary-foreground',
               'transition-all duration-200 hover:scale-110 hover:bg-white/10',
               'focus:ring-2 focus:ring-white/30 focus:outline-none',
             )}
             aria-label="Close banner"
           >
-            <X className="size-3.5" />
+            <X className="size-4" />
           </button>
         </div>
       </div>

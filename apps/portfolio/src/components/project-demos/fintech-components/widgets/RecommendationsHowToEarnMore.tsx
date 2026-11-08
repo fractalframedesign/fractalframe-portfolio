@@ -66,7 +66,7 @@ export function RecommendationsHowToEarnMore({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <Skeleton className="h-4 w-56" />
@@ -80,17 +80,17 @@ export function RecommendationsHowToEarnMore({
             <Skeleton className="h-7 w-20 rounded-full" />
           </div>
         </div>
-        <Skeleton className="h-[41px] w-full rounded-sm" />
+        <Skeleton className="h-10 w-full rounded-sm" />
         <div className="flex gap-3">
-          <Skeleton className="h-[151px] flex-1 rounded-xl" />
-          <Skeleton className="h-[151px] flex-1 rounded-xl" />
+          <Skeleton className="h-38 flex-1 rounded-xl" />
+          <Skeleton className="h-38 flex-1 rounded-xl" />
         </div>
       </div>
     )
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex flex-col gap-2">
         <div className="flex items-center justify-between">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-muted-foreground">
@@ -108,8 +108,8 @@ export function RecommendationsHowToEarnMore({
           </Button>
         </div>
         <div className="flex items-center justify-between">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-tight tracking-tight text-foreground"><NumberPopIn value={String(totalSaved)} /></p>
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-tight tracking-tight text-foreground"><NumberPopIn value={String(totalSaved)} /></p>
             <p className="text-xs font-medium text-muted-foreground">Total amount saved</p>
           </div>
           <div className="flex items-center gap-1 rounded-full bg-muted px-2 py-1">
@@ -125,7 +125,7 @@ export function RecommendationsHowToEarnMore({
             <div
               key={i}
               className={cn(
-                'h-[41px] flex-1 rounded-sm transition-colors',
+                'h-10 flex-1 rounded-sm transition-colors',
                 i < elapsedSegments ? 'bg-primary' : 'bg-primary/25',
               )}
             />
@@ -146,7 +146,7 @@ export function RecommendationsHowToEarnMore({
           return (
             <div
               key={tip.key}
-              className="flex h-[151px] flex-1 flex-col justify-between gap-3 rounded-xl bg-muted p-4"
+              className="flex h-38 flex-1 flex-col justify-between gap-3 rounded-xl bg-muted p-4"
             >
               <div className="flex flex-col gap-3">
                 <p className="text-xs font-medium text-muted-foreground">{tip.label}</p>

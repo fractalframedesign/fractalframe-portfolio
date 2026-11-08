@@ -11,8 +11,8 @@ const iconVariants = cva('flex items-center justify-center rounded-full bg-foreg
     size: {
       sm: 'size-10 [&_svg]:size-4',
       md: 'size-12 [&_svg]:size-5',
-      lg: 'size-[58px] [&_svg]:size-6',
-      xl: 'size-[72px] [&_svg]:size-8',
+      lg: 'size-15 [&_svg]:size-6',
+      xl: 'size-18 [&_svg]:size-8',
     },
   },
   defaultVariants: { size: 'sm' },

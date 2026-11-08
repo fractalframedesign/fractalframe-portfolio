@@ -68,7 +68,7 @@ export function AverageExpenses({
   const selected = rows.find((r) => r.id === selectedId) ?? null
 
   return (
-    <Card className={cn('max-w-[480px] p-6', className)}>
+    <Card className={cn('max-w-120 p-6', className)}>
       <CardHeader className="gap-3 p-0">
         <div className="flex items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-wide text-muted-foreground">{title}</p>
@@ -79,7 +79,7 @@ export function AverageExpenses({
             aria-label="Refresh average expenses"
             onClick={refresh}
           >
-            <RefreshCw className={cn('size-3.5', loading && 'animate-spin')} />
+            <RefreshCw className={cn('size-4', loading && 'animate-spin')} />
           </Button>
         </div>
         <Tabs value={period} onValueChange={(v) => setPeriod(v as typeof period)}>
@@ -105,13 +105,13 @@ export function AverageExpenses({
           <div className="flex flex-col gap-5">
             {[0, 1, 2].map((i) => (
               <div key={i} className="flex items-center gap-3">
-                <Skeleton className="size-[58px] shrink-0 rounded-full" />
+                <Skeleton className="size-15 shrink-0 rounded-full" />
                 <div className="flex flex-1 flex-col gap-2">
                   <div className="flex items-center justify-between">
                     <Skeleton className="h-4 w-28" />
                     <Skeleton className="h-4 w-20" />
                   </div>
-                  <Skeleton className="h-3.5 w-full rounded-full" />
+                  <Skeleton className="h-4 w-full rounded-full" />
                 </div>
               </div>
             ))}
@@ -132,7 +132,7 @@ export function AverageExpenses({
                     isSelected ? 'bg-accent' : 'hover:bg-secondary/60',
                   )}
                 >
-                  <span className="flex size-[58px] shrink-0 items-center justify-center rounded-full bg-muted">
+                  <span className="flex size-15 shrink-0 items-center justify-center rounded-full bg-muted">
                     <Icon className="size-6 text-foreground" />
                   </span>
                   <span className="flex flex-1 flex-col gap-3">
@@ -144,7 +144,7 @@ export function AverageExpenses({
                         {formatCurrency(row.amount)}
                       </span>
                     </span>
-                    <Progress value={row.percent} className="h-3.5" />
+                    <Progress value={row.percent} className="h-4" />
                   </span>
                 </button>
               )

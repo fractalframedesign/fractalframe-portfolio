@@ -8,6 +8,7 @@ import {
   ProjectDetails,
   ProjectHero,
 } from '@/components/sections/project';
+import RakutenLinkStory from '@/components/sections/project/rakuten-link-story';
 import { StackGrid } from '@/components/stack-grid';
 import { getProductLevels } from '@/lib/access/cached-levels';
 import { visibleProjects } from '@/lib/access/visible';
@@ -102,28 +103,37 @@ export default async function ProjectPage({
       <ProjectHero
         name={frontmatter.name}
         liveUrl={frontmatter.liveUrl}
-        sourceUrl={frontmatter.sourceUrl}
         coverImage={frontmatter.image}
+        coverVideo={frontmatter.coverVideo}
         imagePlaceholder={frontmatter.imagePlaceholder}
         longDescription={frontmatter.longDescription}
-        category={frontmatter.category}
         wrapperClassName={frontmatter.wrapperClassName}
         imageClassName={frontmatter.imageClassName}
       />
 
-      {frontmatter.stack.length > 0 && (
-        <StackGrid
-          stack={frontmatter.stack}
-          title="Project stack"
-          className="hero-padding pt-0!"
+      {slug === 'rakuten-link' ? (
+        // Its own order: what I did, a live demo, then the components
+        <RakutenLinkStory
+          role={frontmatter.additionalDescription}
+          highlights={frontmatter.highlights}
         />
-      )}
+      ) : (
+        <>
+          {frontmatter.stack.length > 0 && (
+            <StackGrid
+              stack={frontmatter.stack}
+              title="Project stack"
+              className="hero-padding pt-0!"
+            />
+          )}
 
-      <ProjectDetails
-        images={frontmatter.images}
-        additionalDescription={frontmatter.additionalDescription}
-        highlights={frontmatter.highlights}
-      />
+          <ProjectDetails
+            images={frontmatter.images}
+            additionalDescription={frontmatter.additionalDescription}
+            highlights={frontmatter.highlights}
+          />
+        </>
+      )}
 
       <MoreProjects projects={moreProjects} />
     </article>

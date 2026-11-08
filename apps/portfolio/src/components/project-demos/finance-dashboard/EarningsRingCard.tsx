@@ -63,7 +63,7 @@ export function EarningsRingCard({
           <p className="text-2xl font-semibold text-accent-3">{earning}</p>
         </div>
 
-        <div className="flex gap-1 rounded-full bg-white/5 p-1 text-[11px]">
+        <div className="flex gap-1 rounded-full bg-white/5 p-1 text-xs">
           {(['monthly', 'yearly'] as const).map((p) => (
             <button
               key={p}

@@ -52,14 +52,14 @@ export function SaveMoney({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-3">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-6 w-14 rounded-full" />
             </div>
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <Skeleton className="h-9 w-24 rounded-full" />
               <Skeleton className="size-9 rounded-full" />
             </div>
@@ -83,14 +83,14 @@ export function SaveMoney({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <div className="flex items-center gap-3">
             <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-            {isNew && <Badge className="bg-primary px-3 py-0.5 text-base font-semibold text-primary-foreground">New</Badge>}
+            {isNew && <Badge className="bg-primary px-3 py-1 text-base font-semibold text-primary-foreground">New</Badge>}
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               className="flex items-center gap-1 rounded-full bg-secondary py-1 pr-1 pl-2 text-sm font-medium text-muted-foreground outline-none hover:bg-secondary/70 focus-visible:ring-2 focus-visible:ring-ring"
@@ -107,7 +107,7 @@ export function SaveMoney({
 
       <div className="flex w-full flex-col items-center gap-1">
         <p className="text-lg font-medium text-muted-foreground">Period</p>
-        <p className="text-[48px] leading-[1.15] font-semibold tracking-[-1.44px] text-foreground">{active.months} Month</p>
+        <p className="text-5xl leading-[1.15] font-semibold tracking-[-1.44px] text-foreground">{active.months} Month</p>
         <p className="text-2xl font-semibold tracking-[0.24px] text-foreground"><NumberPopIn value={String(targetAmount)} /></p>
       </div>
 
@@ -125,7 +125,7 @@ export function SaveMoney({
               setSelectedPlan(v === 0 ? 'easy' : v === 50 ? 'medium' : 'hard')
             }}
             aria-label="Select savings difficulty"
-            className="relative z-10 h-8 w-full cursor-pointer appearance-none bg-transparent outline-none [&::-webkit-slider-thumb]:size-[34px] [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-border [&::-webkit-slider-thumb]:bg-card [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:size-[34px] [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border [&::-moz-range-thumb]:border-border [&::-moz-range-thumb]:bg-card [&::-moz-range-thumb]:shadow-lg"
+            className="relative z-10 h-8 w-full cursor-pointer appearance-none bg-transparent outline-none [&::-webkit-slider-thumb]:size-9 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:border [&::-webkit-slider-thumb]:border-border [&::-webkit-slider-thumb]:bg-card [&::-webkit-slider-thumb]:shadow-lg [&::-moz-range-thumb]:size-9 [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:border [&::-moz-range-thumb]:border-border [&::-moz-range-thumb]:bg-card [&::-moz-range-thumb]:shadow-lg"
           />
         </div>
         <div className="flex w-full items-center justify-between">
@@ -136,7 +136,7 @@ export function SaveMoney({
               onClick={() => setSelectedPlan(plan.id)}
               aria-pressed={selectedPlan === plan.id}
               className={cn(
-                'flex w-[70px] flex-col items-center gap-1 rounded-lg py-1 text-center outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                'flex w-18 flex-col items-center gap-1 rounded-lg py-1 text-center outline-none focus-visible:ring-2 focus-visible:ring-ring',
                 plan.id === 'medium' ? 'items-center' : plan.id === 'hard' ? 'items-end text-right' : 'items-start text-left',
               )}
             >

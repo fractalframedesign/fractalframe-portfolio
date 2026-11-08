@@ -116,7 +116,7 @@ export function SavedMoney({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-10 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-10 p-6', className)}>
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-28" />
@@ -129,7 +129,7 @@ export function SavedMoney({
           </div>
         </div>
         <div className="flex w-full items-center justify-between gap-6">
-          <Skeleton className="size-[184px] shrink-0 rounded-full" />
+          <Skeleton className="size-46 shrink-0 rounded-full" />
           <div className="flex flex-1 flex-col gap-3">
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-full" />
@@ -141,7 +141,7 @@ export function SavedMoney({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-10 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-10 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between gap-2">
@@ -186,14 +186,14 @@ export function SavedMoney({
           <div className="relative shrink-0">
             <DashRing percent={period.percent} />
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-1">
-              <span className="text-[32px] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
+              <span className="text-[2rem] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
                 {period.percent}%
               </span>
               <span className="text-base font-medium text-muted-foreground">Saved</span>
             </div>
-            <div className="absolute -top-2 right-0 flex translate-x-1/3 items-center gap-1.5">
+            <div className="absolute -top-2 right-0 flex translate-x-1/3 items-center gap-2">
               <span className="size-3 shrink-0 rounded-full bg-foreground" />
-              <span className="rounded-full bg-foreground px-2 py-0.5 text-sm font-semibold text-background">
+              <span className="rounded-full bg-foreground px-2 py-1 text-sm font-semibold text-background">
                 {period.delta}
               </span>
             </div>

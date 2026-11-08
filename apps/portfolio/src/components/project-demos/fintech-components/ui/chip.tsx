@@ -20,7 +20,7 @@ export function Chip({ active, disabled, leading, trailing, onSelect, className,
       disabled={disabled}
       onClick={onSelect}
       className={cn(
-        'inline-flex min-w-14 items-center justify-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-medium tracking-tight transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-40',
+        'inline-flex min-w-14 items-center justify-center gap-2 rounded-full px-3 py-2 text-sm font-medium tracking-tight transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-40',
         active
           ? 'bg-primary text-primary-foreground'
           : 'bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground',

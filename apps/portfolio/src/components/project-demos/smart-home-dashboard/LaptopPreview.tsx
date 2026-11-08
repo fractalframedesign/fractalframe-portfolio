@@ -30,7 +30,7 @@ export function LaptopPreview() {
           </div>
 
           <div className="absolute inset-x-[12%] bottom-[32%] z-10 aspect-16/10 origin-bottom rounded-t-2xl border border-surface-border bg-ink p-[1.4%] shadow-[0_16px_30px_-16px_rgba(0,0,0,0.9)] transition-transform duration-1000 ease-[cubic-bezier(0.2,0.8,0.2,1)] backface-hidden transform-[rotateX(0deg)] group-hover:transform-[rotateX(-100deg)] group-focus-visible:transform-[rotateX(-100deg)] [@media(hover:none)]:transform-[rotateX(-100deg)] max-sm:transform-[rotateX(-100deg)]">
-            <div className="relative size-full overflow-hidden rounded-t-[0.7rem] bg-canvas">
+            <div className="relative size-full overflow-hidden rounded-t-xl bg-canvas">
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute inset-0 z-10 bg-linear-to-br from-white/10 via-transparent to-black/10"

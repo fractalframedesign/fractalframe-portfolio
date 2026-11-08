@@ -53,7 +53,7 @@ export function YesterdayEarningCard({
               key={`${day.label}-${index}`}
               type="button"
               onClick={() => setSelectedIndex(index)}
-              className="flex flex-col items-center gap-1.5"
+              className="flex flex-col items-center gap-2"
             >
               <div className="flex h-10 w-1 items-end overflow-hidden rounded-full bg-white/5">
                 <motion.div
@@ -63,7 +63,7 @@ export function YesterdayEarningCard({
                   className={cn('w-full rounded-full', isSelected ? 'bg-accent-2' : 'bg-white/25')}
                 />
               </div>
-              <span className={cn('text-[10px]', isSelected ? 'text-white' : 'text-ink-muted')}>
+              <span className={cn('text-xs', isSelected ? 'text-white' : 'text-ink-muted')}>
                 {day.label}
               </span>
             </button>

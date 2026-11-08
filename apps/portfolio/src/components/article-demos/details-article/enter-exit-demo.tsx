@@ -45,7 +45,7 @@ export function EnterExitDemo() {
         <span className="bg-success size-2 flex-none rounded-full" />
         <span>Changes saved</span>
         <button
-          className="text-muted-foreground hover:text-foreground px-1 text-[13px]"
+          className="text-muted-foreground hover:text-foreground px-1 text-sm"
           onClick={() => setState('out')}
         >
           Dismiss

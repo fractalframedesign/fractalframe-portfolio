@@ -23,9 +23,18 @@ describe('getProjectsBySlugs', () => {
     expect(projects).toHaveLength(1);
   });
 
+  it('puts Rakuten Link in the first project slot', async () => {
+    const [link] = await getProjectsBySlugs(['rakuten-link']);
+
+    expect(link.id).toBe('1');
+    // The card opens the story page; View live opens the full demo
+    expect(link.href).toBe('/projects/rakuten-link');
+    expect(link.liveUrl).toBe('/showcase/rakuten-link');
+  });
+
   it('uses clear placeholders for the template-derived projects', async () => {
+    // Project 01 is now Rakuten Link, so the placeholders start at 02
     const slugs = [
-      'echo-ui',
       'justos',
       'happy-stats',
       'cactus-plant',
@@ -43,7 +52,7 @@ describe('getProjectsBySlugs', () => {
     const projects = await getProjectsBySlugs(slugs);
 
     expect(projects.map((project) => project.name)).toEqual(
-      slugs.map((_, index) => `Project ${String(index + 1).padStart(2, '0')}`),
+      slugs.map((_, index) => `Project ${String(index + 2).padStart(2, '0')}`),
     );
     expect(
       projects.every(

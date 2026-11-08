@@ -21,10 +21,10 @@ const buttonVariants = cva(
       },
       size: {
         default: 'h-9 px-4 text-sm [&_svg]:size-4',
-        sm: 'h-8 px-3 text-xs [&_svg]:size-3.5',
-        lg: 'h-11 px-6 text-base [&_svg]:size-4.5',
+        sm: 'h-8 px-3 text-xs [&_svg]:size-4',
+        lg: 'h-11 px-6 text-base [&_svg]:size-5',
         icon: 'size-9 [&_svg]:size-4',
-        'icon-sm': 'size-7 [&_svg]:size-3.5',
+        'icon-sm': 'size-7 [&_svg]:size-4',
       },
     },
     defaultVariants: {

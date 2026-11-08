@@ -61,7 +61,7 @@ export function MonthlySubscriptions({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-5 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-40" />
@@ -70,7 +70,7 @@ export function MonthlySubscriptions({
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-col gap-2">
               <Skeleton className="h-8 w-40" />
-              <Skeleton className="h-3.5 w-32" />
+              <Skeleton className="h-4 w-32" />
             </div>
             <Skeleton className="h-7 w-16 rounded-full" />
           </div>
@@ -94,7 +94,7 @@ export function MonthlySubscriptions({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-5 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between gap-2">
@@ -113,8 +113,8 @@ export function MonthlySubscriptions({
           </Button>
         </div>
         <div className="flex w-full items-center justify-between gap-3">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
               {currency(totalActive)}
             </p>
             <p className="text-sm font-medium text-muted-foreground">Active monthly cost</p>

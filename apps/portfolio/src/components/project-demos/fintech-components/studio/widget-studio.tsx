@@ -190,8 +190,8 @@ export default function WidgetStudio({
         </div>
 
         {groups.map((group) => (
-          <section key={group.title} className="border-border space-y-1.5 border-t pt-3">
-            <h3 className="text-[13px] font-medium">{group.title}</h3>
+          <section key={group.title} className="border-border space-y-2 border-t pt-3">
+            <h3 className="text-sm font-medium">{group.title}</h3>
             {group.fields.map((field) => (
               <ScrubField
                 key={field.key}
@@ -206,11 +206,11 @@ export default function WidgetStudio({
           </section>
         ))}
 
-        <section className="border-border space-y-1.5 border-t pt-3">
-          <h3 className="text-[13px] font-medium">Ease</h3>
-          <div className="flex items-center gap-1.5">
+        <section className="border-border space-y-2 border-t pt-3">
+          <h3 className="text-sm font-medium">Ease</h3>
+          <div className="flex items-center gap-2">
             <DropdownMenu>
-              <DropdownMenuTrigger className="bg-muted hover:bg-muted/70 data-[state=open]:bg-muted/70 focus-visible:ring-ring/50 flex h-8 min-w-0 flex-1 items-center gap-1 rounded-lg pr-2 pl-3 text-left text-[13px] transition-colors outline-none focus-visible:ring-[3px]">
+              <DropdownMenuTrigger className="bg-muted hover:bg-muted/70 data-[state=open]:bg-muted/70 focus-visible:ring-ring/50 flex h-8 min-w-0 flex-1 items-center gap-1 rounded-lg pr-2 pl-3 text-left text-sm transition-colors outline-none focus-visible:ring-[3px]">
                 <span className="text-muted-foreground flex-1 font-medium">Easing</span>
                 <span className="truncate">{easeLabels[settings.ease]}</span>
                 <ChevronDown className="text-muted-foreground size-4 shrink-0" />

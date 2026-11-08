@@ -57,7 +57,7 @@ function formatCurrency(value: number) {
 
 function Expenses2Skeleton({ className }: { className?: string }) {
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-32" />
@@ -72,13 +72,13 @@ function Expenses2Skeleton({ className }: { className?: string }) {
       <div className="flex flex-col gap-5">
         {[0, 1, 2].map((i) => (
           <div key={i} className="flex items-center gap-3">
-            <Skeleton className="size-[58px] shrink-0 rounded-full" />
+            <Skeleton className="size-15 shrink-0 rounded-full" />
             <div className="flex flex-1 flex-col gap-2">
               <div className="flex items-center justify-between">
                 <Skeleton className="h-4 w-28" />
                 <Skeleton className="h-4 w-20" />
               </div>
-              <Skeleton className="h-3.5 w-full rounded-full" />
+              <Skeleton className="h-4 w-full rounded-full" />
             </div>
           </div>
         ))}
@@ -104,7 +104,7 @@ export function Expenses2({
   const rows = highSpendOnly ? allRows.filter((r) => r.percent >= 50) : allRows
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
@@ -178,7 +178,7 @@ export function Expenses2({
                   aria-expanded={isExpanded}
                   className="flex items-center gap-3 rounded-xl p-2 text-left transition-colors outline-none hover:bg-secondary/60 focus-visible:ring-2 focus-visible:ring-ring"
                 >
-                  <span className="flex size-[58px] shrink-0 items-center justify-center rounded-full bg-muted">
+                  <span className="flex size-15 shrink-0 items-center justify-center rounded-full bg-muted">
                     <Icon className="size-6 text-foreground" />
                   </span>
                   <span className="flex flex-1 flex-col gap-3">
@@ -191,11 +191,11 @@ export function Expenses2({
                         <ChevronDown className={cn('size-4 transition-transform', isExpanded && 'rotate-180')} />
                       </span>
                     </span>
-                    <Progress value={row.percent} className="h-3.5" />
+                    <Progress value={row.percent} className="h-4" />
                   </span>
                 </button>
                 {isExpanded && (
-                  <p className="ml-[70px] rounded-lg bg-secondary/60 px-3 py-2 text-xs text-muted-foreground">
+                  <p className="ml-18 rounded-lg bg-secondary/60 px-3 py-2 text-xs text-muted-foreground">
                     {delta === 0 ? (
                       <>Unchanged vs previous {period.toLowerCase()}.</>
                     ) : (

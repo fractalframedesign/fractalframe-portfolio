@@ -1,0 +1,21 @@
+/* Rakuten Link palette, scoped to this project only. From the Rakuten Mobile foundation colours. */
+[data-project='rakuten-link'] {
+  --canvas: #f5f5fa;
+  --surface: #ffffff;
+  --surface-border: #e4e4ee;
+  --ink: #232361;
+  --ink-muted: #6b6b94;
+  --accent-1: #ff008c;
+  --accent-1-soft: #ffcce8;
+  --accent-1-deep: #cc0070;
+  --accent-2: #3b3ba3;
+  --accent-2-soft: #e8e8f4;
+  --accent-3: #232361;
+  --accent-3-deep: #000033;
+  --accent-4: #d2dff7;
+  --link-yellow: #ffd900;
+  --link-orange: #ffae00;
+  --link-purple: #5c00cc;
+  --link-blue: #007acc;
+  font-family: var(--font-link-text), ui-sans-serif, system-ui, sans-serif;
+}

@@ -131,14 +131,14 @@ export function ShowcaseShell({ project, children }: ShowcaseShellProps) {
                   </p>
 
                   <ul className="flex flex-wrap items-center gap-2 text-sm">
-                    <li className="border-border bg-background/60 flex items-center gap-2 rounded-full border px-3 py-1.5 font-medium backdrop-blur">
+                    <li className="border-border bg-background/60 flex items-center gap-2 rounded-full border px-3 py-2 font-medium backdrop-blur">
                       <Boxes className="text-accent-1 size-4" />
                       {getComponentCount(project)} components
                     </li>
                     {project.tags.map((tag) => (
                       <li
                         key={tag}
-                        className="border-border bg-background/60 text-muted-foreground rounded-full border px-3 py-1.5 backdrop-blur"
+                        className="border-border bg-background/60 text-muted-foreground rounded-full border px-3 py-2 backdrop-blur"
                       >
                         {tag}
                       </li>

@@ -92,7 +92,7 @@ export default function CommandMenu({ projects }: CommandMenuProps) {
       >
         <Search aria-hidden />
         <span>Search…</span>
-        <kbd className="bg-muted hidden rounded px-1.5 font-mono text-xs sm:inline">
+        <kbd className="bg-muted hidden rounded px-2 font-mono text-xs sm:inline">
           ⌘K
         </kbd>
       </Button>

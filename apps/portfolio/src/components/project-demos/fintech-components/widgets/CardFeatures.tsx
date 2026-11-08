@@ -58,7 +58,7 @@ const currencyFormatter = new Intl.NumberFormat('en-US', {
 
 function CardFeaturesSkeleton({ className }: { className?: string }) {
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-28" />
@@ -67,7 +67,7 @@ function CardFeaturesSkeleton({ className }: { className?: string }) {
         <div className="flex w-full items-center justify-between">
           <div className="flex flex-col gap-1">
             <Skeleton className="h-8 w-36" />
-            <Skeleton className="h-3.5 w-28" />
+            <Skeleton className="h-4 w-28" />
           </div>
           <Skeleton className="h-7 w-16 rounded-full" />
         </div>
@@ -76,8 +76,8 @@ function CardFeaturesSkeleton({ className }: { className?: string }) {
         <div className="flex w-full items-center justify-between">
           {[0, 1, 2, 3].map((i) => (
             <div key={i} className="flex flex-col items-center gap-3">
-              <Skeleton className="size-[72px] rounded-full" />
-              <Skeleton className="h-3.5 w-14" />
+              <Skeleton className="size-18 rounded-full" />
+              <Skeleton className="h-4 w-14" />
             </div>
           ))}
         </div>
@@ -105,7 +105,7 @@ export function CardFeatures({
   const selected = allFeatures.find((f) => f.id === selectedId) ?? null
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
@@ -120,8 +120,8 @@ export function CardFeatures({
           </Button>
         </div>
         <div className="flex w-full items-center justify-between">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-tight tracking-tight">
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-tight tracking-tight">
               {currencyFormatter.format(amount)}
             </p>
             <p className="text-sm text-muted-foreground">{amountLabel}</p>
@@ -148,7 +148,7 @@ export function CardFeatures({
               >
                 <span
                   className={cn(
-                    'flex size-[72px] items-center justify-center rounded-full bg-foreground text-background transition-transform',
+                    'flex size-18 items-center justify-center rounded-full bg-foreground text-background transition-transform',
                     isSelected ? 'scale-105 ring-2 ring-ring ring-offset-2 ring-offset-muted' : 'hover:scale-105',
                   )}
                 >

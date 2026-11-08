@@ -43,7 +43,7 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
       aria-checked={isDark}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       onClick={toggle}
-      className={`relative flex h-10 w-[74px] shrink-0 items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/40 ${className}`}
+      className={`relative flex h-10 w-19 shrink-0 items-center rounded-full bg-black/[0.06] p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ink/30 dark:bg-white/10 dark:focus-visible:ring-white/40 ${className}`}
     >
       <span className="pointer-events-none absolute left-2.5 flex text-ink/35 dark:text-white/30">
         <SunIcon />

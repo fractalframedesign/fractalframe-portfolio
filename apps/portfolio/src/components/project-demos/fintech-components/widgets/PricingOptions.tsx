@@ -63,16 +63,16 @@ export function PricingOptions({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-32" />
           <Skeleton className="size-9 rounded-full" />
         </div>
         <div className="flex w-full flex-col gap-4">
           {plans.map((p) => (
-            <Skeleton key={p.id} className="h-[100px] w-full rounded-xl" />
+            <Skeleton key={p.id} className="h-25 w-full rounded-xl" />
           ))}
-          <Skeleton className="h-[64px] w-full rounded-2xl" />
+          <Skeleton className="h-16 w-full rounded-2xl" />
         </div>
       </div>
     )
@@ -81,7 +81,7 @@ export function PricingOptions({
   return (
     <div
       className={cn(
- 'flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
@@ -108,7 +108,7 @@ export function PricingOptions({
               )}
             >
               <div className="flex flex-1 flex-col justify-between gap-1">
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-3">
                   {plan.originalPrice && (
                     <span className="text-lg font-semibold text-muted-foreground line-through decoration-foreground/70">
                       {plan.originalPrice}

@@ -73,7 +73,7 @@ export function Balance({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-12 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-12 p-6', className)}>
         <div className="flex w-full flex-col gap-4">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-16" />
@@ -81,7 +81,7 @@ export function Balance({
           </div>
           <div className="flex w-full items-center justify-between rounded-full bg-muted p-2">
             <div className="flex items-center gap-3">
-              <Skeleton className="size-[50px] rounded-full" />
+              <Skeleton className="size-13 rounded-full" />
               <Skeleton className="h-4 w-32" />
             </div>
             <Skeleton className="size-11 rounded-full" />
@@ -96,8 +96,8 @@ export function Balance({
             <Skeleton className="h-11 w-20 rounded-full" />
           </div>
           <div className="flex w-full gap-2">
-            <Skeleton className="h-[60px] flex-1 rounded-2xl" />
-            <Skeleton className="h-[60px] flex-1 rounded-2xl" />
+            <Skeleton className="h-15 flex-1 rounded-2xl" />
+            <Skeleton className="h-15 flex-1 rounded-2xl" />
           </div>
         </div>
       </Card>
@@ -105,7 +105,7 @@ export function Balance({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-8 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-8 p-6', className)}>
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full items-center justify-between gap-2">
           <h3 className="font-mono text-sm font-normal uppercase tracking-[0.03em] text-muted-foreground">
@@ -124,7 +124,7 @@ export function Balance({
         </div>
         <div className="flex w-full items-center justify-between rounded-full bg-muted p-2">
           <div className="flex items-center gap-0">
-            <Avatar className="size-[50px] bg-primary">
+            <Avatar className="size-13 bg-primary">
               <AvatarFallback className="bg-primary text-base font-medium text-primary-foreground">
                 {ownerInitials}
               </AvatarFallback>
@@ -144,12 +144,12 @@ export function Balance({
 
       <div className="flex w-full flex-col gap-6">
         <div className="flex w-full items-center justify-between gap-3">
-          <div className="flex flex-col gap-3">
+          <div className="flex min-w-0 flex-col gap-3">
             <div className="flex items-center gap-2">
               <span className="text-base font-medium text-muted-foreground">{accountLabel}</span>
             </div>
-            <div className="flex items-end gap-2">
-              <p className="text-[48px] font-semibold leading-[1.15] tracking-[-0.03em] text-foreground tabular-nums">
+            <div className="flex flex-wrap items-end gap-x-2">
+              <p className="text-5xl font-semibold leading-[1.15] tracking-[-0.03em] text-foreground tabular-nums">
                 {visible ? formatAmount(balance * currency.rate, currency.symbol) : '••••••'}
               </p>
               {visible && (
@@ -184,7 +184,7 @@ export function Balance({
               <div
                 role="listbox"
                 aria-label="Select currency"
-                className="absolute right-0 top-full z-10 mt-1.5 w-28 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
+                className="absolute right-0 top-full z-10 mt-2 w-28 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
               >
                 {currencies.map((option, index) => (
                   <button
@@ -197,12 +197,12 @@ export function Balance({
                       setCurrencyMenuOpen(false)
                     }}
                     className={cn(
-                      'flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
+                      'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
                       index === currencyIndex ? 'text-primary' : 'text-popover-foreground',
                     )}
                   >
                     {option.code}
-                    {index === currencyIndex && <Check className="size-3.5" />}
+                    {index === currencyIndex && <Check className="size-4" />}
                   </button>
                 ))}
               </div>
@@ -218,18 +218,18 @@ export function Balance({
             aria-pressed={receiveOpen}
             onClick={() => setReceiveOpen((v) => !v)}
           >
-            <ArrowDownLeft className="size-4.5" />
+            <ArrowDownLeft className="size-5" />
             Receive
           </Button>
           <Button type="button" className="h-auto flex-1 gap-2 rounded-2xl py-5 text-lg font-bold" onClick={refresh}>
-            <ArrowUpRight className="size-4.5" />
+            <ArrowUpRight className="size-5" />
             Send
           </Button>
         </div>
 
         {receiveOpen && (
           <div className="flex w-full items-center justify-between gap-3 rounded-xl bg-muted px-4 py-3">
-            <div className="flex min-w-0 flex-col gap-0.5">
+            <div className="flex min-w-0 flex-col gap-1">
               <span className="text-xs font-medium text-muted-foreground">Your account number</span>
               <span className="truncate font-mono text-sm text-foreground">{accountNumber}</span>
             </div>
@@ -237,16 +237,16 @@ export function Balance({
               type="button"
               variant="ghost"
               size="sm"
-              className="shrink-0 gap-1.5 text-xs"
+              className="shrink-0 gap-2 text-xs"
               onClick={handleCopyAccount}
             >
               {copied ? (
                 <>
-                  <Check className="size-3.5 text-success" /> Copied
+                  <Check className="size-4 text-success" /> Copied
                 </>
               ) : (
                 <>
-                  <Copy className="size-3.5" /> Copy
+                  <Copy className="size-4" /> Copy
                 </>
               )}
             </Button>

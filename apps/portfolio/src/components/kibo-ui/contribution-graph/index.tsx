@@ -476,7 +476,7 @@ export const ContributionGraphLegend = ({
 
   return (
     <div
-      className={cn('ml-auto flex items-center gap-[3px]', className)}
+      className={cn('ml-auto flex items-center gap-1', className)}
       {...props}
     >
       <span className="text-muted-foreground mr-1">

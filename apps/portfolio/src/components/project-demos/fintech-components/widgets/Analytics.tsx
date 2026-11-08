@@ -99,7 +99,7 @@ export function Analytics({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-20" />
@@ -117,7 +117,7 @@ export function Analytics({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-widest text-muted-foreground">Analytics</p>
@@ -170,7 +170,7 @@ export function Analytics({
           >
             <div className="flex w-full flex-1 flex-col items-center gap-4 py-5">
               <RingIcon percent={c.percent} emoji={c.emoji} />
-              <div className="flex w-[115px] flex-col items-center gap-1 text-center">
+              <div className="flex w-29 flex-col items-center gap-1 text-center">
                 <p className="w-full text-sm font-medium text-foreground">{c.label}</p>
                 <p className={cn('w-full text-sm font-semibold', c.amount < 0 ? 'text-destructive' : 'text-success')}>
                   {formatCurrency(c.amount)}
@@ -178,7 +178,7 @@ export function Analytics({
                 <p className="w-full text-xs font-medium text-muted-foreground">{c.sub}</p>
               </div>
             </div>
-            <div className="flex w-full items-center justify-center bg-foreground py-1.5">
+            <div className="flex w-full items-center justify-center bg-foreground py-2">
               <p className="text-xs font-medium text-background">
                 {c.percent}% {metricLabel}
               </p>

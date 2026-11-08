@@ -52,7 +52,7 @@ export function MicroInvestments({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full flex-col gap-6">
             <div className="flex w-full items-center justify-between">
@@ -71,7 +71,7 @@ export function MicroInvestments({
         <Skeleton className="h-px w-full" />
         <div className="flex w-full items-end justify-between gap-3">
           {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-[104px] flex-1 rounded-xl" />
+            <Skeleton key={i} className="h-26 flex-1 rounded-xl" />
           ))}
         </div>
       </div>
@@ -79,20 +79,20 @@ export function MicroInvestments({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-8 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full flex-col gap-6">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-3">
               <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-              {isNew && <Badge className="bg-primary px-3 py-0.5 text-base font-semibold text-primary-foreground">New</Badge>}
+              {isNew && <Badge className="bg-primary px-3 py-1 text-base font-semibold text-primary-foreground">New</Badge>}
             </div>
             <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh investments" onClick={refresh}>
               <MoreHorizontal className="size-4" />
             </Button>
           </div>
           <div className="flex w-full items-center justify-between">
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-1">
               <p className="text-3xl font-semibold tracking-[-0.32px] text-foreground"><NumberPopIn value={String(totalInvested)} /></p>
               <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">Total invested</p>
             </div>
@@ -107,7 +107,7 @@ export function MicroInvestments({
       <Separator />
 
       <div className="flex w-full flex-col gap-6">
-        <div className="flex h-[104px] w-full items-end gap-3">
+        <div className="flex h-26 w-full items-end gap-3">
           {categories.map((cat) => {
             const isActive = cat.id === activeId
             return (

@@ -9,7 +9,7 @@ import { Specimen } from './specimen';
 function LoadedContent() {
   return (
     <div className="animate-in fade-in duration-300">
-      <p className="mb-1.5 text-sm font-semibold">Q3 revenue summary</p>
+      <p className="mb-2 text-sm font-semibold">Q3 revenue summary</p>
       <p className="text-muted-foreground text-xs leading-relaxed">
         Revenue grew 12% quarter over quarter, driven by activation gains.
       </p>
@@ -44,7 +44,7 @@ export function LoadingDemo() {
     >
       <div className="grid w-full max-w-lg grid-cols-1 gap-4 sm:grid-cols-2">
         <div className="bg-card relative min-h-37 rounded-xl border p-4 shadow-xs">
-          <p className="text-muted-foreground mb-3 font-mono text-[10px] tracking-[0.12em] uppercase">
+          <p className="text-muted-foreground mb-3 font-mono text-xs tracking-[0.12em] uppercase">
             Spinner
           </p>
           {done ? (
@@ -54,16 +54,16 @@ export function LoadingDemo() {
           )}
         </div>
         <div className="bg-card min-h-37 rounded-xl border p-4 shadow-xs">
-          <p className="text-muted-foreground mb-3 font-mono text-[10px] tracking-[0.12em] uppercase">
+          <p className="text-muted-foreground mb-3 font-mono text-xs tracking-[0.12em] uppercase">
             Skeleton
           </p>
           {done ? (
             <LoadedContent />
           ) : (
             <div className="animate-pulse space-y-2">
-              <div className="bg-foreground/10 h-3.5 w-[70%] rounded-md" />
-              <div className="bg-foreground/10 h-2.5 w-full rounded-md" />
-              <div className="bg-foreground/10 h-2.5 w-[86%] rounded-md" />
+              <div className="bg-foreground/10 h-4 w-[70%] rounded-md" />
+              <div className="bg-foreground/10 h-3 w-full rounded-md" />
+              <div className="bg-foreground/10 h-3 w-[86%] rounded-md" />
             </div>
           )}
         </div>

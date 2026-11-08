@@ -22,7 +22,7 @@ export function WidgetCard({
   const [open, setOpen] = React.useState(false)
 
   return (
-    <div id={id} className="mx-auto flex max-w-[480px] scroll-mt-24 flex-col gap-3">
+    <div id={id} className="mx-auto flex max-w-120 scroll-mt-24 flex-col gap-3">
       <motion.div
         className="overflow-x-auto"
         whileHover={{ y: -3 }}
@@ -36,7 +36,7 @@ export function WidgetCard({
           variant="outline"
           size="sm"
           onClick={() => setOpen((v) => !v)}
-          className={cn('gap-1.5 rounded-full text-xs', open && 'border-primary/40 bg-primary/10 text-primary')}
+          className={cn('gap-2 rounded-full text-xs', open && 'border-primary/40 bg-primary/10 text-primary')}
           aria-expanded={open}
         >
           <motion.span
@@ -44,7 +44,7 @@ export function WidgetCard({
             animate={{ rotate: open ? 90 : 0 }}
             transition={{ type: 'spring', stiffness: 400, damping: 24 }}
           >
-            <Code2 className="size-3.5" />
+            <Code2 className="size-4" />
           </motion.span>
           {open ? 'Hide code' : 'Show code'}
         </Button>

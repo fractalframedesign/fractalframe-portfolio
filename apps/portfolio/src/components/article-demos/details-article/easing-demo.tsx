@@ -35,16 +35,16 @@ export function EasingDemo() {
     >
       <div className="flex w-full max-w-md flex-col gap-4">
         {ROWS.map((row, i) => (
-          <div key={row.label} className="flex items-center gap-3.5">
-            <span className="text-muted-foreground w-[74px] flex-none text-right font-mono text-[11px]">
+          <div key={row.label} className="flex items-center gap-4">
+            <span className="text-muted-foreground w-19 flex-none text-right font-mono text-xs">
               {row.label}
             </span>
             <div
               ref={i === 0 ? trackRef : undefined}
-              className="bg-foreground/5 relative h-[34px] flex-1 rounded-full"
+              className="bg-foreground/5 relative h-9 flex-1 rounded-full"
             >
               <div
-                className="bg-primary absolute top-[5px] left-[5px] size-6 rounded-full"
+                className="bg-primary absolute top-1 left-1 size-6 rounded-full"
                 style={{
                   transform: playing ? `translateX(${dist}px)` : 'translateX(0)',
                   transition: playing ? `transform 900ms ${row.curve}` : 'none',

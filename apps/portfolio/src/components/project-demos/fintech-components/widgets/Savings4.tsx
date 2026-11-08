@@ -75,12 +75,12 @@ const CONTRIBUTION = 500
 function ProgressBars({ percent, bars = 50 }: { percent: number; bars?: number }) {
   const filled = Math.round((percent / 100) * bars)
   return (
-    <div className="flex h-10 w-full items-center justify-between gap-[3px]" role="img" aria-label={`${percent}% of goal reached`}>
+    <div className="flex h-10 w-full items-center justify-between gap-1" role="img" aria-label={`${percent}% of goal reached`}>
       {Array.from({ length: bars }, (_, i) => (
         <span
           key={i}
           className={cn(
-            'h-full w-[5px] shrink-0 rounded-full bg-primary transition-opacity duration-300',
+            'h-full w-1 shrink-0 rounded-full bg-primary transition-opacity duration-300',
             i >= filled && 'opacity-16',
           )}
         />
@@ -120,7 +120,7 @@ export function Savings4({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-4 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-4 p-6', className)}>
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-20" />
           <Skeleton className="size-9 rounded-full" />
@@ -131,7 +131,7 @@ export function Savings4({
             <Skeleton className="h-9 w-40" />
             <Skeleton className="h-4 w-32" />
           </div>
-          <Skeleton className="size-[114px] shrink-0 rounded-full" />
+          <Skeleton className="size-29 shrink-0 rounded-full" />
         </div>
         <div className="flex w-full gap-4">
           <Skeleton className="h-12 flex-1 rounded-xl" />
@@ -147,7 +147,7 @@ export function Savings4({
   if (!goal) return null
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-4 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-4 p-6', className)}>
       {showHeader && (
       <div className="flex w-full items-center justify-between gap-2">
         <h3 className="font-mono text-sm font-normal uppercase tracking-[0.03em] text-muted-foreground">{title}</h3>
@@ -173,7 +173,7 @@ export function Savings4({
                 aria-haspopup="listbox"
                 aria-expanded={goalMenuOpen}
                 onClick={() => setGoalMenuOpen((v) => !v)}
-                className="flex items-center gap-0.5 rounded-lg text-base font-medium text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                className="flex items-center gap-1 rounded-lg text-base font-medium text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
               >
                 For {goal.name}
                 <ChevronDown className={cn('size-5 transition-transform', goalMenuOpen && 'rotate-180')} />
@@ -182,7 +182,7 @@ export function Savings4({
                 <div
                   role="listbox"
                   aria-label="Select savings goal"
-                  className="absolute left-0 top-full z-10 mt-1.5 w-40 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
+                  className="absolute left-0 top-full z-10 mt-2 w-40 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
                 >
                   {goals.map((option) => (
                     <button
@@ -195,7 +195,7 @@ export function Savings4({
                         setGoalMenuOpen(false)
                       }}
                       className={cn(
-                        'flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
+                        'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
                         option.id === selectedId ? 'text-primary' : 'text-popover-foreground',
                       )}
                     >
@@ -207,14 +207,14 @@ export function Savings4({
               )}
             </div>
             <div className="flex flex-col gap-1">
-              <p className="text-[32px] font-bold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
+              <p className="text-[2rem] font-bold leading-[1.3] tracking-[-0.01em] text-foreground tabular-nums">
                 ${amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
               </p>
               <p className="text-base font-medium text-muted-foreground">End: {goal.endDate}</p>
             </div>
           </div>
           <span
-            className="flex size-[114px] shrink-0 items-center justify-center rounded-full bg-muted text-[57px]"
+            className="flex size-29 shrink-0 items-center justify-center rounded-full bg-muted text-[3.5rem]"
             aria-hidden="true"
           >
             {goal.emoji}
@@ -237,13 +237,13 @@ export function Savings4({
               <div
                 role="menu"
                 aria-label="Goal actions"
-                className="absolute left-0 top-full z-10 mt-1.5 w-full overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
+                className="absolute left-0 top-full z-10 mt-2 w-full overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
               >
                 <button
                   type="button"
                   role="menuitem"
                   onClick={() => adjust(CONTRIBUTION)}
-                  className="flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium text-popover-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-popover-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
                   Add ${CONTRIBUTION}
                 </button>
@@ -251,7 +251,7 @@ export function Savings4({
                   type="button"
                   role="menuitem"
                   onClick={() => adjust(-CONTRIBUTION)}
-                  className="flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium text-popover-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                  className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-popover-foreground outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
                 >
                   Withdraw ${CONTRIBUTION}
                 </button>

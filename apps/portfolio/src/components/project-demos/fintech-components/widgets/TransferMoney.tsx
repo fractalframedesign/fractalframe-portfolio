@@ -83,7 +83,7 @@ function AccountPanel({
           aria-label={`Copy account number ${account.maskedNumber}`}
         >
           {account.maskedNumber}
-          {copied ? <Check className="size-3.5 text-success" /> : <Copy className="size-3.5" />}
+          {copied ? <Check className="size-4 text-success" /> : <Copy className="size-4" />}
         </button>
       </div>
       <div className="flex w-full items-center justify-between gap-2">
@@ -184,7 +184,7 @@ export function TransferMoney({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-32" />
@@ -214,7 +214,7 @@ export function TransferMoney({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>

@@ -51,16 +51,16 @@ export function AddExpenseCard({ onAddExpense }: AddExpenseCardProps) {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="rounded-full bg-accent-1 px-4 py-1.5 text-xs font-semibold"
+                className="rounded-full bg-accent-1 px-4 py-2 text-xs font-semibold"
               >
                 Add
               </button>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="flex items-center justify-center rounded-full bg-white/10 p-1.5"
+                className="flex items-center justify-center rounded-full bg-white/10 p-2"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
           </motion.form>

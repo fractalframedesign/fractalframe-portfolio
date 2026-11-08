@@ -78,7 +78,7 @@ const STATUS_CLASS: Record<ReceiptTransaction['status'], string> = {
 
 function ReceiptSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col items-center gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col items-center gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-20" />
         <Skeleton className="size-9 rounded-full" />
@@ -87,19 +87,19 @@ function ReceiptSkeleton({ className }: { className?: string }) {
       <div className="flex flex-col items-center gap-2">
         <Skeleton className="h-4 w-44" />
         <Skeleton className="h-9 w-24" />
-        <Skeleton className="h-3.5 w-28" />
+        <Skeleton className="h-4 w-28" />
       </div>
       <div className="w-full rounded-xl bg-muted p-4">
         {[0, 1, 2, 3].map((i) => (
-          <div key={i} className="flex justify-between py-2.5">
-            <Skeleton className="h-3.5 w-24" />
-            <Skeleton className="h-3.5 w-36" />
+          <div key={i} className="flex justify-between py-3">
+            <Skeleton className="h-4 w-24" />
+            <Skeleton className="h-4 w-36" />
           </div>
         ))}
         <div className="my-1 border-t border-dashed border-border" />
-        <div className="flex justify-between py-2.5">
-          <Skeleton className="h-3.5 w-24" />
-          <Skeleton className="h-3.5 w-16" />
+        <div className="flex justify-between py-3">
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 w-16" />
         </div>
       </div>
     </div>
@@ -125,7 +125,7 @@ export function Receipt({
   }
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col items-center gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col items-center gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -145,7 +145,7 @@ export function Receipt({
         </div>
         <div className="flex flex-col items-center gap-1 text-center">
           <p className="text-base font-semibold">{tx.recipientName}</p>
-          <p className="text-[32px] font-bold leading-tight tabular-nums tracking-tight">
+          <p className="text-[2rem] font-bold leading-tight tabular-nums tracking-tight">
             {amountFormatter.format(tx.amount)}
           </p>
           <p className="text-sm text-muted-foreground">

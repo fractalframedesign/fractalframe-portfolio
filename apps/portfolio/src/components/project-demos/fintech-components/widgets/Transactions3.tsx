@@ -79,11 +79,11 @@ function Row({ tx }: { tx: TransactionEntry }) {
         <span className="flex size-12 shrink-0 items-center justify-center overflow-hidden rounded-full bg-card">
           <img src={ICONS[tx.icon]} alt="" className="size-full object-cover" />
         </span>
-        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span className="flex min-w-0 flex-1 flex-col gap-1">
           <span className="truncate text-lg font-semibold text-foreground">{tx.name}</span>
           <span className="truncate text-sm font-medium text-muted-foreground">{tx.date}</span>
         </span>
-        <span className="flex shrink-0 flex-col items-end gap-0.5 text-right">
+        <span className="flex shrink-0 flex-col items-end gap-1 text-right">
           <span className="text-lg font-semibold text-foreground tabular-nums">
             ${tx.amount.toLocaleString('en-US')}
           </span>
@@ -93,18 +93,18 @@ function Row({ tx }: { tx: TransactionEntry }) {
       </button>
       {expanded && (
         <div className="flex items-center justify-between gap-3 border-t border-border/60 px-4 py-3 text-sm">
-          <div className="flex min-w-0 flex-col gap-0.5">
+          <div className="flex min-w-0 flex-col gap-1">
             <span className="text-xs font-medium text-muted-foreground">Reference ID</span>
             <span className="truncate font-mono text-foreground">{tx.reference}</span>
           </div>
-          <Button type="button" variant="ghost" size="sm" className="shrink-0 gap-1.5 text-xs" onClick={handleCopy}>
+          <Button type="button" variant="ghost" size="sm" className="shrink-0 gap-2 text-xs" onClick={handleCopy}>
             {copied ? (
               <>
-                <Check className="size-3.5 text-success" /> Copied
+                <Check className="size-4 text-success" /> Copied
               </>
             ) : (
               <>
-                <Copy className="size-3.5" /> Copy
+                <Copy className="size-4" /> Copy
               </>
             )}
           </Button>
@@ -128,11 +128,11 @@ export function Transactions3({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-5 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
         <div className="flex w-full flex-col gap-4">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-28" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-20 rounded-full" />
               <Skeleton className="size-8 rounded-full" />
             </div>
@@ -159,14 +159,14 @@ export function Transactions3({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-4 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-4 p-6', className)}>
       {showHeader && (
       <div className="flex w-full flex-col gap-4">
         <div className="flex w-full items-center justify-between gap-2">
           <h3 className="font-mono text-sm font-normal uppercase tracking-[0.03em] text-muted-foreground">
             {title}
           </h3>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <div className="relative shrink-0">
               <Button
                 type="button"
@@ -184,7 +184,7 @@ export function Transactions3({
                 <div
                   role="listbox"
                   aria-label="Select date range"
-                  className="absolute right-0 top-full z-10 mt-1.5 w-36 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
+                  className="absolute right-0 top-full z-10 mt-2 w-36 overflow-hidden rounded-xl border border-border bg-popover p-1 shadow-md"
                 >
                   {RANGE_LABELS.map((label, index) => (
                     <button
@@ -197,12 +197,12 @@ export function Transactions3({
                         setMenuOpen(false)
                       }}
                       className={cn(
-                        'flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
+                        'flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium outline-none transition-colors hover:bg-accent hover:text-accent-foreground',
                         index === rangeIndex ? 'text-primary' : 'text-popover-foreground',
                       )}
                     >
                       {label}
-                      {index === rangeIndex && <Check className="size-3.5" />}
+                      {index === rangeIndex && <Check className="size-4" />}
                     </button>
                   ))}
                 </div>

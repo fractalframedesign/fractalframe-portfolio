@@ -37,8 +37,8 @@ export function Discount({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-1', className)}>
-        <Skeleton className="h-[280px] w-full rounded-xl" />
+ <div className={cn('flex max-w-120 flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-1', className)}>
+        <Skeleton className="h-70 w-full rounded-xl" />
         <div className="flex items-end justify-between gap-4 px-5 pb-5 pt-6">
           <div className="flex flex-1 flex-col gap-2">
             <Skeleton className="h-4 w-28" />
@@ -51,7 +51,7 @@ export function Discount({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-1', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-1', className)}>
       <div className="relative flex w-full flex-col items-start overflow-hidden rounded-xl bg-[oklch(0.75_0.16_180)]">
         <div className="flex w-full items-center justify-between p-5">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-[oklch(0.2_0.01_260)]">
@@ -67,17 +67,17 @@ export function Discount({
             <Plus className={cn('size-5 transition-transform', claimed && 'rotate-45')} />
           </button>
         </div>
-        <div className="relative h-[236px] w-full">
-          <div className="absolute bottom-5 left-5 flex min-w-14 items-center gap-1 rounded-full bg-[oklch(0.2_0.01_260)] p-0.5 pr-2">
+        <div className="relative h-59 w-full">
+          <div className="absolute bottom-5 left-5 flex min-w-14 items-center gap-1 rounded-full bg-[oklch(0.2_0.01_260)] p-1 pr-2">
             <span className="flex size-6 items-center justify-center rounded-full bg-background/10">
-              <Sparkles className="size-3.5 text-background" />
+              <Sparkles className="size-4 text-background" />
             </span>
             <span className="text-xs text-background">{postedDaysAgo} days ago</span>
           </div>
           <img
             src={memojiFemale7}
             alt="Cosmetics store representative avatar"
-            className="pointer-events-none absolute left-1/2 top-1/2 size-[251px] -translate-x-1/2 -translate-y-1/2 object-cover"
+            className="pointer-events-none absolute left-1/2 top-1/2 size-63 -translate-x-1/2 -translate-y-1/2 object-cover"
           />
         </div>
       </div>
@@ -89,7 +89,7 @@ export function Discount({
         </div>
         <span
           className={cn(
-            'shrink-0 rounded-full px-3 py-1.5 text-sm font-semibold transition-colors',
+            'shrink-0 rounded-full px-3 py-2 text-sm font-semibold transition-colors',
             claimed ? 'bg-success/15 text-success' : 'bg-primary/10 text-primary',
           )}
         >

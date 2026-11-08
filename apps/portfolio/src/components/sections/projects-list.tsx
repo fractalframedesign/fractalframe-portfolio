@@ -67,7 +67,7 @@ const ProjectRow = ({ project }: { project: ListedProject }) => (
               />
             )}
           </h2>
-          <span className="text-success-text flex shrink-0 items-center gap-1.5">
+          <span className="text-success-text flex shrink-0 items-center gap-2">
             {/* Arrow only on phones, so long names keep their room */}
             <span className="max-sm:sr-only">View project</span>
             <ArrowRight

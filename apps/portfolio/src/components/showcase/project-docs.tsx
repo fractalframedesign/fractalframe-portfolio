@@ -16,7 +16,7 @@ export function ProjectDocs({
         <p className="text-muted-foreground">
           Colours come from semantic tokens (canvas, surface, ink, accent-1 to
           accent-4) defined under{' '}
-          <code className="bg-muted rounded px-1.5 py-0.5 text-sm">
+          <code className="bg-muted rounded px-2 py-1 text-sm">
             [data-project=&quot;{project.scope}&quot;]
           </code>{' '}
           in this project&apos;s theme.css. The tokens are scoped, so they

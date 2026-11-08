@@ -41,6 +41,20 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-text: var(--success-text);
+  /* Showcase demo palettes embedded in project pages (values set per [data-project]) */
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-surface-border: var(--surface-border);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent-1: var(--accent-1);
+  --color-accent-1-soft: var(--accent-1-soft);
+  --color-accent-1-deep: var(--accent-1-deep);
+  --color-accent-2: var(--accent-2);
+  --color-accent-2-soft: var(--accent-2-soft);
+  --color-accent-3: var(--accent-3);
+  --color-accent-3-deep: var(--accent-3-deep);
+  --color-accent-4: var(--accent-4);
   --color-success-hover: var(--success-hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
@@ -354,7 +368,7 @@ body {
     backdrop-filter: blur(24px) saturate(180%);
   }
   .section-padding {
-    @apply py-12.5 md:py-15 lg:py-18.75;
+    @apply py-12 md:py-15 lg:py-19;
   }
   .hero-padding {
     @apply py-15 md:py-20 lg:py-30;
@@ -499,4 +513,27 @@ html.page-transition-back::view-transition-new(root) {
     linear-gradient(color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px),
     linear-gradient(90deg, color-mix(in oklch, var(--foreground) 6%, transparent) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* Rakuten Link palette for the demo on its project page. Same values as
+   (showcase)/showcase/rakuten-link/theme.css; groups never share CSS. */
+[data-project='rakuten-link'] {
+  --canvas: #f5f5fa;
+  --surface: #ffffff;
+  --surface-border: #e4e4ee;
+  --ink: #232361;
+  --ink-muted: #6b6b94;
+  --accent-1: #ff008c;
+  --accent-1-soft: #ffcce8;
+  --accent-1-deep: #cc0070;
+  --accent-2: #3b3ba3;
+  --accent-2-soft: #e8e8f4;
+  --accent-3: #232361;
+  --accent-3-deep: #000033;
+  --accent-4: #d2dff7;
+  --link-yellow: #ffd900;
+  --link-orange: #ffae00;
+  --link-purple: #5c00cc;
+  --link-blue: #007acc;
+  font-family: var(--font-link-text), ui-sans-serif, system-ui, sans-serif;
 }

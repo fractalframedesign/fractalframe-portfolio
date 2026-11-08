@@ -45,7 +45,7 @@ export function WeeklySpendingCard({
               onClick={() => setSelectedIndex(index)}
               className="flex flex-col items-center gap-2"
             >
-              <div className="flex h-16 w-1.5 items-end overflow-hidden rounded-full bg-white/5">
+              <div className="flex h-16 w-2 items-end overflow-hidden rounded-full bg-white/5">
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${day.value}%` }}
@@ -55,7 +55,7 @@ export function WeeklySpendingCard({
               </div>
               <span
                 className={cn(
-                  'flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-semibold transition-colors',
+                  'flex h-5 w-5 items-center justify-center rounded-full text-xs font-semibold transition-colors',
                   isSelected ? 'bg-accent-3 text-white' : 'text-ink-muted',
                 )}
               >

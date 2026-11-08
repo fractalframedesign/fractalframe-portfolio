@@ -20,7 +20,7 @@ export function BudgetUsedCard({
         <p className="mt-1 text-xs tracking-wide text-white/70">SAVED TODAY</p>
       </div>
 
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/20">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-white/20">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${usedPercent}%` }}

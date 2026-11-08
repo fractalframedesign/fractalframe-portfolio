@@ -98,7 +98,7 @@ export default function ChangePasswordForm() {
         </Button>
         <p role="status" className="text-sm">
           {state.saved && !pending && (
-            <span className="text-success-subtle-foreground inline-flex items-center gap-1.5">
+            <span className="text-success-subtle-foreground inline-flex items-center gap-2">
               <CircleCheck className="size-4" aria-hidden />
               Password changed. Other devices are logged out.
             </span>

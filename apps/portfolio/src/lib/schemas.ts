@@ -43,6 +43,8 @@ export const projectSchema = z
     imagePlaceholder: z.boolean().optional(),
     wrapperClassName: z.string().optional(),
     imageClassName: z.string().optional(),
+    /** Muted looping video shown in the detail page's cover card instead of the image */
+    coverVideo: z.object({ src: z.string(), poster: z.string() }).optional(),
     category: z.enum(['featured', 'open-source', 'personal', 'upcoming']),
     // Extended fields for the project detail page
     liveUrl: z.string().optional(),

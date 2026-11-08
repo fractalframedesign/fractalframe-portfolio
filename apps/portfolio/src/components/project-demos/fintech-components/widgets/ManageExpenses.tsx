@@ -41,16 +41,16 @@ export function ManageExpenses({
     return (
       <div
         className={cn(
-          'flex max-w-[480px] flex-col justify-end gap-10 rounded-2xl bg-foreground p-6 pt-[122px]',
+          'flex max-w-120 flex-col justify-end gap-10 rounded-2xl bg-foreground p-6 pt-31',
           className,
         )}
       >
-        <div className="flex h-[170px] flex-col justify-center gap-5">
+        <div className="flex h-43 flex-col justify-center gap-5">
           <Skeleton className="h-10 w-full bg-background/10" />
           <Skeleton className="h-10 w-4/5 bg-background/10" />
           <Skeleton className="h-4 w-3/4 bg-background/10" />
         </div>
-        <Skeleton className="h-[60px] w-full rounded-2xl bg-background/10" />
+        <Skeleton className="h-15 w-full rounded-2xl bg-background/10" />
       </div>
     )
   }
@@ -58,7 +58,7 @@ export function ManageExpenses({
   return (
     <div
       className={cn(
-        'relative flex max-w-[480px] flex-col justify-end gap-10 overflow-hidden rounded-2xl bg-foreground p-6 pt-[122px]',
+        'relative flex max-w-120 flex-col justify-end gap-10 overflow-hidden rounded-2xl bg-foreground p-6 pt-31',
         className,
       )}
     >
@@ -66,13 +66,13 @@ export function ManageExpenses({
         src={blob1}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -right-[183px] -top-[225px] w-[606px] max-w-none"
+        className="pointer-events-none absolute -right-46 -top-56 w-152 max-w-none"
       />
       <img
         src={blob2}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-[84px] -left-[72px] w-[350px] max-w-none"
+        className="pointer-events-none absolute -bottom-21 -left-18 w-88 max-w-none"
       />
 
       <Button
@@ -87,15 +87,15 @@ export function ManageExpenses({
       </Button>
 
       <div className="relative z-10 flex flex-col gap-5 text-background">
-        <p className="text-[40px] font-semibold leading-[1.15] tracking-[-0.02em] sm:text-[48px]">{heading}</p>
-        <p className="max-w-[248px] text-base font-medium tracking-[0.01em] text-background/70">{description}</p>
+        <p className="text-[2.5rem] font-semibold leading-[1.15] tracking-[-0.02em] sm:text-5xl">{heading}</p>
+        <p className="max-w-62 text-base font-medium tracking-[0.01em] text-background/70">{description}</p>
       </div>
 
       {expanded && (
         <ul className="relative z-10 flex flex-col gap-2 rounded-xl bg-background/10 p-4">
           {tips.map((tip) => (
             <li key={tip} className="flex items-start gap-2 text-sm font-medium text-background">
-              <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+              <Check className="mt-1 size-4 shrink-0 text-primary" />
               {tip}
             </li>
           ))}
@@ -104,12 +104,12 @@ export function ManageExpenses({
 
       <Button
         type="button"
-        className="relative z-10 w-full gap-1.5 rounded-2xl py-5 text-lg font-bold"
+        className="relative z-10 w-full gap-2 rounded-2xl py-5 text-lg font-bold"
         aria-expanded={expanded}
         onClick={() => setExpanded((v) => !v)}
       >
         {ctaLabel}
-        <ChevronRight className={cn('size-4.5 transition-transform', expanded && 'rotate-90')} />
+        <ChevronRight className={cn('size-5 transition-transform', expanded && 'rotate-90')} />
       </Button>
     </div>
   )

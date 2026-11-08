@@ -33,7 +33,7 @@ const DEFAULT_PREFERENCES: NotificationPreference[] = [
 
 function NotificationPreferencesSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-36" />
         <Skeleton className="size-9 rounded-full" />
@@ -42,8 +42,8 @@ function NotificationPreferencesSkeleton({ className }: { className?: string }) 
         {[0, 1, 2, 3].map((i) => (
           <div key={i} className="flex items-center gap-3">
             <Skeleton className="size-6 shrink-0 rounded-md" />
-            <div className="flex flex-1 flex-col gap-1.5">
-              <Skeleton className="h-3.5 w-32" />
+            <div className="flex flex-1 flex-col gap-2">
+              <Skeleton className="h-4 w-32" />
               <Skeleton className="h-3 w-44" />
             </div>
           </div>
@@ -69,7 +69,7 @@ export function NotificationPreferences({
   }
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh preferences" onClick={refresh}>

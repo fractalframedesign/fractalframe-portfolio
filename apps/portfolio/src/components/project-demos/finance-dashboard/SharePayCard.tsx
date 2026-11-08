@@ -30,10 +30,10 @@ export function SharePayCard({ last4 = '2422', balance = 'AED 5,089.00' }: Share
           <button
             type="button"
             onClick={() => setRevealed((v) => !v)}
-            className="rounded-full bg-white/10 p-1.5"
+            className="rounded-full bg-white/10 p-2"
             aria-label={revealed ? 'Hide balance' : 'Show balance'}
           >
-            {revealed ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+            {revealed ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
           </button>
         </motion.div>
       </div>

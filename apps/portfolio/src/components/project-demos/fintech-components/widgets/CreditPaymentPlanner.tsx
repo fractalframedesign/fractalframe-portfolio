@@ -74,7 +74,7 @@ export function CreditPaymentPlanner({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-[480px] flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between pb-6">
             <Skeleton className="h-4 w-44" />
@@ -82,7 +82,7 @@ export function CreditPaymentPlanner({
           </div>
         )}
         <div className="flex w-full flex-col items-center gap-2 pb-6">
-          <Skeleton className="h-[200px] w-full max-w-[388px] rounded-full" />
+          <Skeleton className="h-50 w-full max-w-97 rounded-full" />
         </div>
         <Skeleton className="h-8 w-full rounded-full" />
         <div className="flex w-full items-center justify-between pt-6">
@@ -95,7 +95,7 @@ export function CreditPaymentPlanner({
   }
 
   return (
- <div className={cn('flex max-w-[480px] flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-0 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between pb-6">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
@@ -105,7 +105,7 @@ export function CreditPaymentPlanner({
         </div>
       )}
 
-      <div className="relative h-[200px] w-full">
+      <div className="relative h-50 w-full">
         <svg viewBox="0 0 350 200" className="absolute inset-0 h-full w-full" aria-hidden="true">
           {Array.from({ length: TICK_COUNT }).map((_, i) => {
             const angle = -90 + (180 / (TICK_COUNT - 1)) * i
@@ -135,7 +135,7 @@ export function CreditPaymentPlanner({
                 y={p.y}
                 textAnchor="middle"
                 dominantBaseline="middle"
-                className="fill-muted-foreground text-[12px] font-medium"
+                className="fill-muted-foreground text-xs font-medium"
               >
                 {mark}
               </text>
@@ -152,8 +152,8 @@ export function CreditPaymentPlanner({
           </span>
         </div>
 
-        <div className="absolute top-[119px] left-1/2 flex w-[220px] -translate-x-1/2 flex-col items-center text-center">
-          <p className="text-[40px] leading-none font-semibold tracking-[-0.4px] text-foreground"><NumberPopIn value={String(monthlyAmount)} /></p>
+        <div className="absolute top-30 left-1/2 flex w-55 -translate-x-1/2 flex-col items-center text-center">
+          <p className="text-[2.5rem] leading-none font-semibold tracking-[-0.4px] text-foreground"><NumberPopIn value={String(monthlyAmount)} /></p>
           <p className="text-xs font-medium tracking-[0.12px] text-muted-foreground">to be deposited by {dueDate}</p>
         </div>
       </div>
@@ -169,15 +169,15 @@ export function CreditPaymentPlanner({
       </div>
 
       <div className="flex w-full items-center justify-between">
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col gap-1">
           <p className="text-2xl font-semibold tracking-[0.24px] text-foreground">{totalBalance}</p>
           <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">Total Balance</p>
         </div>
-        <div className="flex flex-col items-center gap-0.5">
+        <div className="flex flex-col items-center gap-1">
           <p className="text-2xl font-semibold tracking-[0.24px] text-foreground">{interestRate}</p>
           <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">Interest Rate</p>
         </div>
-        <div className="flex flex-col items-end gap-0.5">
+        <div className="flex flex-col items-end gap-1">
           <p className="text-2xl font-semibold tracking-[0.24px] text-foreground">{creditLimit}</p>
           <p className="text-sm font-medium tracking-[0.14px] text-muted-foreground">Credit Limit</p>
         </div>
@@ -192,7 +192,7 @@ export function CreditPaymentPlanner({
           onClick={() => adjust(-1)}
           disabled={paid <= 0}
         >
-          <Minus className="size-3.5" />
+          <Minus className="size-4" />
         </Button>
         <p className="text-sm text-muted-foreground">
           <span className="font-medium text-foreground">{paid}</span> of {totalInstallments} installments paid
@@ -205,7 +205,7 @@ export function CreditPaymentPlanner({
           onClick={() => adjust(1)}
           disabled={paid >= totalInstallments}
         >
-          <Plus className="size-3.5" />
+          <Plus className="size-4" />
         </Button>
       </div>
     </div>

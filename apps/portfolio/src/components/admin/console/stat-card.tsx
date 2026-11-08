@@ -38,7 +38,7 @@ export default function StatCard({
         </CardDescription>
         <CardAction>
           <span className="bg-primary/10 text-primary flex size-9 items-center justify-center rounded-xl">
-            <Icon className="size-[18px]" aria-hidden />
+            <Icon className="size-5" aria-hidden />
           </span>
         </CardAction>
       </CardHeader>

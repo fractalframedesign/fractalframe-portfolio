@@ -61,7 +61,7 @@ export const ProjectCard = ({ project, icon: Icon, delay = 0 }: ProjectCardProps
           </div>
         </Card>
 
-        <div className="space-y-3 px-3 md:px-6 lg:px-10.25">
+        <div className="space-y-3 px-3 md:px-6 lg:px-10">
           <h3 className="flex items-center gap-3 text-xl leading-snug">
             {Icon && <Icon className="text-muted-foreground size-4" />}
             {project.name}

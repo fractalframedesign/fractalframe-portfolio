@@ -52,7 +52,7 @@ export function FractalAuditDemo() {
               >
                 <span
                   className={cn(
-                    'flex size-6.5 shrink-0 items-center justify-center rounded-md border font-mono text-[11px] transition-colors',
+                    'flex size-6.5 shrink-0 items-center justify-center rounded-md border font-mono text-xs transition-colors',
                     done[i]
                       ? 'bg-primary text-primary-foreground border-transparent'
                       : 'text-muted-foreground bg-muted',
@@ -62,7 +62,7 @@ export function FractalAuditDemo() {
                 </span>
                 <span
                   className={cn(
-                    'text-[15px] leading-relaxed transition-opacity',
+                    'text-base leading-relaxed transition-opacity',
                     done[i] && 'text-muted-foreground line-through opacity-60',
                   )}
                 >

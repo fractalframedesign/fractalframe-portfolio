@@ -20,18 +20,18 @@ export function Specimen({
   return (
     <div className="not-prose bigger-container">
       <figure className="bg-card my-8 overflow-hidden rounded-2xl border shadow-xs">
-        <div className="border-b px-4 py-2.5">
-          <span className="text-muted-foreground font-mono text-[10.5px] tracking-[0.12em] uppercase">
+        <div className="border-b px-4 py-3">
+          <span className="text-muted-foreground font-mono text-xs tracking-[0.12em] uppercase">
             {tag}
           </span>
         </div>
         <div
-          className={`bg-muted/60 flex min-h-[150px] flex-wrap items-center justify-center gap-6 px-6 py-10 ${stageClassName ?? ''}`}
+          className={`bg-muted/60 flex min-h-38 flex-wrap items-center justify-center gap-6 px-6 py-10 ${stageClassName ?? ''}`}
         >
           {children}
         </div>
         {(hint || controls) && (
-          <figcaption className="text-muted-foreground flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 text-[13px]">
+          <figcaption className="text-muted-foreground flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm">
             <span>{hint}</span>
             {controls}
           </figcaption>

@@ -25,12 +25,12 @@ export function ConcentricRadiiDemo() {
         </ToggleGroup>
       }
     >
-      <div className="bg-card w-full max-w-[340px] rounded-[24px] border p-2.5 shadow-xs">
+      <div className="bg-card w-full max-w-85 rounded-3xl border p-3 shadow-xs">
         <div
-          className="from-primary to-primary/60 flex h-[110px] items-end bg-gradient-to-r p-3 transition-[border-radius] duration-250"
+          className="from-primary to-primary/60 flex h-28 items-end bg-gradient-to-r p-3 transition-[border-radius] duration-250"
           style={{ borderRadius: concentric ? 14 : 24 }}
         >
-          <span className="text-primary-foreground/85 font-mono text-[10.5px] tracking-wider">
+          <span className="text-primary-foreground/85 font-mono text-xs tracking-wider">
             {concentric ? 'INNER 14 = OUTER 24 − PADDING · CONCENTRIC' : 'INNER 24 = OUTER 24 · MISMATCHED'}
           </span>
         </div>

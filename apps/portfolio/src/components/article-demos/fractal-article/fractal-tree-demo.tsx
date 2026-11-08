@@ -68,8 +68,8 @@ export function FractalTreeDemo() {
   return (
     <div className="not-prose bigger-container">
       <figure className="bg-card my-8 overflow-hidden rounded-2xl border shadow-xs">
-        <div className="border-b px-4 py-2.5">
-          <span className="text-muted-foreground font-mono text-[10.5px] tracking-[0.12em] uppercase">
+        <div className="border-b px-4 py-3">
+          <span className="text-muted-foreground font-mono text-xs tracking-[0.12em] uppercase">
             Playground · One rule, applied recursively
           </span>
         </div>
@@ -79,7 +79,7 @@ export function FractalTreeDemo() {
             <div key={key}>
               <label
                 htmlFor={`fractal-${key}`}
-                className="text-muted-foreground mb-2 flex justify-between font-mono text-[11px] tracking-[0.12em] uppercase"
+                className="text-muted-foreground mb-2 flex justify-between font-mono text-xs tracking-[0.12em] uppercase"
               >
                 {label}
                 <output className="text-foreground">{format(params[key])}</output>
@@ -97,7 +97,7 @@ export function FractalTreeDemo() {
               />
             </div>
           ))}
-          <p className="text-muted-foreground col-span-full text-[13px] italic">
+          <p className="text-muted-foreground col-span-full text-sm italic">
             Four parameters. Thousands of branches. This is what &ldquo;systemic&rdquo; actually means.
           </p>
         </div>

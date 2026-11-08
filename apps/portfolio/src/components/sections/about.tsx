@@ -57,7 +57,7 @@ const StatNumber = ({ value, suffix }: { value: number; suffix: string }) => {
 const About = () => {
   return (
     <>
-      <section className="hero-padding pb-12.5! md:pb-15! lg:pb-18.75!">
+      <section className="hero-padding pb-12! md:pb-15! lg:pb-19!">
         <motion.div
           className="container flex flex-col gap-5"
           variants={staggerVariants}
@@ -77,7 +77,7 @@ const About = () => {
         </motion.div>
       </section>
 
-      <section className="container pb-12.5 md:pb-15 lg:pb-18.75">
+      <section className="container pb-12 md:pb-15 lg:pb-19">
         <motion.ul
           className="grid gap-10 sm:grid-cols-3"
           variants={staggerVariants}
@@ -109,7 +109,7 @@ const About = () => {
         <Principles />
       </section>
 
-      <section className="container pb-12.5 md:pb-15 lg:pb-18.75">
+      <section className="container pb-12 md:pb-15 lg:pb-19">
         <DesignMotivation />
       </section>
     </>

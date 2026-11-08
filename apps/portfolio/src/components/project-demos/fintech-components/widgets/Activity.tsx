@@ -48,7 +48,7 @@ function CustomTooltip({ active, payload }: { active?: boolean; payload?: Array<
   if (!active || !payload?.length) return null
   const point = payload[0].payload
   return (
-    <div className="rounded-lg bg-foreground px-2.5 py-1.5 text-xs font-semibold text-background shadow-md">
+    <div className="rounded-lg bg-foreground px-3 py-2 text-xs font-semibold text-background shadow-md">
       {point.label}: {currency(point.value)}
     </div>
   )
@@ -79,11 +79,11 @@ export function Activity({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
         <div className="flex w-full flex-col gap-3">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-20" />
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2">
               <Skeleton className="h-8 w-16 rounded-full" />
               <Skeleton className="size-8 rounded-full" />
             </div>
@@ -91,12 +91,12 @@ export function Activity({
           <div className="flex w-full items-center justify-between">
             <div className="flex flex-col gap-2">
               <Skeleton className="h-8 w-40" />
-              <Skeleton className="h-3.5 w-28" />
+              <Skeleton className="h-4 w-28" />
             </div>
             <Skeleton className="h-7 w-16 rounded-full" />
           </div>
         </div>
-        <div className="flex h-[200px] w-full items-end gap-3 pb-2">
+        <div className="flex h-50 w-full items-end gap-3 pb-2">
           {[0.5, 0.6, 0.7, 0.8, 0.9].map((h, i) => (
             <Skeleton key={i} className="w-full rounded-lg" style={{ height: `${h * 100}%` }} />
           ))}
@@ -106,14 +106,14 @@ export function Activity({
   }
 
   return (
-    <Card className={cn('flex max-w-[480px] flex-col gap-6 p-6', className)}>
+    <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
       <div className="flex w-full flex-col gap-3">
         <div className="flex w-full items-center justify-between gap-2">
           <h3 className="font-mono text-sm font-normal uppercase tracking-[0.03em] text-muted-foreground">
             {title}
           </h3>
-          <div className="flex items-center gap-1.5">
-            <div role="group" aria-label="Time period" className="flex items-center gap-0.5 rounded-full bg-muted p-1">
+          <div className="flex items-center gap-2">
+            <div role="group" aria-label="Time period" className="flex items-center gap-1 rounded-full bg-muted p-1">
               {(['Week', 'Month'] as const).map((option) => (
                 <button
                   key={option}
@@ -121,7 +121,7 @@ export function Activity({
                   aria-pressed={period === option}
                   onClick={() => handlePeriodChange(option)}
                   className={cn(
-                    'rounded-full px-2.5 py-1 text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                    'rounded-full px-3 py-1 text-xs font-medium transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring',
                     period === option
                       ? 'bg-card text-foreground shadow-sm'
                       : 'text-muted-foreground hover:text-foreground',
@@ -145,8 +145,8 @@ export function Activity({
         </div>
 
         <div className="flex w-full items-center justify-between gap-3">
-          <div className="flex flex-col gap-0.5">
-            <p className="text-[32px] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground">
+          <div className="flex flex-col gap-1">
+            <p className="text-[2rem] font-semibold leading-[1.3] tracking-[-0.01em] text-foreground">
               {currency(totalAmount)}
             </p>
             <p className="text-sm font-medium text-muted-foreground">{totalLabel}</p>
@@ -159,7 +159,7 @@ export function Activity({
       </div>
 
       <div className="flex w-full flex-col gap-1">
-        <div className="h-[200px] w-full" aria-hidden={false}>
+        <div className="h-50 w-full" aria-hidden={false}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               data={data}

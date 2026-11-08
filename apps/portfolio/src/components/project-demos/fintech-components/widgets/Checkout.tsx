@@ -22,25 +22,25 @@ export interface CheckoutProps {
 
 function CheckoutSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="size-9 rounded-full" />
       </div>
       <div className="flex flex-col gap-px rounded-xl overflow-hidden bg-muted">
         <div className="flex justify-between bg-card px-4 py-3">
-          <Skeleton className="h-3.5 w-10" />
-          <Skeleton className="h-3.5 w-52" />
+          <Skeleton className="h-4 w-10" />
+          <Skeleton className="h-4 w-52" />
         </div>
         <div className="flex justify-between bg-card px-4 py-3">
-          <Skeleton className="h-3.5 w-10" />
-          <Skeleton className="h-3.5 w-36" />
+          <Skeleton className="h-4 w-10" />
+          <Skeleton className="h-4 w-36" />
         </div>
       </div>
       <div className="flex flex-col gap-3 rounded-xl bg-muted p-4">
         <div className="flex justify-between">
-          <Skeleton className="h-3.5 w-44" />
-          <Skeleton className="h-3.5 w-8" />
+          <Skeleton className="h-4 w-44" />
+          <Skeleton className="h-4 w-8" />
         </div>
         <div className="flex gap-2">
           {[0, 1, 2, 3, 4].map((i) => (
@@ -50,8 +50,8 @@ function CheckoutSkeleton({ className }: { className?: string }) {
       </div>
       <div className="flex flex-col gap-3 rounded-xl bg-muted p-4">
         <div className="flex justify-between">
-          <Skeleton className="h-3.5 w-24" />
-          <Skeleton className="h-3.5 w-8" />
+          <Skeleton className="h-4 w-24" />
+          <Skeleton className="h-4 w-8" />
         </div>
         <div className="flex justify-between">
           <Skeleton className="h-7 w-24" />
@@ -80,7 +80,7 @@ export function Checkout({
   const totalAmount = baseCost + addAmount
 
   return (
-    <div className={cn('flex max-w-[480px] flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -122,7 +122,7 @@ export function Checkout({
               type="button"
               onClick={() => setSelected(amt)}
               className={cn(
-                'rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96]',
+                'rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96]',
                 selected === amt
                   ? 'bg-primary text-primary-foreground'
                   : 'border border-border bg-card text-foreground hover:bg-muted',
@@ -135,7 +135,7 @@ export function Checkout({
             type="button"
             onClick={() => setSelected('other')}
             className={cn(
-              'rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96]',
+              'rounded-full px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96]',
               selected === 'other'
                 ? 'bg-primary text-primary-foreground'
                 : 'border border-border bg-card text-foreground hover:bg-muted',
@@ -154,7 +154,7 @@ export function Checkout({
         </div>
         <div className="flex items-center justify-between">
           {/* Apple Pay mark — single inline SVG, no external dependency */}
-          <span className="flex items-center gap-1.5 text-base font-semibold">
+          <span className="flex items-center gap-2 text-base font-semibold">
             <svg viewBox="0 0 22 16" width="22" height="16" aria-hidden="true" fill="currentColor">
               <path d="M4.25 3.5C4.94 2.68 5.39 1.59 5.25.5 4.29.56 3.14 1.15 2.42 1.99 1.76 2.75 1.22 3.87 1.38 4.94c1.05.08 2.12-.5 2.87-1.44z" />
               <path d="M5.24 5c-1.59-.09-2.95.9-3.71.9-.77 0-1.94-.86-3.2-.84C-3.28 5.08-4.6 5.98-5.28 7.33c-1.38 2.37-.36 5.88.98 7.81.66.96 1.44 2.03 2.48 1.99 1-.04 1.38-.65 2.59-.65 1.2 0 1.55.65 2.6.63 1.07-.02 1.74-1 2.4-1.96.75-1.1 1.06-2.17 1.08-2.23-.02-.01-2.08-.8-2.1-3.16-.02-1.98 1.62-2.93 1.69-2.97C5.53 5.93 4.1 5.02 4.1 5.02L5.24 5z" transform="translate(8.5 .5) scale(.75)" />
