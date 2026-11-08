@@ -34,8 +34,8 @@ function NavLink({ link, isActive }: NavLinkProps) {
       asChild
       variant={isActive ? 'secondary' : 'ghost'}
       size="sm"
-      // 40px tall on phones, where the links are icon-only touch targets
-      className="group max-sm:h-10 max-sm:px-3"
+      // 40px tall and pill-shaped, matching the buttons on the right of the bar
+      className="group h-10 rounded-full px-3 sm:px-4"
     >
       <Link
         href={link.href}
@@ -88,11 +88,18 @@ export function SiteHeader({
       >
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-3 justify-self-start font-medium"
+          // The name is hidden on phones, so the link needs its own label
+          aria-label="Kiran Pingle, home"
+          className="focus-visible:ring-ring/50 flex shrink-0 items-center gap-3 justify-self-start rounded-lg font-medium outline-none focus-visible:ring-[3px]"
         >
-          <KiranLogoIcon aria-hidden="true" className="text-logo size-9 shrink-0" />
+          <KiranLogoIcon
+            aria-hidden="true"
+            className="text-logo size-9 shrink-0"
+          />
           <span className="hidden flex-col whitespace-nowrap sm:flex">
-            <span className="text-sm leading-tight">Kiran Pingle</span>
+            <span className="text-sm leading-tight font-bold">
+              Kiran Pingle
+            </span>
             <span className="text-muted-foreground text-xs leading-tight">
               Product Designer
             </span>
