@@ -2,8 +2,8 @@
 
 import { useState } from 'react'
 
-import { Tile } from '@/components/ui/tile'
-import { cn } from '@/lib/utils'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
+import { cn } from '@/components/project-demos/finance-dashboard/lib/utils'
 
 type Segment = { label: string; percent: number; color: string }
 
@@ -14,10 +14,10 @@ type SpendingBreakdownCardProps = {
 }
 
 const defaultSegments: Segment[] = [
-  { label: 'Groceries', percent: 40, color: 'bg-accent-3' },
-  { label: 'Clothes', percent: 18, color: 'bg-accent-1' },
-  { label: 'Leisure', percent: 10, color: 'bg-accent-2' },
-  { label: 'Car', percent: 8, color: 'bg-white/30' },
+  { label: 'Groceries', percent: 40, color: 'bg-destructive' },
+  { label: 'Clothes', percent: 18, color: 'bg-primary' },
+  { label: 'Leisure', percent: 10, color: 'bg-success' },
+  { label: 'Car', percent: 8, color: 'bg-foreground/30' },
 ]
 
 export function SpendingBreakdownCard({
@@ -29,9 +29,9 @@ export function SpendingBreakdownCard({
 
   return (
     <Tile className="justify-between gap-4">
-      <span className="text-xs font-semibold tracking-widest text-ink-muted">TODAY SPENDING</span>
+      <span className="text-xs font-semibold tracking-widest text-muted-foreground">TODAY SPENDING</span>
 
-      <div className="flex h-4 w-full overflow-hidden rounded-full bg-white/5">
+      <div className="flex h-4 w-full overflow-hidden rounded-full bg-foreground/5">
         {segments.map((segment) => (
           <div
             key={segment.label}
@@ -53,7 +53,7 @@ export function SpendingBreakdownCard({
             onMouseEnter={() => setFocused(segment.label)}
             onMouseLeave={() => setFocused(null)}
             onClick={() => setFocused((prev) => (prev === segment.label ? null : segment.label))}
-            className="flex items-center gap-2 text-left text-xs text-ink-muted transition-colors hover:text-white"
+            className="flex items-center gap-2 text-left text-xs text-muted-foreground transition-colors hover:text-foreground"
           >
             <span className={cn('h-2 w-2 rounded-full', segment.color)} />
             {segment.label}
@@ -62,9 +62,9 @@ export function SpendingBreakdownCard({
       </div>
 
       <div>
-        <p className="text-xs tracking-wide text-ink-muted">AVAILABLE</p>
+        <p className="text-xs tracking-wide text-muted-foreground">AVAILABLE</p>
         <p className="mt-1 text-xl font-semibold">
-          {available} <span className="text-sm text-ink-muted">{availablePercent}%</span>
+          {available} <span className="text-sm text-muted-foreground">{availablePercent}%</span>
         </p>
       </div>
     </Tile>

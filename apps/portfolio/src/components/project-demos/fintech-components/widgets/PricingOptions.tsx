@@ -6,7 +6,7 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface PricingPlan {
   id: string
@@ -63,7 +63,7 @@ export function PricingOptions({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex w-full items-center justify-between">
           <Skeleton className="h-4 w-32" />
           <Skeleton className="size-9 rounded-full" />
@@ -81,13 +81,13 @@ export function PricingOptions({
   return (
     <div
       className={cn(
- 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-        <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh pricing" onClick={refresh}>
+        <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh pricing" onClick={refresh}>
           <MoreHorizontal className="size-4" />
         </Button>
       </div>
@@ -133,7 +133,7 @@ export function PricingOptions({
 
       <Button
         size="lg"
-        className="w-full rounded-2xl py-6 text-lg font-bold"
+        className="w-full"
         onClick={handleConfirm}
       >
         {confirmed ? 'Plan selected ✓' : selectedPlan.ctaLabel}

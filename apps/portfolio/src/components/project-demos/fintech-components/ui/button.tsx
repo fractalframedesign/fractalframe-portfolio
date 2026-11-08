@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { motion } from 'motion/react'
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background [&_svg]:pointer-events-none [&_svg]:shrink-0",
@@ -22,9 +22,9 @@ const buttonVariants = cva(
       size: {
         default: 'h-9 px-4 text-sm [&_svg]:size-4',
         sm: 'h-8 px-3 text-xs [&_svg]:size-4',
-        lg: 'h-11 px-6 text-base [&_svg]:size-5',
+        lg: 'h-12 rounded-xl px-6 text-base font-semibold [&_svg]:size-5',
         icon: 'size-9 [&_svg]:size-4',
-        'icon-sm': 'size-7 [&_svg]:size-4',
+        'icon-sm': 'size-8 [&_svg]:size-4',
       },
     },
     defaultVariants: {

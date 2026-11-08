@@ -7,11 +7,11 @@ import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Card } from '@/components/project-demos/fintech-components/ui/card'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const bitcoinIcon = '/images/projects/fintech-components/transactions/bitcoin.svg'
-const ethereumIcon = '/images/projects/fintech-components/transactions/ethereum.svg'
-const litecoinIcon = '/images/projects/fintech-components/transactions/litecoin.svg'
+const bitcoinIcon = '/showcase/fintech-components/transactions/bitcoin.svg'
+const ethereumIcon = '/showcase/fintech-components/transactions/ethereum.svg'
+const litecoinIcon = '/showcase/fintech-components/transactions/litecoin.svg'
 
 export interface TransactionEntry {
   id: string
@@ -128,7 +128,7 @@ export function Transactions3({
 
   if (loading) {
     return (
-      <Card className={cn('flex max-w-120 flex-col gap-5 p-6', className)}>
+      <Card className={cn('flex max-w-120 flex-col gap-6 p-6', className)}>
         <div className="flex w-full flex-col gap-4">
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-28" />

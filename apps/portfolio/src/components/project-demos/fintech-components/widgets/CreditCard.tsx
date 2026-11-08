@@ -6,9 +6,9 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const VisaWhite = '/images/projects/fintech-components/credit-card/visa-white.svg'
+const VisaWhite = '/showcase/fintech-components/credit-card/visa-white.svg'
 
 export interface CreditCardData {
   id: string
@@ -90,7 +90,7 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
     return (
       <div
         className={cn(
- 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
           className,
         )}
       >
@@ -116,7 +116,7 @@ export function CreditCard({ loading: forcedLoading, cards = defaultCards, class
   return (
     <div
       className={cn(
- 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 ring-1 ring-border',
         className,
       )}
     >

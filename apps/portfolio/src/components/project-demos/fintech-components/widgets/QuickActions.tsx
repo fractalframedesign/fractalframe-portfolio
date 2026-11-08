@@ -7,7 +7,7 @@ import { ActionButtonCard } from '@/components/project-demos/fintech-components/
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface QuickAction {
   id: string

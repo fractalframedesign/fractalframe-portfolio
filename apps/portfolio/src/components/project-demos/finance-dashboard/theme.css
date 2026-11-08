@@ -1,0 +1,50 @@
+/* Finance dashboard palette, scoped to this project only.
+   --brand-* are the only colour inputs. Every token below derives from them,
+   so changing one value re-colours the demo. */
+[data-project='finance'] {
+  --brand-primary: #7c5cfc;
+  --brand-success: #a3e635;
+  --brand-destructive: #fb4570;
+
+  /* Header accents for the showcase shell */
+  --accent-1: var(--brand-primary);
+  --accent-2: var(--brand-success);
+}
+
+/* Standard shadcn token names for the dashboard. It is always dark. */
+[data-preview='finance'] {
+  --background: #0a0a0a;
+  --foreground: #f5f5f5;
+
+  --card: #17171a;
+  --card-foreground: var(--foreground);
+
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+
+  --secondary: #262629;
+  --secondary-foreground: var(--foreground);
+
+  --muted: color-mix(in oklab, var(--foreground) 5%, transparent);
+  --muted-foreground: #8a8a8f;
+
+  --accent: oklch(from var(--primary) 0.3 0.09 h);
+  --accent-foreground: var(--foreground);
+
+  --destructive: var(--brand-destructive);
+  --destructive-foreground: #ffffff;
+
+  --success: var(--brand-success);
+  --success-foreground: #0a0a0a;
+
+  --border: #262629;
+  --input: var(--border);
+  --ring: oklch(from var(--primary) l c h / 45%);
+
+  --chart-1: var(--primary);
+  --chart-2: var(--success);
+  --chart-3: var(--destructive);
+}

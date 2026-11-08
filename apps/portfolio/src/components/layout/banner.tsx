@@ -50,8 +50,8 @@ const Banner = ({
             className={cn(
               'absolute top-1/2 right-4 -translate-y-1/2 rounded-sm p-2',
               'text-primary-foreground/70 hover:text-primary-foreground',
-              'transition-all duration-200 hover:scale-110 hover:bg-white/10',
-              'focus:ring-2 focus:ring-white/30 focus:outline-none',
+              'transition-all duration-200 hover:scale-110 hover:bg-primary-foreground/10',
+              'focus:ring-2 focus:ring-primary-foreground/30 focus:outline-none',
             )}
             aria-label="Close banner"
           >

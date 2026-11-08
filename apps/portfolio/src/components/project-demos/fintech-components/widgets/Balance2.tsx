@@ -8,7 +8,7 @@ import { Badge } from '@/components/project-demos/fintech-components/ui/badge'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface Balance2Props {
   className?: string
@@ -108,7 +108,7 @@ export function Balance2({
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">Balance</p>
           <Button
             variant="secondary"
-            size="icon"
+            size="icon-sm"
             className="rounded-full"
             aria-label="Refresh balance"
             onClick={refresh}

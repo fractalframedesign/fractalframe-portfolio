@@ -3,7 +3,7 @@
 import { MessagesSquare, Phone, Search } from 'lucide-react';
 import { useState } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/project-demos/rakuten-link/lib/utils';
 
 import { CallScreen } from './CallScreen';
 import { ChatThread } from './ChatThread';

@@ -7,7 +7,7 @@ import { NumberPopIn } from '@/components/project-demos/fintech-components/motio
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface CashbackSource {
   key: string
@@ -49,7 +49,7 @@ export function Cashback({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
             <Skeleton className="h-4 w-24" />
@@ -69,7 +69,7 @@ export function Cashback({
   }
 
   return (
- <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex flex-col gap-1">
         <div className="flex items-center justify-between">
           <p className="overflow-hidden text-ellipsis whitespace-nowrap font-mono text-base uppercase tracking-wide text-muted-foreground">
@@ -77,7 +77,7 @@ export function Cashback({
           </p>
           <Button
             type="button"
-            size="icon"
+            size="icon-sm"
             variant="secondary"
             className="rounded-full"
             aria-label="Refresh cashback"

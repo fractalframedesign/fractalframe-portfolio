@@ -8,12 +8,12 @@ import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { Tabs, TabsList, TabsTrigger } from '@/components/project-demos/fintech-components/ui/tabs'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const bitcoinIcon = '/images/projects/fintech-components/price/bitcoin.svg'
-const ethereumIcon = '/images/projects/fintech-components/price/ethereum.svg'
-const litecoinIcon = '/images/projects/fintech-components/price/litecoin.svg'
-const xrpIcon = '/images/projects/fintech-components/price/xrp.svg'
+const bitcoinIcon = '/showcase/fintech-components/price/bitcoin.svg'
+const ethereumIcon = '/showcase/fintech-components/price/ethereum.svg'
+const litecoinIcon = '/showcase/fintech-components/price/litecoin.svg'
+const xrpIcon = '/showcase/fintech-components/price/xrp.svg'
 
 export interface PriceAsset {
   id: string
@@ -153,7 +153,7 @@ export function Price({ className, loading: forcedLoading, title = 'Price', asse
               <TabsTrigger value="change">Change</TabsTrigger>
             </TabsList>
           </Tabs>
-          <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh prices" onClick={refresh}>
+          <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh prices" onClick={refresh}>
             <MoreHorizontal className="size-4" />
           </Button>
         </div>

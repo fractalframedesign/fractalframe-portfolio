@@ -113,7 +113,7 @@ export const ThemeToggle = () => {
         <motion.path
           variants={shineVariant}
           d={moonPath}
-          className="absolute top-0 left-0 stroke-blue-100"
+          className="absolute top-0 left-0 stroke-primary-subtle"
           initial="hidden"
           animate={isDark ? 'visible' : 'hidden'}
         />
@@ -141,7 +141,7 @@ export const ThemeToggle = () => {
 
         <motion.path
           d={sunPath}
-          className="fill-muted-foreground stroke-muted-foreground dark:fill-blue-300 dark:stroke-blue-300"
+          className="fill-muted-foreground stroke-muted-foreground dark:fill-primary-base dark:stroke-primary-base"
           transition={{ duration: 1, type: 'spring' }}
           initial={{ fillOpacity: 0, strokeOpacity: 0, d: sunPath }}
           animate={{

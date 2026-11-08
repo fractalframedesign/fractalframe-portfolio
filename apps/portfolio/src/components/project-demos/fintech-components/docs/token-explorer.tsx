@@ -3,11 +3,11 @@
 import { Check, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
-import { Input } from '@/components/ui/input';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import type { DesignToken, TokenCollection } from '@/lib/design-tokens';
-import { cn } from '@/lib/utils';
+import { Input } from '@/components/project-demos/fintech-components/shell-ui/input';
+import { Tabs, TabsList, TabsTrigger } from '@/components/project-demos/fintech-components/shell-ui/tabs';
+import { ToggleGroup, ToggleGroupItem } from '@/components/project-demos/fintech-components/shell-ui/toggle-group';
+import type { DesignToken, TokenCollection } from '@/components/project-demos/fintech-components/lib/design-tokens';
+import { cn } from '@/components/project-demos/fintech-components/lib/utils';
 
 type TokenExplorerProps = {
   total: number;

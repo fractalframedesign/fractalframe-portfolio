@@ -1,4 +1,4 @@
-import './theme.css';
+import '@/components/project-demos/finance-dashboard/theme.css';
 
 import { ShowcaseShell } from '@/components/showcase/showcase-shell';
 import { getShowcaseProject } from '@/lib/showcase';

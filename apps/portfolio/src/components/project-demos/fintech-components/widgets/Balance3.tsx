@@ -8,9 +8,9 @@ import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Separator } from '@/components/project-demos/fintech-components/ui/separator'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const creditCard = '/images/projects/fintech-components/balance-3/credit-card.png'
+const creditCard = '/showcase/fintech-components/balance-3/credit-card.png'
 
 export interface Balance3Account {
   id: string
@@ -94,7 +94,7 @@ export function Balance3({
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-          <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh balance" onClick={refresh}>
+          <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh balance" onClick={refresh}>
             <MoreHorizontal className="size-4" />
           </Button>
         </div>
@@ -148,7 +148,7 @@ export function Balance3({
         </div>
 
         <div className="flex w-full items-center gap-4">
-          <Button className="flex-1 justify-start gap-0 rounded-xl py-3 pr-4 pl-3 text-base font-semibold" onClick={() => handleAction('Deposit')}>
+          <Button size="lg" className="flex-1 justify-start gap-0 pr-4 pl-3" onClick={() => handleAction('Deposit')}>
             <ArrowLeftRight className="size-6" />
             <span className="flex-1 text-center">Deposit</span>
           </Button>

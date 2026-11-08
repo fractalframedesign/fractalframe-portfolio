@@ -6,10 +6,10 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const blob1 = '/images/projects/fintech-components/manage-expenses/blob-1.svg'
-const blob2 = '/images/projects/fintech-components/manage-expenses/blob-2.svg'
+const blob1 = '/showcase/fintech-components/manage-expenses/blob-1.svg'
+const blob2 = '/showcase/fintech-components/manage-expenses/blob-2.svg'
 
 export interface ManageExpensesProps {
   loading?: boolean
@@ -104,7 +104,8 @@ export function ManageExpenses({
 
       <Button
         type="button"
-        className="relative z-10 w-full gap-2 rounded-2xl py-5 text-lg font-bold"
+        size="lg"
+        className="relative z-10 w-full"
         aria-expanded={expanded}
         onClick={() => setExpanded((v) => !v)}
       >

@@ -6,9 +6,9 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const cardArt = '/images/projects/fintech-components/saved-cards/card-art.png'
+const cardArt = '/showcase/fintech-components/saved-cards/card-art.png'
 
 export interface SavedCard {
   id: string
@@ -140,14 +140,14 @@ export function SavedCards({
         <Button
           variant="secondary"
           size="lg"
-          className="h-15 flex-1 gap-2 rounded-2xl text-lg font-bold"
+          className="flex-1 gap-2"
         >
           <Plus className="size-5" />
           Add New
         </Button>
         <Button
           size="lg"
-          className="h-15 flex-1 rounded-2xl text-lg font-bold"
+          className="flex-1"
           onClick={handleSave}
           disabled={!selectedId}
         >

@@ -6,7 +6,7 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface ExchangeRate {
   currency: string
@@ -40,7 +40,7 @@ const CONVERT_RATES: Record<Currency, number> = {
 
 function ExchangeRatesSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-36" />
         <Skeleton className="size-9 rounded-full" />
@@ -106,7 +106,7 @@ export function ExchangeRates({
   }
 
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button

@@ -4,7 +4,7 @@ import { Check, Copy } from 'lucide-react'
 import { Highlight, themes } from 'prism-react-renderer'
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export function CodeBlock({ code, className }: { code: string; className?: string }) {
   const [copied, setCopied] = React.useState(false)

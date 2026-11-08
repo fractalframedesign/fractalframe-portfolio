@@ -4,7 +4,9 @@
   --accent-2: oklch(0.6 0.135 155);
 }
 
-/* Component palette: applied to each component section (data-preview) only. */
+/* Component palette: applied to each component section (data-preview) only.
+   --primary is the single brand input. accent, accent-foreground, ring and
+   chart-1 are derived from it, so changing --primary re-colours every widget. */
 [data-preview='fintech'] {
   --radius: 0.75rem;
 
@@ -26,8 +28,8 @@
   --muted: oklch(0.955 0.008 260);
   --muted-foreground: oklch(0.5 0.02 260);
 
-  --accent: oklch(0.94 0.03 264);
-  --accent-foreground: oklch(0.32 0.08 264);
+  --accent: oklch(from var(--primary) 0.94 0.03 h);
+  --accent-foreground: oklch(from var(--primary) 0.32 0.08 h);
 
   --destructive: oklch(0.58 0.22 25);
   --destructive-foreground: oklch(0.99 0.005 260);
@@ -40,9 +42,9 @@
 
   --border: oklch(0.9 0.008 260);
   --input: oklch(0.9 0.008 260);
-  --ring: oklch(0.5 0.19 264 / 45%);
+  --ring: oklch(from var(--primary) l c h / 45%);
 
-  --chart-1: oklch(0.5 0.19 264);
+  --chart-1: var(--primary);
   --chart-2: oklch(0.6 0.135 155);
   --chart-3: oklch(0.77 0.16 75);
   --chart-4: oklch(0.62 0.2 320);
@@ -70,8 +72,8 @@
   --muted: oklch(0.27 0.015 260);
   --muted-foreground: oklch(0.68 0.015 260);
 
-  --accent: oklch(0.3 0.05 264);
-  --accent-foreground: oklch(0.88 0.03 264);
+  --accent: oklch(from var(--primary) 0.3 0.05 h);
+  --accent-foreground: oklch(from var(--primary) 0.88 0.03 h);
 
   --destructive: oklch(0.65 0.2 25);
   --destructive-foreground: oklch(0.15 0.02 25);
@@ -84,9 +86,9 @@
 
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.68 0.16 264 / 45%);
+  --ring: oklch(from var(--primary) l c h / 45%);
 
-  --chart-1: oklch(0.68 0.16 264);
+  --chart-1: var(--primary);
   --chart-2: oklch(0.68 0.14 155);
   --chart-3: oklch(0.78 0.15 75);
   --chart-4: oklch(0.7 0.18 320);

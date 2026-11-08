@@ -1,8 +1,8 @@
 import { Download } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { type Role, spacingMap, type TailwindTokens } from '@/lib/tailwind-tokens';
+import { Button } from '@/components/project-demos/fintech-components/shell-ui/button';
+import { Card, CardContent } from '@/components/project-demos/fintech-components/shell-ui/card';
+import { type Role, spacingMap, type TailwindTokens } from '@/components/project-demos/fintech-components/lib/tailwind-tokens';
 
 const CHECKER = {
   backgroundImage: 'repeating-conic-gradient(var(--muted) 0% 25%, transparent 0% 50%)',

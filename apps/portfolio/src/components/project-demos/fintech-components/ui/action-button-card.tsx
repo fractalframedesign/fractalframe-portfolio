@@ -4,7 +4,7 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { motion } from 'motion/react'
 import * as React from 'react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const iconVariants = cva('flex items-center justify-center rounded-full bg-foreground text-background [&_svg]:shrink-0', {
   variants: {

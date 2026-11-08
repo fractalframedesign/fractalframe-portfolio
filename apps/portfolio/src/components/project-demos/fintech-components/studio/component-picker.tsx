@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from '@/components/project-demos/fintech-components/shell-ui/dropdown-menu'
 
 type PickerCategory = {
   id: string

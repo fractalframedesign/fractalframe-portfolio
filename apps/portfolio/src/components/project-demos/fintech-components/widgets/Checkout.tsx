@@ -6,7 +6,7 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 const AMOUNT_CHIPS = [0, 10, 20, 50] as const
 type AmountChip = (typeof AMOUNT_CHIPS)[number] | 'other'
@@ -22,7 +22,7 @@ export interface CheckoutProps {
 
 function CheckoutSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <Skeleton className="h-4 w-24" />
         <Skeleton className="size-9 rounded-full" />
@@ -80,7 +80,7 @@ export function Checkout({
   const totalAmount = baseCost + addAmount
 
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
         <Button
@@ -174,7 +174,7 @@ export function Checkout({
 
       <Button
         size="lg"
-        className="h-12 w-full rounded-xl text-base font-semibold active:scale-[0.96]"
+        className="w-full"
         onClick={refresh}
       >
         Pay {totalAmount} USD
