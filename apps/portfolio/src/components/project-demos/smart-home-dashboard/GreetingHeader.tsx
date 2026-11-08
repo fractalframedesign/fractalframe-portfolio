@@ -53,13 +53,13 @@ export function GreetingHeader({
         initial={{ opacity: 0, x: -16 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: 'spring', duration: 0.6, bounce: 0.3, delay: 0.08 }}
-        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[1.75rem] bg-gradient-to-br from-secondary to-secondary/60 px-7 py-5 shadow-[0_16px_36px_-16px_color-mix(in_oklab,var(--secondary)_65%,black)]"
+        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[1.75rem] bg-gradient-to-br from-secondary to-secondary/60 px-6 py-5 shadow-[0_16px_36px_-16px_color-mix(in_oklab,var(--secondary)_65%,black)]"
       >
         <div>
-          <p className="text-xl font-bold tracking-tight text-foreground">
+          <p className="text-xl font-bold tracking-tight text-secondary-foreground">
             Hi, {name.split(' ')[0]} {name.split(' ').slice(1).join(' ')}
           </p>
-          <p className="mt-1 text-sm font-medium text-foreground/60">
+          <p className="mt-1 text-sm font-medium text-secondary-foreground/60">
             {deviceCount} devices active
           </p>
         </div>
@@ -73,7 +73,7 @@ export function GreetingHeader({
             onClick={() => setMenuOpen((v) => !v)}
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.92 }}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground text-primary-foreground shadow-[0_6px_16px_-4px_rgba(0,0,0,0.5)] outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-secondary"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary-foreground text-primary-foreground shadow-[0_6px_16px_-4px_rgba(0,0,0,0.5)] outline-none focus-visible:ring-2 focus-visible:ring-secondary-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-secondary"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="2.5" r="1.5" fill="currentColor" />

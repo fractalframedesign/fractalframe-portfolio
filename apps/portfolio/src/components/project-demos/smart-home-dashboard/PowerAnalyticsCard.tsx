@@ -93,7 +93,7 @@ export function PowerAnalyticsCard({
           </div>
           <div>
             <p className="text-base font-bold tracking-tight text-foreground">{title}</p>
-            <p className="text-sm text-foreground/45">{subtitle}</p>
+            <p className="text-sm text-muted-foreground">{subtitle}</p>
           </div>
         </div>
 
@@ -132,7 +132,7 @@ export function PowerAnalyticsCard({
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-semibold text-foreground">{device.name}</p>
-                  <p className="text-sm text-foreground/40 tabular-nums">
+                  <p className="text-sm text-muted-foreground tabular-nums">
                     {device.units} unit &nbsp;|&nbsp; {device.kWh}kWh
                   </p>
                 </div>
@@ -143,7 +143,7 @@ export function PowerAnalyticsCard({
                   height="16"
                   viewBox="0 0 24 24"
                   fill="none"
-                  className="shrink-0 text-foreground/30 group-hover:text-foreground/60"
+                  className="shrink-0 text-muted-foreground group-hover:text-foreground/60"
                 >
                   <path d="m9 6 6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </motion.svg>

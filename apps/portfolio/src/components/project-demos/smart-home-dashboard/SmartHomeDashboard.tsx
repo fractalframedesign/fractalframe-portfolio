@@ -1,3 +1,7 @@
+'use client';
+
+import { MotionConfig } from 'motion/react';
+
 import { ClimateControl } from './ClimateControl';
 import { GreetingHeader } from './GreetingHeader';
 import { PowerAnalyticsCard } from './PowerAnalyticsCard';
@@ -7,6 +11,7 @@ import { ThemeToggle } from './ThemeToggle';
 
 export function SmartHomeDashboard() {
   return (
+    <MotionConfig reducedMotion="user">
     <div className="mx-auto flex w-full max-w-295 flex-col gap-6">
       <div className="flex justify-end">
         <ThemeToggle />
@@ -25,5 +30,6 @@ export function SmartHomeDashboard() {
 
       <SecurityCamerasCard />
     </div>
+    </MotionConfig>
   );
 }

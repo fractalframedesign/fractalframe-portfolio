@@ -45,10 +45,10 @@ export function ThemeToggle({ className = '' }: ThemeToggleProps) {
       onClick={toggle}
       className={`relative flex h-10 w-19 shrink-0 items-center rounded-full bg-muted p-1 outline-none transition-colors focus-visible:ring-2 focus-visible:ring-foreground/30 dark:focus-visible:ring-foreground/40 ${className}`}
     >
-      <span className="pointer-events-none absolute left-2.5 flex text-foreground/35">
+      <span className="pointer-events-none absolute left-2.5 flex text-muted-foreground">
         <SunIcon />
       </span>
-      <span className="pointer-events-none absolute right-2.5 flex text-foreground/25">
+      <span className="pointer-events-none absolute right-2.5 flex text-muted-foreground">
         <MoonIcon />
       </span>
       <motion.span

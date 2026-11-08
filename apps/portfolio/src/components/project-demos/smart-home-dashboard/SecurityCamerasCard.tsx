@@ -144,7 +144,7 @@ export function SecurityCamerasCard({
           </div>
           <div>
             <p className="text-base font-bold tracking-tight text-foreground">{title}</p>
-            <p className="text-sm text-foreground/45">{computedSubtitle}</p>
+            <p className="text-sm text-muted-foreground">{computedSubtitle}</p>
           </div>
         </div>
 
