@@ -65,6 +65,23 @@
 
 ## Architecture
 
+### Monorepo
+
+npm workspaces + Turborepo. Run `npm install` and the `dev`, `lint`, `typecheck`, `test` and `build` scripts from the repo root.
+
+- `apps/<name>/`: anything deployable (a Next.js site, a Remotion video). `packages/<name>/`: code or config shared by apps, named `@kiran/<name>`.
+- Node is pinned once in `.nvmrc` (24). CI reads it, and Vercel reads `engines` in the root `package.json`. Change both together.
+- One lockfile at the root. Never add a `package-lock.json` inside an app.
+- Turborepo only passes listed env vars to a build. A new variable goes in the app's `src/lib/env.ts`, its `.env.example` and `env` in `turbo.json`.
+- The admin console stays inside `apps/portfolio`. If a second app ever needs the database or access code, move `src/lib/db` and `src/lib/access` into `packages/` then, not before.
+
+To add a standalone app:
+
+1. Create `apps/<name>/` with its own `package.json` (`"name": "<name>"`, `"private": true`) and the scripts it supports from `dev`, `lint`, `typecheck`, `test` and `build`.
+2. Extend `@kiran/typescript-config/nextjs.json` (Next.js) or `base.json` (anything else) in its `tsconfig.json`, and add `"@kiran/typescript-config": "*"` to `devDependencies`.
+3. Run `npm install` at the root, and add `dev:<name>` (`turbo dev --filter=<name>`) to the root scripts.
+4. For a site, create a new Vercel project with Root Directory `apps/<name>` and a `vercel.json` like the portfolio's (`--filter=<name>`).
+
 ### Isolated apps in one Next.js project
 
 `apps/portfolio/src/app` has three route groups, each with its **own root layout and stylesheet**, so themes never leak between them:
@@ -85,7 +102,8 @@ Moving between the groups is a full page load. Never import one group's CSS from
 - `SEED_LEVELS` in `src/lib/access/levels.ts` is only the initial seed, not the source of truth.
 - The admin password is changed in the console (Settings) and stored as a scrypt hash in `admin_account`. `ADMIN_PASSWORD` in Vercel only works while that table is empty. Changing it signs out every older session. Forgotten password: run `DELETE FROM admin_account;` in the Neon SQL editor, then log in with `ADMIN_PASSWORD`.
 - Migrations in `apps/portfolio/drizzle/` must be additive (no drops or renames), because Preview builds migrate the shared database.
-- `npm test` (vitest) runs from `apps/portfolio`.
+- `npm test` (vitest) runs from the repo root or `apps/portfolio`.
+- `npm run build` in the portfolio runs `env:check` first. On a production deploy a missing required variable stops the build; everywhere else it only warns.
 
 ### References (`/references/`)
 

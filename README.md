@@ -1,54 +1,63 @@
-# Kiran Pingle Portfolio
+# Fractal Frame
 
-Personal portfolio site for Kiran Pingle, built with Next.js, Tailwind CSS, and MDX-driven project/article content.
+Kiran Pingle's portfolio, component showcase and the admin console that controls who can see them. One repo, several apps, managed with npm workspaces and [Turborepo](https://turborepo.com).
 
-- [Local Development](http://localhost:3000)
+## Layout
 
-## Screenshot
-
-![Kiran Pingle Portfolio screenshot](./public/og-image.jpg)
-
-## Getting Started
-
-```bash
-npm install
+```
+apps/
+  portfolio/            Next.js site: portfolio, /showcase and /admin (one Vercel project)
+packages/
+  typescript-config/    shared tsconfig presets (base, nextjs)
+docs/                   branching, deployment, plans and specs
+.nvmrc                  Node version used everywhere (local, CI, Vercel)
+turbo.json              tasks and the env vars each build may read
 ```
 
-```bash
-npm run dev
-```
+Inside `apps/portfolio`, the site, showcase and admin are separate route groups with their own layouts and styles. See `CLAUDE.md` for how they fit together.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-## Tech Stack
+1. Use Node 24. With [fnm](https://github.com/Schniz/fnm) or nvm, run `fnm use` (or `nvm use`) in this folder; it reads `.nvmrc`.
+2. Install everything from the repo root:
 
-- Nextjs 16 / App Router
-- Tailwind 4
-- shadcn/ui
+   ```bash
+   npm install
+   ```
 
-## Branch Strategy
+3. Copy `apps/portfolio/.env.example` to `apps/portfolio/.env.local` and fill in what you need. The site runs without any of them; `/admin` needs `DATABASE_URL`, `ADMIN_SESSION_SECRET` and `ADMIN_PASSWORD`.
+4. Start the site at [localhost:3000](http://localhost:3000):
 
-| Branch | Purpose | Vercel |
-|--------|---------|--------|
-| `main` | Active development | — |
-| `staging` | Review & testing | Preview URL |
-| `prod` | Live site | Production domain |
+   ```bash
+   npm run dev
+   ```
 
-**Workflow:** `main` → `staging` (test) → `prod` (ship)
+## Commands
 
-## Deploy on Vercel
+Run from the repo root; Turborepo runs them in every app that has the script.
 
-1. Import `fractalframedesign-commits/fractalframe-portfolio` on [Vercel](https://vercel.com)
-2. Set **Production Branch** to `prod` in Project Settings → Git
-3. `staging` gets an automatic preview URL on every push
+| Command             | What it does                                 |
+| ------------------- | -------------------------------------------- |
+| `npm run dev`       | Starts the portfolio                         |
+| `npm run lint`      | ESLint                                       |
+| `npm run typecheck` | TypeScript                                   |
+| `npm test`          | Vitest                                       |
+| `npm run build`     | Production build (CI runs all four of these) |
 
-## Static Export Support
+Only for the portfolio: `npm run env:check -w portfolio` lists missing or invalid environment variables.
 
-This template is configured to support static export by default, making it easy to deploy on various platforms including Cloudflare Pages, GitHub Pages, and other static hosting providers.
+## Environment variables
 
-To build for static export:
+- Every variable is listed, with what it does, in `apps/portfolio/src/lib/env.ts` and `.env.example`.
+- Real values live in Vercel → Settings → Environment Variables. Never commit `.env.local`.
+- A **production** deploy stops with a clear message if a required one is missing. Previews and local builds only warn.
+- Adding a variable: add it to `env.ts`, `.env.example` and the `env` list in `turbo.json` (Turborepo hides unlisted variables from the build).
 
-```bash
-npm run build
-# The output will be in the '.next' directory
-```
+## Adding an app
+
+See "Monorepo" in `CLAUDE.md`.
+
+## Branches and deploys
+
+- [Branching strategy](docs/branching-strategy.md)
+- [Deployment workflow](docs/deployment-workflow.md)
