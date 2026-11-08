@@ -9,7 +9,7 @@ export function LaptopPreview() {
         tabIndex={0}
         role="group"
         aria-label="Smart home dashboard laptop preview"
-        className="group relative mx-auto aspect-[1.55] w-full max-w-5xl outline-none perspective-[1400px] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-canvas"
+        className="group relative mx-auto aspect-[1.55] w-full max-w-5xl outline-none perspective-[1400px] focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-4 focus-visible:ring-offset-background"
       >
         <div className="absolute inset-0 transform-3d transform-[rotateX(48deg)]">
           <div className="absolute inset-x-[7%] bottom-[3%] h-[38%] [clip-path:polygon(10%_0,90%_0,100%_100%,0_100%)] rounded-b-4xl border border-border bg-linear-to-b from-secondary-foreground/55 via-secondary-foreground/80 to-secondary-foreground shadow-[0_28px_35px_-18px_rgba(0,0,0,0.8)]">

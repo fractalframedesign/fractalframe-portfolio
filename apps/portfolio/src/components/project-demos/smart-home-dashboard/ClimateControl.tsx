@@ -268,8 +268,20 @@ export function ClimateControl({
             aria-valuetext={`${value} degrees`}
             aria-disabled={!on}
             onKeyDown={handleKeyDown}
+            className="group/handle outline-none"
             style={{ outline: 'none' }}
           >
+            {/* 52-unit invisible target so the handle is easy to hit */}
+            <circle cx={handlePos.x} cy={handlePos.y} r={26} fill="transparent" />
+            {/* keyboard focus ring */}
+            <circle
+              cx={handlePos.x}
+              cy={handlePos.y}
+              r={21}
+              fill="none"
+              strokeWidth={3}
+              className="stroke-ring opacity-0 transition-opacity duration-150 group-focus-visible/handle:opacity-100"
+            />
             <circle cx={handlePos.x} cy={handlePos.y} r={13} fill={handleFill} stroke={accent} strokeWidth={4} />
           </g>
         </svg>
