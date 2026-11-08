@@ -19,16 +19,16 @@ export function LinkDesktopApp() {
   const days = CONVERSATIONS.find((c) => c.contactId === activeId)?.days ?? [];
 
   return (
-    <div className="bg-surface border-surface-border mx-auto flex h-155 scheme-light w-full max-w-5xl flex-col overflow-hidden rounded-2xl border shadow-2xl">
+    <div className="bg-card border-border mx-auto flex h-155 scheme-light w-full max-w-5xl flex-col overflow-hidden rounded-2xl border shadow-2xl">
       {/* Window title bar */}
       <div
-        className="bg-canvas border-surface-border flex h-9 shrink-0 items-center gap-2 border-b px-4"
+        className="bg-background border-border flex h-9 shrink-0 items-center gap-2 border-b px-4"
         aria-hidden="true"
       >
         <span className="bg-destructive/70 size-3 rounded-full" />
-        <span className="bg-ink-muted/40 size-3 rounded-full" />
-        <span className="bg-ink-muted/40 size-3 rounded-full" />
-        <span className="text-ink-muted flex-1 text-center text-xs">
+        <span className="bg-muted-foreground/40 size-3 rounded-full" />
+        <span className="bg-muted-foreground/40 size-3 rounded-full" />
+        <span className="text-muted-foreground flex-1 text-center text-xs">
           Rakuten Link
         </span>
       </div>
@@ -37,10 +37,10 @@ export function LinkDesktopApp() {
         {/* Rail */}
         <nav
           aria-label="Sections"
-          className="bg-ink flex w-16 shrink-0 flex-col items-center gap-2 py-4"
+          className="bg-foreground flex w-16 shrink-0 flex-col items-center gap-2 py-4"
         >
           <span
-            className="text-accent-1 mb-4 text-xs font-bold"
+            className="text-primary mb-4 text-xs font-bold"
             aria-hidden="true"
           >
             Link
@@ -54,7 +54,7 @@ export function LinkDesktopApp() {
               title={label}
               className={cn(
                 'flex size-11 items-center justify-center rounded-xl',
-                active ? 'bg-white/15 text-white' : 'text-white/60',
+                active ? 'bg-primary-foreground/15 text-primary-foreground' : 'text-primary-foreground/60',
               )}
             >
               <Icon aria-hidden="true" className="size-5" />
@@ -64,14 +64,14 @@ export function LinkDesktopApp() {
         </nav>
 
         {/* Conversation list */}
-        <aside className="border-surface-border flex w-72 shrink-0 flex-col border-e max-md:hidden">
+        <aside className="border-border flex w-72 shrink-0 flex-col border-e max-md:hidden">
           <div className="p-3">
-            <label className="bg-canvas text-ink-muted flex items-center gap-2 rounded-lg px-3 py-2">
+            <label className="bg-background text-muted-foreground flex items-center gap-2 rounded-lg px-3 py-2">
               <Search aria-hidden="true" className="size-4" />
               <input
                 aria-label="Search messages"
                 placeholder="Search"
-                className="text-ink min-w-0 flex-1 bg-transparent text-sm outline-none"
+                className="text-foreground min-w-0 flex-1 bg-transparent text-sm outline-none"
               />
             </label>
           </div>
@@ -89,11 +89,11 @@ export function LinkDesktopApp() {
           aria-label={`Chat with ${contact.name}`}
           className="relative flex min-w-0 flex-1 flex-col"
         >
-          <header className="border-surface-border flex h-14 shrink-0 items-center justify-between border-b px-5">
-            <h2 className="text-ink font-bold">
+          <header className="border-border flex h-14 shrink-0 items-center justify-between border-b px-5">
+            <h2 className="text-foreground font-bold">
               {contact.name}
               {!contact.onLink && (
-                <span className="text-ink-muted ms-2 text-xs font-normal">
+                <span className="text-muted-foreground ms-2 text-xs font-normal">
                   SMS
                 </span>
               )}
@@ -102,7 +102,7 @@ export function LinkDesktopApp() {
               type="button"
               aria-label={`Call ${contact.name}`}
               onClick={() => setCalling(true)}
-              className="text-accent-1 focus-visible:ring-accent-1 flex size-10 items-center justify-center rounded-full outline-none focus-visible:ring-2"
+              className="text-primary focus-visible:ring-primary flex size-10 items-center justify-center rounded-full outline-none focus-visible:ring-2"
             >
               <Phone aria-hidden="true" className="size-5 fill-current" />
             </button>

@@ -18,14 +18,14 @@ export default function Page() {
 
       <section className="space-y-6">
         <h2 className="text-foreground text-2xl">On a phone</h2>
-        <div className="bg-canvas rounded-3xl p-6 md:p-10">
+        <div data-preview="rakuten-link" className="bg-background rounded-3xl p-6 md:p-10">
           <LinkMobileApp />
         </div>
       </section>
 
       <section className="space-y-6">
         <h2 className="text-foreground text-2xl">On desktop</h2>
-        <div className="bg-canvas rounded-3xl p-4 md:p-10">
+        <div data-preview="rakuten-link" className="bg-background rounded-3xl p-4 md:p-10">
           <LinkDesktopApp />
         </div>
       </section>

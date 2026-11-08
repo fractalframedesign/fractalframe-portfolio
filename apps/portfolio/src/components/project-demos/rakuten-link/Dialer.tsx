@@ -16,17 +16,17 @@ export function Dialer({
   const [number, setNumber] = useState('');
 
   return (
-    <div className="bg-surface absolute inset-0 z-10 flex flex-col items-center px-8 pt-16 pb-10">
+    <div className="bg-card absolute inset-0 z-10 flex flex-col items-center px-8 pt-16 pb-10">
       <p
         aria-label="Number"
         aria-live="polite"
-        className="text-ink font-(family-name:--font-link-display) flex h-12 items-center gap-2 text-3xl tracking-wide tabular-nums"
+        className="text-foreground font-(family-name:--font-link-display) flex h-12 items-center gap-2 text-3xl tracking-wide tabular-nums"
       >
         {number}
         {!number && (
           <span
             aria-hidden="true"
-            className="bg-accent-1 h-9 w-0.5 motion-safe:animate-pulse"
+            className="bg-primary h-9 w-0.5 motion-safe:animate-pulse"
           />
         )}
       </p>
@@ -38,7 +38,7 @@ export function Dialer({
             type="button"
             aria-label={key}
             onClick={() => setNumber((n) => n + key)}
-            className="bg-accent-2-soft text-ink font-(family-name:--font-link-display) focus-visible:ring-accent-1 flex size-18 flex-col items-center justify-center rounded-full text-3xl outline-none active:scale-96 focus-visible:ring-2"
+            className="bg-muted text-foreground font-(family-name:--font-link-display) focus-visible:ring-primary flex size-18 flex-col items-center justify-center rounded-full text-3xl outline-none active:scale-96 focus-visible:ring-2"
           >
             {key}
             {key === '0' && <span className="text-xs leading-none">+</span>}
@@ -50,7 +50,7 @@ export function Dialer({
         <button
           type="button"
           onClick={onClose}
-          className="text-accent-2 justify-self-center text-lg"
+          className="text-secondary justify-self-center text-lg"
         >
           Close
         </button>
@@ -59,7 +59,7 @@ export function Dialer({
           aria-label="Call number"
           disabled={!number}
           onClick={() => onCall(number)}
-          className="bg-accent-1 focus-visible:ring-accent-1 flex size-18 items-center justify-center justify-self-center rounded-full text-white outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-60"
+          className="bg-primary focus-visible:ring-primary flex size-18 items-center justify-center justify-self-center rounded-full text-primary-foreground outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-60"
         >
           <Phone aria-hidden="true" className="size-8 fill-current" />
         </button>
@@ -68,7 +68,7 @@ export function Dialer({
             type="button"
             aria-label="Delete digit"
             onClick={() => setNumber((n) => n.slice(0, -1))}
-            className="text-ink-muted justify-self-center"
+            className="text-muted-foreground justify-self-center"
           >
             <Delete aria-hidden="true" className="size-6" />
           </button>

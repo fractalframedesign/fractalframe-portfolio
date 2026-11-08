@@ -18,7 +18,7 @@ export function Avatar({
     <span
       aria-hidden="true"
       className={cn(
-        'bg-accent-2-soft text-ink-muted relative inline-flex shrink-0 items-center justify-center rounded-full font-semibold',
+        'bg-muted text-muted-foreground relative inline-flex shrink-0 items-center justify-center rounded-full font-semibold',
         {
           'size-8 text-xs': size === 'sm',
           'size-11 text-sm': size === 'md',
@@ -30,7 +30,7 @@ export function Avatar({
     >
       {initials(name)}
       {onLink && (
-        <span className="bg-accent-1 ring-surface absolute -end-0.5 -bottom-0.5 flex size-4 items-center justify-center rounded-full text-xs leading-none font-bold text-white ring-2">
+        <span className="bg-primary ring-card absolute -end-0.5 -bottom-0.5 flex size-4 items-center justify-center rounded-full text-xs leading-none font-bold text-primary-foreground ring-2">
           R
         </span>
       )}
