@@ -6,9 +6,9 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const VisaWhite = '/images/projects/fintech-components/credit-card/visa-white.svg'
+const VisaWhite = '/showcase/fintech-components/credit-card/visa-white.svg'
 
 export interface TransferMoney2Card {
   id: string
@@ -36,20 +36,20 @@ export interface TransferMoney2Props {
 }
 
 const defaultCards: TransferMoney2Card[] = [
-  { id: 'peach', gradient: 'bg-gradient-to-br from-[#6e8b75] via-[#e77879] to-[#fbddb3]' },
+  { id: 'peach', gradient: 'bg-gradient-to-br from-chart-2 via-chart-5 to-chart-3' },
   {
     id: 'visa',
-    gradient: 'bg-gradient-to-br from-[#4dcbdc] to-[#1d689f]',
+    gradient: 'bg-gradient-to-br from-primary/60 to-primary',
     balance: '$3,981.80',
     maskedNumber: '**** 6542',
   },
-  { id: 'mint', gradient: 'bg-gradient-to-br from-[#66d4bf] to-[#3bb98c]' },
+  { id: 'mint', gradient: 'bg-gradient-to-br from-success/60 to-success' },
 ]
 
 const defaultRecipient: TransferMoney2Recipient = {
   name: 'Tony Williams',
   initials: 'KW',
-  avatarColor: 'bg-[#03c7aa]',
+  avatarColor: 'bg-success',
   network: 'Visa',
   maskedNumber: '****0214',
 }
@@ -77,7 +77,7 @@ export function TransferMoney2({
     return (
       <div
         className={cn(
- 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6',
           className,
         )}
       >
@@ -107,7 +107,7 @@ export function TransferMoney2({
   return (
     <div
       className={cn(
- 'flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
+ 'flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground',
         className,
       )}
     >
@@ -116,7 +116,7 @@ export function TransferMoney2({
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
           <Button
             variant="secondary"
-            size="icon"
+            size="icon-sm"
             className="rounded-full"
             aria-label="More options"
             onClick={refresh}
@@ -155,12 +155,12 @@ export function TransferMoney2({
               >
                 {card.balance ? (
                   <>
-                    <div className="flex h-full flex-col justify-between text-white">
+                    <div className="flex h-full flex-col justify-between text-primary-foreground">
                       <span className="text-xs tracking-[0.12px]">Card Balance</span>
                       <span className="text-lg font-semibold">{card.balance}</span>
                     </div>
                     <div className="flex h-full flex-col items-end justify-between">
-                      <span className="text-sm font-medium text-white">{card.maskedNumber}</span>
+                      <span className="text-sm font-medium text-primary-foreground">{card.maskedNumber}</span>
                       <img src={VisaWhite} alt="Visa" className="h-4 w-13 object-contain" />
                     </div>
                   </>
@@ -195,7 +195,7 @@ export function TransferMoney2({
           <div className="flex items-center gap-3">
             <span
               className={cn(
-                'flex size-15 shrink-0 items-center justify-center rounded-full text-lg font-medium text-white',
+                'flex size-15 shrink-0 items-center justify-center rounded-full text-lg font-medium text-success-foreground',
                 recipient.avatarColor,
               )}
             >
@@ -229,7 +229,7 @@ export function TransferMoney2({
           </div>
           <p className="text-sm font-medium text-muted-foreground">No commission</p>
         </div>
-        <Button size="lg" className="rounded-xl px-6 py-3 text-base font-semibold" onClick={handleSend}>
+        <Button size="lg" className="px-6" onClick={handleSend}>
           {sent ? 'Sent!' : 'Send Money'}
         </Button>
       </div>

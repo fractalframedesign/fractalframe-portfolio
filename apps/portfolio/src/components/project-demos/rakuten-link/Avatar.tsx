@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/project-demos/rakuten-link/lib/utils';
 
 import { initials } from './data';
 

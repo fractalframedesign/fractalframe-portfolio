@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/finance-dashboard/lib/utils'
 
 type TileProps = {
   children: ReactNode
@@ -10,10 +10,10 @@ type TileProps = {
 }
 
 const toneClasses: Record<NonNullable<TileProps['tone']>, string> = {
-  dark: 'bg-surface border border-surface-border',
+  dark: 'bg-card border border-border',
   violet:
-    'bg-gradient-to-br from-accent-1 to-accent-1-deep border border-accent-1/40',
-  rose: 'bg-gradient-to-br from-accent-3 to-accent-3-deep border border-accent-3/40',
+    'bg-gradient-to-br from-primary to-[color-mix(in_oklab,var(--primary)_70%,var(--background))] border border-primary/40',
+  rose: 'bg-gradient-to-br from-destructive to-[color-mix(in_oklab,var(--destructive)_75%,var(--background))] border border-destructive/40',
 }
 
 export function Tile({ children, className, tone = 'dark', as = 'div', onClick }: TileProps) {
@@ -24,7 +24,7 @@ export function Tile({ children, className, tone = 'dark', as = 'div', onClick }
       className={cn(
         'relative flex flex-col rounded-[1.75rem] p-5 text-left transition-colors duration-200',
         toneClasses[tone],
-        onClick && 'cursor-pointer hover:border-white/20',
+        onClick && 'cursor-pointer hover:border-foreground/20',
         className,
       )}
     >

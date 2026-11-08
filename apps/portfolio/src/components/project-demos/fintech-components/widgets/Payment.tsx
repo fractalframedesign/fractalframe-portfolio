@@ -6,7 +6,7 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface PaymentProps {
   className?: string
@@ -23,7 +23,7 @@ type Currency = (typeof CURRENCIES)[number]
 
 function PaymentSkeleton({ className }: { className?: string }) {
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <Skeleton className="h-4 w-20" />
@@ -82,7 +82,7 @@ export function Payment({
   }
 
   return (
-    <div className={cn('flex max-w-120 flex-col gap-5 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+    <div className={cn('flex max-w-120 flex-col gap-6 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <p className="font-mono text-sm uppercase tracking-wider text-muted-foreground">{title}</p>
@@ -103,10 +103,10 @@ export function Payment({
 
       {/* Card visual */}
       <div className="relative h-36 w-full overflow-hidden rounded-2xl p-5"
-        style={{ background: 'linear-gradient(135deg, oklch(0.45 0.22 280) 0%, oklch(0.3 0.18 270) 50%, oklch(0.2 0.08 260) 100%)' }}
+        style={{ background: 'linear-gradient(135deg, var(--primary) 0%, color-mix(in oklch, var(--primary) 55%, black) 100%)' }}
       >
-        <Wifi className="absolute left-5 top-5 size-6 -rotate-90 text-white/60" aria-hidden="true" />
-        <span className="absolute right-5 top-5 font-bold italic tracking-widest text-white text-lg">VISA</span>
+        <Wifi className="absolute left-5 top-5 size-6 -rotate-90 text-primary-foreground/60" aria-hidden="true" />
+        <span className="absolute right-5 top-5 font-bold italic tracking-widest text-primary-foreground text-lg">VISA</span>
       </div>
 
       {/* Balance row */}
@@ -162,7 +162,7 @@ export function Payment({
 
       <Button
         size="lg"
-        className="h-12 w-full rounded-xl text-base font-semibold active:scale-[0.96]"
+        className="w-full"
         disabled={!canPay}
         onClick={refresh}
       >

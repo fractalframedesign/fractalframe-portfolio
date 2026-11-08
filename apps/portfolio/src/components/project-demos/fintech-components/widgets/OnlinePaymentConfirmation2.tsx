@@ -6,7 +6,7 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export type OnlinePaymentConfirmation2Tab = 'orders' | 'favorites' | 'promos' | 'help'
 
@@ -184,7 +184,7 @@ export function OnlinePaymentConfirmation2({
                         <p className="text-sm font-medium">{item.label}</p>
                         <p className="text-xs text-muted-foreground">{item.date}</p>
                       </div>
-                      <Button className="h-12 shrink-0 rounded-xl px-6 text-base font-semibold" onClick={() => allowPayment(item.id)}>
+                      <Button size="lg" className="shrink-0" onClick={() => allowPayment(item.id)}>
                         Allow payment
                       </Button>
                     </div>

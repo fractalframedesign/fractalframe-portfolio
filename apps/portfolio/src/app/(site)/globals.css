@@ -41,7 +41,7 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-success: var(--success);
   --color-success-text: var(--success-text);
-  /* Showcase demo palettes embedded in project pages (values set per [data-project]) */
+  /* Token names the embedded demos use on project detail pages (their values come from each demo's own theme.css) */
   --color-canvas: var(--canvas);
   --color-surface: var(--surface);
   --color-surface-border: var(--surface-border);
@@ -515,25 +515,3 @@ html.page-transition-back::view-transition-new(root) {
   background-size: 24px 24px;
 }
 
-/* Rakuten Link palette for the demo on its project page. Same values as
-   (showcase)/showcase/rakuten-link/theme.css; groups never share CSS. */
-[data-project='rakuten-link'] {
-  --canvas: #f5f5fa;
-  --surface: #ffffff;
-  --surface-border: #e4e4ee;
-  --ink: #232361;
-  --ink-muted: #6b6b94;
-  --accent-1: #ff008c;
-  --accent-1-soft: #ffcce8;
-  --accent-1-deep: #cc0070;
-  --accent-2: #3b3ba3;
-  --accent-2-soft: #e8e8f4;
-  --accent-3: #232361;
-  --accent-3-deep: #000033;
-  --accent-4: #d2dff7;
-  --link-yellow: #ffd900;
-  --link-orange: #ffae00;
-  --link-purple: #5c00cc;
-  --link-blue: #007acc;
-  font-family: var(--font-link-text), ui-sans-serif, system-ui, sans-serif;
-}

@@ -7,7 +7,7 @@ import { NumberPopIn } from '@/components/project-demos/fintech-components/motio
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
 export interface CreditPaymentPlannerProps {
   className?: string
@@ -99,7 +99,7 @@ export function CreditPaymentPlanner({
       {showHeader && (
         <div className="flex w-full items-center justify-between pb-6">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-          <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh payment planner" onClick={refresh}>
+          <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh payment planner" onClick={refresh}>
             <MoreHorizontal className="size-4" />
           </Button>
         </div>

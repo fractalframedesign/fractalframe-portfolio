@@ -5,9 +5,9 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const flagUs = '/images/projects/fintech-components/my-card/flag-us.svg'
+const flagUs = '/showcase/fintech-components/my-card/flag-us.svg'
 
 function IconDots({ className }: { className?: string }) {
   return (
@@ -218,7 +218,7 @@ export function MyCard({
           type="button"
           onClick={refresh}
           aria-label="Refresh card details"
-          className="flex size-9 items-center justify-center rounded-full bg-accent/60 text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+          className="flex size-8 items-center justify-center rounded-full bg-accent/60 text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <IconDots className="size-6" />
         </button>
@@ -234,7 +234,7 @@ export function MyCard({
               type="button"
               onClick={cycleAccount}
               aria-label={`Switch account, currently ${account.name}`}
-              className="flex size-9 items-center justify-center rounded-full bg-accent/60 text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="flex size-8 items-center justify-center rounded-full bg-accent/60 text-foreground transition-colors hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <IconChevronDown className="size-6" />
             </button>

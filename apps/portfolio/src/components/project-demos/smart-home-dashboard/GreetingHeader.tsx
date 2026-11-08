@@ -43,23 +43,23 @@ export function GreetingHeader({
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ type: 'spring', duration: 0.6, bounce: 0.35 }}
-        className="relative flex size-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#3a3f52] to-[#0b0b0d] text-lg font-semibold text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] ring-4 ring-white"
+        className="relative flex size-20 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#3a3f52] to-[#0b0b0d] text-lg font-semibold text-primary-foreground shadow-[0_10px_30px_-8px_rgba(0,0,0,0.45)] ring-4 ring-primary-foreground"
       >
         {initials}
-        <span className="absolute right-0.5 bottom-0.5 size-4 rounded-full border-2 border-white bg-[#4ade80]" />
+        <span className="absolute right-0.5 bottom-0.5 size-4 rounded-full border-2 border-primary-foreground bg-success" />
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, x: -16 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ type: 'spring', duration: 0.6, bounce: 0.3, delay: 0.08 }}
-        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[1.75rem] bg-gradient-to-br from-(--color-accent-2) to-(--color-accent-2-soft) px-7 py-5 shadow-[0_16px_36px_-16px_rgba(180,200,20,0.65)]"
+        className="relative flex min-h-20 flex-1 items-center justify-between gap-4 rounded-[1.75rem] bg-gradient-to-br from-secondary to-secondary/60 px-7 py-5 shadow-[0_16px_36px_-16px_color-mix(in_oklab,var(--secondary)_65%,black)]"
       >
         <div>
-          <p className="text-xl font-bold tracking-tight text-ink">
+          <p className="text-xl font-bold tracking-tight text-foreground">
             Hi, {name.split(' ')[0]} {name.split(' ').slice(1).join(' ')}
           </p>
-          <p className="mt-1 text-sm font-medium text-ink/60">
+          <p className="mt-1 text-sm font-medium text-foreground/60">
             {deviceCount} devices active
           </p>
         </div>
@@ -73,7 +73,7 @@ export function GreetingHeader({
             onClick={() => setMenuOpen((v) => !v)}
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.92 }}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-ink text-white shadow-[0_6px_16px_-4px_rgba(0,0,0,0.5)] outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-2 focus-visible:ring-offset-(--color-accent-2)"
+            className="flex size-10 shrink-0 items-center justify-center rounded-full bg-foreground text-primary-foreground shadow-[0_6px_16px_-4px_rgba(0,0,0,0.5)] outline-none focus-visible:ring-2 focus-visible:ring-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-secondary"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <circle cx="8" cy="2.5" r="1.5" fill="currentColor" />
@@ -90,7 +90,7 @@ export function GreetingHeader({
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: -4 }}
                 transition={{ type: 'spring', duration: 0.3, bounce: 0.2 }}
-                className="absolute top-12 right-0 z-10 w-44 overflow-hidden rounded-2xl bg-white p-2 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.35)] ring-1 ring-black/5 dark:bg-[#1c1d21] dark:ring-white/10"
+                className="absolute top-12 right-0 z-10 w-44 overflow-hidden rounded-2xl bg-card p-2 shadow-[0_20px_45px_-12px_rgba(0,0,0,0.35)] ring-1 ring-border"
               >
                 {['Edit profile', 'Settings', 'Sign out'].map((item) => (
                   <button
@@ -98,7 +98,7 @@ export function GreetingHeader({
                     role="menuitem"
                     type="button"
                     onClick={() => setMenuOpen(false)}
-                    className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-ink/80 transition-colors hover:bg-ink/5 hover:text-ink dark:text-white/80 dark:hover:bg-white/10 dark:hover:text-white"
+                    className="w-full rounded-xl px-3 py-2 text-left text-sm font-medium text-foreground/80 transition-colors hover:bg-foreground/5 hover:text-foreground dark:hover:bg-foreground/10"
                   >
                     {item}
                   </button>

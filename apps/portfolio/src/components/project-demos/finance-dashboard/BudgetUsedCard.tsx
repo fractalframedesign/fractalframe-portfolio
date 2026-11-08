@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react'
 
-import { Tile } from '@/components/ui/tile'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type BudgetUsedCardProps = {
   savedToday?: string
@@ -17,21 +17,21 @@ export function BudgetUsedCard({
     <Tile tone="violet" className="justify-between gap-4">
       <div>
         <p className="text-2xl font-semibold">{savedToday}</p>
-        <p className="mt-1 text-xs tracking-wide text-white/70">SAVED TODAY</p>
+        <p className="mt-1 text-xs tracking-wide text-foreground/70">SAVED TODAY</p>
       </div>
 
-      <div className="h-2 w-full overflow-hidden rounded-full bg-white/20">
+      <div className="h-2 w-full overflow-hidden rounded-full bg-foreground/20">
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${usedPercent}%` }}
           transition={{ type: 'spring', stiffness: 80, damping: 20 }}
-          className="h-full rounded-full bg-accent-2"
+          className="h-full rounded-full bg-success"
         />
       </div>
 
       <div>
         <p className="text-3xl font-bold">{usedPercent}%</p>
-        <p className="mt-1 text-xs tracking-wide text-white/70">USED FROM BUDGET</p>
+        <p className="mt-1 text-xs tracking-wide text-foreground/70">USED FROM BUDGET</p>
       </div>
     </Tile>
   )

@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <>
+    <div data-preview="smart-home" className="contents">
       <LaptopPreview />
-      <div className="rounded-3xl bg-canvas p-4 md:p-8">
+      <div className="rounded-3xl bg-background p-4 md:p-8">
         <SmartHomeDashboard />
       </div>
-    </>
+    </div>
   );
 }

@@ -3,7 +3,7 @@
 import { Mic, Pause, Play, SendHorizontal } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { cn } from '@/lib/utils';
+import { cn } from '@/components/project-demos/rakuten-link/lib/utils';
 
 /** Voice message: timer, pulsing pink mic, Pause and Send. Nothing is really recorded. */
 export function VoiceRecorder({

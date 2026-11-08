@@ -3,8 +3,8 @@
 import { motion } from 'motion/react'
 import { useState } from 'react'
 
-import { Tile } from '@/components/ui/tile'
-import { cn } from '@/lib/utils'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
+import { cn } from '@/components/project-demos/finance-dashboard/lib/utils'
 
 type DayValue = { label: string; value: number }
 
@@ -36,13 +36,13 @@ export function YesterdayEarningCard({
   return (
     <Tile className="justify-between gap-4">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-semibold tracking-widest text-ink-muted">EARNING</span>
-        <span className="text-xs font-semibold tracking-widest text-ink-muted">SHARE</span>
+        <span className="text-xs font-semibold tracking-widest text-muted-foreground">EARNING</span>
+        <span className="text-xs font-semibold tracking-widest text-muted-foreground">SHARE</span>
       </div>
 
       <div>
         <p className="text-2xl font-semibold">{amount}</p>
-        <p className="mt-1 text-xs tracking-wide text-ink-muted">YESTERDAY</p>
+        <p className="mt-1 text-xs tracking-wide text-muted-foreground">YESTERDAY</p>
       </div>
 
       <div className="flex items-end justify-between gap-2">
@@ -55,15 +55,15 @@ export function YesterdayEarningCard({
               onClick={() => setSelectedIndex(index)}
               className="flex flex-col items-center gap-2"
             >
-              <div className="flex h-10 w-1 items-end overflow-hidden rounded-full bg-white/5">
+              <div className="flex h-10 w-1 items-end overflow-hidden rounded-full bg-foreground/5">
                 <motion.div
                   initial={{ height: 0 }}
                   animate={{ height: `${day.value}%` }}
                   transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-                  className={cn('w-full rounded-full', isSelected ? 'bg-accent-2' : 'bg-white/25')}
+                  className={cn('w-full rounded-full', isSelected ? 'bg-success' : 'bg-foreground/25')}
                 />
               </div>
-              <span className={cn('text-xs', isSelected ? 'text-white' : 'text-ink-muted')}>
+              <span className={cn('text-xs', isSelected ? 'text-foreground' : 'text-muted-foreground')}>
                 {day.label}
               </span>
             </button>

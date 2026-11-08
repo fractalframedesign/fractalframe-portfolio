@@ -4,7 +4,7 @@ import { Check, ScanLine } from 'lucide-react'
 import { AnimatePresence, motion } from 'motion/react'
 import { useState } from 'react'
 
-import { Tile } from '@/components/ui/tile'
+import { Tile } from '@/components/project-demos/finance-dashboard/ui/tile'
 
 type ScanReceiptCardProps = {
   onScan?: () => void
@@ -27,7 +27,7 @@ export function ScanReceiptCard({ onScan }: ScanReceiptCardProps) {
 
   return (
     <Tile className="items-center justify-center gap-4 text-center">
-      <span className="self-start text-xs font-semibold tracking-widest text-ink-muted">
+      <span className="self-start text-xs font-semibold tracking-widest text-muted-foreground">
         SHARE
       </span>
 
@@ -36,7 +36,7 @@ export function ScanReceiptCard({ onScan }: ScanReceiptCardProps) {
         onClick={handleClick}
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
-        className="flex h-16 w-16 items-center justify-center rounded-full bg-white/10"
+        className="flex h-16 w-16 items-center justify-center rounded-full bg-foreground/10"
       >
         <AnimatePresence mode="wait" initial={false}>
           {state === 'idle' && (
@@ -62,13 +62,13 @@ export function ScanReceiptCard({ onScan }: ScanReceiptCardProps) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0 }}
             >
-              <Check className="h-6 w-6 text-accent-2" />
+              <Check className="h-6 w-6 text-success" />
             </motion.span>
           )}
         </AnimatePresence>
       </motion.button>
 
-      <span className="text-xs tracking-wide text-ink-muted">
+      <span className="text-xs tracking-wide text-muted-foreground">
         {state === 'done' ? 'RECEIPT SAVED' : 'SCAN RECEIPT'}
       </span>
     </Tile>

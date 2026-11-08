@@ -1,5 +1,6 @@
 'use client';
 
+import '@/components/project-demos/rakuten-link/theme.css';
 import {
   ArrowLeft,
   Calendar,

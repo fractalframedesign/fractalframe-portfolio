@@ -6,14 +6,14 @@ import * as React from 'react'
 import { Button } from '@/components/project-demos/fintech-components/ui/button'
 import { Skeleton } from '@/components/project-demos/fintech-components/ui/skeleton'
 import { useWidgetLoading } from '@/components/project-demos/fintech-components/use-widget-loading'
-import { cn } from '@/lib/utils'
+import { cn } from '@/components/project-demos/fintech-components/lib/utils'
 
-const avatar1 = '/images/projects/fintech-components/money-manager/avatar-1.png'
-const avatar2 = '/images/projects/fintech-components/money-manager/avatar-2.png'
-const avatar3 = '/images/projects/fintech-components/money-manager/avatar-3.png'
-const avatar4 = '/images/projects/fintech-components/money-manager/avatar-4.png'
-const avatar5 = '/images/projects/fintech-components/money-manager/avatar-5.png'
-const avatar6 = '/images/projects/fintech-components/money-manager/avatar-6.png'
+const avatar1 = '/showcase/fintech-components/money-manager/avatar-1.png'
+const avatar2 = '/showcase/fintech-components/money-manager/avatar-2.png'
+const avatar3 = '/showcase/fintech-components/money-manager/avatar-3.png'
+const avatar4 = '/showcase/fintech-components/money-manager/avatar-4.png'
+const avatar5 = '/showcase/fintech-components/money-manager/avatar-5.png'
+const avatar6 = '/showcase/fintech-components/money-manager/avatar-6.png'
 
 export interface MoneyManagerContact {
   id: string
@@ -34,12 +34,12 @@ export interface MoneyManagerProps {
 }
 
 const defaultContacts: MoneyManagerContact[] = [
-  { id: 'c1', name: 'Mia Torres', avatar: avatar1, bg: 'bg-[#f0e8ff]' },
-  { id: 'c2', name: 'Diego Ruiz', avatar: avatar2, bg: 'bg-[#fccbc9]' },
-  { id: 'c3', name: 'Ava Chen', avatar: avatar3, bg: 'bg-[#fccbc9]' },
-  { id: 'c4', name: 'Noah Silva', avatar: avatar4, bg: 'bg-[#f0e8ff]' },
-  { id: 'c5', name: 'Grace Lin', avatar: avatar5, bg: 'bg-[#bce9d3]' },
-  { id: 'c6', name: 'Leo Park', avatar: avatar6, bg: 'bg-[#bce9d3]' },
+  { id: 'c1', name: 'Mia Torres', avatar: avatar1, bg: 'bg-chart-4/20' },
+  { id: 'c2', name: 'Diego Ruiz', avatar: avatar2, bg: 'bg-chart-5/20' },
+  { id: 'c3', name: 'Ava Chen', avatar: avatar3, bg: 'bg-chart-5/20' },
+  { id: 'c4', name: 'Noah Silva', avatar: avatar4, bg: 'bg-chart-4/20' },
+  { id: 'c5', name: 'Grace Lin', avatar: avatar5, bg: 'bg-chart-2/20' },
+  { id: 'c6', name: 'Leo Park', avatar: avatar6, bg: 'bg-chart-2/20' },
 ]
 
 export function MoneyManager({
@@ -60,7 +60,7 @@ export function MoneyManager({
 
   if (loading) {
     return (
- <div className={cn('flex max-w-120 flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6', className)}>
         {showHeader && (
           <div className="flex w-full items-center justify-between">
             <Skeleton className="h-4 w-32" />
@@ -77,11 +77,11 @@ export function MoneyManager({
   }
 
   return (
- <div className={cn('flex max-w-120 flex-col gap-3 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
+ <div className={cn('flex max-w-120 flex-col gap-4 rounded-2xl border border-border bg-card shadow-sm p-6 text-card-foreground', className)}>
       {showHeader && (
         <div className="flex w-full items-center justify-between">
           <p className="font-mono text-base uppercase tracking-[0.24px] text-muted-foreground">{title}</p>
-          <Button variant="secondary" size="icon" className="rounded-full" aria-label="Refresh money manager" onClick={refresh}>
+          <Button variant="secondary" size="icon-sm" className="rounded-full" aria-label="Refresh money manager" onClick={refresh}>
             <MoreHorizontal className="size-4" />
           </Button>
         </div>

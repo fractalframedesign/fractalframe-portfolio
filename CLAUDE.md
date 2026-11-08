@@ -30,6 +30,8 @@
 - UI components go in `src/components/ui/`
 - Constants and config values go in `src/lib/constants.ts`
 - Images organized by page: `public/images/home/`, `public/images/about/`, etc.
+- Project detail (case study) components go in `src/components/sections/project/`; their images go in `public/images/projects/<slug>/`
+- Showcase code and assets live in their own folders, never in the site folders above (see "Project details vs showcase")
 
 ## Typography
 
@@ -75,7 +77,7 @@
   - The console lives in `(admin)/admin/(console)/` with a shared sidebar layout; `/admin/login` sits outside it.
   - Add a section with one entry in `src/lib/admin-nav.ts` and one route folder.
 
-Moving between the groups is a full page load. Never import one group's CSS from the other.
+Moving between the groups is a full page load. Never import one group's stylesheet (`globals.css`, `showcase.css`, `admin.css`) from another group. A showcase project's own `theme.css` is not a group stylesheet: it belongs to that project, and a project detail page that embeds the demo imports it.
 
 ### Access levels and database
 
@@ -103,15 +105,47 @@ Moving between the groups is a full page load. Never import one group's CSS from
 - Add a frontmatter field in the schema first; the TypeScript types are derived from it (`src/lib/types.ts`).
 - `src/app/sitemap.ts` and `robots.ts` are generated from the same content, so nothing needs registering by hand.
 
+### Project details vs showcase
+
+These are two different things. Do not call one by the other's name in code, comments or UI.
+
+- **Project details** (case studies) are portfolio content. They are the cards on `/projects` and the pages at `(site)/projects/[slug]`.
+  - Content: `content/projects/<slug>.mdx`. Components: `src/components/sections/project/`. Images: `public/images/projects/<slug>/` (cover and case-study images only).
+  - They use the site's tokens and styles.
+- **Showcase** projects are independent mini-projects (component sets with their own functions and visual style) that open in a new window at `(showcase)/showcase/<slug>`.
+  - Each one is self-contained, like a small package inside the monorepo (rules below).
+- One project can have both: a card or case study in the site, and a showcase. The only link between them is the frontmatter (`liveUrl: /showcase/<slug>`, `sourceUrl: /showcase/<slug>/docs`).
+- Dependency direction: a showcase never imports from the site. A project detail page may embed a demo, and then imports that demo's components and its `theme.css`. `ShowcaseShell` is the only shared showcase chrome.
+
 ### Showcase projects
+
+Each showcase project owns everything it uses:
+
+```
+src/components/project-demos/<slug>/   the project
+  *.tsx                 its components
+  ui/                   its own primitives (copied from shadcn, not imported from components/ui)
+  lib/utils.ts          its own cn helper, plus any data or token builders it needs
+  theme.css             its palette (see below)
+src/app/(showcase)/showcase/<slug>/    routes only: layout, page, docs, case-study
+public/showcase/<slug>/                assets its components use
+```
+
+- **Independence.** Files in `project-demos/<slug>/` import only npm packages and their own folder. Nothing from `@/components/ui`, `@/lib`, `@/components/showcase` or the site. Need a shared part? Copy it into the project's `ui/` or `lib/` and change it freely.
+- **Tokens.** Use the standard shadcn names: `background`, `foreground`, `card`, `popover`, `primary`, `secondary`, `muted`, `accent`, `destructive`, `success`, `border`, `input`, `ring`, `chart-1..5`. No hex values, palette names (`bg-blue-600`) or `white`/`black` utilities in components. Exceptions: third-party brand marks (Visa, Starbucks) and fixed illustrations (a camera feed picture), which stay literal.
+- **One brand input.** `theme.css` puts the brand colours in `[data-project='<scope>']` as `--brand-primary` and similar. A `[data-preview='<scope>']` block then defines the standard tokens from them, and derives tints with relative colours (`--accent: oklch(from var(--primary) 0.94 0.03 h)`). Dark values go in `[data-preview='<scope>'].dark, .dark [data-preview='<scope>']`.
+- **Check.** In the browser, set only `--brand-primary` on the `[data-project]` element. Everything in the demo should recolour. Anything still the old colour is an orphan value.
+- **No global rules.** No `body` or `html` rules and no `@theme` in `theme.css`.
 
 To add a showcase project:
 
-1. Components go in `src/components/project-demos/<slug>/`. Use only the semantic tokens (`canvas`, `surface`, `surface-border`, `ink`, `ink-muted`, `accent-1..4`), never hex values.
-2. Create `src/app/(showcase)/showcase/<slug>/` with `layout.tsx`, `page.tsx`, `docs/page.tsx`, `case-study/page.tsx` and `theme.css` (copy an existing project).
-3. In `theme.css`, define the token values under `[data-project='<scope>']` only. No global `body` or `html` rules, no `@theme`.
-4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page as a `ComponentGallery` (Pinterest-style masonry with category chips, each item linking to its own `[widget]` page; see `fintech-components`) or from `ComponentSection` bands; widgets that read `var(--color-*)` need a `data-preview` scope and their palette in `theme.css`.
-5. Add the portfolio card as `content/projects/<slug>.mdx` with `category: upcoming`, `liveUrl: /showcase/<slug>` and `sourceUrl: /showcase/<slug>/docs`.
+1. Create `src/components/project-demos/<slug>/` with its components, `ui/`, `lib/utils.ts` and `theme.css` (copy `smart-home-dashboard` as the pattern).
+2. Create `src/app/(showcase)/showcase/<slug>/` with `layout.tsx` (imports the project's `theme.css`), `page.tsx` (wraps the demo in `data-preview='<scope>'`), `docs/page.tsx` and `case-study/page.tsx`.
+3. Put the demo's images in `public/showcase/<slug>/`.
+4. Register the project in `src/lib/showcase.ts`. For a project with many components, set `layout: 'sections'` and build the page as a `ComponentGallery` (see `fintech-components`) or from `ComponentSection` bands.
+5. Add the portfolio card as `content/projects/<slug>.mdx` (a project detail, not showcase) with `category: upcoming`, `liveUrl: /showcase/<slug>` and `sourceUrl: /showcase/<slug>/docs`.
+
+Status: `fintech-components`, `finance-dashboard` and `smart-home-dashboard` follow these rules. `rakuten-link` is self-contained but still uses the old token names (`canvas`, `surface`, `ink`, `accent-1..4`); migrate it the same way.
 
 ### Checks
 
