@@ -19,7 +19,8 @@ export function LinkDesktopApp() {
   const days = CONVERSATIONS.find((c) => c.contactId === activeId)?.days ?? [];
 
   return (
-    <div className="bg-card border-border mx-auto flex h-155 scheme-light w-full max-w-5xl flex-col overflow-hidden rounded-2xl border shadow-2xl">
+    <div className="overflow-x-auto">
+    <div className="bg-card border-border mx-auto flex h-155 min-w-160 scheme-light w-full max-w-5xl flex-col overflow-hidden rounded-2xl border shadow-2xl">
       {/* Window title bar */}
       <div
         className="bg-background border-border flex h-9 shrink-0 items-center gap-2 border-b px-4"
@@ -117,6 +118,7 @@ export function LinkDesktopApp() {
           )}
         </section>
       </div>
+    </div>
     </div>
   );
 }

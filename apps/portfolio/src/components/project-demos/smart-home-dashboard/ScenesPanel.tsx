@@ -125,7 +125,7 @@ export function ScenesPanel({
             </svg>
           </motion.span>
           <div className="min-w-0 flex-1">
-            <p className="truncate font-bold text-foreground">You created {scenesCreated} scenes</p>
+            <p className="font-bold text-foreground text-pretty">You created {scenesCreated} scenes</p>
             <p className="text-sm text-foreground/40 tabular-nums">{devicesInUse} devices in use</p>
           </div>
           <motion.button

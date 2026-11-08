@@ -91,7 +91,7 @@ function CameraTile({ camera, index }: { camera: Camera; index: number }) {
         />
       ) : null}
 
-      <div className="absolute top-3 left-2.5 flex items-center gap-2 rounded-full bg-black/45 px-2 py-1 backdrop-blur-sm">
+      <div className="absolute top-3 left-2 flex items-center gap-2 rounded-full bg-black/45 px-2 py-1 backdrop-blur-sm">
         <span
           className={`size-2 rounded-full ${isLive ? 'motion-safe:animate-pulse bg-red-500' : 'bg-white/40'}`}
         />
@@ -106,7 +106,7 @@ function CameraTile({ camera, index }: { camera: Camera; index: number }) {
           onClick={() => setMuted((v) => !v)}
           aria-label={muted ? `Unmute ${camera.name}` : `Mute ${camera.name}`}
           aria-pressed={!muted}
-          className="absolute top-3 right-2.5 flex size-6 items-center justify-center rounded-full bg-black/45 text-primary-foreground/80 backdrop-blur-sm transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60"
+          className="absolute top-2 right-2 flex size-8 items-center justify-center rounded-full bg-black/45 text-primary-foreground/80 backdrop-blur-sm transition-colors hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-foreground/60"
         >
           <SpeakerIcon muted={muted} />
         </button>
