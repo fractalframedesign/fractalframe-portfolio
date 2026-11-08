@@ -97,7 +97,9 @@ export function SiteHeader({
             className="text-logo size-9 shrink-0"
           />
           <span className="hidden flex-col whitespace-nowrap sm:flex">
-            <span className="text-sm leading-tight">Kiran Pingle</span>
+            <span className="text-sm leading-tight font-bold">
+              Kiran Pingle
+            </span>
             <span className="text-muted-foreground text-xs leading-tight">
               Product Designer
             </span>
