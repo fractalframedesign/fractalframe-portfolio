@@ -1,0 +1,3 @@
+# Video scratch code: the only "!" match is chat copy ("Yes! Where?"), not a non-null assertion
+rules:
+  TS003: ignore

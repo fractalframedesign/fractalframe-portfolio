@@ -1,0 +1,7 @@
+{
+  "name": "rakuten-link-brag",
+  "private": true,
+  "scripts": {
+    "render": "remotion render RakutenLink ../brag-raw.mp4"
+  }
+}

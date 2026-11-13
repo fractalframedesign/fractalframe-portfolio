@@ -1,0 +1,80 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+<h2>Three ways your Rakuten Link page could tell the story</h2>
+<p class="subtitle">Same facts in each; the difference is what a hiring manager sees first. Click the one closest to what you want, then answer in the terminal.</p>
+
+<style>
+  .pg { background:#0b0b0c; color:#a1a1aa; font-family:"Geist", ui-sans-serif, system-ui, sans-serif; font-weight:500; border-radius:12px; border:1px solid #27272a; padding:22px 18px 26px; font-size:11px; line-height:1.5; min-height:520px; }
+  .pg h1 { color:#fafafa; font-size:20px; font-weight:600; letter-spacing:-0.02em; margin:0 0 4px; }
+  .pg .eyebrow { color:#22c55e; font-size:8.5px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
+  .pg p { margin:0 0 8px; }
+  .pg .h { color:#fafafa; font-size:12.5px; margin:16px 0 6px; }
+  .phone { width:74px; height:150px; border:4px solid #27272a; border-radius:16px; background:#f3f3f8; position:relative; overflow:hidden; }
+  .phone::before { content:""; position:absolute; left:6px; right:6px; top:18px; height:6px; border-radius:3px; background:#e8318a; opacity:.85; }
+  .phone::after { content:""; position:absolute; left:6px; right:6px; top:32px; bottom:18px; background:repeating-linear-gradient(#fff 0 12px,#e6e6f2 12px 13px); }
+  .desk { flex:1; height:120px; border:1px solid #27272a; border-radius:8px; background:linear-gradient(90deg,#221f5e 0 12%,#fff 12% 42%,#f3f3f8 42%); }
+  .row { display:flex; gap:10px; align-items:flex-end; }
+  .bar { height:7px; border-radius:4px; background:#27272a; margin:5px 0; }
+  .chips { display:flex; flex-wrap:wrap; gap:4px; }
+  .chips span { border:1px solid #27272a; border-radius:99px; padding:1px 7px; font-size:9px; color:#d4d4d8; }
+  .tok { display:grid; grid-template-columns:repeat(6,1fr); gap:4px; }
+  .tok i { height:18px; border-radius:4px; display:block; }
+  .comp { display:grid; grid-template-columns:repeat(3,1fr); gap:5px; margin-top:6px; }
+  .comp div { border:1px solid #27272a; border-radius:6px; height:34px; background:#141416; }
+  .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:5px; }
+  .steps div { border:1px solid #27272a; border-radius:6px; padding:5px; font-size:9px; color:#d4d4d8; }
+  .cta { color:#22c55e; margin-top:10px; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr 1fr">
+
+  <div class="card" data-choice="demo-first" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="pg">
+      <div class="eyebrow">Featured project</div>
+      <h1>Rakuten Link</h1>
+      <p>Free calls and messages for Rakuten Mobile customers.</p>
+      <div class="row" style="margin:12px 0"><div class="phone"></div><div class="desk"></div></div>
+      <p style="font-size:9.5px">▲ Try it: call someone, send a message, record a voice note</p>
+      <div class="h">What I did</div>
+      <div class="bar" style="width:90%"></div><div class="bar" style="width:70%"></div>
+      <div class="h">How it came together</div>
+      <div class="bar" style="width:85%"></div><div class="bar" style="width:60%"></div>
+    </div></div>
+    <div class="card-body"><h3>A · Let them try it first</h3><p>The working phone and desktop demo is the first thing on the page. The story is short and comes after. It says "I ship real product" by showing it, not telling it.</p></div>
+  </div>
+
+  <div class="card" data-choice="story-first" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="pg">
+      <div class="eyebrow">Featured project</div>
+      <h1>Rakuten Link</h1>
+      <p>From the first idea to launch: free calls for every Rakuten Mobile customer.</p>
+      <div class="steps" style="margin:12px 0"><div>1 · Idea</div><div>2 · Design</div><div>3 · System</div><div>4 · Launch</div></div>
+      <div class="h">The problem</div>
+      <div class="bar" style="width:92%"></div><div class="bar" style="width:66%"></div>
+      <div class="h">Decisions I made</div>
+      <div class="bar" style="width:80%"></div><div class="bar" style="width:74%"></div>
+      <div class="h">What shipped</div>
+      <div class="row"><div class="phone" style="height:100px;width:52px"></div><div class="desk" style="height:80px"></div></div>
+      <div class="cta">Try the interactive demo →</div>
+    </div></div>
+    <div class="card-body"><h3>B · Tell the journey</h3><p>Reads like a case study: the problem, your decisions at each stage, then what shipped. The demo is a link at the end. It shows how you think and lead.</p></div>
+  </div>
+
+  <div class="card" data-choice="system-first" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="pg">
+      <div class="eyebrow">Featured project</div>
+      <h1>Rakuten Link</h1>
+      <p>One design system, two apps: phone and desktop.</p>
+      <div class="h">Colours &amp; type</div>
+      <div class="tok"><i style="background:#e8318a"></i><i style="background:#5a59b4"></i><i style="background:#221f5e"></i><i style="background:#cfe0f7"></i><i style="background:#e6e6f2"></i><i style="background:#f3f3f8"></i></div>
+      <div class="h">Shared components</div>
+      <div class="comp"><div></div><div></div><div></div><div></div><div></div><div></div></div>
+      <div class="chips" style="margin-top:8px"><span>Avatar + Link badge</span><span>Chat bubble</span><span>Call controls</span><span>Keypad</span></div>
+      <div class="h">The same parts on phone and desktop</div>
+      <div class="row"><div class="phone" style="height:100px;width:52px"></div><div class="desk" style="height:80px"></div></div>
+    </div></div>
+    <div class="card-body"><h3>C · Lead with the design system</h3><p>Opens on the system you built: colours, type and the shared components, then shows the same parts working on phone and desktop. It says "I build systems that scale across platforms".</p></div>
+  </div>
+
+</div>

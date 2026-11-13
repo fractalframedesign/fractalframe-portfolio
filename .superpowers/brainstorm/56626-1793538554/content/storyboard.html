@@ -1,0 +1,100 @@
+<style>
+  .sb { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+  .frame { border:1px solid #d4d4d8; border-radius:12px; overflow:hidden; background:#fff; }
+  .stage { aspect-ratio:16/9; background:#b8bfc7; display:flex; align-items:center; justify-content:center; position:relative; }
+  .canvas { position:absolute; inset:8% 9%; background:#fff; border-radius:6px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .w { width:42%; font:10px/1.3 ui-sans-serif,system-ui; color:#18181b; }
+  .slot { background:#fff; border:1px solid #e4e4e7; border-radius:6px; padding:5px 6px; margin-bottom:3px; position:relative; }
+  .card { background:#fff; border-radius:8px; box-shadow:0 6px 16px rgba(0,0,0,.08); padding:6px 7px; }
+  .lbl { font:8px ui-monospace,monospace; letter-spacing:.06em; color:#71717a; text-transform:uppercase; }
+  .big { font-size:13px; font-weight:600; }
+  .tag { position:absolute; right:-44px; top:3px; background:#3b82f6; color:#fff; font-size:7px; padding:1px 4px; border-radius:3px; }
+  .row { display:flex; justify-content:space-between; font-size:8.5px; padding:1px 0; }
+  .muted { color:#a1a1aa; }
+  .blur { filter:blur(2px); opacity:.6; }
+  .bar { height:5px; background:#27272a; border-radius:3px; }
+  .meta { padding:12px 14px; }
+  .meta h3 { margin:0 0 2px; font-size:15px; }
+  .time { font:12px ui-monospace,monospace; color:#71717a; }
+  .meta p { margin:6px 0 0; font-size:13px; color:#3f3f46; }
+  .wall { position:absolute; inset:0; display:grid; grid-template-columns:repeat(5,1fr); gap:5px; padding:6px; }
+  .wall div { background:#fff; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,.06); }
+  .ghost div { background:#f4f6fb; box-shadow:none; border:1px solid #e5e9f2; }
+</style>
+
+<h2>Storyboard: Fintech Components, ~15 second video</h2>
+<p class="subtitle">One widget shows its anatomy, turns into other widgets, then pulls back to reveal the whole library. 16:9, plays silent. Click any frame you want to change and tell me in the chat.</p>
+
+<div class="sb">
+
+  <div class="frame" data-choice="f1" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w card">
+      <div class="lbl">Balance</div>
+      <div class="big">$24,580.20</div>
+      <svg width="100%" height="22" viewBox="0 0 100 22"><polyline fill="none" stroke="#27272a" stroke-width="1.5" points="0,18 15,14 30,16 45,9 60,11 75,5 100,7"/></svg>
+      <div class="row"><span class="muted">This month</span><span>+$1,240</span></div>
+      <div style="font-size:8.5px;margin-top:3px">View all accounts ›</div>
+    </div></div></div>
+    <div class="meta"><span class="time">0.0 – 1.5s</span><h3>1 · Hero</h3><p>One finished widget (Balance) sits alone in the middle. Calm, no movement except a soft settle.</p></div>
+  </div>
+
+  <div class="frame" data-choice="f2" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w">
+      <div class="slot"><div class="lbl">Balance</div><div class="big">$24,580.20</div><span class="tag">Header</span></div>
+      <div class="slot blur"><svg width="100%" height="22" viewBox="0 0 100 22"><polyline fill="none" stroke="#27272a" stroke-width="1.5" points="0,18 15,14 30,16 45,9 60,11 75,5 100,7"/></svg><span class="tag" style="filter:none">Body</span></div>
+      <div class="slot blur"><div class="row"><span>This month</span><span>+$1,240</span></div><span class="tag">Facts</span></div>
+      <div class="slot blur"><div style="font-size:8.5px">View all accounts ›</div><span class="tag">Footer</span></div>
+    </div></div></div>
+    <div class="meta"><span class="time">1.5 – 3.0s</span><h3>2 · Anatomy</h3><p>The widget splits into its parts with small gaps. Blue labels slide in on the right: Header, Body, Facts, Footer. Content blurs as it lets go.</p></div>
+  </div>
+
+  <div class="frame" data-choice="f3" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w">
+      <div class="slot"><div class="lbl">Exchange Rates</div><div class="big">1 USD = 0.92<span class="muted">7</span> EUR</div><span class="tag">Header</span></div>
+      <div class="slot">
+        <div class="row"><span>GBP</span><span>0.78<span class="muted">4</span></span></div>
+        <div class="row"><span>JPY</span><span>151.2<span class="muted">0</span></span></div>
+        <div class="row"><span>AED</span><span>3.67<span class="muted">2</span></span></div>
+        <span class="tag">Body</span></div>
+      <div class="slot"><div class="row"><span class="muted">Updated</span><span>2 min ago</span></div><span class="tag">Facts</span></div>
+    </div></div></div>
+    <div class="meta"><span class="time">3.0 – 8.0s</span><h3>3 · Morph run</h3><p>Inside the same parts, the content becomes a new widget about every second: Transactions → Exchange Rates → Savings Goals → Payment Summary → Spending Categories. Numbers roll digit by digit, bars grow, parts stretch or shrink to fit.</p></div>
+  </div>
+
+  <div class="frame" data-choice="f4" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w card">
+      <div class="lbl">Savings Goals</div>
+      <div class="row" style="margin-top:3px"><span>New laptop</span><span>$1,280 / $2,000</span></div>
+      <div class="bar" style="width:64%"></div>
+      <div class="row" style="margin-top:3px"><span>Trip to Kyoto</span><span>$3,400 / $4,000</span></div>
+      <div class="bar" style="width:85%"></div>
+      <div style="font-size:8.5px;margin-top:5px">Add a goal ›</div>
+    </div></div></div>
+    <div class="meta"><span class="time">8.0 – 9.5s</span><h3>4 · Close up</h3><p>Labels fade away and the parts snap back together into one finished widget, the last one in the run.</p></div>
+  </div>
+
+  <div class="frame" data-choice="f5" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="wall">
+      <div style="height:40%"></div><div style="height:28%"></div><div style="height:46%"></div><div style="height:32%"></div><div style="height:38%"></div>
+      <div style="height:30%"></div><div style="height:44%"></div><div style="height:26%"></div><div style="height:40%"></div><div style="height:30%"></div>
+    </div></div></div>
+    <div class="meta"><span class="time">9.5 – 12.0s</span><h3>5 · Pull back</h3><p>The camera zooms out. That widget becomes one tile in a 5-column wall of the whole library. Columns drift upward at slightly different speeds.</p></div>
+  </div>
+
+  <div class="frame" data-choice="f6" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="wall ghost">
+      <div style="height:40%"></div><div style="height:28%"></div><div style="height:46%"></div><div style="height:32%"></div><div style="height:38%"></div>
+      <div style="height:30%"></div><div style="height:44%"></div><div style="height:26%"></div><div style="height:40%"></div><div style="height:30%"></div>
+    </div></div></div>
+    <div class="meta"><span class="time">12.0 – 14.0s</span><h3>6 · Fade to outlines</h3><p>Content drains out of every tile, leaving pale outlines: the shared structure behind every widget.</p></div>
+  </div>
+
+  <div class="frame" data-choice="f7" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas" style="flex-direction:column;gap:4px">
+      <div style="font:600 16px ui-sans-serif,system-ui">Fintech Components</div>
+      <div class="lbl">57 widgets · one anatomy</div>
+    </div></div>
+    <div class="meta"><span class="time">14.0 – 15.0s</span><h3>7 · End card <span class="muted" style="font-size:12px">(my guess)</span></h3><p>Title and a short line. Name, logo or link here are your call.</p></div>
+  </div>
+
+</div>

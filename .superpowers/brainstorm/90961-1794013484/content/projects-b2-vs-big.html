@@ -1,0 +1,57 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+<h2>B2 next to a big-card option</h2>
+<p class="subtitle">Left: B2, which you liked, with the text first and the image on the right. Right: one big image card per project, with the text underneath. Pick one.</p>
+
+<style>
+  .pg { background:#0b0b0c; color:#a1a1aa; font-family:"Geist", ui-sans-serif, system-ui, sans-serif; font-weight:500; border-radius:12px; border:1px solid #27272a; padding:28px 0 34px; font-size:12px; line-height:1.5; overflow:hidden; }
+  .pg .col { width:62%; margin:0 auto; }
+  .pg .wide { width:84%; margin:0 auto; }
+  .pg h1 { color:#fafafa; font-size:24px; font-weight:600; letter-spacing:-0.02em; margin:0 0 6px; }
+  .pg .chips { display:flex; gap:6px; margin:14px 0 22px; flex-wrap:wrap; }
+  .pg .chips span { border:1px solid #27272a; border-radius:99px; padding:2px 9px; font-size:10px; color:#d4d4d8; }
+  .pg .chips span.on { background:#27272a; color:#fafafa; }
+  .img { border-radius:10px; border:1px solid #1f1f22; background:linear-gradient(140deg,#3f3f46,#18181b 60%); aspect-ratio:16/10; }
+  .img.b { background:linear-gradient(140deg,#1e3a5f,#0b0b0c 70%); }
+  .img.c { background:linear-gradient(140deg,#365314,#0b0b0c 70%); }
+  .img.d { background:linear-gradient(140deg,#4c1d95,#0b0b0c 70%); }
+  .tag { color:#22c55e; font-size:9px; letter-spacing:.12em; text-transform:uppercase; }
+  .t { color:#fafafa; font-size:17px; margin-top:4px; letter-spacing:-0.01em; }
+  .d { color:#a1a1aa; font-size:11.5px; margin-top:4px; }
+  .more { color:#22c55e; font-size:11px; margin-top:8px; }
+  .row { display:grid; grid-template-columns:1fr 1.35fr; gap:22px; align-items:center; padding:16px 0; border-top:1px solid #1f1f22; }
+  .row:last-child { border-bottom:1px solid #1f1f22; }
+  .row .img { order:2; }
+  .big { margin-bottom:26px; }
+  .big .img { aspect-ratio:16/8; border-radius:14px; }
+  .big .txt { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; margin-top:12px; }
+  .big .t { font-size:20px; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr">
+
+  <div class="card" data-choice="b2" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="pg">
+      <div class="col"><h1>Projects &amp; experiments</h1>A selection of tools, products and experiments.<div class="chips"><span class="on">All</span><span>Featured</span><span>Open Source</span><span>Personal</span><span>Upcoming</span></div></div>
+      <div class="wide">
+        <div class="row"><div class="img"></div><div><div class="tag">Featured</div><div class="t">Echo UI v3</div><div class="d">Component library and design system for fast, consistent product teams.</div><div class="more">View project →</div></div></div>
+        <div class="row"><div class="img b"></div><div><div class="tag">Featured</div><div class="t">JustOS</div><div class="d">Productivity OS for creators, built around one calm workspace.</div><div class="more">View project →</div></div></div>
+        <div class="row"><div class="img c"></div><div><div class="tag">Upcoming</div><div class="t">Fintech Components</div><div class="d">97 interactive banking widgets with light and dark themes.</div><div class="more">View project →</div></div></div>
+      </div>
+    </div></div>
+    <div class="card-body"><h3>B2 · Text first, image on the right</h3><p>Reads like a list of case studies. More projects fit on screen.</p></div>
+  </div>
+
+  <div class="card" data-choice="big-card" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="pg">
+      <div class="col"><h1>Projects &amp; experiments</h1>A selection of tools, products and experiments.<div class="chips"><span class="on">All</span><span>Featured</span><span>Open Source</span><span>Personal</span><span>Upcoming</span></div></div>
+      <div class="wide">
+        <div class="big"><div class="img"></div><div class="txt"><div><div class="tag">Featured</div><div class="t">Echo UI v3</div><div class="d">Component library and design system for fast, consistent product teams.</div></div><div class="more">View project →</div></div></div>
+        <div class="big"><div class="img b"></div><div class="txt"><div><div class="tag">Featured</div><div class="t">JustOS</div><div class="d">Productivity OS for creators, built around one calm workspace.</div></div><div class="more">View project →</div></div></div>
+      </div>
+    </div></div>
+    <div class="card-body"><h3>B3 · Big card, text below</h3><p>Each project gets a large, full-width image, with the category, name and description underneath and "View project →" on the right. It's the most visual option and lets your work speak, but it means more scrolling.</p></div>
+  </div>
+
+</div>

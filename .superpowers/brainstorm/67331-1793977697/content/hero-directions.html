@@ -1,0 +1,70 @@
+<h2>Which top of the home page feels more like you?</h2>
+<p class="subtitle">Both use your real roles and projects. The wording is my draft, so judge the layout and feel, not the exact sentences.</p>
+
+<style>
+  .k { background:#0b0b0c; color:#a1a1aa; font-family: ui-sans-serif, system-ui, -apple-system, "Geist", sans-serif; font-size:13px; line-height:1.6; padding:28px 22px; border-radius:10px; }
+  .k b { color:#fafafa; font-weight:500; }
+  .k a { color:#fafafa; text-decoration:underline; text-underline-offset:3px; text-decoration-color:#52525b; }
+  .k .col { max-width:420px; margin:0 auto; }
+  .k .me { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .k .av { width:38px; height:38px; border-radius:9px; background:linear-gradient(135deg,#3f3f46,#18181b); }
+  .k .name { color:#fafafa; font-size:13px; line-height:1.3; }
+  .k .role { font-size:12px; }
+  .k p { margin:0 0 11px; }
+  .k .script { font-family:"Segoe Script","Bradley Hand","Snell Roundhand",cursive; color:#e4e4e7; font-size:22px; margin:26px 0 10px; }
+  .k .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:0 -14px; }
+  .k .card { background:#161618; border-radius:9px; height:88px; display:flex; align-items:center; justify-content:center; }
+  .k .mini { width:70%; height:52%; border:1px solid #27272a; border-radius:6px; background:#0f0f10; display:flex; align-items:end; gap:4px; padding:6px; }
+  .k .mini i { flex:1; background:#d4d4d8; border-radius:2px; }
+  .k .cap { display:flex; justify-content:space-between; font-size:11px; margin-top:6px; color:#71717a; }
+  .k .cap span:first-child { color:#e4e4e7; }
+  .k h1 { color:#fafafa; font-size:30px; line-height:1.1; font-weight:500; letter-spacing:-0.02em; margin:6px 0 14px; }
+  .k .btns { display:flex; gap:8px; margin:16px 0 4px; }
+  .k .btn { background:#fafafa; color:#0b0b0c; border-radius:7px; padding:6px 11px; font-size:12px; }
+  .k .btn.o { background:transparent; color:#fafafa; border:1px solid #3f3f46; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr">
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="k"><div class="col">
+        <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Product Designer &amp; Design Engineer</div></div></div>
+        <p>Based in <b>Tokyo</b>, leading product design at <b>Rakuten</b>, working across <b>design systems</b>, <b>frontend code</b> and AI to make complex products feel clear.</p>
+        <p>Before that I designed for hundreds of millions of people at <b>Reliance Jio</b>, which taught me that good design depends on strong systems.</p>
+        <p>Right now I'm building <a>Fintech Components</a>, a set of interactive dashboard widgets with light and dark themes.</p>
+        <p>I write about design on <a>Articles</a> and can be reached by <a>email</a>.</p>
+        <div class="script">Highlights</div>
+        <div class="cards">
+          <div><div class="card"><div class="mini"><i style="height:40%"></i><i style="height:80%"></i><i style="height:60%"></i></div></div><div class="cap"><span>Fintech</span><span>2026</span></div></div>
+          <div><div class="card"><div class="mini" style="align-items:center"><i style="height:4px"></i></div></div><div class="cap"><span>Smart home</span><span>2026</span></div></div>
+          <div><div class="card"><div class="mini"><i style="height:70%"></i><i style="height:30%"></i></div></div><div class="cap"><span>Finance</span><span>2026</span></div></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="card-body">
+      <h3>A · Personal intro (like the reference)</h3>
+      <p>Photo, name and role in one small row, then 3–4 short sentences in your own voice with key words highlighted. No big headline and no buttons: the links in the text and the highlight cards below do that job.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="k"><div class="col">
+        <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Product Designer &amp; Design Engineer</div></div></div>
+        <h1>I lead product design and build the systems that make complex products feel clear.</h1>
+        <p>Product Design Director at <b>Rakuten</b>, previously <b>Reliance Jio</b>. Working across <b>design systems</b>, <b>frontend code</b> and AI.</p>
+        <div class="btns"><span class="btn">Explore projects →</span><span class="btn o">About me</span></div>
+        <div class="script">Highlights</div>
+        <div class="cards">
+          <div><div class="card"><div class="mini"><i style="height:40%"></i><i style="height:80%"></i><i style="height:60%"></i></div></div><div class="cap"><span>Fintech</span><span>2026</span></div></div>
+          <div><div class="card"><div class="mini" style="align-items:center"><i style="height:4px"></i></div></div><div class="cap"><span>Smart home</span><span>2026</span></div></div>
+          <div><div class="card"><div class="mini"><i style="height:70%"></i><i style="height:30%"></i></div></div><div class="cap"><span>Finance</span><span>2026</span></div></div>
+        </div>
+      </div></div>
+    </div>
+    <div class="card-body">
+      <h3>B · Keep your headline, calmer layout</h3>
+      <p>Same narrow, left-aligned column and small name row, but your current one-line headline stays as the big statement, with the two buttons. The highlight cards follow straight after.</p>
+    </div>
+  </div>
+</div>

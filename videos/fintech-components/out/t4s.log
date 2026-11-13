@@ -1,0 +1,16 @@
+
+> fintech-components-video@1.0.0 test
+> vitest run
+
+
+ RUN  v3.2.7 /Users/kiran/Documents/My-Projects/PORTFOLIO/fractalframe-portfolio/videos/fintech-components
+
+ ✓ src/scale.test.ts (1 test) 1ms
+ ✓ src/timeline.test.ts (9 tests) 5ms
+ ✓ src/anatomy/layout.test.ts (5 tests) 2ms
+
+ Test Files  3 passed (3)
+      Tests  15 passed (15)
+   Start at  23:09:55
+   Duration  213ms (transform 71ms, setup 0ms, collect 93ms, tests 8ms, environment 0ms, prepare 103ms)
+

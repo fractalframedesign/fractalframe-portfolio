@@ -1,0 +1,70 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+<h2>Four more hero options</h2>
+<p class="subtitle">Built from your two versions, mixed and tightened. No long dashes. Pick any you like. You can pick more than one and I'll combine them.</p>
+
+<style>
+  .site { background:#0b0b0c; color:#a1a1aa; font-family:"Geist", ui-sans-serif, system-ui, sans-serif; font-weight:500; border-radius:12px; overflow:hidden; border:1px solid #27272a; padding:34px 22px 38px; min-height:420px; }
+  .site .pill { display:inline-flex; gap:7px; align-items:center; font-size:11px; color:#fafafa; border:1px solid #27272a; border-radius:99px; padding:3px 10px; }
+  .site .pill .dot { width:6px; height:6px; border-radius:50%; background:#22c55e; }
+  .site .pill .m { color:#71717a; }
+  .site .hand { font-family:"Caveat", cursive; color:#fafafa; font-size:26px; line-height:1; margin:20px 0 8px; }
+  .site h1 { color:#fafafa; font-size:29px; line-height:1.1; font-weight:600; letter-spacing:-0.02em; margin:0; text-wrap:balance; }
+  .site h1 .g { color:#8b8b94; }
+  .site p { font-size:14px; line-height:1.6; margin:14px 0 0; text-wrap:pretty; }
+  .site p b { color:#fafafa; font-weight:500; }
+  .site .links { margin-top:18px; font-size:14px; }
+  .site .links a { color:#fafafa; text-decoration:underline dotted #52525b; text-underline-offset:4px; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr" data-multiselect>
+
+  <div class="card" data-choice="o1" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <span class="pill"><span class="dot"></span>Tokyo <span class="m">· Local time</span> 12:19 AM</span>
+      <div class="hand">Hi, I'm Kiran</div>
+      <h1>I design experiences <span class="g">and engineer the systems behind them.</span></h1>
+      <p>I work at the intersection of design, technology, and product strategy, turning complexity into clarity and ideas into cohesive digital experiences.</p>
+      <p>Product Design Director at <b>Rakuten</b>. Previously <b>Reliance Jio</b>.</p>
+      <div class="links"><a>Explore my work →</a></div>
+    </div></div>
+    <div class="card-body"><h3>1 · Version 2's headline, Version 1's heart</h3><p>The short headline, then your "intersection of design, technology, and product strategy" sentence with the dash swapped for a comma.</p></div>
+  </div>
+
+  <div class="card" data-choice="o2" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <span class="pill"><span class="dot"></span>Tokyo <span class="m">· Local time</span> 12:19 AM</span>
+      <div class="hand">Hi, I'm Kiran</div>
+      <h1>I make complex products <span class="g">feel effortless.</span></h1>
+      <p>Product strategy, interaction design, design systems, and the frontend code that ships them, all under one roof.</p>
+      <p>Product Design Director at <b>Rakuten</b>. Previously <b>Reliance Jio</b>.</p>
+      <div class="links"><a>Explore my work →</a></div>
+    </div></div>
+    <div class="card-body"><h3>2 · Lead with the result</h3><p>The headline is what people get, not what you are. Your range comes straight after as a plain list. It's the most direct one.</p></div>
+  </div>
+
+  <div class="card" data-choice="o3" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <span class="pill"><span class="dot"></span>Tokyo <span class="m">· Local time</span> 12:19 AM</span>
+      <div class="hand">Hi, I'm Kiran</div>
+      <h1>I shape the products, <span class="g">the systems, and the thinking behind them.</span></h1>
+      <p>As Product Design Director at <b>Rakuten</b>, I turn complexity into clarity, and ideas into digital experiences that hold together as they grow.</p>
+      <p>Before that, <b>Reliance Jio</b>.</p>
+      <div class="links"><a>Explore my work →</a></div>
+    </div></div>
+    <div class="card-body"><h3>3 · Closest to Version 1, tightened</h3><p>Keeps your "shape" and "thinking behind" words, with one fewer "design" in the headline so it breathes. "Hold together as they grow" replaces "scale".</p></div>
+  </div>
+
+  <div class="card" data-choice="o4" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <span class="pill"><span class="dot"></span>Tokyo <span class="m">· Local time</span> 12:19 AM</span>
+      <div class="hand">Hi, I'm Kiran</div>
+      <h1>Design that scales, <span class="g">built to be clear.</span></h1>
+      <p><b>Rakuten</b> Product Design Director, working across strategy, interaction, design systems, and frontend. Previously <b>Reliance Jio</b>.</p>
+      <div class="links"><a>Explore my work →</a></div>
+    </div></div>
+    <div class="card-body"><h3>4 · Shortest</h3><p>A very short headline and one line below it. It leaves the most white space and lets the "What I do" section do the explaining.</p></div>
+  </div>
+
+</div>

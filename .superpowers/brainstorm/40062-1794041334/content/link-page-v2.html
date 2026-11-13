@@ -1,0 +1,61 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+<h2>New order: cover, what I did, try it, the system</h2>
+<p class="subtitle">The page top to bottom. Tell me in the terminal what's wrong or missing.</p>
+
+<style>
+  .pg { max-width:560px; margin:0 auto; background:#0b0b0c; color:#a1a1aa; font-family:"Geist", ui-sans-serif, system-ui, sans-serif; font-weight:500; border-radius:12px; border:1px solid #27272a; padding:26px 22px 30px; font-size:12px; line-height:1.55; }
+  .pg h1 { color:#fafafa; font-size:24px; font-weight:600; letter-spacing:-0.02em; margin:0 0 4px; }
+  .pg .eyebrow { color:#22c55e; font-size:9px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
+  .pg p { margin:0 0 8px; }
+  .pg .h { color:#fafafa; font-size:14px; margin:22px 0 8px; display:flex; gap:8px; align-items:center; }
+  .pg .h b { font-size:9px; color:#0b0b0c; background:#e4e4e7; border-radius:99px; width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center; }
+  .cover { margin:14px -6px 6px; height:190px; border-radius:12px; border:1px solid #27272a; background:linear-gradient(135deg,#fbdbe9,#f3f3f8 55%,#cfe0f7); display:flex; align-items:center; justify-content:center; gap:14px; }
+  .cover .mini { width:62px; height:124px; border:4px solid #221f5e; border-radius:14px; background:#fff; position:relative; overflow:hidden; }
+  .cover .mini::before { content:""; position:absolute; left:6px; right:6px; top:14px; height:5px; border-radius:3px; background:#e8318a; }
+  .cover .mini::after { content:""; position:absolute; left:6px; right:6px; top:26px; bottom:12px; background:repeating-linear-gradient(#fff 0 10px,#e6e6f2 10px 11px); }
+  .cover .mini.dark { background:#23205f; }
+  .cover .mini.dark::after { background:none; }
+  .cover .logo { color:#e8318a; font-size:22px; font-weight:700; letter-spacing:-0.02em; }
+  .phone { width:96px; height:190px; border:5px solid #27272a; border-radius:20px; background:#f3f3f8; position:relative; overflow:hidden; flex:none; }
+  .phone::before { content:""; position:absolute; left:8px; right:8px; top:22px; height:7px; border-radius:3px; background:#e8318a; }
+  .phone::after { content:""; position:absolute; left:8px; right:8px; top:38px; bottom:22px; background:repeating-linear-gradient(#fff 0 14px,#e6e6f2 14px 15px); }
+  .desk { flex:1; height:150px; border:1px solid #27272a; border-radius:10px; background:linear-gradient(90deg,#221f5e 0 10%,#fff 10% 40%,#f3f3f8 40%); }
+  .row { display:flex; gap:12px; align-items:flex-end; }
+  .tok { display:grid; grid-template-columns:repeat(6,1fr); gap:6px; }
+  .tok i { height:26px; border-radius:6px; display:block; }
+  .tok span { font-size:8.5px; color:#71717a; display:block; margin-top:3px; }
+  .comp { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
+  .comp div { border:1px solid #27272a; border-radius:8px; height:54px; background:#141416; display:flex; align-items:flex-end; padding:5px; font-size:8.5px; color:#d4d4d8; }
+  .bar { height:8px; border-radius:4px; background:#27272a; margin:6px 0; }
+  .note { font-size:9.5px; color:#71717a; }
+</style>
+
+<div class="pg">
+  <div class="eyebrow">Featured project</div>
+  <h1>Rakuten Link</h1>
+  <p>Free calls and messages for Rakuten Mobile customers, on phone and desktop.</p>
+
+  <div class="cover"><div class="mini"></div><span class="logo">Rakuten Link</span><div class="mini dark"></div></div>
+  <p class="note">Cover: the Link logo with two screens (contacts and a call), made from the demo.</p>
+
+  <div class="h"><b>1</b>What I did</div>
+  <div class="bar" style="width:92%"></div><div class="bar" style="width:78%"></div><div class="bar" style="width:60%"></div>
+  <p class="note">Your role and the decisions you made, from the first ideas to launch.</p>
+
+  <div class="h"><b>2</b>Try it</div>
+  <div class="row"><div class="phone"></div><div class="desk"></div></div>
+  <p class="note" style="margin-top:6px">Call someone, send a message, record a voice note. Made-up contacts; nothing is really sent.</p>
+
+  <div class="h"><b>3</b>One system, two apps</div>
+  <div class="tok">
+    <div><i style="background:#e8318a"></i><span>Link pink</span></div>
+    <div><i style="background:#5a59b4"></i><span>Action</span></div>
+    <div><i style="background:#221f5e"></i><span>Ink</span></div>
+    <div><i style="background:#cfe0f7"></i><span>My bubble</span></div>
+    <div><i style="background:#e6e6f2"></i><span>Surface</span></div>
+    <div><i style="background:#f3f3f8"></i><span>Canvas</span></div>
+  </div>
+  <div class="comp" style="margin-top:10px"><div>Avatar + badge</div><div>Chat bubble</div><div>Call controls</div><div>Keypad</div></div>
+</div>

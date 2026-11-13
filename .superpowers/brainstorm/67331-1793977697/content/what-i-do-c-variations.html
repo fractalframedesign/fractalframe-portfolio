@@ -1,0 +1,94 @@
+<h2>Illustrated tiles: four ways to lay them out</h2>
+<p class="subtitle">Same four drawings in each. What changes is the grid, the tile size and where the words sit. Pick any you like. You can pick more than one.</p>
+
+<style>
+  .k { background:#0b0b0c; color:#a1a1aa; font-family: ui-sans-serif, system-ui, -apple-system, "Geist", sans-serif; font-size:12px; line-height:1.5; padding:26px 22px; border-radius:10px; overflow:hidden; }
+  .k .col { max-width:400px; margin:0 auto; }
+  .k .script { font-family:"Segoe Script","Bradley Hand","Snell Roundhand",cursive; color:#e4e4e7; font-size:21px; margin:0 0 4px; }
+  .k .intro { margin:0 0 16px; }
+  .k .t { color:#fafafa; font-size:12px; }
+  .k .d { color:#71717a; font-size:11px; }
+  .k .tile { background:#161618; border-radius:10px; display:flex; align-items:center; justify-content:center; position:relative; }
+  .k .tile.in { flex-direction:column; align-items:stretch; justify-content:space-between; padding:12px; }
+  .k .tile.in .art { flex:1; display:flex; align-items:center; justify-content:center; }
+  /* drawings */
+  .k .flow { display:flex; align-items:center; gap:5px; }
+  .k .flow i { width:20px; height:28px; border:1px solid #3f3f46; border-radius:4px; background:#0f0f10; }
+  .k .flow i.on { border-color:#d4d4d8; background:#1c1c1f; }
+  .k .flow s { width:9px; height:1px; background:#52525b; }
+  .k .sw { display:grid; grid-template-columns:repeat(3,15px); gap:5px; }
+  .k .sw i { height:15px; border-radius:4px; }
+  .k .avs { display:flex; padding-left:6px; }
+  .k .avs i { width:22px; height:22px; border-radius:50%; border:2px solid #161618; margin-left:-6px; }
+  .k .code { font-family:ui-monospace,monospace; font-size:9.5px; color:#a1a1aa; line-height:1.55; }
+  .k .code em { color:#fafafa; font-style:normal; }
+  .k .cap { margin-top:7px; }
+  .k .tags { display:flex; flex-wrap:wrap; gap:4px; margin-top:6px; }
+  .k .tags span { font-size:9.5px; border:1px solid #27272a; border-radius:99px; padding:1px 7px; color:#a1a1aa; }
+  .k .edge { mask-image:linear-gradient(to right, #000 78%, transparent); -webkit-mask-image:linear-gradient(to right, #000 78%, transparent); }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr" data-multiselect>
+
+  <!-- C-a: row of 4, wider than text, caption below -->
+  <div class="card" data-choice="ca" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="script">What I do</div>
+      <p class="intro">Design, systems, and code for products where clarity is non-negotiable.</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:0 -58px">
+        <div><div class="tile" style="height:86px"><div class="flow"><i></i><s></s><i class="on"></i></div></div><div class="cap"><div class="t">Product design</div><div class="d">Research to interface</div></div></div>
+        <div><div class="tile" style="height:86px"><div class="sw"><i style="background:#fafafa"></i><i style="background:#a1a1aa"></i><i style="background:#52525b"></i><i style="background:#3f3f46"></i><i style="background:#27272a"></i><i style="background:#4ade80"></i></div></div><div class="cap"><div class="t">Design systems</div><div class="d">Tokens, components</div></div></div>
+        <div><div class="tile" style="height:86px"><div class="avs"><i style="background:#71717a"></i><i style="background:#a1a1aa"></i><i style="background:#d4d4d8"></i></div></div><div class="cap"><div class="t">Leadership</div><div class="d">Teams, partners</div></div></div>
+        <div><div class="tile" style="height:86px"><div class="code">&lt;<em>Card</em><br>&nbsp;tone="calm" /&gt;</div></div><div class="cap"><div class="t">Frontend</div><div class="d">React, Next.js</div></div></div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>C-a · One row of four, wider than the text</h3><p>Closest to the reference. The tiles are short and wide, with a title and a two-word line under each. Your tags go away.</p></div>
+  </div>
+
+  <!-- C-b: 2x2 inside column, words inside tile -->
+  <div class="card" data-choice="cb" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="script">What I do</div>
+      <p class="intro">Design, systems, and code for products where clarity is non-negotiable.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div class="tile in" style="height:132px"><div class="art"><div class="flow"><i></i><s></s><i></i><s></s><i class="on"></i></div></div><div><div class="t">Product design</div><div class="d">From research and flows to an interface people get at first glance.</div></div></div>
+        <div class="tile in" style="height:132px"><div class="art"><div class="sw"><i style="background:#fafafa"></i><i style="background:#a1a1aa"></i><i style="background:#52525b"></i><i style="background:#3f3f46"></i><i style="background:#27272a"></i><i style="background:#4ade80"></i></div></div><div><div class="t">Design systems</div><div class="d">Tokens and components that scale.</div></div></div>
+        <div class="tile in" style="height:132px"><div class="art"><div class="avs"><i style="background:#71717a"></i><i style="background:#a1a1aa"></i><i style="background:#d4d4d8"></i><i style="background:#52525b"></i></div></div><div><div class="t">Design leadership</div><div class="d">Teams and partners aligned.</div></div></div>
+        <div class="tile in" style="height:132px"><div class="art"><div class="code">&lt;<em>Card</em><br>&nbsp;&nbsp;tone="calm"<br>/&gt;</div></div><div><div class="t">Frontend engineering</div><div class="d">I ship what I design.</div></div></div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>C-b · 2 × 2 grid, words inside the tile</h3><p>The tiles are taller and stay inside the text width, with a drawing on top and a title plus one sentence at the bottom of each tile. It's the most readable.</p></div>
+  </div>
+
+  <!-- C-c: bento, product design big -->
+  <div class="card" data-choice="cc" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="script">What I do</div>
+      <p class="intro">Design, systems, and code for products where clarity is non-negotiable.</p>
+      <div style="display:grid;grid-template-columns:1.4fr 1fr;grid-template-rows:84px 84px;gap:8px">
+        <div class="tile in" style="grid-row:span 2"><div class="art"><div class="flow"><i></i><s></s><i></i><s></s><i></i><s></s><i class="on"></i></div></div><div><div class="t">Product design</div><div class="d">From research and flows to an interface people understand at first glance.</div><div class="tags"><span>Interaction</span><span>IA</span><span>Prototyping</span></div></div></div>
+        <div class="tile in"><div class="art"><div class="sw" style="grid-template-columns:repeat(6,11px);gap:3px"><i style="background:#fafafa;height:11px"></i><i style="background:#a1a1aa;height:11px"></i><i style="background:#52525b;height:11px"></i><i style="background:#3f3f46;height:11px"></i><i style="background:#27272a;height:11px"></i><i style="background:#4ade80;height:11px"></i></div></div><div class="t">Design systems</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <div class="tile in"><div class="art"><div class="avs"><i style="background:#71717a;width:16px;height:16px"></i><i style="background:#a1a1aa;width:16px;height:16px"></i><i style="background:#d4d4d8;width:16px;height:16px"></i></div></div><div class="t" style="font-size:11px">Leading</div></div>
+          <div class="tile in"><div class="art"><div class="code" style="font-size:8px">&lt;<em>Card</em> /&gt;</div></div><div class="t" style="font-size:11px">Frontend</div></div>
+        </div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>C-c · Bento, product design leads</h3><p>One big tile for your main craft, with a sentence and tags, and three smaller tiles around it. It shows what matters most at a glance.</p></div>
+  </div>
+
+  <!-- C-d: edge-to-edge strip that runs off the right -->
+  <div class="card" data-choice="cd" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="script">What I do</div>
+      <p class="intro">Design, systems, and code for products where clarity is non-negotiable.</p>
+      <div class="edge" style="display:flex;gap:8px;margin-right:-120px">
+        <div style="flex:0 0 150px"><div class="tile" style="height:110px"><div class="flow"><i></i><s></s><i></i><s></s><i class="on"></i></div></div><div class="cap"><div class="t">Product design</div><div class="tags"><span>Interaction</span><span>Prototyping</span></div></div></div>
+        <div style="flex:0 0 150px"><div class="tile" style="height:110px"><div class="sw"><i style="background:#fafafa"></i><i style="background:#a1a1aa"></i><i style="background:#52525b"></i><i style="background:#3f3f46"></i><i style="background:#27272a"></i><i style="background:#4ade80"></i></div></div><div class="cap"><div class="t">Design systems</div><div class="tags"><span>Figma</span><span>Tailwind</span></div></div></div>
+        <div style="flex:0 0 150px"><div class="tile" style="height:110px"><div class="avs"><i style="background:#71717a"></i><i style="background:#a1a1aa"></i><i style="background:#d4d4d8"></i></div></div><div class="cap"><div class="t">Leadership</div><div class="tags"><span>Teams</span></div></div></div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>C-d · A strip you can swipe</h3><p>Bigger tiles in one line that starts at the text and runs off the right edge, so you swipe or scroll it sideways. Short tags stay under each tile.</p></div>
+  </div>
+
+</div>
