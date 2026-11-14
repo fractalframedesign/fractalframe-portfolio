@@ -49,3 +49,6 @@ next-env.d.ts
 
 # reference repos and notes for AI and learning, never committed
 /references/
+
+# Claude Code worktrees
+.claude/worktrees/
