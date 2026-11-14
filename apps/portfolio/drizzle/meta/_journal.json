@@ -29,6 +29,13 @@
       "when": 1793459322422,
       "tag": "0003_guest_access_default_paused",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794662121548,
+      "tag": "0004_sign_in_codes",
+      "breakpoints": true
     }
   ]
 }

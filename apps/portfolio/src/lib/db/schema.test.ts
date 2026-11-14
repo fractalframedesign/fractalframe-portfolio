@@ -31,3 +31,17 @@ test('grant is unique per guest and product', async () => {
     db.insert(grants).values({ guestId: guest.id, productSlug: 'demo' }),
   ).rejects.toThrow();
 });
+
+test('guests carry an optional hashed sign-in code', async () => {
+  const db = await createTestDb();
+  const [row] = await db
+    .insert(guests)
+    .values({ name: 'Ada', passwordLookup: 'k1' })
+    .returning();
+  expect(row).toMatchObject({
+    signInCodeHash: null,
+    signInCodeExpiresAt: null,
+    signInCodeAttempts: 0,
+    signInCodeSentAt: null,
+  });
+});

@@ -48,6 +48,11 @@ export const guests = pgTable('guests', {
   accessExpiresAt: timestamptz('access_expires_at'),
   lastVisitAt: timestamptz('last_visit_at'),
   visitCount: integer('visit_count').notNull().default(0),
+  // The current sign-in code, hashed; cleared once used, replaced when a new one is sent
+  signInCodeHash: text('sign_in_code_hash'),
+  signInCodeExpiresAt: timestamptz('sign_in_code_expires_at'),
+  signInCodeAttempts: integer('sign_in_code_attempts').notNull().default(0),
+  signInCodeSentAt: timestamptz('sign_in_code_sent_at'),
 });
 
 export const grants = pgTable(
