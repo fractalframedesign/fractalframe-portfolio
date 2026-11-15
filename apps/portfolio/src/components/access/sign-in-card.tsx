@@ -12,6 +12,13 @@ import {
 import RequestAccessForm from '@/components/access/request-access-form';
 import UnlockForm from '@/components/access/unlock-form';
 import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import {
   InputOTP,
@@ -20,7 +27,10 @@ import {
 } from '@/components/ui/input-otp';
 import { Label } from '@/components/ui/label';
 import { startSignIn, verifySignIn } from '@/lib/access/actions/sign-in';
-import type { SignInState } from '@/lib/access/actions/sign-in-messages';
+import {
+  MESSAGES,
+  type SignInState,
+} from '@/lib/access/actions/sign-in-messages';
 
 const CODE_LENGTH = 6;
 
@@ -28,6 +38,13 @@ type Intent = 'send-code' | 'verify' | 'change-email';
 
 type SignInCardProps = {
   project: { slug: string; name: string };
+  /** Heading of the log-in steps; asking for access has its own */
+  title: string;
+  /** The page decides the heading's level and size */
+  heading?: { as: 'h1' | 'h2'; className: string };
+  /** Shown above the heading where the page has no lock of its own */
+  icon?: React.ReactNode;
+  className?: string;
   /** Where to go once signed in; the server keeps it inside the project */
   next: string;
   /** From the link in the code email: the code is already on its way */
@@ -37,16 +54,22 @@ type SignInCardProps = {
 };
 
 /**
- * Sign-in for a locked project: email, then the 6-digit code sent to it.
- * An email that isn't a guest's gets the access request form instead.
+ * The way into a locked project: guests log in with their email and the
+ * 6-digit code sent to it; everyone else asks for access, from the link or
+ * after typing an email that isn't a guest's.
  */
 export default function SignInCard({
   project,
+  title,
+  heading = { as: 'h2', className: 'text-base font-semibold' },
+  icon,
+  className,
   next,
   initialEmail,
   autoFocus = true,
 }: SignInCardProps) {
   const [usePassword, setUsePassword] = useState(false);
+  const [requesting, setRequesting] = useState(false);
   const [code, setCode] = useState('');
   const [resendIn, setResendIn] = useState(0);
   // After the first answer the card has the visitor's attention, so each new
@@ -106,9 +129,32 @@ export default function SignInCard({
     </Button>
   );
 
-  if (usePassword) {
+  // The emergency password is only offered when a code can't reach the guest
+  const codesUnavailable =
+    state.error === MESSAGES.outage || state.error === MESSAGES.emailFailed;
+  const Heading = heading.as;
+
+  function frame(
+    content: React.ReactNode,
+    { title: stepTitle = title, description }: FrameText = {},
+  ) {
     return (
-      <div className="space-y-4">
+      <Card className={className}>
+        <CardHeader>
+          {icon}
+          <CardTitle>
+            <Heading className={heading.className}>{stepTitle}</Heading>
+          </CardTitle>
+          {description && <CardDescription>{description}</CardDescription>}
+        </CardHeader>
+        <CardContent className="space-y-4">{content}</CardContent>
+      </Card>
+    );
+  }
+
+  if (usePassword) {
+    return frame(
+      <>
         <UnlockForm project={project.slug} next={next} />
         <Button
           type="button"
@@ -118,26 +164,47 @@ export default function SignInCard({
         >
           Back
         </Button>
-      </div>
+      </>,
+    );
+  }
+
+  if (requesting) {
+    return frame(
+      <>
+        <p className="text-sm">
+          Tell me who you are and I&apos;ll get back to you.
+        </p>
+        <RequestAccessForm project={project} defaultEmail={state.email} />
+        <Button
+          type="button"
+          variant="link"
+          className="h-auto p-0"
+          onClick={() => setRequesting(false)}
+        >
+          Back to log in
+        </Button>
+      </>,
+      { title: 'Request access' },
     );
   }
 
   if (state.step === 'request') {
-    return (
-      <div className="space-y-4">
+    return frame(
+      <>
         <p className="text-sm">
           <strong className="break-all">{state.email}</strong> isn&apos;t on my
           guest list yet. Tell me who you are and I&apos;ll get back to you.
         </p>
         <RequestAccessForm project={project} defaultEmail={state.email} />
         {differentEmail}
-      </div>
+      </>,
+      { title: 'Request access' },
     );
   }
 
   if (state.step === 'code') {
-    return (
-      <div className="space-y-4">
+    return frame(
+      <>
         <form ref={codeForm} action={dispatch} className="space-y-4">
           <input type="hidden" name="intent" value="verify" />
           <input type="hidden" name="project" value={project.slug} />
@@ -189,7 +256,7 @@ export default function SignInCard({
           )}
 
           <Button type="submit" className="w-full" disabled={pending}>
-            {pending ? 'Checking…' : 'Sign in'}
+            {pending ? 'Checking…' : 'Log in'}
           </Button>
         </form>
 
@@ -205,12 +272,12 @@ export default function SignInCard({
           </Button>
           {differentEmail}
         </div>
-      </div>
+      </>,
     );
   }
 
-  return (
-    <div className="space-y-4">
+  return frame(
+    <>
       <form action={dispatch} className="space-y-4">
         <input type="hidden" name="intent" value="send-code" />
         <input type="hidden" name="project" value={project.slug} />
@@ -223,6 +290,7 @@ export default function SignInCard({
             name="email"
             type="email"
             autoComplete="email"
+            placeholder="Enter your email"
             defaultValue={state.email}
             autoFocus={focus}
             required
@@ -245,14 +313,29 @@ export default function SignInCard({
         </Button>
       </form>
 
-      <Button
-        type="button"
-        variant="link"
-        className="h-auto p-0"
-        onClick={() => setUsePassword(true)}
-      >
-        Use a password instead
-      </Button>
-    </div>
+      <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
+        <Button
+          type="button"
+          variant="link"
+          className="h-auto p-0"
+          onClick={() => setRequesting(true)}
+        >
+          Request access
+        </Button>
+        {codesUnavailable && (
+          <Button
+            type="button"
+            variant="link"
+            className="h-auto p-0"
+            onClick={() => setUsePassword(true)}
+          >
+            Use a password instead
+          </Button>
+        )}
+      </div>
+    </>,
+    { description: 'Enter your email if you already have access.' },
   );
 }
+
+type FrameText = { title?: string; description?: string };
