@@ -74,7 +74,7 @@ export function SiteHeader({
   return (
     <header
       className={cn(
-        'bg-background/80 border-border z-50 border-b backdrop-blur',
+        'bg-background/50 border-border/50 z-50 border-b backdrop-blur-md',
         className,
       )}
     >
@@ -94,13 +94,13 @@ export function SiteHeader({
         >
           <KiranLogoIcon
             aria-hidden="true"
-            className="text-logo size-9 shrink-0"
+            className="text-logo size-8 shrink-0"
           />
           <span className="hidden flex-col whitespace-nowrap sm:flex">
-            <span className="text-sm leading-tight font-bold">
+            <span className="text-base leading-tight font-bold">
               Kiran Pingle
             </span>
-            <span className="text-muted-foreground text-xs leading-tight">
+            <span className="text-muted-foreground text-sm leading-tight">
               Product Designer
             </span>
           </span>
