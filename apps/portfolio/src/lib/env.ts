@@ -25,12 +25,12 @@ export const ENV_VARS: Record<string, EnvVarSpec> = {
     schema: z.string(),
     advice: z.string().min(32, 'should be at least 32 characters'),
     requiredInProduction: true,
-    hint: 'signs admin sessions and guest passwords; never change it once set',
+    hint: 'signs admin sessions, guest passes and sign-in codes; never change it once set',
   },
   RESEND_API_KEY: {
     schema: z.string(),
     requiredInProduction: true,
-    hint: 'sends access requests and invitations through Resend',
+    hint: 'sends access requests, invitations and sign-in codes through Resend',
   },
   ADMIN_PASSWORD: {
     schema: z.string(),
@@ -40,7 +40,7 @@ export const ENV_VARS: Record<string, EnvVarSpec> = {
   ACCESS_REQUEST_FROM: {
     schema: z.string(),
     requiredInProduction: false,
-    hint: 'sender on a verified Resend domain, e.g. Kiran <hello@example.com>',
+    hint: 'sender on a verified Resend domain, e.g. Kiran <hello@example.com>; guests need it to receive sign-in codes',
   },
   SHOWCASE_ACCESS: {
     schema: z.string(),
@@ -63,7 +63,9 @@ export type EnvReport = {
 
 function firstIssue(schema: ZodType, value: string) {
   const result = schema.safeParse(value);
-  return result.success ? null : (result.error.issues[0]?.message ?? 'is invalid');
+  return result.success
+    ? null
+    : (result.error.issues[0]?.message ?? 'is invalid');
 }
 
 function checkVar(
