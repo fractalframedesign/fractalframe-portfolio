@@ -1,5 +1,4 @@
 import { Lock } from 'lucide-react';
-import Image from 'next/image';
 
 import RequestAccessDialog from '@/components/access/request-access-dialog';
 import UnlockForm from '@/components/access/unlock-form';
@@ -11,7 +10,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
 
 type LockedProjectProps = {
   /** Frontmatter only: the case study itself is never passed in */
@@ -19,13 +17,10 @@ type LockedProjectProps = {
     slug: string;
     name: string;
     description: string;
-    image: string;
-    wrapperClassName?: string;
-    imageClassName?: string;
   };
 };
 
-/** Teaser for a password-protected case study */
+/** What a visitor sees in place of a password-protected case study: its name and the way in, nothing from inside it */
 export default function LockedProject({ project }: LockedProjectProps) {
   return (
     <section className="hero-padding">
@@ -63,20 +58,6 @@ export default function LockedProject({ project }: LockedProjectProps) {
               project={{ slug: project.slug, name: project.name }}
             />
           </CardFooter>
-        </Card>
-      </div>
-
-      <div className="bigger-container my-15 md:my-18">
-        <Card className="flex aspect-video items-center justify-center overflow-hidden p-0">
-          <div className={cn('relative size-full', project.wrapperClassName)}>
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              sizes="(min-width: 1024px) 1024px, 100vw"
-              className={cn('object-cover', project.imageClassName)}
-            />
-          </div>
         </Card>
       </div>
     </section>

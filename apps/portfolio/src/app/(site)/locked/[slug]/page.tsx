@@ -26,21 +26,11 @@ export default async function LockedProjectPage({ params }: Params) {
   if (!project || !(await offersUnlock(slug, () => getStoredLevels(getDb()))))
     notFound();
 
-  const { name, description, image, wrapperClassName, imageClassName } =
-    project.frontmatter;
+  const { name, description } = project.frontmatter;
 
   return (
     <article>
-      <LockedProject
-        project={{
-          slug,
-          name,
-          description,
-          image,
-          wrapperClassName,
-          imageClassName,
-        }}
-      />
+      <LockedProject project={{ slug, name, description }} />
     </article>
   );
 }
