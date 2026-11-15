@@ -67,6 +67,13 @@ describe('ProjectsList', () => {
     expect(card.getAttribute('target')).toBe('_blank');
   });
 
+  it('shows no preview image for a locked project', () => {
+    const { container } = render(
+      <ProjectsList projects={[project({ locked: true })]} />,
+    );
+    expect(container.querySelector('img')).toBeNull();
+  });
+
   it('marks password-protected projects with a lock', () => {
     render(<ProjectsList projects={[project({ locked: true })]} />);
 
