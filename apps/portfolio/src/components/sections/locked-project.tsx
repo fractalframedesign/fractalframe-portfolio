@@ -1,13 +1,6 @@
 import { Lock } from 'lucide-react';
 
 import SignInCard from '@/components/access/sign-in-card';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 
 type LockedProjectProps = {
   /** Frontmatter only: the case study itself is never passed in */
@@ -39,25 +32,14 @@ export default function LockedProject({
           {project.description}
         </p>
 
-        <Card className="max-w-sm">
-          <CardHeader>
-            <CardTitle>
-              <h2 className="text-base font-semibold">Sign in to view</h2>
-            </CardTitle>
-            <CardDescription>
-              Enter your email. If you&apos;re on my guest list, a 6-digit code
-              arrives in seconds.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <SignInCard
-              project={{ slug: project.slug, name: project.name }}
-              next={`/projects/${project.slug}`}
-              initialEmail={initialEmail}
-              autoFocus={false}
-            />
-          </CardContent>
-        </Card>
+        <SignInCard
+          className="max-w-sm"
+          title="Log in to access"
+          project={{ slug: project.slug, name: project.name }}
+          next={`/projects/${project.slug}`}
+          initialEmail={initialEmail}
+          autoFocus={false}
+        />
       </div>
     </section>
   );

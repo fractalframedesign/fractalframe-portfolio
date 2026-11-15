@@ -3,13 +3,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import SignInCard from '@/components/access/sign-in-card';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { offersUnlock } from '@/lib/access/gate';
 import { getStoredLevels } from '@/lib/access/repo/products';
 import { emailParam, takeEmail } from '@/lib/access/sign-in-params';
@@ -17,7 +10,7 @@ import { getDb } from '@/lib/db/client';
 import { getShowcaseProject } from '@/lib/showcase';
 
 export const metadata: Metadata = {
-  title: 'Sign in',
+  title: 'Log in',
   robots: { index: false, follow: false },
 };
 
@@ -38,27 +31,15 @@ export default async function UnlockPage({
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-16">
-      <Card className="w-full max-w-sm">
-        <CardHeader>
-          <Lock className="text-muted-foreground size-5" aria-hidden />
-          <CardTitle>
-            <h1 className="text-lg font-semibold">
-              Sign in to view {showcase.name}
-            </h1>
-          </CardTitle>
-          <CardDescription>
-            Enter your email. If you&apos;re on my guest list, a 6-digit code
-            arrives in seconds.
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <SignInCard
-            project={{ slug, name: showcase.name }}
-            next={from.next || `/showcase/${slug}`}
-            initialEmail={emailParam(email) ?? from.email}
-          />
-        </CardContent>
-      </Card>
+      <SignInCard
+        className="w-full max-w-sm"
+        title={`Log in to access ${showcase.name}`}
+        heading={{ as: 'h1', className: 'text-lg font-semibold' }}
+        icon={<Lock className="text-muted-foreground size-5" aria-hidden />}
+        project={{ slug, name: showcase.name }}
+        next={from.next || `/showcase/${slug}`}
+        initialEmail={emailParam(email) ?? from.email}
+      />
     </main>
   );
 }
