@@ -1,0 +1,168 @@
+<style>
+  .sb { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:20px; }
+  .frame { border:1px solid #d4d4d8; border-radius:12px; overflow:hidden; background:#fff; }
+  .stage { aspect-ratio:16/9; background:#b8bfc7; position:relative; }
+  .canvas { position:absolute; inset:8% 9%; background:#fff; border-radius:6px; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .w { width:42%; font:10px/1.3 ui-sans-serif,system-ui; color:#18181b; }
+  .slot { background:#fff; border:1px solid #e4e4e7; border-radius:6px; padding:5px 6px; margin-bottom:3px; position:relative; }
+  .card { background:#fff; border-radius:8px; box-shadow:0 6px 16px rgba(0,0,0,.08); padding:6px 7px; }
+  .lbl { font:8px ui-monospace,monospace; letter-spacing:.06em; color:#71717a; text-transform:uppercase; }
+  .big { font-size:13px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .tag { position:absolute; right:-44px; top:3px; background:#3b82f6; color:#fff; font-size:7px; padding:1px 4px; border-radius:3px; }
+  .row { display:flex; justify-content:space-between; font-size:8.5px; padding:1px 0; font-variant-numeric:tabular-nums; }
+  .muted { color:#a1a1aa; }
+  .bar { height:5px; background:#27272a; border-radius:3px; }
+  .meta { padding:12px 14px; }
+  .meta h3 { margin:0 0 2px; font-size:15px; }
+  .time { font:12px ui-monospace,monospace; color:#71717a; }
+  .meta p { margin:6px 0 0; font-size:13px; color:#3f3f46; }
+  .meta .fix { margin-top:8px; padding:6px 8px; background:#eff6ff; border-radius:6px; font-size:12px; color:#1e3a8a; }
+  .meta .ease { margin-top:6px; font:11px ui-monospace,monospace; color:#52525b; }
+  .wall { position:absolute; inset:0; display:grid; grid-template-columns:repeat(5,1fr); gap:5px; padding:6px; }
+  .wall div { background:#fff; border-radius:4px; box-shadow:0 2px 5px rgba(0,0,0,.06); }
+  .hero-tile { outline:2px solid #3b82f6; }
+  .dim div { opacity:.25; }
+  .tl { display:flex; height:30px; border-radius:8px; overflow:hidden; margin:14px 0 6px; font:11px ui-sans-serif,system-ui; color:#fff; }
+  .tl span { display:flex; align-items:center; justify-content:center; border-right:1px solid rgba(255,255,255,.4); }
+  .review { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:18px 0 26px; }
+  .review div { border:1px solid #e4e4e7; border-radius:10px; padding:12px 14px; background:#fff; }
+  .review h4 { margin:0 0 6px; font-size:14px; }
+  .review ul { margin:0; padding-left:18px; font-size:13px; color:#3f3f46; }
+  .review li { margin:3px 0; }
+</style>
+
+<h2>Storyboard v2: reviewed and tightened</h2>
+<p class="subtitle">Same idea, "one anatomy, many widgets", with fewer beats, longer holds, one continuous camera and an ending that lands on the product.</p>
+
+<div class="review">
+  <div>
+    <h4>What was wrong with v1</h4>
+    <ul>
+      <li><b>Too fast to read.</b> Five widgets in five seconds: nobody can take in a number in under ~1.2s.</li>
+      <li><b>No holds.</b> Every beat moved. Great motion is mostly stillness with a few confident moves.</li>
+      <li><b>Hard cut feeling at the pull back.</b> The hero widget didn't have a fixed home in the wall.</li>
+      <li><b>Weak ending.</b> Fading to empty outlines ends on nothing; it should end on the product.</li>
+      <li><b>No colour story.</b> All grey; nothing guides the eye.</li>
+    </ul>
+  </div>
+  <div>
+    <h4>Rules for v2</h4>
+    <ul>
+      <li><b>One camera, no cuts.</b> Every shot grows out of the last.</li>
+      <li><b>Three morphs, 1.4s each</b>: 0.5s move, 0.9s hold.</li>
+      <li><b>One motion language</b>: springs with no bounce for parts, a slow ease for the camera, 40ms stagger.</li>
+      <li><b>One accent colour</b>: blue only on the labels and the hero tile; everything else neutral.</li>
+      <li><b>Numbers roll</b>, never fade. Fixed-width digits, so nothing jiggles.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="tl">
+  <span style="flex:1.8;background:#18181b">Hero</span>
+  <span style="flex:1.2;background:#27272a">Anatomy</span>
+  <span style="flex:4.2;background:#3b82f6">3 morphs</span>
+  <span style="flex:1;background:#27272a">Close</span>
+  <span style="flex:2.8;background:#18181b">Pull back</span>
+  <span style="flex:1.5;background:#3f3f46">Drift</span>
+  <span style="flex:1.5;background:#52525b">End</span>
+</div>
+<p class="subtitle" style="margin-top:0">14 seconds in total · 1920×1080 · 60 fps · silent (music optional)</p>
+
+<div class="sb">
+
+  <div class="frame" data-choice="f1" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w card">
+      <div class="lbl">Balance</div>
+      <div class="big">$24,580.20</div>
+      <svg width="100%" height="22" viewBox="0 0 100 22"><polyline fill="none" stroke="#27272a" stroke-width="1.5" points="0,18 15,14 30,16 45,9 60,11 75,5 100,7"/></svg>
+      <div class="row"><span class="muted">This month</span><span>+$1,240</span></div>
+      <div style="font-size:8.5px;margin-top:3px">View all accounts ›</div>
+    </div></div></div>
+    <div class="meta"><span class="time">0.0 – 1.8s</span><h3>1 · Hero</h3>
+      <p>The widget rises 12px and fades in, then holds. The sparkline draws left to right while the balance counts up to $24,580.20.</p>
+      <div class="fix">Change: a real hold, so the viewer reads the widget before anything moves.</div>
+      <div class="ease">rise: 0.6s ease-out · line draw: 0.8s · count-up: 0.9s</div></div>
+  </div>
+
+  <div class="frame" data-choice="f2" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w">
+      <div class="slot"><div class="lbl">Balance</div><div class="big">$24,580.20</div><span class="tag">Header</span></div>
+      <div class="slot"><svg width="100%" height="22" viewBox="0 0 100 22"><polyline fill="none" stroke="#27272a" stroke-width="1.5" points="0,18 15,14 30,16 45,9 60,11 75,5 100,7"/></svg><span class="tag">Body</span></div>
+      <div class="slot"><div class="row"><span>This month</span><span>+$1,240</span></div><span class="tag">Facts</span></div>
+      <div class="slot"><div style="font-size:8.5px">View all accounts ›</div><span class="tag">Footer</span></div>
+    </div></div></div>
+    <div class="meta"><span class="time">1.8 – 3.0s</span><h3>2 · Anatomy</h3>
+      <p>A tiny squeeze inward (98%) as the "breath in", then the parts separate with 6px gaps from the centre out. Labels slide in from the right, one by one.</p>
+      <div class="fix">Change: content stays sharp. Blur came too early in v1 and made it look broken.</div>
+      <div class="ease">squeeze: 0.15s · split: spring, no bounce · labels: 40ms stagger</div></div>
+  </div>
+
+  <div class="frame" data-choice="f3" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w">
+      <div class="slot"><div class="lbl">Exchange Rates</div><div class="big">1 USD = 0.927 EUR</div><span class="tag">Header</span></div>
+      <div class="slot">
+        <div class="row"><span>GBP</span><span>0.784</span></div>
+        <div class="row"><span>JPY</span><span>151.20</span></div>
+        <div class="row"><span>AED</span><span>3.672</span></div>
+        <span class="tag">Body</span></div>
+      <div class="slot"><div class="row"><span class="muted">Updated</span><span>2 min ago</span></div><span class="tag">Facts</span></div>
+    </div></div></div>
+    <div class="meta"><span class="time">3.0 – 7.2s</span><h3>3 · Three morphs</h3>
+      <p>Balance → <b>Transactions</b> → <b>Exchange Rates</b> → <b>Savings Goals</b>. Labels stay put as the anchor. Text slides up 8px with a light blur, numbers roll digit by digit, parts stretch to fit. A part no longer needed folds away; its label goes with it.</p>
+      <div class="fix">Change: 3 widgets instead of 5, each with a 0.9s hold you can actually read.</div>
+      <div class="ease">each: 0.5s move + 0.9s hold · heights: spring</div></div>
+  </div>
+
+  <div class="frame" data-choice="f4" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="w card">
+      <div class="lbl">Savings Goals</div>
+      <div class="row" style="margin-top:3px"><span>New laptop</span><span>$1,280 / $2,000</span></div>
+      <div class="bar" style="width:64%"></div>
+      <div class="row" style="margin-top:3px"><span>Trip to Kyoto</span><span>$3,400 / $4,000</span></div>
+      <div class="bar" style="width:85%"></div>
+      <div style="font-size:8.5px;margin-top:5px">Add a goal ›</div>
+    </div></div></div>
+    <div class="meta"><span class="time">7.2 – 8.2s</span><h3>4 · Close</h3>
+      <p>Labels slide out to the right (reverse of how they came in). The gaps close and the parts lock into one card with a small settle. Progress bars finish filling.</p>
+      <div class="fix">Change: exits mirror entrances, so it feels designed rather than random.</div>
+      <div class="ease">labels: 0.3s ease-in · lock: spring, no bounce</div></div>
+  </div>
+
+  <div class="frame" data-choice="f5" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="wall">
+      <div style="height:40%"></div><div style="height:28%"></div><div style="height:46%"></div><div style="height:32%"></div><div style="height:38%"></div>
+      <div style="height:30%"></div><div style="height:44%"></div><div class="hero-tile" style="height:26%"></div><div style="height:40%"></div><div style="height:30%"></div>
+    </div></div></div>
+    <div class="meta"><span class="time">8.2 – 11.0s</span><h3>5 · Pull back</h3>
+      <p>One smooth zoom out. Savings Goals stays exactly where it is and becomes a tile in the centre column (blue outline). The other widgets rise in around it, nearest first.</p>
+      <div class="fix">Change: the hero has a fixed home, so the eye never loses it. No cut.</div>
+      <div class="ease">zoom: 2.2s slow ease · tiles: 30ms stagger, nearest first · slight motion blur</div></div>
+  </div>
+
+  <div class="frame" data-choice="f6" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="wall">
+      <div style="height:40%"></div><div style="height:28%"></div><div style="height:46%"></div><div style="height:32%"></div><div style="height:38%"></div>
+      <div style="height:30%"></div><div style="height:44%"></div><div style="height:26%"></div><div style="height:40%"></div><div style="height:30%"></div>
+    </div></div></div>
+    <div class="meta"><span class="time">11.0 – 12.5s</span><h3>6 · Drift</h3>
+      <p>The wall slowly scrolls upward; columns move at slightly different speeds for depth. The blue outline fades. This is the "look how much there is" moment.</p>
+      <div class="fix">Change: replaces "fade to outlines". The library is the payoff, so show it full.</div>
+      <div class="ease">steady speed · columns ±8% speed difference</div></div>
+  </div>
+
+  <div class="frame" data-choice="f7" onclick="toggleSelect(this)">
+    <div class="stage"><div class="canvas"><div class="wall dim">
+      <div style="height:40%"></div><div style="height:28%"></div><div style="height:46%"></div><div style="height:32%"></div><div style="height:38%"></div>
+      <div style="height:30%"></div><div style="height:44%"></div><div style="height:26%"></div><div style="height:40%"></div><div style="height:30%"></div>
+    </div>
+    <div style="position:relative;text-align:center">
+      <div style="font:600 16px ui-sans-serif,system-ui">Fintech Components</div>
+      <div class="lbl">57 widgets · one anatomy</div>
+    </div></div></div>
+    <div class="meta"><span class="time">12.5 – 14.0s</span><h3>7 · End card</h3>
+      <p>The drifting wall dims to 25% and keeps moving behind the title. The title fades in, then the "57" counts up from 0. Hold for one second.</p>
+      <div class="fix">Change: ends on the product with life behind it, not on empty boxes.</div>
+      <div class="ease">dim: 0.5s · title: rise 8px · count: 0.6s</div></div>
+  </div>
+
+</div>

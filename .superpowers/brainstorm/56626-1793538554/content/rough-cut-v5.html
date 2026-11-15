@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Rough cut v5 · Fintech Components</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #f4f4f5; font-family: 'Geist', ui-sans-serif, system-ui, sans-serif; color: #18181b; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  :root { --shadow-card: 0 0 0 1px oklch(0 0 0 / 0.06), 0 1px 2px -1px oklch(0 0 0 / 0.06), 0 2px 4px 0 oklch(0 0 0 / 0.04), 0 12px 32px -8px oklch(0 0 0 / 0.08); }
+  main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 40px; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .sub { color: #71717a; font-size: 13px; margin: 0 0 16px; }
+  .stage { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #b8bfc7; border-radius: 10px; overflow: hidden; }
+  .canvas { position: absolute; inset: 6% 8%; background: #fff; border-radius: 8px; overflow: hidden; }
+  .world { position: absolute; left: 50%; top: 50%; width: 0; height: 0; transform-origin: 0 0; }
+  .card { position: absolute; left: -180px; width: 360px; border-radius: 16px; }
+  .slot { position: absolute; left: 0; width: 360px; background: #fff; border-radius: 16px; overflow: hidden; }
+  .layer { position: absolute; left: 0; right: 0; top: 0; padding: 14px 18px; }
+  .tag { position: absolute; left: 376px; background: #3b82f6; color: #fff; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 5px; white-space: nowrap; }
+  .lbl { font: 11px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; color: #71717a; }
+  .num { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; margin-top: 2px; letter-spacing: -.01em; }
+  .row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-variant-numeric: tabular-nums; height: 26px; }
+  .muted { color: #a1a1aa; }
+  .link { font-size: 13px; font-weight: 500; }
+  .dot { width: 18px; height: 18px; border-radius: 50%; background: #e4e4e7; display: inline-block; margin-right: 8px; vertical-align: middle; }
+  .goal { margin-bottom: 8px; }
+  .track { height: 6px; border-radius: 3px; background: #f4f4f5; overflow: hidden; margin-top: 3px; }
+  .fill { height: 100%; background: #18181b; border-radius: 3px; width: 0; }
+  .dim { position: absolute; background: #18181b; transform-origin: center; }
+  .dim.h { height: 1px; }
+  .dim.v { width: 1px; }
+  .dim.h::before, .dim.h::after { content: ''; position: absolute; top: -3px; width: 1px; height: 7px; background: #18181b; }
+  .dim.v::before, .dim.v::after { content: ''; position: absolute; left: -3px; height: 1px; width: 7px; background: #18181b; }
+  .dim::before { left: 0; top: -3px; } .dim.h::after { right: 0; } .dim.v::before { top: 0; } .dim.v::after { bottom: 0; }
+  .dlabel { position: absolute; font: 10.5px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .06em; background: #fff; color: #18181b; padding: 1px 5px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .hatch { position: absolute; inset: 0; pointer-events: none; padding: 14px 18px; border-radius: inherit; background: repeating-linear-gradient(45deg, rgba(24,24,27,.22) 0 1px, transparent 1px 6px); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+  .tile { position: absolute; width: 360px; background: #fff; border-radius: 16px; box-shadow: var(--shadow-card); padding: 16px 18px; overflow: hidden; }
+  .sk { height: 9px; border-radius: 5px; background: #e4e4e7; margin-top: 10px; }
+  .sk.dark { background: #27272a; height: 16px; width: 45%; }
+  .bars { display: flex; align-items: flex-end; gap: 8px; height: 70px; margin-top: 14px; }
+  .bars i { flex: 1; background: #d4d4d8; border-radius: 4px; }
+  .bars i.on { background: #27272a; }
+  .title { position: absolute; left: 0; right: 0; top: 50%; text-align: center; transform: translateY(-50%); pointer-events: none; }
+  .title h2 { margin: 0; font-size: 34px; letter-spacing: -.02em; }
+  .title p { margin: 6px 0 0; font: 13px ui-monospace, monospace; letter-spacing: .08em; text-transform: uppercase; color: #52525b; }
+  .controls { display: flex; align-items: flex-start; gap: 12px; margin-top: 14px; flex-wrap: wrap; }
+  button { transition-property: scale; transition-duration: 150ms; transition-timing-function: ease-out; }
+  button:active { scale: 0.96; }
+  button, select { font: inherit; font-size: 13px; padding: 6px 12px; border-radius: 8px; border: 1px solid #d4d4d8; background: #fff; cursor: pointer; }
+  button.primary { background: #18181b; color: #fff; border-color: #18181b; min-width: 76px; }
+  .time { font: 13px ui-monospace, monospace; color: #3f3f46; min-width: 110px; }
+  .scrub { position: relative; flex: 1; min-width: 260px; }
+  .scrub input { width: 100%; }
+  .beats { position: relative; height: 22px; margin-top: 8px; }
+  .beats button { position: absolute; margin-left: -2px; padding: 2px 6px; font-size: 11px; border-radius: 5px; background: #fff; }
+  .note { font-size: 12px; color: #71717a; margin-top: 18px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Rough cut v5 · Fintech Components (20s) · with spec beat</h1>
+  <p class="sub">Grey boxes stand in for the real widgets; this checks timing and flow only. Space = play/pause · ← → = one frame · Shift + ← → = one second.</p>
+
+  <div class="stage"><div class="canvas" id="canvas">
+    <div class="world" id="world"><div class="card" id="card"></div></div>
+    <div class="title" id="title"><h2>Fintech Components</h2><p><span id="count">0</span> widgets · one anatomy</p></div>
+  </div></div>
+
+  <div class="controls">
+    <button class="primary" id="play">Pause</button>
+    <span class="time" id="time">0.00s</span>
+    <div class="scrub"><input type="range" id="scrub" min="0" max="20" step="0.0166667" value="0" /><div class="beats" id="beats"></div></div>
+    <select id="speed"><option value="0.25">0.25×</option><option value="0.5">0.5×</option><option value="1" selected>1×</option></select>
+    <label style="font-size:13px"><input type="checkbox" id="loop" checked /> Loop</label>
+  </div>
+  <p class="note">Beats (20s): Hero 0–2.3 · Anatomy 2.3–3.8 · Spec 3.8–5.9 (blueprint, W/H lines, padding hatch, radius) · Morphs 5.9–11.3 (H keeps counting live) · Close 11.3–12.6 · Pull back 12.6–16.2 · Drift 16.2–18.1 · End 18.1–20. In the final video the numbers come from the real widgets.</p>
+</main>
+
+<script>
+// Beats are authored on a 15.6s grid (14s + 1.6s spec beat) and stretched evenly to 20s
+const BASE = 15.6;
+const DURATION = 20;
+const SPEC = [3.0, 4.6];
+const STRETCH = DURATION / BASE;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const prog = (t, a, b) => clamp((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eOut = x => 1 - Math.pow(1 - x, 3);
+const eIn = x => x * x * x;
+const eInOut = x => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+// Critically damped spring: settles without overshoot
+const spring = x => {
+  if (x <= 0) return 0;
+  if (x >= 1) return 1;
+  const k = 7;
+  return (1 - (1 + k * x) * Math.exp(-k * x)) / (1 - (1 + k) * Math.exp(-k));
+};
+
+// Same layered shadow as the wall tiles (--shadow-card), scaled by `a`
+const shadow = a => `0 0 0 1px oklch(0 0 0 / ${0.06 * a}), 0 1px 2px -1px oklch(0 0 0 / ${0.06 * a}), 0 2px 4px 0 oklch(0 0 0 / ${0.04 * a}), 0 12px 32px -8px oklch(0 0 0 / ${0.08 * a})`;
+const SLOTS = ['Header', 'Body', 'Facts', 'Footer'];
+// Heights per widget per slot: Balance, Transactions, Exchange Rates, Savings Goals
+const H = [
+  [72, 70, 44, 44],
+  [72, 112, 44, 44],
+  [72, 100, 44, 0],
+  [72, 104, 0, 44],
+];
+const MORPHS = [[3.0, 3.5], [4.4, 4.9], [5.8, 6.3]];
+
+const CONTENT = [
+  [
+    '<div class="lbl">Balance</div><div class="num" id="bal">$0.00</div>',
+    '<svg width="324" height="44" viewBox="0 0 324 44"><polyline id="spark" pathLength="1" fill="none" stroke="#18181b" stroke-width="2" stroke-linejoin="round" stroke-dasharray="1" stroke-dashoffset="1" points="0,36 45,30 91,33 136,20 181,24 227,10 272,14 324,6"/></svg>',
+    '<div class="row" style="height:16px"><span class="muted">This month</span><span>+$1,240.00</span></div>',
+    '<div class="link" style="line-height:16px">View all accounts ›</div>',
+  ],
+  [
+    '<div class="lbl">Transactions</div><div class="num">$1,912.40 <span class="muted" style="font-size:13px;font-weight:400">this week</span></div>',
+    '<div class="row"><span><i class="dot"></i>Blue Bottle Coffee</span><span>−$6.50</span></div><div class="row"><span><i class="dot"></i>Uber</span><span>−$18.20</span></div><div class="row"><span><i class="dot"></i>Salary</span><span>+$4,200.00</span></div>',
+    '<div class="row" style="height:16px"><span class="muted">3 pending</span><span>Today</span></div>',
+    '<div class="link" style="line-height:16px">See all ›</div>',
+  ],
+  [
+    '<div class="lbl">Exchange Rates</div><div class="num">1 USD = 0.927 EUR</div>',
+    '<div class="row"><span>GBP</span><span>0.784</span></div><div class="row"><span>JPY</span><span>151.20</span></div><div class="row"><span>AED</span><span>3.672</span></div>',
+    '<div class="row" style="height:16px"><span class="muted">Updated</span><span>2 min ago</span></div>',
+    '',
+  ],
+  [
+    '<div class="lbl">Savings Goals</div><div class="num">$4,680 saved</div>',
+    '<div class="goal"><div class="row" style="height:18px"><span>New laptop</span><span>$1,280 / $2,000</span></div><div class="track"><div class="fill" data-to="64"></div></div></div><div class="goal"><div class="row" style="height:18px"><span>Trip to Kyoto</span><span>$3,400 / $4,000</span></div><div class="track"><div class="fill" data-to="85"></div></div></div>',
+    '',
+    '<div class="link" style="line-height:16px">Add a goal ›</div>',
+  ],
+];
+
+const card = document.getElementById('card');
+const world = document.getElementById('world');
+const canvas = document.getElementById('canvas');
+const slots = SLOTS.map((name, s) => {
+  const el = document.createElement('div');
+  el.className = 'slot';
+  const layers = CONTENT.map(widget => {
+    const layer = document.createElement('div');
+    layer.className = 'layer';
+    layer.innerHTML = widget[s];
+    el.appendChild(layer);
+    return layer;
+  });
+  const tag = document.createElement('div');
+  tag.className = 'tag';
+  tag.textContent = name;
+  card.appendChild(el);
+  card.appendChild(tag);
+  return { el, layers, tag };
+});
+const el = (cls, parent = card) => { const node = document.createElement('div'); node.className = cls; parent.appendChild(node); return node; };
+const wLine = el('dim h'), hLine = el('dim v');
+const wLabel = el('dlabel'), hLabel = el('dlabel'), rLabel = el('dlabel'), pLabel = el('dlabel');
+const hatches = slots.map(slot => el('hatch', slot.el));
+const rMark = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+rMark.setAttribute('width', '18'); rMark.setAttribute('height', '18');
+rMark.style.cssText = 'position:absolute;left:342px;top:0;overflow:visible';
+rMark.innerHTML = '<path pathLength="1" stroke-dasharray="1" d="M0 0.5 A15.5 15.5 0 0 1 17.5 18" fill="none" stroke="#18181b" stroke-width="1.5"/><line x1="12" y1="4" x2="30" y2="-22" stroke="#18181b" stroke-width="1"/>';
+card.appendChild(rMark);
+const rArc = rMark.querySelector('path');
+const bal = document.getElementById('bal');
+const spark = document.getElementById('spark');
+const fills = [...card.querySelectorAll('.fill')];
+
+// Wall: 5 columns, the hero card sits in the centre column
+const PITCH = 384, GAP = 24, HERO_H = H[3].reduce((a, b) => a + b, 0);
+const NAMES = ['Credit Card', 'Quick Transfer', 'Cashback', 'Receipt', 'Budget', 'Analytics', 'Price', 'Savings', 'Payment', 'Activity', 'My Card', 'Discount', 'Limits', 'Checkout', 'Breakdown'];
+let seed = 7;
+const rand = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+const tiles = [];
+function makeTile(x, y, h) {
+  const el = document.createElement('div');
+  el.className = 'tile';
+  const kind = Math.floor(rand() * 3);
+  let inner = `<div class="lbl">${NAMES[Math.floor(rand() * NAMES.length)]}</div><div class="sk dark"></div>`;
+  if (kind === 0) inner += '<div class="bars">' + [60, 75, 40, 70, 90].map((v, i) => `<i class="${i === 2 ? 'on' : ''}" style="height:${v}%"></i>`).join('') + '</div>';
+  else for (let i = 0; i < Math.floor((h - 80) / 26); i++) inner += `<div class="sk" style="width:${55 + rand() * 40}%"></div>`;
+  el.innerHTML = inner;
+  el.style.left = x - 180 + 'px';
+  el.style.top = y + 'px';
+  el.style.height = h + 'px';
+  world.insertBefore(el, card);
+  tiles.push({ el, col: 0, dist: Math.hypot(x, y + h / 2) });
+  return el;
+}
+for (let c = 0; c < 5; c++) {
+  const x = (c - 2) * PITCH;
+  const place = (y, dir) => {
+    for (let i = 0; i < 9; i++) {
+      const h = 170 + Math.floor(rand() * 150);
+      if (dir < 0) { y -= h; makeTile(x, y, h); y -= GAP; }
+      else { makeTile(x, y, h); y += h + GAP; }
+      tiles[tiles.length - 1].col = c;
+    }
+  };
+  if (c === 2) { place(-HERO_H / 2 - GAP, -1); place(HERO_H / 2 + GAP, 1); }
+  else { const start = -HERO_H / 2 - rand() * 160; place(start - GAP, -1); place(start, 1); }
+}
+[...tiles].sort((a, b) => a.dist - b.dist).forEach((tile, k) => (tile.start = 8.35 + k * 0.03));
+const DRIFT = [0.92, 1.04, 1, 0.96, 1.08];
+const drift = (t, c) => -Math.max(0, t - 10.4) * 55 * DRIFT[c];
+
+function widgetState(t) {
+  let cur = 0;
+  for (let i = 0; i < MORPHS.length; i++) {
+    const [a, b] = MORPHS[i];
+    if (t < a) return { from: cur, to: cur, p: 0 };
+    if (t < b) return { from: i, to: i + 1, p: (t - a) / (b - a) };
+    cur = i + 1;
+  }
+  return { from: cur, to: cur, p: 0 };
+}
+
+function render(time) {
+  const T = time / STRETCH;
+  // The original 14s animation pauses on its 3.0s frame while the spec beat plays
+  const t = T < SPEC[0] ? T : T < SPEC[1] ? SPEC[0] : T - (SPEC[1] - SPEC[0]);
+  const fit = canvas.clientWidth / 968;
+  const cam = t < 8.2 ? 1 : lerp(1, 0.4, eInOut(prog(t, 8.2, 10.4)));
+  const dim = 1 - 0.75 * eOut(prog(t, 12.5, 13.0));
+  world.style.transform = `scale(${fit * cam})`;
+  world.style.opacity = dim;
+
+  // Card entrance, squeeze and split
+  const enter = eOut(prog(t, 0, 0.4));
+  let squeeze = 1;
+  if (t >= 1.8 && t < 1.95) squeeze = lerp(1, 0.98, eOut(prog(t, 1.8, 1.95)));
+  else if (t >= 1.95 && t < 2.5) squeeze = lerp(0.98, 1, spring(prog(t, 1.95, 2.5)));
+  const split = t < 1.95 ? 0 : t < 7.4 ? spring(prog(t, 1.95, 2.5)) : 1 - spring(prog(t, 7.4, 8.0));
+  const gap = 8 * split;
+
+  const { from, to, p } = widgetState(t);
+  const heights = SLOTS.map((_, s) => lerp(H[from][s], H[to][s], spring(p)));
+  // A part folding away takes its gap and border with it
+  const presence = heights.map(h => clamp(h / 12));
+  const total = heights.reduce((a, h, s) => a + h + (s < 3 ? gap * presence[s] : 0), 0);
+  const outline = t < 9.6 ? 0 : t < 11 ? eOut(prog(t, 9.6, 10.0)) : 1 - prog(t, 11, 11.5);
+
+  card.style.top = -total / 2 + drift(t, 2) + 'px';
+  card.style.height = total + 'px';
+  card.style.transform = `scale(${squeeze})`;
+  card.style.background = `rgba(255,255,255,${enter * (1 - split)})`;
+  card.style.boxShadow = `${shadow(enter * (1 - split))}, 0 0 0 ${5 / cam}px rgba(59,130,246,${outline})`;
+
+  let y = 0;
+  slots.forEach((slot, s) => {
+    const h = heights[s];
+    slot.el.style.top = y + 'px';
+    slot.el.style.height = h + 'px';
+    slot.el.style.background = `rgba(255,255,255,${enter})`;
+    slot.el.style.boxShadow = shadow(split * presence[s]);
+    slot.layers.forEach((layer, w) => {
+      let o = 0, dy = 0, blur = 0;
+      if (from === to && w === from && w === 0 && t < 1) {
+        // Hero entrance: each part fades up from a light blur, 100ms apart
+        const q = eOut(prog(t, 0.05 + s * 0.1, 0.5 + s * 0.1));
+        o = q; dy = 12 * (1 - q); blur = 4 * (1 - q);
+      } else if (from === to) o = w === from ? 1 : 0;
+      else if (w === from) { const q = clamp(p / 0.6); o = 1 - q; dy = -8 * eOut(p); blur = 4 * q; }
+      else if (w === to) { const q = clamp((p - 0.4) / 0.6); o = q; dy = 8 * (1 - eOut(q)); blur = 4 * (1 - q); }
+      layer.style.opacity = o;
+      layer.style.transform = `translateY(${dy}px)`;
+      layer.style.filter = blur ? `blur(${blur}px)` : 'none';
+    });
+    const showIn = eOut(prog(t, 2.2 + s * 0.04, 2.5 + s * 0.04));
+    const showOut = 1 - eOut(prog(t, 7.2 + (3 - s) * 0.04, 7.45 + (3 - s) * 0.04));
+    const a = (t < 7.2 ? showIn : showOut) * clamp(h / 24);
+    slot.tag.style.top = y + 10 + 'px';
+    slot.tag.style.opacity = a;
+    slot.tag.style.transform = `translateX(${(t < 7.2 ? 16 : 8) * (1 - a)}px)`;
+    y += h + gap * presence[s];
+  });
+
+  // Spec beat: black and white blueprint with live dimensions
+  const wire = T < SPEC[0] ? 0 : T < SPEC[1] ? eOut(prog(T, 3.0, 3.4)) : 1 - eOut(prog(T, 4.6, 5.0));
+  const linesOut = T < 8.8 ? 1 : 1 - eOut(prog(T, 8.8, 9.1));
+  const wDraw = eOut(prog(T, 3.05, 3.5)), hDraw = eOut(prog(T, 3.15, 3.6));
+  const labelsIn = eOut(prog(T, 3.4, 3.7)) * linesOut;
+  const hatchIn = eOut(prog(T, 3.25, 3.65)) * (T < SPEC[1] ? 1 : 1 - eOut(prog(T, 4.6, 4.9)));
+  slots.forEach((slot, s) => {
+    slot.el.style.outline = wire ? `1px dashed rgba(24,24,27,${0.8 * wire * presence[s]})` : 'none';
+    slot.el.style.boxShadow = shadow(split * presence[s] * (1 - wire));
+    slot.tag.style.background = `rgb(${lerp(59, 24, wire)},${lerp(130, 24, wire)},${lerp(246, 27, wire)})`;
+    hatches[s].style.opacity = hatchIn * presence[s];
+  });
+  wLine.style.cssText += `;left:0;width:360px;top:-26px;transform:scaleX(${wDraw});opacity:${linesOut}`;
+  hLine.style.cssText += `;left:-26px;top:0;height:${total}px;transform:scaleY(${hDraw});opacity:${linesOut}`;
+  wLabel.textContent = 'W 360';
+  wLabel.style.cssText += `;left:157px;top:-34px;opacity:${labelsIn}`;
+  hLabel.textContent = `H ${Math.round(total)}`;
+  hLabel.style.cssText += `;left:-74px;top:${total / 2 - 9}px;opacity:${labelsIn}`;
+  rLabel.textContent = 'R 16';
+  rLabel.style.cssText += `;left:368px;top:-34px;opacity:${eOut(prog(T, 3.45, 3.75)) * (1 - eOut(prog(T, 4.5, 4.8)))}`;
+  rArc.style.strokeDashoffset = 1 - eOut(prog(T, 3.35, 3.75));
+  rMark.style.opacity = T < SPEC[1] ? 1 : 1 - eOut(prog(T, 4.5, 4.8));
+  pLabel.textContent = 'P 18';
+  pLabel.style.cssText += `;left:4px;top:${heights[0] + gap * presence[0] + 2}px;font-size:9px;padding:0 4px;opacity:${hatchIn}`;
+
+  // Hero details
+  bal.textContent = '$' + (24580.2 * eOut(prog(t, 0.3, 1.2))).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  spark.style.strokeDashoffset = 1 - eOut(prog(t, 0.3, 1.1));
+  fills.forEach(f => (f.style.width = f.dataset.to * eOut(prog(t, 6.1, 7.0)) + '%'));
+
+  // Wall
+  tiles.forEach(tile => {
+    const o = eOut(prog(t, tile.start, tile.start + 0.4));
+    tile.el.style.opacity = o;
+    tile.el.style.filter = o < 1 ? `blur(${4 * (1 - o)}px)` : 'none';
+    tile.el.style.transform = `translateY(${12 * (1 - o) + drift(t, tile.col)}px)`;
+  });
+
+  // End card
+  const title = document.getElementById('title');
+  const tIn = eOut(prog(t, 12.7, 13.2));
+  title.style.opacity = tIn;
+  title.style.filter = tIn < 1 ? `blur(${4 * (1 - tIn)}px)` : 'none';
+  title.style.transform = `translateY(calc(-50% + ${8 * (1 - tIn)}px))`;
+  document.getElementById('count').textContent = Math.round(57 * eOut(prog(t, 12.9, 13.5)));
+
+  document.getElementById('time').textContent = time.toFixed(2) + 's / 20.00s';
+  document.getElementById('scrub').value = time;
+}
+
+// Playback
+let t = 0, playing = true, last = performance.now();
+const playBtn = document.getElementById('play');
+const speed = document.getElementById('speed');
+const loop = document.getElementById('loop');
+function setPlaying(next) { playing = next; playBtn.textContent = next ? 'Pause' : 'Play'; last = performance.now(); }
+function tick(now) {
+  if (playing) {
+    t += ((now - last) / 1000) * Number(speed.value);
+    if (t >= DURATION) { if (loop.checked) t = 0; else { t = DURATION; setPlaying(false); } }
+  }
+  last = now;
+  render(t);
+  requestAnimationFrame(tick);
+}
+playBtn.onclick = () => { if (!playing && t >= DURATION) t = 0; setPlaying(!playing); };
+document.getElementById('scrub').oninput = e => { t = Number(e.target.value); setPlaying(false); };
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); playBtn.click(); }
+  if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+    e.preventDefault();
+    setPlaying(false);
+    const step = e.shiftKey ? 1 : 1 / 60;
+    t = clamp(t + (e.key === 'ArrowRight' ? step : -step), 0, DURATION);
+  }
+});
+const BEATS = [['Hero', 0], ['Anatomy', 1.8], ['Spec', 3.0], ['Morphs', 4.6], ['Close', 8.8], ['Pull back', 9.8], ['Drift', 12.6], ['End', 14.1]];
+const beats = document.getElementById('beats');
+BEATS.forEach(([name, at]) => {
+  const b = document.createElement('button');
+  b.textContent = name;
+  b.style.left = `${(at / BASE) * 100}%`;
+  b.onclick = () => { t = at * STRETCH; setPlaying(true); };
+  beats.appendChild(b);
+});
+window.seek = at => { t = at; setPlaying(false); render(t); };
+requestAnimationFrame(tick);
+</script>
+</body>
+</html>

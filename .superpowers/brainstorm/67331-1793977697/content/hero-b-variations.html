@@ -1,0 +1,88 @@
+<h2>Four ways to take B further</h2>
+<p class="subtitle">Same layout as B, each trying one idea. Pick any you like. You can pick more than one, and I'll combine them.</p>
+
+<style>
+  .k { background:#0b0b0c; color:#a1a1aa; font-family: ui-sans-serif, system-ui, -apple-system, "Geist", sans-serif; font-size:13px; line-height:1.6; padding:28px 22px; border-radius:10px; overflow:hidden; }
+  .k b { color:#fafafa; font-weight:500; }
+  .k .col { max-width:400px; margin:0 auto; }
+  .k .me { display:flex; align-items:center; gap:10px; margin-bottom:18px; }
+  .k .av { width:38px; height:38px; border-radius:9px; background:linear-gradient(135deg,#3f3f46,#18181b); flex:none; }
+  .k .name { color:#fafafa; font-size:13px; line-height:1.3; }
+  .k .role { font-size:12px; }
+  .k p { margin:0 0 11px; }
+  .k h1 { color:#fafafa; font-size:28px; line-height:1.12; font-weight:500; letter-spacing:-0.02em; margin:4px 0 14px; }
+  .k h1 .dim { color:#71717a; }
+  .k .btns { display:flex; gap:8px; margin:16px 0 4px; }
+  .k .btn { background:#fafafa; color:#0b0b0c; border-radius:7px; padding:6px 11px; font-size:12px; }
+  .k .btn.o { background:transparent; color:#fafafa; border:1px solid #3f3f46; }
+  .k .links { display:flex; gap:18px; margin:14px 0 4px; font-size:12.5px; }
+  .k .links span { color:#fafafa; border-bottom:1px solid #52525b; padding-bottom:1px; }
+  .k .script { font-family:"Segoe Script","Bradley Hand","Snell Roundhand",cursive; color:#e4e4e7; font-size:22px; margin:26px 0 10px; }
+  .k .hi { font-family:"Segoe Script","Bradley Hand","Snell Roundhand",cursive; color:#e4e4e7; font-size:20px; margin-bottom:2px; }
+  .k .pill { display:inline-flex; align-items:center; gap:6px; font-size:11px; border:1px solid #27272a; border-radius:99px; padding:3px 9px; margin-bottom:16px; }
+  .k .dot { width:6px; height:6px; border-radius:50%; background:#4ade80; }
+  .k .row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .k .row.bleed { grid-template-columns:repeat(4,1fr); margin:0 -60px; }
+  .k .tile { background:#161618; border-radius:9px; height:84px; display:flex; align-items:center; justify-content:center; }
+  .k .mini { width:70%; height:52%; border:1px solid #27272a; border-radius:6px; background:#0f0f10; display:flex; align-items:end; gap:4px; padding:6px; }
+  .k .mini i { flex:1; background:#d4d4d8; border-radius:2px; }
+  .k .cap { display:flex; justify-content:space-between; font-size:11px; margin-top:6px; color:#71717a; }
+  .k .cap span:first-child { color:#e4e4e7; }
+  .k .facts { display:flex; gap:20px; margin:16px 0 0; padding-top:12px; border-top:1px solid #1f1f22; font-size:11.5px; }
+  .k .facts div b { display:block; font-size:16px; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr" data-multiselect>
+
+  <div class="card" data-choice="b1" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Product Designer &amp; Design Engineer</div></div></div>
+      <h1>I lead product design <span class="dim">and build the systems that make complex products feel clear.</span></h1>
+      <p>Product Design Director at <b>Rakuten</b>, previously <b>Reliance Jio</b>.</p>
+      <div class="links"><span>Explore projects →</span><span>About me</span></div>
+    </div></div></div>
+    <div class="card-body"><h3>B1 · Two-tone headline, quiet links</h3><p>The first words are bright and the rest is grey, so the eye reads "I lead product design" first. Underlined text links replace the buttons, which is calmer, like the reference.</p></div>
+  </div>
+
+  <div class="card" data-choice="b2" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="pill"><span class="dot"></span>Tokyo, Japan · 12:06 AM</div>
+      <div class="hi">Hi, I'm Kiran</div>
+      <h1>I lead product design and build the systems that make complex products feel clear.</h1>
+      <p>Product Design Director at <b>Rakuten</b>, previously <b>Reliance Jio</b>.</p>
+      <div class="btns"><span class="btn">Explore projects →</span><span class="btn o">About me</span></div>
+    </div></div></div>
+    <div class="card-body"><h3>B2 · Handwritten hello + live time</h3><p>Keeps your Tokyo local-time pill. A handwritten "Hi, I'm Kiran" replaces the photo row and matches the handwritten section titles further down. It's warmer and more personal.</p></div>
+  </div>
+
+  <div class="card" data-choice="b3" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Product Designer &amp; Design Engineer</div></div></div>
+      <h1>I lead product design and build the systems that make complex products feel clear.</h1>
+      <div class="btns"><span class="btn">Explore projects →</span><span class="btn o">About me</span></div>
+      <div class="facts">
+        <div><b>15+</b>years in product</div>
+        <div><b>100M+</b>people reached at Jio</div>
+        <div><b>Rakuten</b>Design Director</div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>B3 · Proof under the headline</h3><p>Three quick facts in a thin row (your stats from the About page). They give a visitor a reason to trust the headline straight away, without a paragraph.</p></div>
+  </div>
+
+  <div class="card" data-choice="b4" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Product Designer &amp; Design Engineer</div></div></div>
+      <h1>I lead product design and build the systems that make complex products feel clear.</h1>
+      <div class="btns"><span class="btn">Explore projects →</span><span class="btn o">About me</span></div>
+      <div class="script">Highlights</div>
+      <div class="row bleed">
+        <div><div class="tile"><div class="mini"><i style="height:40%"></i><i style="height:80%"></i><i style="height:60%"></i></div></div><div class="cap"><span>Fintech</span><span>2026</span></div></div>
+        <div><div class="tile"><div class="mini" style="align-items:center"><i style="height:4px"></i></div></div><div class="cap"><span>Smart home</span><span>2026</span></div></div>
+        <div><div class="tile"><div class="mini"><i style="height:70%"></i><i style="height:30%"></i></div></div><div class="cap"><span>Finance</span><span>2026</span></div></div>
+        <div><div class="tile"><div class="mini" style="align-items:center;justify-content:center;color:#e4e4e7;font-size:10px">Design to motivate</div></div><div class="cap"><span>Article</span><span>2026</span></div></div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>B4 · Highlight cards wider than the text</h3><p>Like the reference: the text stays narrow, but the row of highlight cards stretches wider than the column. That makes your work the big visual moment on the page.</p></div>
+  </div>
+
+</div>

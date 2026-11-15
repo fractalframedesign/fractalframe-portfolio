@@ -1,0 +1,64 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+<h2>Intro options built from your draft</h2>
+<p class="subtitle">Short paragraphs with key words in white, like the reference, but in your words. Pick any. You can pick more than one and I'll combine them.</p>
+
+<style>
+  .site { background:#0b0b0c; color:#a1a1aa; font-family:"Geist", ui-sans-serif, system-ui, sans-serif; font-weight:500; border-radius:12px; border:1px solid #27272a; padding:30px 24px 34px; min-height:440px; }
+  .site .me { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .site .av { width:38px; height:38px; border-radius:9px; background:linear-gradient(135deg,#7dd3fc,#f59e0b); }
+  .site .name { color:#fafafa; font-size:14px; line-height:1.3; }
+  .site .role { font-size:13px; }
+  .site .hand { font-family:"Caveat", cursive; color:#fafafa; font-size:26px; line-height:1; margin:0 0 10px; }
+  .site h1 { color:#fafafa; font-size:27px; line-height:1.12; font-weight:600; letter-spacing:-0.02em; margin:0 0 4px; text-wrap:balance; }
+  .site h1 .g { color:#8b8b94; }
+  .site p { font-size:14px; line-height:1.65; margin:12px 0 0; text-wrap:pretty; }
+  .site p b { color:#fafafa; font-weight:500; }
+  .site p a { color:#fafafa; text-decoration:underline; text-decoration-color:#52525b; text-underline-offset:3px; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr" data-multiselect>
+
+  <div class="card" data-choice="i1" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Product Designer &amp; Design Engineer</div></div></div>
+      <p style="margin-top:0">Based in <b>Tokyo</b>, I design digital products and move between <b>design</b>, <b>code</b>, and <b>product strategy</b> to turn rough ideas into tools people can rely on.</p>
+      <p>Right now I lead product design at <b>Rakuten</b>, across design strategy, interaction, design systems, and frontend. Before that, <b>Reliance Jio</b>.</p>
+      <p>For 15+ years I've worked where product strategy meets design engineering, turning complexity into clarity and ideas into experiences that hold together as they grow.</p>
+      <p>See my <a>work</a>, read my <a>articles</a>, or reach me by <a>email</a>.</p>
+    </div></div>
+    <div class="card-body"><h3>1 · Your draft, cleaned up</h3><p>Same four paragraphs and order as yours. I fixed the typos, swapped in my own phrasing for the copied lines, and corrected the years. The last line holds the links, like the reference.</p></div>
+  </div>
+
+  <div class="card" data-choice="i2" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Product Design Director, Rakuten</div></div></div>
+      <p style="margin-top:0">I design digital products in <b>Tokyo</b>, and I care about the parts most people never see: the <b>systems</b>, the <b>flows</b>, and the <b>code</b> that make a product feel easy.</p>
+      <p>At <b>Rakuten</b> I lead product design across strategy, interaction, design systems, and frontend. Before that, I designed for millions of people at <b>Reliance Jio</b>.</p>
+      <p>I turn complexity into clarity, and ideas into products that hold together as they grow.</p>
+    </div></div>
+    <div class="card-body"><h3>2 · Three paragraphs, more personal</h3><p>It opens with what you care about rather than a job list, so it reads like you talking. Your Jio scale gets a mention, and your "complexity into clarity" line closes it.</p></div>
+  </div>
+
+  <div class="card" data-choice="i3" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <div class="hand">Hi, I'm Kiran</div>
+      <h1>I turn complexity into clarity, <span class="g">and ideas into products that hold together as they grow.</span></h1>
+      <p>Based in <b>Tokyo</b>, I lead product design at <b>Rakuten</b>, across design strategy, interaction, design systems, and frontend. Previously <b>Reliance Jio</b>.</p>
+      <p>For 15+ years I've moved between product strategy and design engineering, so ideas survive all the way to production.</p>
+    </div></div>
+    <div class="card-body"><h3>3 · Your best line as the headline</h3><p>Keeps the C1 layout you picked (hello plus a two-tone headline), with your own "complexity into clarity" sentence as the headline. Two short paragraphs follow.</p></div>
+  </div>
+
+  <div class="card" data-choice="i4" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="site">
+      <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div><div class="role">Tokyo, Japan</div></div></div>
+      <p style="margin-top:0">I lead product design at <b>Rakuten</b>. I work across <b>strategy</b>, <b>interaction</b>, <b>design systems</b>, and <b>frontend</b>, because good products need all four to agree.</p>
+      <p>Before Rakuten I was at <b>Reliance Jio</b>, where design had to work for hundreds of millions of people. That taught me that clarity comes from systems, not screens.</p>
+      <p>I write about what I learn on <a>Articles</a>, and share my work on <a>Projects</a>.</p>
+    </div></div>
+    <div class="card-body"><h3>4 · Tells a short story</h3><p>From what you do now, to what Jio taught you, to where to look next. It's the most opinionated option ("clarity comes from systems, not screens"), so it should sound like something you believe.</p></div>
+  </div>
+
+</div>

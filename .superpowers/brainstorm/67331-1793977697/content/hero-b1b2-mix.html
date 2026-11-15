@@ -1,0 +1,73 @@
+<h2>B1 + B2: four mixes</h2>
+<p class="subtitle">All have the handwritten hello, the Tokyo time and quiet text links. They differ in how the headline is lit and where the small pieces sit.</p>
+
+<style>
+  .k { background:#0b0b0c; color:#a1a1aa; font-family: ui-sans-serif, system-ui, -apple-system, "Geist", sans-serif; font-size:13px; line-height:1.6; padding:30px 22px; border-radius:10px; overflow:hidden; }
+  .k b { color:#fafafa; font-weight:500; }
+  .k .col { max-width:400px; margin:0 auto; }
+  .k p { margin:0 0 11px; }
+  .k h1 { color:#fafafa; font-size:28px; line-height:1.12; font-weight:500; letter-spacing:-0.02em; margin:4px 0 14px; }
+  .k h1 .dim, .k .dim { color:#6b6b74; }
+  .k .links { display:flex; gap:18px; margin:14px 0 4px; font-size:12.5px; align-items:center; }
+  .k .links span.l { color:#fafafa; border-bottom:1px solid #52525b; padding-bottom:1px; }
+  .k .hi { font-family:"Segoe Script","Bradley Hand","Snell Roundhand",cursive; color:#e4e4e7; font-size:20px; }
+  .k .pill { display:inline-flex; align-items:center; gap:6px; font-size:11px; border:1px solid #27272a; border-radius:99px; padding:3px 9px; }
+  .k .dot { width:6px; height:6px; border-radius:50%; background:#4ade80; flex:none; }
+  .k .av { width:38px; height:38px; border-radius:9px; background:linear-gradient(135deg,#3f3f46,#18181b); flex:none; }
+  .k .between { display:flex; justify-content:space-between; align-items:center; }
+  .k .scribble { position:relative; white-space:nowrap; }
+  .k .scribble svg { position:absolute; left:-2px; right:-2px; bottom:-7px; width:calc(100% + 4px); height:10px; }
+  .k .foot { display:flex; justify-content:space-between; align-items:center; margin-top:18px; padding-top:12px; border-top:1px solid #1f1f22; font-size:11.5px; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr" data-multiselect>
+
+  <div class="card" data-choice="c1" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="pill" style="margin-bottom:16px"><span class="dot"></span>Tokyo, Japan · 12:06 AM</div>
+      <div class="hi">Hi, I'm Kiran</div>
+      <h1>I lead product design <span class="dim">and build the systems that make complex products feel clear.</span></h1>
+      <p>Product Design Director at <b>Rakuten</b>, previously <b>Reliance Jio</b>.</p>
+      <div class="links"><span class="l">Explore projects →</span><span class="l">About me</span></div>
+    </div></div></div>
+    <div class="card-body"><h3>C1 · Straight mix</h3><p>B2's time pill and hello on top, B1's two-tone headline and links below. Everything stacks in reading order.</p></div>
+  </div>
+
+  <div class="card" data-choice="c2" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="between" style="margin-bottom:18px">
+        <div style="display:flex;align-items:center;gap:10px"><div class="av"></div><div class="hi">Hi, I'm Kiran</div></div>
+        <div class="pill"><span class="dot"></span>Tokyo · 12:06 AM</div>
+      </div>
+      <h1>I lead product design <span class="dim">and build the systems that make complex products feel clear.</span></h1>
+      <p>Product Design Director at <b>Rakuten</b>, previously <b>Reliance Jio</b>.</p>
+      <div class="links"><span class="l">Explore projects →</span><span class="l">About me</span></div>
+    </div></div></div>
+    <div class="card-body"><h3>C2 · Photo + hello in one row</h3><p>Your photo comes back, with the handwritten hello beside it and the time on the right, like the reference's top row. The headline starts sooner.</p></div>
+  </div>
+
+  <div class="card" data-choice="c3" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="pill" style="margin-bottom:16px"><span class="dot"></span>Tokyo, Japan · 12:06 AM</div>
+      <div class="hi">Hi, I'm Kiran</div>
+      <h1><span class="dim">I lead</span> product design <span class="dim">and build the</span> systems <span class="dim">that make complex products feel</span> clear.</h1>
+      <p>Product Design Director at <b>Rakuten</b>, previously <b>Reliance Jio</b>.</p>
+      <div class="links"><span class="l">Explore projects →</span><span class="l">About me</span></div>
+    </div></div></div>
+    <div class="card-body"><h3>C3 · Only the key words lit</h3><p>Like the bold words in the reference's paragraphs: "product design", "systems" and "clear" shine and the rest is grey. Someone skimming gets your three words.</p></div>
+  </div>
+
+  <div class="card" data-choice="c4" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="hi" style="margin-bottom:2px">Hi, I'm Kiran</div>
+      <h1>I lead product design <span class="dim">and build the systems that make complex products feel</span> <span class="scribble">clear.<svg viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M2 6 C 25 2, 55 9, 98 4" stroke="#e4e4e7" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></span></h1>
+      <p>Product Design Director at <b>Rakuten</b>, previously <b>Reliance Jio</b>.</p>
+      <div class="foot">
+        <div class="links" style="margin:0"><span class="l">Explore projects →</span><span class="l">About me</span></div>
+        <span style="display:inline-flex;align-items:center;gap:6px"><span class="dot"></span>Tokyo · 12:06 AM</span>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>C4 · Hand-drawn underline, time at the bottom</h3><p>A quick pen stroke under "clear" ties in with the handwriting. The time moves down beside the links, so the top is just hello + headline.</p></div>
+  </div>
+
+</div>

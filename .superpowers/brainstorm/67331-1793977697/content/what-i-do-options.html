@@ -1,0 +1,84 @@
+<h2>"What I do": four directions</h2>
+<p class="subtitle">Same four areas, same intro line. Each one borrows a different part of the reference. Pick any you like. You can pick more than one.</p>
+
+<style>
+  .k { background:#0b0b0c; color:#a1a1aa; font-family: ui-sans-serif, system-ui, -apple-system, "Geist", sans-serif; font-size:12.5px; line-height:1.55; padding:26px 22px; border-radius:10px; overflow:hidden; }
+  .k b { color:#fafafa; font-weight:500; }
+  .k .col { max-width:400px; margin:0 auto; }
+  .k .script { font-family:"Segoe Script","Bradley Hand","Snell Roundhand",cursive; color:#e4e4e7; font-size:21px; margin:0 0 4px; }
+  .k .h { color:#fafafa; font-size:17px; margin:0 0 2px; }
+  .k .intro { margin:0 0 16px; }
+  .k .t { color:#fafafa; }
+  .k .item { margin:0 0 14px; }
+  .k .rows > div { display:flex; justify-content:space-between; gap:14px; padding:10px 0; border-top:1px solid #1f1f22; }
+  .k .rows > div:last-child { border-bottom:1px solid #1f1f22; }
+  .k .rows .r { text-align:right; font-size:11px; color:#71717a; max-width:42%; }
+  .k .tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:7px; margin:0 -58px; }
+  .k .tile { background:#161618; border-radius:9px; height:78px; display:flex; align-items:center; justify-content:center; }
+  .k .cap { font-size:11px; margin-top:6px; color:#e4e4e7; }
+  .k .cap span { display:block; color:#71717a; }
+  .k .flow { display:flex; align-items:center; gap:4px; }
+  .k .flow i { width:16px; height:22px; border:1px solid #3f3f46; border-radius:3px; background:#0f0f10; }
+  .k .flow s { width:7px; height:1px; background:#52525b; }
+  .k .sw { display:grid; grid-template-columns:repeat(3,12px); gap:4px; }
+  .k .sw i { height:12px; border-radius:3px; }
+  .k .avs { display:flex; }
+  .k .avs i { width:18px; height:18px; border-radius:50%; border:2px solid #161618; margin-left:-5px; }
+  .k .code { font-family:ui-monospace,monospace; font-size:8.5px; color:#a1a1aa; line-height:1.5; }
+  .k .lead p { margin:0 0 11px; }
+</style>
+
+<div class="cards" style="grid-template-columns:1fr 1fr" data-multiselect>
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="script">What I do</div>
+      <p class="intro">Design, systems, and code for products where clarity is non-negotiable.</p>
+      <div class="item"><div class="t">Product design</div>Complex products, from research and flows to an interface people understand at first glance.</div>
+      <div class="item"><div class="t">Design systems</div>Tokens and components that let design and engineering scale together.</div>
+      <div class="item"><div class="t">Design leadership</div>Teams and partners aligned, so strong work ships consistently.</div>
+      <div class="item" style="margin:0"><div class="t">Frontend engineering</div>Building what I design, so the details survive to production.</div>
+    </div></div></div>
+    <div class="card-body"><h3>A · Quiet list</h3><p>Like the reference's "Projects": a title and one sentence each, with no cards, icons or tags. It's the calmest option, and it reads in 10 seconds.</p></div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="script">What I do</div>
+      <p class="intro">Design, systems, and code for products where clarity is non-negotiable.</p>
+      <div class="rows">
+        <div><div><div class="t">Product design</div>Research, flows, interfaces</div><div class="r">Interaction design · Prototyping</div></div>
+        <div><div><div class="t">Design systems</div>Tokens and components at scale</div><div class="r">Figma · Tailwind · AI systems</div></div>
+        <div><div><div class="t">Design leadership</div>Teams and stakeholders</div><div class="r">Rakuten · Jio</div></div>
+        <div><div><div class="t">Frontend engineering</div>Shipping what I design</div><div class="r">TypeScript · React · Next.js</div></div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>B · Rows with tools on the right</h3><p>Like the reference's "Work": what you do on the left, and the tools or places where you did it on the right in small grey text, with thin lines between rows. Your tags survive, just quieter.</p></div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col">
+      <div class="script">What I do</div>
+      <p class="intro">Design, systems, and code for products where clarity is non-negotiable.</p>
+      <div class="tiles">
+        <div><div class="tile"><div class="flow"><i></i><s></s><i></i><s></s><i style="border-color:#a1a1aa"></i></div></div><div class="cap">Product design<span>Flows to interface</span></div></div>
+        <div><div class="tile"><div class="sw"><i style="background:#fafafa"></i><i style="background:#a1a1aa"></i><i style="background:#52525b"></i><i style="background:#3f3f46"></i><i style="background:#27272a"></i><i style="background:#4ade80"></i></div></div><div class="cap">Design systems<span>Tokens, components</span></div></div>
+        <div><div class="tile"><div class="avs" style="padding-left:5px"><i style="background:#71717a"></i><i style="background:#a1a1aa"></i><i style="background:#d4d4d8"></i><i style="background:#52525b"></i></div></div><div class="cap">Leadership<span>Teams, partners</span></div></div>
+        <div><div class="tile"><div class="code">&lt;Card<br>&nbsp;&nbsp;tone="calm"<br>/&gt;</div></div><div class="cap">Frontend<span>React, Next.js</span></div></div>
+      </div>
+    </div></div></div>
+    <div class="card-body"><h3>C · Illustrated tiles, wider than the text</h3><p>Like the reference's "Highlights": four dark tiles, each with a tiny drawing of the work (a flow, colour tokens, a team, a line of code), stretching wider than the text column. It's the most visual option.</p></div>
+  </div>
+
+  <div class="card" data-choice="d" onclick="toggleSelect(this)">
+    <div class="card-image"><div class="k"><div class="col lead">
+      <div class="script">What I do</div>
+      <p>I design <b>complex products</b>, from research and flows to an interface people understand at first glance.</p>
+      <p>I build the <b>design systems</b> behind them, the tokens and components that let design and engineering scale together.</p>
+      <p>I <b>lead teams</b> and line up product, engineering and business so good work ships consistently.</p>
+      <p style="margin:0">And I <b>write the frontend</b> myself in React and Next.js, so the details survive to production.</p>
+    </div></div></div>
+    <div class="card-body"><h3>D · Four short paragraphs</h3><p>Like the reference's intro: plain sentences in your voice with the key words in white. It feels like you talking rather than a services list.</p></div>
+  </div>
+
+</div>

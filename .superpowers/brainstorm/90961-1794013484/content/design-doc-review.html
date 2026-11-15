@@ -1,0 +1,116 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+
+<h2>Home page redesign: the plan to approve</h2>
+<p class="subtitle">Left: the whole new home page, top to bottom (dark mode, drafts of the drawings). Right: what each part is and the calls I made. Reply in the terminal with "approved" or what to change.</p>
+
+<style>
+  .wrap2 { display:grid; grid-template-columns: 430px 1fr; gap:28px; align-items:start; }
+  .site { background:#0b0b0c; color:#a1a1aa; font-family:"Geist", ui-sans-serif, system-ui, sans-serif; font-weight:500; border-radius:12px; border:1px solid #27272a; padding:26px 22px 30px; font-size:12.5px; line-height:1.6; }
+  .site b { color:#fafafa; font-weight:500; }
+  .site a { color:#fafafa; text-decoration:underline; text-decoration-color:#52525b; text-underline-offset:3px; }
+  .site .pill { display:inline-flex; gap:6px; align-items:center; font-size:10.5px; color:#fafafa; border:1px solid #27272a; border-radius:99px; padding:3px 10px; }
+  .site .pill .dot { width:6px; height:6px; border-radius:50%; background:#22c55e; }
+  .site .pill .m { color:#71717a; }
+  .site .me { display:flex; align-items:center; gap:10px; margin:18px 0 14px; }
+  .site .av { width:36px; height:36px; border-radius:9px; background:linear-gradient(135deg,#7dd3fc,#f59e0b); }
+  .site .name { color:#fafafa; line-height:1.3; }
+  .site p { margin:0 0 10px; }
+  .site .hand { font-family:"Caveat", cursive; color:#fafafa; font-size:24px; line-height:1; margin:30px 0 6px; }
+  .site .num { float:right; font-family:ui-sans-serif; font-size:10px; color:#0b0b0c; background:#e4e4e7; border-radius:99px; width:18px; height:18px; display:inline-flex; align-items:center; justify-content:center; }
+  .site .grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-top:10px; }
+  .site .tile { background:#141416; border:1px solid #1f1f22; border-radius:10px; height:104px; padding:10px; display:flex; flex-direction:column; }
+  .site .tile .art { flex:1; display:flex; align-items:center; justify-content:center; }
+  .site .tile .t { color:#fafafa; font-size:11.5px; }
+  .site .tile .d { color:#71717a; font-size:10px; line-height:1.35; }
+  .flow { display:flex; align-items:center; gap:4px; } .flow i { width:14px; height:20px; border:1px solid #3f3f46; border-radius:3px; } .flow i.on { border-color:#d4d4d8; } .flow s { width:6px; height:1px; background:#52525b; }
+  .sw { display:grid; grid-template-columns:repeat(3,11px); gap:3px; } .sw i { height:11px; border-radius:3px; }
+  .avs { display:flex; padding-left:5px; } .avs i { width:16px; height:16px; border-radius:50%; border:2px solid #141416; margin-left:-5px; }
+  .code { font-family:ui-monospace,monospace; font-size:9px; color:#71717a; } .code em { color:#fafafa; font-style:normal; }
+  .site .hl { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; margin:10px -40px 0; }
+  .site .cover { height:70px; border-radius:9px; background:linear-gradient(160deg,#27272a,#18181b); border:1px solid #1f1f22; display:flex; align-items:center; justify-content:center; color:#52525b; font-size:9px; }
+  .site .hl .t { color:#fafafa; font-size:11px; margin-top:5px; } .site .hl .d { color:#71717a; font-size:10px; line-height:1.3; }
+  .site .row { display:flex; gap:10px; align-items:center; padding:9px 0; border-top:1px solid #1f1f22; }
+  .site .thumb { width:46px; height:32px; border-radius:6px; background:#27272a; flex:none; }
+  .site .row .t { color:#fafafa; font-size:11.5px; } .site .row .d { color:#71717a; font-size:10px; }
+  .site .row .arr { margin-left:auto; color:#71717a; }
+  .site .job { display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid #1f1f22; }
+  .site .job .t { color:#fafafa; } .site .job .r { color:#71717a; font-size:11px; }
+  .notes h3 { margin:22px 0 6px; } .notes h3:first-child { margin-top:0; }
+  .notes p, .notes li { font-size:14px; line-height:1.55; }
+  .notes ul { margin:4px 0 0; padding-left:18px; }
+  .gone { opacity:.75; }
+</style>
+
+<div class="wrap2">
+  <div class="site">
+    <span class="num">1</span>
+    <span class="pill"><span class="dot"></span>Tokyo, Japan <span class="m">· Local time</span> 12:19 AM</span>
+    <div class="me"><div class="av"></div><div><div class="name">Kiran Pingle</div>Product Design Director, Rakuten</div></div>
+    <p>I lead product design at <b>Rakuten</b>. I work across <b>strategy</b>, <b>interaction</b>, <b>design systems</b>, and <b>frontend</b>, because good products need all four to agree.</p>
+    <p>Before Rakuten I was at <b>Reliance Jio</b>, where design had to work for hundreds of millions of people. That taught me that clarity comes from systems, not screens.</p>
+    <p>I write about what I learn on <a>Articles</a>, and share my work on <a>Projects</a>.</p>
+
+    <div class="hand">What I do <span class="num">2</span></div>
+    <p>Design, systems, and code for products where clarity is non-negotiable.</p>
+    <div class="grid">
+      <div class="tile"><div class="art"><div class="flow"><i></i><s></s><i></i><s></s><i class="on"></i></div></div><div class="t">Product design</div><div class="d">From research and flows to an interface people get at first glance.</div></div>
+      <div class="tile"><div class="art"><div class="sw"><i style="background:#fafafa"></i><i style="background:#a1a1aa"></i><i style="background:#52525b"></i><i style="background:#3f3f46"></i><i style="background:#27272a"></i><i style="background:#22c55e"></i></div></div><div class="t">Design systems</div><div class="d">Tokens and components that scale together.</div></div>
+      <div class="tile"><div class="art"><div class="avs"><i style="background:#71717a"></i><i style="background:#a1a1aa"></i><i style="background:#d4d4d8"></i></div></div><div class="t">Design leadership</div><div class="d">Teams and partners aligned.</div></div>
+      <div class="tile"><div class="art"><div class="code">&lt;<em>Card</em> tone="calm" /&gt;</div></div><div class="t">Frontend engineering</div><div class="d">I build what I design.</div></div>
+    </div>
+
+    <div class="hand">Highlights <span class="num">3</span></div>
+    <div class="hl">
+      <div><div class="cover">cover image</div><div class="t">Fintech Components</div><div class="d">Interactive fintech dashboard widgets</div></div>
+      <div><div class="cover">cover image</div><div class="t">Finance Dashboard</div><div class="d">Bento-grid finance components</div></div>
+      <div><div class="cover">cover image</div><div class="t">Smart Home</div><div class="d">Climate, scenes, power and cameras</div></div>
+    </div>
+
+    <div class="hand">Writing <span class="num">4</span></div>
+    <div class="row"><div class="thumb"></div><div><div class="t">You built the top floor first</div><div class="d">Design to motivate</div></div><span class="arr">→</span></div>
+    <div class="row"><div class="thumb"></div><div><div class="t">Fewer choices. Better decisions.</div><div class="d">Stop bringing more options</div></div><span class="arr">→</span></div>
+    <div class="row"><div class="thumb"></div><div><div class="t">Nature shipped it first</div><div class="d">+ 2 more, and "Read all"</div></div><span class="arr">→</span></div>
+
+    <div class="hand">Work <span class="num">5</span></div>
+    <div class="job"><div><div class="t">Rakuten Mobile</div>Product Design Director</div><div class="r">2022 – Present</div></div>
+    <div class="job"><div><div class="t">Rakuten Inc.</div>UI/UX Section Manager</div><div class="r">2019 – 2022</div></div>
+    <div class="job"><div><div class="t">Reliance Jio</div>Product UX/UI Manager</div><div class="r">2015 – 2019</div></div>
+    <div class="job"><div><div class="t">Winjit Technologies</div>Design Lead</div><div class="r">2008 – 2015</div></div>
+  </div>
+
+  <div class="notes">
+    <h3>Why</h3>
+    <p>Today the home page reads like a marketing page. The new one should feel like you talking, calm and personal, and it should show work you've actually made.</p>
+
+    <h3>The five parts</h3>
+    <ul>
+      <li><b>1 · Intro:</b> your time pill, your photo with your name and role, then your three paragraphs, word for word.</li>
+      <li><b>2 · What I do:</b> four tiles, each with a small drawing, a title and one sentence. Your About page gets these too.</li>
+      <li><b>3 · Highlights:</b> your three showcase projects with their cover images, a bit wider than the text. Each opens in a new tab.</li>
+      <li><b>4 · Writing:</b> your same five recent articles as a quiet list, plus "Read all".</li>
+      <li><b>5 · Work:</b> your four jobs as simple rows, with dates on the right.</li>
+    </ul>
+
+    <h3 class="gone">Leaving the home page</h3>
+    <ul class="gone">
+      <li><b>Principles:</b> already on your About page, so it was showing twice.</li>
+      <li><b>Design to motivate + the pyramid:</b> it's already a full article, so it becomes the first row in Writing.</li>
+      <li>The big headline, the buttons, the tags and icons, and the skills list in Experience.</li>
+    </ul>
+
+    <h3>Calls I made (please check)</h3>
+    <ul>
+      <li>Your role sits under your name in place of "Tokyo", since the pill already says Tokyo.</li>
+      <li>"Hi, I'm Kiran" is gone, since your name row already says who you are.</li>
+      <li>Highlights: cover images, no year, opens in a new tab.</li>
+      <li>Caveat for the handwritten titles.</li>
+    </ul>
+
+    <h3>Not part of this</h3>
+    <p>The About page (we'll design it next), the menu, the footer, and the Projects and Articles pages.</p>
+
+    <h3>What counts as failing</h3>
+    <p>Wording or a look so close to the reference that it reads as someone else's site, clutter creeping back, or text that sounds machine-written.</p>
+  </div>
+</div>

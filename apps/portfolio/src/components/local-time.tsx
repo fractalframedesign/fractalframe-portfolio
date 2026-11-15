@@ -27,7 +27,7 @@ export const LocalTime = ({ className }: { className?: string }) => {
   return (
     <Badge
       variant="outline"
-      className={cn('bg-background gap-2 rounded-full px-3 py-1', className)}
+      className={cn('bg-background gap-2 rounded-full border-0 p-0', className)}
     >
       <span className="relative flex size-2" aria-hidden="true">
         <span className="bg-success absolute inline-flex size-full rounded-full opacity-60 motion-safe:animate-ping" />

@@ -65,7 +65,7 @@ const Key = ({ children }: { children: ReactNode }) => (
 );
 
 const NameRow = () => (
-  <motion.div className="mt-8 flex items-center gap-3" variants={itemVariants}>
+  <motion.div className="flex items-start gap-3" variants={itemVariants}>
     <Image
       src="/images/home/Kiran-Pingle.png"
       alt=""
@@ -76,7 +76,10 @@ const NameRow = () => (
     />
     <div>
       <h1 className="text-xl leading-snug">Kiran Pingle</h1>
-      <p className="text-muted-foreground leading-snug">Product Designer</p>
+      <p className="text-muted-foreground text-sm leading-snug">
+        Product Designer
+      </p>
+      <LocalTime />
     </div>
   </motion.div>
 );
@@ -131,6 +134,16 @@ const Hero = () => {
       ref={sectionRef}
       className="relative overflow-hidden pt-15 md:pt-20 lg:pt-30"
     >
+      <div className="pointer-events-none fixed inset-0 -z-10 hidden mask-[linear-gradient(to_bottom,black_0%,black_25%,rgb(0_0_0/0.7)_45%,rgb(0_0_0/0.35)_65%,rgb(0_0_0/0.1)_85%,transparent_100%),linear-gradient(to_right,transparent_0%,rgb(0_0_0/0.5)_8%,black_20%,black_80%,rgb(0_0_0/0.5)_92%,transparent_100%)] mask-intersect dark:block">
+        <Image
+          src="/images/home/hero-bg.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="pointer-events-none object-cover object-[50%_45%] scale-110 opacity-50 mask-[radial-gradient(ellipse_60%_80%_at_50%_30%,black_30%,transparent_80%)]"
+        />
+      </div>
       <div className="container">
         <motion.div
           className="mx-auto max-w-2xl"
@@ -139,10 +152,6 @@ const Hero = () => {
           animate="visible"
           style={{ y, opacity }}
         >
-          <motion.div variants={itemVariants}>
-            <LocalTime />
-          </motion.div>
-
           <NameRow />
           <Intro />
           <ProfileLinks />

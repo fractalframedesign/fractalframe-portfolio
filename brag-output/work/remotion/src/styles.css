@@ -1,0 +1,15 @@
+/* Showcase theme (Tailwind and the token mappings), then the Rakuten Link palette */
+@import "../../../../apps/portfolio/src/app/(showcase)/showcase.css";
+@import "../../../../apps/portfolio/src/app/(showcase)/showcase/rakuten-link/theme.css";
+
+/* Tailwind only scans this project by default; the components live in the portfolio */
+@source "../../../../apps/portfolio/src/components/project-demos/rakuten-link";
+@source "../../../../apps/portfolio/src/lib";
+
+/* Motion comes from the timeline only: no CSS animations or transitions */
+*,
+*::before,
+*::after {
+  animation: none !important;
+  transition: none !important;
+}
