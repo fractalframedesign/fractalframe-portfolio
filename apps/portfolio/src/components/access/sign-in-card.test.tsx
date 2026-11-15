@@ -27,6 +27,7 @@ const project = { slug: 'cactus-plant', name: 'Cactus Plant' };
 function renderCard(initialEmail?: string) {
   return render(
     <SignInCard
+      title="Log in to access"
       project={project}
       next="/projects/cactus-plant"
       initialEmail={initialEmail}
@@ -172,8 +173,56 @@ describe('SignInCard', () => {
     expect(screen.getByText('grace@example.com')).toBeTruthy();
   });
 
-  it('"Use a password instead" shows the password form, and Back returns', async () => {
+  it('says who the email box is for, and drops that line once past it', async () => {
     renderCard();
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Log in to access' }),
+    ).toBeTruthy();
+    expect(
+      screen.getByText('Enter your email if you already have access.'),
+    ).toBeTruthy();
+    expect(screen.getByLabelText<HTMLInputElement>('Email').placeholder).toBe(
+      'Enter your email',
+    );
+
+    await continueWith('new@example.com', {
+      step: 'request',
+      email: 'new@example.com',
+    });
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Request access' }),
+    ).toBeTruthy();
+    expect(
+      screen.queryByText('Enter your email if you already have access.'),
+    ).toBeNull();
+  });
+
+  it('"Request access" opens the request form without an email, and returns', () => {
+    renderCard();
+    fireEvent.click(screen.getByRole('button', { name: 'Request access' }));
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Request access' }),
+    ).toBeTruthy();
+    expect(screen.getByLabelText('Name')).toBeTruthy();
+    expect(screen.getByLabelText<HTMLInputElement>('Email').value).toBe('');
+    expect(screen.queryByText(/on my guest list yet/)).toBeNull();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Back to log in' }));
+    expect(screen.getByRole('button', { name: 'Continue' })).toBeTruthy();
+  });
+
+  it('offers the password only when a code can’t be sent', async () => {
+    renderCard();
+    expect(
+      screen.queryByRole('button', { name: 'Use a password instead' }),
+    ).toBeNull();
+
+    await continueWith('ada@example.com', {
+      step: 'email',
+      email: 'ada@example.com',
+      error: 'The email didn’t send. Try again.',
+    });
     fireEvent.click(
       screen.getByRole('button', { name: 'Use a password instead' }),
     );
