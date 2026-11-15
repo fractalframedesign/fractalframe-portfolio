@@ -63,7 +63,7 @@ export default function ExpiryDialog({
         <DialogHeader>
           <DialogTitle>Change expiry for {guest.name}</DialogTitle>
           <DialogDescription>
-            The new time counts from now. Their password stays the same.
+            The new time counts from now. They stay signed in.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-5" noValidate>

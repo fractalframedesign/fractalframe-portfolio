@@ -4,8 +4,8 @@ import { createAdminSession } from '@/lib/access/admin-session';
 import { LEVELS_TAG } from '@/lib/access/cached-levels';
 import {
   findGuestByEmail,
-  findGuestByPassword,
   getGuest,
+  getGuestPass,
   inviteGuest,
 } from '@/lib/access/repo/guest-access';
 import { getStoredLevels, seedProducts } from '@/lib/access/repo/products';
@@ -19,11 +19,11 @@ import {
   declineRequest,
   deleteGuest,
   guestMessage,
-  newPassword,
   resumeGuest,
   sendInvite,
   setGuestAccessStatus,
   setProjectLevel,
+  signOutEverywhere,
   updateGuest,
 } from './actions';
 
@@ -40,7 +40,7 @@ const cache = vi.hoisted(() => ({
 
 vi.mock('@/lib/db/client', () => ({ getDb: () => state.db }));
 
-// Lets a test make the project list fail after a password would be written
+// Lets a test make the project list fail before anything is written
 const content = vi.hoisted(() => ({ fail: false }));
 vi.mock('@/lib/projects', async (importOriginal) => {
   const original = await importOriginal<typeof import('@/lib/projects')>();
@@ -128,13 +128,15 @@ describe('without an admin session', () => {
 });
 
 describe('addGuest', () => {
-  test('creates one guest for every locked project with a password and reply', async () => {
+  test('creates one guest for every locked project with a reply and no password', async () => {
     const result = await addGuest(guestForm(ada));
     if (!result.ok) throw new Error('expected ok');
 
     expect(result.renewed).toBe(false);
     expect(result.reply).toContain('Hi Ada,');
-    expect(result.reply).toContain(result.password);
+    expect(result.reply).toContain('a 6-digit code will arrive');
+    expect(result.reply).not.toContain('Password:');
+    expect(result).not.toHaveProperty('password');
     expect(await guestAda()).toMatchObject({
       name: 'Ada Lovelace',
       status: 'active',
@@ -175,21 +177,21 @@ describe('addGuest', () => {
     expect(await listPendingRequests(db())).toHaveLength(0);
   });
 
-  test('resend access: the same email gets a new password and the old one stops', async () => {
+  test('resend access: the same email is renewed, not added twice, and stays signed in', async () => {
     const first = await addGuest(guestForm(ada));
     if (!first.ok) throw new Error('expected ok');
+    const before = await getGuestPass(db(), first.guestId, new Date());
+    await setGuestAccessStatus(first.guestId, 'paused');
     const again = await addGuest(
       guestForm({ ...ada, email: 'ADA@example.com' }),
     );
     if (!again.ok) throw new Error('expected ok');
 
-    expect(again.renewed).toBe(true);
-    expect(
-      await findGuestByPassword(db(), first.password, new Date()),
-    ).toBeNull();
-    expect(
-      await findGuestByPassword(db(), again.password, new Date()),
-    ).not.toBeNull();
+    expect(again).toMatchObject({ renewed: true, guestId: first.guestId });
+    expect(await getGuestPass(db(), first.guestId, new Date())).toEqual({
+      passwordLookup: before?.passwordLookup,
+      active: true,
+    });
   });
 });
 
@@ -212,7 +214,7 @@ describe('addGuest: email and link', () => {
     );
     expect(bloom).toBeGreaterThan(-1);
     expect(fintech).toBeGreaterThan(bloom);
-    expect(result.reply).toContain(`Password: ${result.password}`);
+    expect(result.reply).toContain('a 6-digit code will arrive');
     expect(result.guestId).toMatch(/^[0-9a-f-]{36}$/);
     delete process.env.NEXT_PUBLIC_SITE_URL;
   });
@@ -225,7 +227,11 @@ describe('sendInvite', () => {
     return result.guestId;
   }
 
-  const message = { subject: 'Your password', message: 'Hi Ada, it is pw-1' };
+  const message = {
+    subject: 'Access to my private projects',
+    message:
+      'Hi Ada,\n\nCactus Plant\nhttps://example.com/projects/cactus-plant\n\nKiran',
+  };
 
   test('without a verified sender it says so and sends nothing', async () => {
     const fetchMock = vi.fn();
@@ -261,9 +267,17 @@ describe('sendInvite', () => {
       from: 'Kiran <hello@example.com>',
       to: 'ada@example.com',
       reply_to: 'kiranspingle@gmail.com',
-      subject: 'Your password',
-      text: 'Hi Ada, it is pw-1',
+      subject: message.subject,
+      // The plain text is exactly what Kiran wrote
+      text: message.message,
     });
+    // The HTML version carries the same words and a button to the first link
+    expect(body.html).toContain('Access to my private projects</h1>');
+    expect(body.html).toContain('Hi Ada,');
+    expect(body.html).toMatch(
+      /<a href="https:\/\/example\.com\/projects\/cactus-plant"[^>]*>Open the project<\/a>/,
+    );
+    expect(body.html.match(/Kiran/g)).toHaveLength(1);
     vi.unstubAllGlobals();
     delete process.env.RESEND_API_KEY;
     delete process.env.ACCESS_REQUEST_FROM;
@@ -291,25 +305,11 @@ describe('sendInvite', () => {
   });
 });
 
-describe('a failure while writing the message never loses a password', () => {
-  test('newPassword keeps the old password working when it fails', async () => {
+describe('a failure while writing the message changes nothing', () => {
+  test('re-inviting a paused guest leaves them paused when it fails', async () => {
     const first = await addGuest(guestForm(ada));
     if (!first.ok) throw new Error('expected ok');
-    vi.spyOn(console, 'error').mockImplementation(() => {});
-    content.fail = true;
-
-    const result = await newPassword(first.guestId);
-    content.fail = false;
-
-    expect(result.ok).toBe(false);
-    expect(
-      await findGuestByPassword(db(), first.password, new Date()),
-    ).not.toBeNull();
-  });
-
-  test('re-inviting an existing email keeps the old password when it fails', async () => {
-    const first = await addGuest(guestForm(ada));
-    if (!first.ok) throw new Error('expected ok');
+    await setGuestAccessStatus(first.guestId, 'paused');
     vi.spyOn(console, 'error').mockImplementation(() => {});
     content.fail = true;
 
@@ -317,9 +317,7 @@ describe('a failure while writing the message never loses a password', () => {
     content.fail = false;
 
     expect(result.ok).toBe(false);
-    expect(
-      await findGuestByPassword(db(), first.password, new Date()),
-    ).not.toBeNull();
+    expect(await guestAda()).toMatchObject({ status: 'paused' });
   });
 });
 
@@ -338,31 +336,33 @@ describe('returning guests', () => {
     return { ...first, requestId: request!.id };
   }
 
-  test('resumeGuest turns access back on with the same password and approves the request', async () => {
-    const { guestId, password, requestId } = await pausedAda();
+  test('resumeGuest turns access back on, keeps them signed in and approves the request', async () => {
+    const { guestId, requestId } = await pausedAda();
     const data = guestForm({
       expiry: 'never',
       requestId,
       project: 'fintech-components',
     });
 
+    const before = await getGuestPass(db(), guestId, new Date());
     const result = await resumeGuest(guestId, data);
     if (!result.ok) throw new Error('expected ok');
+
+    expect(
+      (await getGuestPass(db(), guestId, new Date()))?.passwordLookup,
+    ).toBe(before?.passwordLookup);
 
     expect(await guestAda()).toMatchObject({
       status: 'active',
       expiresAt: null,
     });
-    expect(
-      await findGuestByPassword(db(), password, new Date()),
-    ).not.toBeNull();
     expect(await listPendingRequests(db())).toHaveLength(0);
     expect(result).toMatchObject({
       name: 'Ada Lovelace',
       email: 'ada@example.com',
     });
-    expect(result.reply).toContain('Password: use the one I sent you before.');
-    expect(result.reply).not.toContain(password);
+    expect(result.reply).toContain('a 6-digit code will arrive');
+    expect(result.reply).not.toContain('Password');
   });
 
   test('resumeGuest changes nothing when the guest has no email or is gone', async () => {
@@ -482,12 +482,16 @@ describe('guests', () => {
     });
   });
 
-  test('newPassword returns a new password and reply', async () => {
+  test('signOutEverywhere replaces the pass key, so every signed-in device is locked out', async () => {
     const guest = await addAda();
-    const result = await newPassword(guest.guestId);
-    if (!result.ok) throw new Error('expected ok');
-    expect(result.reply).toContain(result.password);
-    expect(result.reply).toContain('Hi Ada,');
+    const before = await getGuestPass(db(), guest.guestId, new Date());
+
+    expect(await signOutEverywhere(guest.guestId)).toEqual({ ok: true });
+
+    const after = await getGuestPass(db(), guest.guestId, new Date());
+    expect(after?.active).toBe(true);
+    expect(after?.passwordLookup).not.toBe(before?.passwordLookup);
+    expect(await signOutEverywhere('not-an-id')).toMatchObject({ ok: false });
   });
 
   test('updateGuest needs a non-blank name', async () => {

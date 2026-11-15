@@ -1,13 +1,12 @@
 import { eq } from 'drizzle-orm';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { inviteGuest } from '@/lib/access/repo/guest-access';
 import { seedProducts } from '@/lib/access/repo/products';
 import { listPendingRequests } from '@/lib/access/repo/requests';
 import type { Db } from '@/lib/db/client';
 import { products } from '@/lib/db/schema';
 import { createTestDb } from '@/lib/db/test-db';
-import { accessCookieName, GUEST_PASS_COOKIE } from '@/lib/showcase-access';
+import { accessCookieName } from '@/lib/showcase-access';
 
 import { requestAccess } from './request-access';
 import { unlock } from './unlock';
@@ -78,31 +77,14 @@ beforeEach(async () => {
 });
 
 describe('unlock', () => {
-  test('a guest password sets one pass cookie for the whole site and redirects', async () => {
-    const { password } = await inviteGuest(state.db as Db, {
-      name: 'Ada',
-      expiresAt: null,
-    });
-    await expect(unlockWith(password)).rejects.toThrow(
-      `REDIRECT:/showcase/${SLUG}/docs`,
-    );
-    expect(state.cookies.get(GUEST_PASS_COOKIE)).toMatch(
-      /^[0-9a-f-]{36}\.[0-9a-f]{64}$/,
-    );
-    expect(state.paths.get(GUEST_PASS_COOKIE)).toBe('/');
-  });
-
   test('a locked case study unlocks and returns to its page', async () => {
-    const { password } = await inviteGuest(state.db as Db, {
-      name: 'Ada',
-      expiresAt: null,
-    });
+    process.env.SHOWCASE_ACCESS = 'kiran:open-sesame:*';
     await expect(
       unlock(
         {},
         form({
           project: CASE_STUDY,
-          password,
+          password: 'open-sesame',
           next: `/projects/${CASE_STUDY}`,
         }),
       ),
@@ -110,10 +92,8 @@ describe('unlock', () => {
   });
 
   test('next never leaves the project', async () => {
-    const { password } = await inviteGuest(state.db as Db, {
-      name: 'Ada',
-      expiresAt: null,
-    });
+    process.env.SHOWCASE_ACCESS = 'kiran:open-sesame:*';
+    const password = 'open-sesame';
     for (const next of [
       '//evil.com',
       '/admin',
@@ -132,17 +112,6 @@ describe('unlock', () => {
     ).rejects.toThrow(`REDIRECT:/showcase/${SLUG}`);
   });
 
-  test('a paused guest is refused', async () => {
-    const { password } = await inviteGuest(state.db as Db, {
-      name: 'Ada',
-      expiresAt: new Date(Date.now() - 1000),
-    });
-    expect(await unlockWith(password)).toEqual({
-      error: 'That password isn’t right. Try again.',
-    });
-    expect(state.cookies.has(GUEST_PASS_COOKIE)).toBe(false);
-  });
-
   test('projects that are not Unlocked need no password', async () => {
     expect(await unlock({}, form({ project: 'bloom', password: 'x' }))).toEqual(
       { error: 'This project doesn’t need a password.' },
@@ -150,18 +119,16 @@ describe('unlock', () => {
     expect(state.cookies.size).toBe(0);
   });
 
-  test('unlock reports outage, still accepts fallback', async () => {
+  test('the fallback password works while the database is down', async () => {
     state.dbDown = true;
-    expect(await unlockWith('wrong')).toEqual({
-      error:
-        'We can’t check passwords right now. Please try again in a few minutes.',
-    });
-
     process.env.SHOWCASE_ACCESS = 'kiran:open-sesame:*';
     await expect(unlockWith('open-sesame')).rejects.toThrow(
       `REDIRECT:/showcase/${SLUG}/docs`,
     );
     expect(state.cookies.get(accessCookieName(SLUG))).toMatch(/^[0-9a-f]{64}$/);
+    expect(await unlockWith('wrong')).toEqual({
+      error: 'That password isn’t right. Try again.',
+    });
   });
 
   test('unlock locks after 5 wrong passwords', async () => {

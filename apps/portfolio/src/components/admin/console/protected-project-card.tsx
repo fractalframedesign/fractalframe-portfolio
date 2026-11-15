@@ -7,7 +7,7 @@ import SectionCard from './section-card';
 
 type ProtectedProjectCardProps = { projects: ProtectedProjectRow[] };
 
-/** Every password-protected project; one guest password opens them all */
+/** Every password-protected project; a guest's email opens them all */
 export default function ProtectedProjectCard({
   projects,
 }: ProtectedProjectCardProps) {

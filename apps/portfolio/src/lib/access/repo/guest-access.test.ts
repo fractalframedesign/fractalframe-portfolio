@@ -8,7 +8,6 @@ import { grants, guests, products } from '@/lib/db/schema';
 import { createTestDb } from '@/lib/db/test-db';
 
 import {
-  findGuestByPassword,
   getGuestPass,
   inviteGuest,
   recordGuestVisit,
@@ -25,24 +24,25 @@ const now = new Date('2026-11-01T00:00:00Z');
 const later = (hours: number) => new Date(now.getTime() + hours * 3_600_000);
 
 describe('inviteGuest', () => {
-  test('creates one active guest and returns a password', async () => {
+  test('creates one active guest with a random pass key', async () => {
     const created = await inviteGuest(db, {
       name: 'Ada',
       email: 'ada@x.com',
       expiresAt: null,
     });
-    expect(created.existing).toBe(false);
-    expect(await findGuestByPassword(db, created.password, now)).toMatchObject({
-      guestId: created.guestId,
-    });
+    expect(created).toEqual({ guestId: created.guestId, existing: false });
+    const pass = await getGuestPass(db, created.guestId, now);
+    expect(pass?.active).toBe(true);
+    expect(pass?.passwordLookup).toMatch(/^[0-9a-f]{64}$/);
   });
 
-  test('the same email in any case renews: new password, old one stops', async () => {
+  test('the same email in any case renews access and keeps the pass key', async () => {
     const first = await inviteGuest(db, {
       name: 'Ada',
       email: 'ada@x.com',
       expiresAt: null,
     });
+    const before = await getGuestPass(db, first.guestId, now);
     await setGuestStatus(db, first.guestId, 'paused');
     const second = await inviteGuest(db, {
       name: 'Ada L',
@@ -51,9 +51,9 @@ describe('inviteGuest', () => {
     });
 
     expect(second).toMatchObject({ existing: true, guestId: first.guestId });
-    expect(await findGuestByPassword(db, first.password, now)).toBeNull();
-    expect(await findGuestByPassword(db, second.password, now)).toMatchObject({
-      guestId: first.guestId,
+    expect(await getGuestPass(db, first.guestId, now)).toEqual({
+      passwordLookup: before?.passwordLookup,
+      active: true,
     });
   });
 
@@ -65,20 +65,18 @@ describe('inviteGuest', () => {
 });
 
 describe('access state', () => {
-  test('paused or expired guests are not found and their pass is inactive', async () => {
-    const { guestId, password } = await inviteGuest(db, {
+  test('the pass of a paused or expired guest is inactive', async () => {
+    const { guestId } = await inviteGuest(db, {
       name: 'Ada',
       email: 'ada@x.com',
       expiresAt: later(1),
     });
     expect((await getGuestPass(db, guestId, now))?.active).toBe(true);
 
-    expect(await findGuestByPassword(db, password, later(2))).toBeNull();
     expect((await getGuestPass(db, guestId, later(2)))?.active).toBe(false);
 
     await setGuestExpiry(db, guestId, null);
     await setGuestStatus(db, guestId, 'paused');
-    expect(await findGuestByPassword(db, password, now)).toBeNull();
     expect((await getGuestPass(db, guestId, now))?.active).toBe(false);
   });
 

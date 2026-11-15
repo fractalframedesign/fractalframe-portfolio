@@ -4,6 +4,7 @@ import { revalidatePath, updateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { LEVELS_TAG } from '@/lib/access/cached-levels';
+import { renderEmail } from '@/lib/access/email-template';
 import { expiryChoiceSchema, resolveExpiry } from '@/lib/access/expiry';
 import { resolveLevel } from '@/lib/access/levels';
 import { copyReplyText, type InviteProject } from '@/lib/access/reply';
@@ -27,10 +28,9 @@ export type ActionError = {
 };
 export type ActionResult<T extends object = object> =
   ({ ok: true } & T) | ActionError;
-export type PasswordResult = ActionResult<{
+export type InviteResult = ActionResult<{
   guestId: string;
-  password: string;
-  /** The email was already a guest: their old password stopped working */
+  /** The email was already a guest: their access was renewed */
   renewed: boolean;
   reply: string;
 }>;
@@ -177,7 +177,7 @@ async function inviteProjects(askedSlug?: string): Promise<InviteProject[]> {
     : [{ name: 'My projects', link: `${site}/projects` }];
 }
 
-export async function addGuest(formData: FormData): Promise<PasswordResult> {
+export async function addGuest(formData: FormData): Promise<InviteResult> {
   await requireAdmin();
   const parsed = parseAddGuest(formData);
   if (!parsed.success) return fieldErrors(parsed.error);
@@ -191,9 +191,9 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
 
   try {
     const db = getDb();
-    // Everything that can fail comes before the password changes
+    // Everything that can fail comes before the guest is written
     const projects = await inviteProjects(input.project);
-    const { guestId, password, existing } = await accessRepo.inviteGuest(db, {
+    const { guestId, existing } = await accessRepo.inviteGuest(db, {
       name: input.name,
       email: input.email || undefined,
       note: input.note,
@@ -205,12 +205,11 @@ export async function addGuest(formData: FormData): Promise<PasswordResult> {
 
     const reply = copyReplyText({
       name: input.name,
-      password,
       expiresAt: expiry.expiresAt,
       projects,
     });
     refreshAdmin();
-    return { ok: true, guestId, password, renewed: existing, reply };
+    return { ok: true, guestId, renewed: existing, reply };
   } catch (error) {
     return failed('addGuest', error);
   }
@@ -305,32 +304,21 @@ export async function deleteGuest(guestId: string): Promise<ActionResult> {
   return { ok: true };
 }
 
-export async function newPassword(
+/** Ends every signed-in device for a guest; they sign in again with a new code */
+export async function signOutEverywhere(
   guestId: string,
-): Promise<ActionResult<{ password: string; reply: string }>> {
+): Promise<ActionResult> {
   await requireAdmin();
   const parsed = idSchema.safeParse(guestId);
   if (!parsed.success) return { ok: false, error: MESSAGES.invalid };
 
   try {
-    const db = getDb();
-    // Everything that can fail comes before the password changes
-    const [guest, projects] = await Promise.all([
-      accessRepo.getGuest(db, parsed.data),
-      inviteProjects(),
-    ]);
-    const password = await guestsRepo.resetPassword(db, parsed.data);
-    const reply = copyReplyText({
-      name: guest?.name ?? '',
-      password,
-      expiresAt: guest?.expiresAt ?? null,
-      projects,
-    });
-    refreshAdmin();
-    return { ok: true, password, reply };
+    await guestsRepo.rotatePassKey(getDb(), parsed.data);
   } catch (error) {
-    return failed('newPassword', error);
+    return failed('signOutEverywhere', error);
   }
+  refreshAdmin();
+  return { ok: true };
 }
 
 /**
@@ -365,7 +353,10 @@ export async function sendInvite(
     to,
     replyTo: CONTACT_EMAIL,
     subject: parsed.data.subject,
+    // The text is Kiran's message as written; the HTML is the same words in
+    // the shared template, with a button to the first project link
     text: parsed.data.message,
+    html: inviteHtml(parsed.data.subject, parsed.data.message),
   });
   if (!sent) return { ok: false, error: MESSAGES.emailFailed };
 
@@ -380,6 +371,15 @@ export async function sendInvite(
     }
   }
   return { ok: true, sentTo: to };
+}
+
+function inviteHtml(subject: string, message: string) {
+  const link = message.match(/https?:\/\/\S+/)?.[0].replace(/[.,;:!?)]+$/, '');
+  return renderEmail({
+    heading: subject,
+    paragraphs: message.split(/\n{2,}/),
+    button: link ? { label: 'Open the project', href: link } : undefined,
+  }).html;
 }
 
 type GuestMessage = ActionResult<{
@@ -398,7 +398,7 @@ const resumeSchema = z.object({
 
 /**
  * A paused or expired guest asked again: turns their access back on with the
- * same password and a new end date, and writes the message (links only).
+ * same pass key and a new end date, and writes the message (links only).
  */
 export async function resumeGuest(
   guestId: string,
@@ -485,7 +485,6 @@ async function writeGuestMessage(
     email: guest.email,
     reply: copyReplyText({
       name: guest.name,
-      password: null,
       expiresAt:
         options.expiresAt === undefined ? guest.expiresAt : options.expiresAt,
       projects: await inviteProjects(options.project),

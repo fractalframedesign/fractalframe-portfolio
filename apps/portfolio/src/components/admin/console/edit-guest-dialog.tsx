@@ -67,7 +67,7 @@ export default function EditGuestDialog({
         <DialogHeader>
           <DialogTitle>Edit {guest.name}</DialogTitle>
           <DialogDescription>
-            Only you see these. Their password doesn&apos;t change.
+            Only you see these. Their access doesn&apos;t change.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-5" noValidate>

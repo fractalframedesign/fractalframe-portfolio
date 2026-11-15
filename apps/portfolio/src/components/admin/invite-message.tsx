@@ -1,6 +1,6 @@
 'use client';
 
-import { CircleCheck, TriangleAlert } from 'lucide-react';
+import { CircleCheck, Info } from 'lucide-react';
 import { unstable_rethrow } from 'next/navigation';
 import { useId, useState, useTransition } from 'react';
 
@@ -19,9 +19,9 @@ type InviteMessageProps = {
   guestId: string;
   name: string;
   email: string;
-  /** Prefilled invitation with the link and password */
+  /** Prefilled invitation with the project links and how to sign in */
   reply: string;
-  /** An existing guest got a new password, so their old one stopped working */
+  /** The email was already a guest, so sending this renews their access */
   renewed?: boolean;
   /** The request this answers; marked answered once the email is sent */
   requestId?: string;
@@ -68,9 +68,9 @@ export default function InviteMessage({
     <div className="space-y-5">
       {renewed && (
         <Alert>
-          <TriangleAlert aria-hidden />
+          <Info aria-hidden />
           <AlertDescription>
-            {name}&apos;s old password no longer works. Send them this one.
+            {name} already had access. Sending this renews it.
           </AlertDescription>
         </Alert>
       )}

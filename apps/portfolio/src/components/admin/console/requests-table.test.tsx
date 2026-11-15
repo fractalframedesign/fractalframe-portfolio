@@ -73,13 +73,13 @@ describe('RequestsTable', () => {
     expect(cy.getByRole('button', { name: 'Send links again' })).toBeTruthy();
   });
 
-  it('Resume access keeps the password: pick an end date, then send the links', async () => {
+  it('Resume access: pick an end date, then send the links', async () => {
     actions.resumeGuest.mockResolvedValue({
       ok: true,
       guestId: 'g-ada',
       name: 'Ada',
       email: 'ada@x.com',
-      reply: 'Hi Ada, Password: use the one I sent you before.',
+      reply: 'Hi Ada, your access is back on. Enter your email for a code.',
     });
     actions.sendInvite.mockResolvedValue({ ok: true, sentTo: 'ada@x.com' });
     render(<RequestsTable requests={requests} />);
@@ -92,7 +92,9 @@ describe('RequestsTable', () => {
     expect(
       within(dialog).getByRole('heading', { name: 'Resume access for Ada' }),
     ).toBeTruthy();
-    expect(dialog.textContent).toContain('Their password stays the same.');
+    expect(dialog.textContent).toContain(
+      'They sign in with their email, as before.',
+    );
     await user.click(
       within(dialog).getByRole('button', { name: 'Resume access' }),
     );
@@ -108,7 +110,7 @@ describe('RequestsTable', () => {
     const message = (await within(dialog).findByLabelText(
       'Message',
     )) as HTMLTextAreaElement;
-    expect(message.value).toContain('use the one I sent you before');
+    expect(message.value).toContain('your access is back on');
     await user.click(
       within(dialog).getByRole('button', { name: 'Send invitation' }),
     );
@@ -143,25 +145,18 @@ describe('RequestsTable', () => {
     expect(within(dialog).queryAllByRole('radio')).toHaveLength(0);
   });
 
-  it('Lost their password? switches to making a new one', async () => {
+  it('a returning guest is never offered a new password', async () => {
     render(<RequestsTable requests={requests} />);
     const user = userEvent.setup();
     await user.click(
       within(row('Ada')).getByRole('button', { name: 'Resume access' }),
     );
-    await user.click(
-      await screen.findByRole('button', {
-        name: 'Lost their password? Make a new one',
-      }),
-    );
 
     const dialog = await screen.findByRole('dialog');
     expect(
-      within(dialog).getByRole('heading', { name: 'Resend access to Ada' }),
-    ).toBeTruthy();
-    expect(dialog.textContent).toContain(
-      'This makes a new password. Their old one stops working.',
-    );
+      within(dialog).queryByRole('button', { name: /password/i }),
+    ).toBeNull();
+    expect(dialog.textContent).not.toMatch(/password/i);
   });
 
   it('Approve opens the invite form prefilled', async () => {
@@ -175,6 +170,10 @@ describe('RequestsTable', () => {
       within(dialog).getByRole('heading', { name: 'Approve request' }),
     ).toBeTruthy();
     expect(within(dialog).getByLabelText('Name')).toHaveProperty('value', 'Bo');
+    expect(dialog.textContent).toContain(
+      'They’ll sign in with their email. You get a message to send them.',
+    );
+    expect(dialog.textContent).not.toMatch(/password/i);
   });
 
   it('links a field error to its field', async () => {
@@ -203,9 +202,8 @@ describe('RequestsTable', () => {
     actions.addGuest.mockResolvedValue({
       ok: true,
       guestId: 'g1',
-      password: 'pw-1',
       renewed: false,
-      reply: 'Hi Bo, your password is pw-1 https://example.com/projects',
+      reply: 'Hi Bo, you now have access https://example.com/projects',
     });
     actions.sendInvite.mockResolvedValue({ ok: true, sentTo: 'bo@x.com' });
     render(<RequestsTable requests={requests} />);
@@ -224,7 +222,7 @@ describe('RequestsTable', () => {
     const message = (await within(dialog).findByLabelText(
       'Message',
     )) as HTMLTextAreaElement;
-    expect(message.value).toContain('pw-1');
+    expect(message.value).toContain('you now have access');
     expect(within(dialog).getByText('bo@x.com')).toBeTruthy();
     expect(actions.sendInvite).not.toHaveBeenCalled();
 
@@ -234,9 +232,9 @@ describe('RequestsTable', () => {
     );
 
     expect(actions.sendInvite).toHaveBeenCalledWith('g1', {
-      subject: 'Your password for my private projects',
+      subject: 'Access to my private projects',
       message:
-        'Hi Bo, your password is pw-1 https://example.com/projects See you!',
+        'Hi Bo, you now have access https://example.com/projects See you!',
     });
     expect((await within(dialog).findByRole('status')).textContent).toContain(
       'Sent to bo@x.com',
@@ -247,9 +245,8 @@ describe('RequestsTable', () => {
     actions.addGuest.mockResolvedValue({
       ok: true,
       guestId: 'g1',
-      password: 'pw-1',
       renewed: false,
-      reply: 'Hi Bo, pw-1',
+      reply: 'Hi Bo, you now have access',
     });
     actions.sendInvite.mockResolvedValue({
       ok: false,
