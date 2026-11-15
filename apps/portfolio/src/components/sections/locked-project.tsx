@@ -1,5 +1,4 @@
 import { Lock } from 'lucide-react';
-import Image from 'next/image';
 
 import SignInCard from '@/components/access/sign-in-card';
 import {
@@ -9,7 +8,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
 
 type LockedProjectProps = {
   /** Frontmatter only: the case study itself is never passed in */
@@ -17,15 +15,12 @@ type LockedProjectProps = {
     slug: string;
     name: string;
     description: string;
-    image: string;
-    wrapperClassName?: string;
-    imageClassName?: string;
   };
   /** From the link in the code email: start on the code step */
   initialEmail?: string;
 };
 
-/** Teaser for a password-protected case study */
+/** What a visitor sees in place of a private case study: its name and the way in, nothing from inside it */
 export default function LockedProject({
   project,
   initialEmail,
@@ -62,20 +57,6 @@ export default function LockedProject({
               autoFocus={false}
             />
           </CardContent>
-        </Card>
-      </div>
-
-      <div className="bigger-container my-15 md:my-18">
-        <Card className="flex aspect-video items-center justify-center overflow-hidden p-0">
-          <div className={cn('relative size-full', project.wrapperClassName)}>
-            <Image
-              src={project.image}
-              alt={project.name}
-              fill
-              sizes="(min-width: 1024px) 1024px, 100vw"
-              className={cn('object-cover', project.imageClassName)}
-            />
-          </div>
         </Card>
       </div>
     </section>

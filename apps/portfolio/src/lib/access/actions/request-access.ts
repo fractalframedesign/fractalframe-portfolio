@@ -7,6 +7,7 @@ import { offersUnlock } from '@/lib/access/gate';
 import { getStoredLevels } from '@/lib/access/repo/products';
 import { isLocked, recordFailure } from '@/lib/access/repo/rate-limit';
 import { saveRequest } from '@/lib/access/repo/requests';
+import { requestEmail } from '@/lib/access/request-email';
 import { sendEmail } from '@/lib/access/send-email';
 import { CONTACT_EMAIL } from '@/lib/constants';
 import { getDb } from '@/lib/db/client';
@@ -88,22 +89,10 @@ async function save(request: AccessRequest) {
   }
 }
 
-function emailKiran({
-  name,
-  email,
-  message,
-  projectName,
-}: AccessRequest & { projectName: string }) {
+function emailKiran(request: AccessRequest & { projectName: string }) {
   return sendEmail({
     to: CONTACT_EMAIL,
-    replyTo: email,
-    subject: `Access request: ${projectName} from ${name}`,
-    text: [
-      `${name} <${email}> asked for access to ${projectName}.`,
-      message && `Message:\n${message}`,
-      'Open Requests in the admin console to approve them.',
-    ]
-      .filter(Boolean)
-      .join('\n\n'),
+    replyTo: request.email,
+    ...requestEmail(request),
   });
 }

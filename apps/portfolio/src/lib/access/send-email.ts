@@ -10,7 +10,7 @@ export function guestSender() {
     : undefined;
 }
 
-/** Sends an email through Resend, with an HTML version when given; false (and logged) on any failure */
+/** Sends an email through Resend, plain text with optional HTML; false (and logged) on any failure */
 export async function sendEmail({
   to,
   subject,
@@ -22,6 +22,7 @@ export async function sendEmail({
   to: string;
   subject: string;
   text: string;
+  /** Designed version; clients that can't show it fall back to text */
   html?: string;
   replyTo?: string;
   from?: string;

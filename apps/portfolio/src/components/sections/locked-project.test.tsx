@@ -10,21 +10,24 @@ const project = {
   slug: 'cactus-plant',
   name: 'Cactus Plant',
   description: 'A plant care app.',
-  image: '/images/projects/cactus.webp',
 };
 
 describe('LockedProject', () => {
-  it('shows only the teaser and an email box with Continue', () => {
+  it('shows only the name and an email box with Continue', () => {
     render(<LockedProject project={project} />);
 
     expect(
       screen.getByRole('heading', { level: 1, name: 'Cactus Plant' }),
     ).toBeTruthy();
     expect(screen.getByText('A plant care app.')).toBeTruthy();
-    expect(screen.getByRole('img', { name: 'Cactus Plant' })).toBeTruthy();
     expect(screen.getByLabelText('Email')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Continue' })).toBeTruthy();
     expect(screen.queryByLabelText('Password')).toBeNull();
+  });
+
+  it('shows no picture of the case study', () => {
+    render(<LockedProject project={project} />);
+    expect(screen.queryByRole('img')).toBeNull();
   });
 
   it('does not jump focus past the heading to the email box', () => {
