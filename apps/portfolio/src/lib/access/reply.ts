@@ -7,27 +7,24 @@ function formatExpiry(date: Date) {
   return `${format(new TZDate(date, LOCATION.timeZone), 'MMM d, yyyy, HH:mm')} JST`;
 }
 
-export const INVITE_SUBJECT = 'Your password for my private projects';
+export const INVITE_SUBJECT = 'Access to my private projects';
 
 export type InviteProject = { name: string; link: string };
 
 const INTROS = {
-  invite: 'Kiran invited you to these private projects:',
+  invite: 'You now have access to my private projects:',
   resume: 'Your access to my private projects is back on:',
   reminder: 'Here are the links to my private projects again:',
 };
 
-/** Invitation text Kiran can edit, then send or copy: one password for every locked project */
+/** Invitation text Kiran can edit, then send or copy: one email for every locked project */
 export function copyReplyText({
   name,
-  password,
   expiresAt,
   projects,
   kind = 'invite',
 }: {
   name: string;
-  /** Null when they keep the password they already have */
-  password: string | null;
   expiresAt: Date | null;
   /** Every locked project, the one they asked about first */
   projects: InviteProject[];
@@ -38,7 +35,7 @@ export function copyReplyText({
     .map((project) => `${project.name}\n${project.link}`)
     .join('\n\n');
   const expiry = expiresAt
-    ? `It works until ${formatExpiry(expiresAt)}.\n`
+    ? `It works until ${formatExpiry(expiresAt)}.\n\n`
     : '';
 
   return `Hi ${firstName},
@@ -47,9 +44,8 @@ ${INTROS[kind]}
 
 ${list}
 
-Password: ${password ?? 'use the one I sent you before.'}
+To open one, enter your email on the page and a 6-digit code will arrive.
+You stay signed in on that device until I end your access.
 
-${expiry}Open a link and enter the password. It's asked again after you close your browser.
-
-Kiran`;
+${expiry}Kiran`;
 }

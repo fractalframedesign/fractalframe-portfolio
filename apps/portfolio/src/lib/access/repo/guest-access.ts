@@ -4,7 +4,7 @@ import type { Db } from '@/lib/db/client';
 import { guests } from '@/lib/db/schema';
 
 import { isGrantActive } from '../expiry';
-import { generatePassword, passwordLookup } from '../passwords';
+import { generatePassKey } from '../passwords';
 
 const HOUR_MS = 3_600_000;
 
@@ -47,7 +47,8 @@ export function normalizeEmail(email: string | null | undefined) {
 
 /**
  * Invites someone, or renews them when their email is already a guest:
- * either way a new password, active access and the given expiry.
+ * either way active access and the given expiry. A new guest gets a pass key;
+ * a renewed guest keeps theirs, so the devices they signed in on still work.
  */
 export async function inviteGuest(
   db: Db,
@@ -57,14 +58,11 @@ export async function inviteGuest(
     note?: string;
     expiresAt: Date | null;
   },
-): Promise<{ guestId: string; password: string; existing: boolean }> {
+): Promise<{ guestId: string; existing: boolean }> {
   const email = normalizeEmail(input.email);
   const name = input.name.trim();
   const note = input.note?.trim() ?? '';
-  const password = generatePassword();
-  const lookup = await passwordLookup(password);
   const access = {
-    passwordLookup: lookup,
     accessStatus: 'active' as const,
     accessExpiresAt: input.expiresAt,
   };
@@ -83,14 +81,20 @@ export async function inviteGuest(
           note: note || existing.note,
         })
         .where(eq(guests.id, existing.id));
-      return { guestId: existing.id, password, existing: true };
+      return { guestId: existing.id, existing: true };
     }
 
     const [created] = await tx
       .insert(guests)
-      .values({ name, email, note, ...access })
+      .values({
+        name,
+        email,
+        note,
+        passwordLookup: generatePassKey(),
+        ...access,
+      })
       .returning({ id: guests.id });
-    return { guestId: created!.id, password, existing: false };
+    return { guestId: created!.id, existing: false };
   });
 }
 
@@ -112,23 +116,7 @@ export async function findGuestByEmail(db: Db, email: string) {
   return row;
 }
 
-/** The guest this password belongs to, only while their access is active */
-export async function findGuestByPassword(db: Db, password: string, now: Date) {
-  const lookup = await passwordLookup(password);
-  const [row] = await db
-    .select({
-      guestId: guests.id,
-      passwordLookup: guests.passwordLookup,
-      status: guests.accessStatus,
-      expiresAt: guests.accessExpiresAt,
-    })
-    .from(guests)
-    .where(eq(guests.passwordLookup, lookup));
-  if (!row || !isAccessActive(row, now)) return null;
-  return { guestId: row.guestId, passwordLookup: row.passwordLookup };
-}
-
-/** For the proxy: the guest's current lookup and whether access is active */
+/** For the proxy: the guest's current pass key and whether access is active */
 export async function getGuestPass(db: Db, guestId: string, now: Date) {
   const [row] = await db
     .select({
@@ -167,7 +155,7 @@ export async function setGuestExpiry(
     .where(eq(guests.id, guestId));
 }
 
-/** Access back on with a new end date, in one update; the password is unchanged */
+/** Access back on with a new end date, in one update; the pass key is unchanged */
 export async function resumeAccess(
   db: Db,
   guestId: string,
