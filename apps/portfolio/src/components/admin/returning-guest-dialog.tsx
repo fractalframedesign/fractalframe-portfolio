@@ -36,20 +36,18 @@ type ReturningGuestDialogProps = {
     productSlug: string;
     existingGuest: ExistingGuest;
   };
-  onNewPassword: () => void;
 };
 
 type Written = { guestId: string; name: string; email: string; reply: string };
 
 const FAILED = 'Something went wrong. Try again.';
 
-/** A guest asks again: resume them, or send the links again, keeping their password */
+/** A guest asks again: resume them, or send the links again; they sign in as before */
 export default function ReturningGuestDialog({
   open,
   onOpenChange,
   mode,
   request,
-  onNewPassword,
 }: ReturningGuestDialogProps) {
   const [written, setWritten] = useState<Written>();
   const [error, setError] = useState<string>();
@@ -102,16 +100,6 @@ export default function ReturningGuestDialog({
   }
 
   const expiry = expiryDefaults(expiresAt, new Date());
-  const newPasswordLink = (
-    <Button
-      type="button"
-      variant="link"
-      className="h-auto p-0 text-sm"
-      onClick={onNewPassword}
-    >
-      Lost their password? Make a new one
-    </Button>
-  );
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -127,7 +115,7 @@ export default function ReturningGuestDialog({
           <DialogDescription>
             {written
               ? 'Check the message, then send it. Nothing is sent until you press Send invitation.'
-              : 'Their password stays the same.'}
+              : 'They sign in with their email, as before.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -145,7 +133,6 @@ export default function ReturningGuestDialog({
                 {error}
               </p>
             )}
-            {newPasswordLink}
             <DialogFooter>
               <DialogClose asChild>
                 <Button type="button" variant="outline">
@@ -168,7 +155,6 @@ export default function ReturningGuestDialog({
                 Writing the message…
               </p>
             )}
-            {newPasswordLink}
           </div>
         )}
       </DialogContent>

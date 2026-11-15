@@ -81,10 +81,9 @@ test('a message that already ends with Kiran is not signed twice', () => {
 
 test('sendEmail passes html to Resend beside the text', async () => {
   process.env.RESEND_API_KEY = 'key';
-  const fetchMock = vi.fn(
-    async (_url: string, _init: RequestInit) =>
-      new Response('{}', { status: 200 }),
-  );
+  const fetchMock = vi.fn<
+    (url: string, init: RequestInit) => Promise<Response>
+  >(async () => new Response('{}', { status: 200 }));
   vi.stubGlobal('fetch', fetchMock);
 
   expect(

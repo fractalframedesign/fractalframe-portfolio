@@ -4,6 +4,7 @@ import { revalidatePath, updateTag } from 'next/cache';
 import { z } from 'zod';
 
 import { LEVELS_TAG } from '@/lib/access/cached-levels';
+import { renderEmail } from '@/lib/access/email-template';
 import { expiryChoiceSchema, resolveExpiry } from '@/lib/access/expiry';
 import { resolveLevel } from '@/lib/access/levels';
 import { copyReplyText, type InviteProject } from '@/lib/access/reply';
@@ -352,7 +353,10 @@ export async function sendInvite(
     to,
     replyTo: CONTACT_EMAIL,
     subject: parsed.data.subject,
+    // The text is Kiran's message as written; the HTML is the same words in
+    // the shared template, with a button to the first project link
     text: parsed.data.message,
+    html: inviteHtml(parsed.data.subject, parsed.data.message),
   });
   if (!sent) return { ok: false, error: MESSAGES.emailFailed };
 
@@ -367,6 +371,15 @@ export async function sendInvite(
     }
   }
   return { ok: true, sentTo: to };
+}
+
+function inviteHtml(subject: string, message: string) {
+  const link = message.match(/https?:\/\/\S+/)?.[0].replace(/[.,;:!?)]+$/, '');
+  return renderEmail({
+    heading: subject,
+    paragraphs: message.split(/\n{2,}/),
+    button: link ? { label: 'Open the project', href: link } : undefined,
+  }).html;
 }
 
 type GuestMessage = ActionResult<{

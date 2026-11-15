@@ -227,7 +227,11 @@ describe('sendInvite', () => {
     return result.guestId;
   }
 
-  const message = { subject: 'Your password', message: 'Hi Ada, it is pw-1' };
+  const message = {
+    subject: 'Access to my private projects',
+    message:
+      'Hi Ada,\n\nCactus Plant\nhttps://example.com/projects/cactus-plant\n\nKiran',
+  };
 
   test('without a verified sender it says so and sends nothing', async () => {
     const fetchMock = vi.fn();
@@ -263,9 +267,17 @@ describe('sendInvite', () => {
       from: 'Kiran <hello@example.com>',
       to: 'ada@example.com',
       reply_to: 'kiranspingle@gmail.com',
-      subject: 'Your password',
-      text: 'Hi Ada, it is pw-1',
+      subject: message.subject,
+      // The plain text is exactly what Kiran wrote
+      text: message.message,
     });
+    // The HTML version carries the same words and a button to the first link
+    expect(body.html).toContain('Access to my private projects</h1>');
+    expect(body.html).toContain('Hi Ada,');
+    expect(body.html).toMatch(
+      /<a href="https:\/\/example\.com\/projects\/cactus-plant"[^>]*>Open the project<\/a>/,
+    );
+    expect(body.html.match(/Kiran/g)).toHaveLength(1);
     vi.unstubAllGlobals();
     delete process.env.RESEND_API_KEY;
     delete process.env.ACCESS_REQUEST_FROM;
