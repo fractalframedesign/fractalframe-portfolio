@@ -8,22 +8,12 @@ import { useState, useTransition } from 'react';
 import {
   type ActionResult,
   deleteGuest,
-  newPassword,
   setGuestAccessStatus,
+  signOutEverywhere,
 } from '@/app/(admin)/admin/actions';
 import ConfirmDialog from '@/components/admin/confirm-dialog';
 import GrantStatusBadge from '@/components/admin/grant-status-badge';
-import PasswordReveal from '@/components/admin/password-reveal';
 import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,9 +47,10 @@ type GuestsTableProps = {
 
 const FAILED = 'Something went wrong. Try again.';
 
-type Pending =
-  | { kind: 'expiry' | 'edit' | 'delete'; guest: GuestAccess }
-  | { kind: 'password'; name: string; password: string; reply: string };
+type Pending = {
+  kind: 'expiry' | 'edit' | 'delete' | 'sign-out';
+  guest: GuestAccess;
+};
 
 export default function GuestsTable({ rows, filtered, now }: GuestsTableProps) {
   // Dialogs live here, not in rows, so they survive the refresh after a change
@@ -130,33 +121,21 @@ export default function GuestsTable({ rows, filtered, now }: GuestsTableProps) {
           open={open}
           onOpenChange={setOpen}
           title={`Remove ${dialog.guest.name}?`}
-          description="Their password stops working straight away and they’re taken off your guest list. This can’t be undone."
+          description="They lose access straight away and are taken off your guest list. This can’t be undone."
           confirmLabel="Remove guest"
           onConfirm={() => deleteGuest(dialog.guest.guestId)}
         />
       )}
 
-      {dialog?.kind === 'password' && (
-        <Dialog open={open} onOpenChange={setOpen}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>New password for {dialog.name}</DialogTitle>
-              <DialogDescription>
-                Their old password no longer works. Nothing has been sent.
-              </DialogDescription>
-            </DialogHeader>
-            <PasswordReveal
-              name={dialog.name}
-              password={dialog.password}
-              reply={dialog.reply}
-            />
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button variant="outline">Done</Button>
-              </DialogClose>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
+      {dialog?.kind === 'sign-out' && (
+        <ConfirmDialog
+          open={open}
+          onOpenChange={setOpen}
+          title={`Sign ${dialog.guest.name} out of their devices?`}
+          description="Every device they signed in on is locked out. They can sign in again with a new code."
+          confirmLabel="Sign out"
+          onConfirm={() => signOutEverywhere(dialog.guest.guestId)}
+        />
       )}
     </SectionCard>
   );
@@ -196,34 +175,17 @@ function GuestRow({
 
   // Inside a transition so a thrown redirect (session expired) reaches
   // Next's RedirectBoundary instead of being shown as a failure
-  function run<T extends ActionResult>(
-    action: () => Promise<T>,
-    onDone?: (result: T & { ok: true }) => void,
-  ) {
+  function run(action: () => Promise<ActionResult>) {
     onError(undefined);
     startTransition(async () => {
       try {
         const result = await action();
-        if (!result.ok) return onError(result.error ?? FAILED);
-        onDone?.(result as T & { ok: true });
+        if (!result.ok) onError(result.error ?? FAILED);
       } catch (caught) {
         unstable_rethrow(caught);
         onError(FAILED);
       }
     });
-  }
-
-  function issuePassword() {
-    run(
-      () => newPassword(guest.guestId),
-      (result) =>
-        onShow({
-          kind: 'password',
-          name: guest.name,
-          password: result.password,
-          reply: result.reply,
-        }),
-    );
   }
 
   return (
@@ -281,8 +243,10 @@ function GuestRow({
             >
               Change expiry
             </DropdownMenuItem>
-            <DropdownMenuItem onSelect={issuePassword}>
-              New password
+            <DropdownMenuItem
+              onSelect={() => onShow({ kind: 'sign-out', guest })}
+            >
+              Sign out of their devices
             </DropdownMenuItem>
             <DropdownMenuItem onSelect={() => onShow({ kind: 'edit', guest })}>
               Edit name &amp; note

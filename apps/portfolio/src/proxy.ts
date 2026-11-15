@@ -41,10 +41,13 @@ export async function proxy(request: NextRequest, event: NextFetchEvent) {
       return noStore(NextResponse.next());
     }
     case 'unlock': {
-      // Case studies show a teaser in place, so the full page is never sent
+      // Case studies show a teaser in place, so the full page is never sent.
+      // The query stays: the sign-in email links back with ?email=
       if (result.section === 'projects') {
         return noStore(
-          NextResponse.rewrite(new URL(`/locked/${result.slug}`, request.url)),
+          NextResponse.rewrite(
+            new URL(`/locked/${result.slug}${search}`, request.url),
+          ),
         );
       }
       const unlockUrl = new URL('/showcase/unlock', request.url);

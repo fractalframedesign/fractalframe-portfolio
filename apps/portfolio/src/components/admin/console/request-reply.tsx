@@ -17,10 +17,10 @@ export type ReplyRequest = {
   existingGuest: ExistingGuest | null;
 };
 
-type Mode = 'approve' | 'resume' | 'remind' | 'new-password';
+type Mode = 'approve' | 'resume' | 'remind';
 
 /** One clear action per situation: new person, paused or expired guest, guest with access */
-function modeFor(request: ReplyRequest): Exclude<Mode, 'new-password'> {
+function modeFor(request: ReplyRequest): Mode {
   const state = request.existingGuest?.state;
   if (!state) return 'approve';
   return state === 'active' ? 'remind' : 'resume';
@@ -88,7 +88,6 @@ export function useRequestReply() {
         onOpenChange={setOpen}
         mode={target.mode}
         request={{ ...request, existingGuest: existing! }}
-        onNewPassword={() => setTarget({ request, mode: 'new-password' })}
       />
     ) : (
       <AddGuestDialog
@@ -100,10 +99,6 @@ export function useRequestReply() {
           email: request.email,
           requestId: request.id,
           projectSlug: request.productSlug,
-          existingGuest:
-            target.mode === 'new-password' && existing
-              ? { expiresAt: existing.expiresAt }
-              : undefined,
         }}
       />
     );

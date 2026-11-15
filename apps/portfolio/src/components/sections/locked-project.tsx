@@ -1,12 +1,10 @@
 import { Lock } from 'lucide-react';
 
-import RequestAccessDialog from '@/components/access/request-access-dialog';
-import UnlockForm from '@/components/access/unlock-form';
+import SignInCard from '@/components/access/sign-in-card';
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -18,10 +16,15 @@ type LockedProjectProps = {
     name: string;
     description: string;
   };
+  /** From the link in the code email: start on the code step */
+  initialEmail?: string;
 };
 
-/** What a visitor sees in place of a password-protected case study: its name and the way in, nothing from inside it */
-export default function LockedProject({ project }: LockedProjectProps) {
+/** What a visitor sees in place of a private case study: its name and the way in, nothing from inside it */
+export default function LockedProject({
+  project,
+  initialEmail,
+}: LockedProjectProps) {
   return (
     <section className="hero-padding">
       <div className="container space-y-6 md:space-y-8">
@@ -39,25 +42,21 @@ export default function LockedProject({ project }: LockedProjectProps) {
         <Card className="max-w-sm">
           <CardHeader>
             <CardTitle>
-              <h2 className="text-base font-semibold">Enter the password</h2>
+              <h2 className="text-base font-semibold">Sign in to view</h2>
             </CardTitle>
             <CardDescription>
-              One password opens all my private case studies.
+              Enter your email. If you&apos;re on my guest list, a 6-digit code
+              arrives in seconds.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <UnlockForm
-              project={project.slug}
+            <SignInCard
+              project={{ slug: project.slug, name: project.name }}
               next={`/projects/${project.slug}`}
+              initialEmail={initialEmail}
               autoFocus={false}
             />
           </CardContent>
-          <CardFooter className="text-muted-foreground gap-1 text-sm">
-            Don&apos;t have one?
-            <RequestAccessDialog
-              project={{ slug: project.slug, name: project.name }}
-            />
-          </CardFooter>
         </Card>
       </div>
     </section>

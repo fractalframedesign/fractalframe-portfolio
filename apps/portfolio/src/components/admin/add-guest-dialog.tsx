@@ -8,7 +8,7 @@ import {
   useTransition,
 } from 'react';
 
-import { addGuest, type PasswordResult } from '@/app/(admin)/admin/actions';
+import { addGuest, type InviteResult } from '@/app/(admin)/admin/actions';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -94,8 +94,8 @@ export default function AddGuestDialog({
               </DialogTitle>
               <DialogDescription>
                 {resending
-                  ? 'This makes a new password. Their old one stops working.'
-                  : 'You’ll get one password to send them. It opens every password-protected project.'}
+                  ? 'Their access is renewed. They sign in with their email as before.'
+                  : 'They’ll sign in with their email. You get a message to send them.'}
               </DialogDescription>
             </DialogHeader>
             {open && <GuestForm defaults={defaults} onCreated={setCreated} />}
@@ -115,7 +115,7 @@ function GuestForm({
 }) {
   const id = useId();
   const [pending, startTransition] = useTransition();
-  const [result, setResult] = useState<PasswordResult | null>(null);
+  const [result, setResult] = useState<InviteResult | null>(null);
   // Read once on mount: the form remounts each time the dialog opens
   const [expiry] = useState(() =>
     defaults.existingGuest
@@ -171,7 +171,7 @@ function GuestForm({
         <Field
           id={`${id}-email`}
           label="Email"
-          hint="The invitation goes here. An email that’s already a guest gets a new password."
+          hint="The invitation goes here. An email that’s already a guest is renewed."
           error={errors.email?.[0]}
         >
           <Input
@@ -229,7 +229,7 @@ function GuestForm({
           {pending
             ? 'Saving…'
             : defaults.existingGuest
-              ? 'Make new password'
+              ? 'Resend access'
               : defaults.requestId
                 ? 'Approve request'
                 : 'Create invite'}
