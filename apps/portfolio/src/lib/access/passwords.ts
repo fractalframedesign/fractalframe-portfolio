@@ -62,6 +62,27 @@ export function generatePassword(random: () => number = secureRandom) {
   return [...picked, number].join('-');
 }
 
+/**
+ * The guest's pass key: 32 random bytes as hex. It only signs the guest-pass
+ * cookie, so nobody ever types it; replacing it signs the guest out everywhere.
+ */
+export function generatePassKey() {
+  const bytes = crypto.getRandomValues(new Uint8Array(32));
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join(
+    '',
+  );
+}
+
+/** Six digits, zero-padded, e.g. 048213 */
+export function generateSignInCode(random: () => number = secureRandom) {
+  return String(Math.floor(random() * 1_000_000)).padStart(6, '0');
+}
+
+/** Stored in place of the code itself; tied to the guest so codes can't be swapped */
+export async function hashSignInCode(guestId: string, code: string) {
+  return hmac(sessionSecret(), `sign-in-code:${guestId}:${code}`);
+}
+
 function secureRandom() {
   const [value] = crypto.getRandomValues(new Uint32Array(1));
   return value! / 2 ** 32;

@@ -1,7 +1,10 @@
 import { describe, expect, test } from 'vitest';
 
 import {
+  generatePassKey,
   generatePassword,
+  generateSignInCode,
+  hashSignInCode,
   normalizePassword,
   parseGuestPass,
   passwordLookup,
@@ -78,4 +81,24 @@ describe('guest pass', () => {
     expect(parseGuestPass(`${'x'}.${'a'.repeat(64)}`)).toBeNull();
     expect(parseGuestPass(`${GUEST}.short`)).toBeNull();
   });
+});
+
+test('generatePassKey is 64 hex chars and never repeats', () => {
+  const a = generatePassKey();
+  expect(a).toMatch(/^[0-9a-f]{64}$/);
+  expect(generatePassKey()).not.toBe(a);
+});
+
+test('generateSignInCode is six digits, zero-padded', () => {
+  expect(generateSignInCode(() => 0)).toBe('000000');
+  expect(generateSignInCode(() => 0.999999)).toBe('999999');
+  expect(generateSignInCode()).toMatch(/^\d{6}$/);
+});
+
+test('hashSignInCode binds the code to the guest', async () => {
+  process.env.ADMIN_SESSION_SECRET = 'test-secret';
+  const a = await hashSignInCode('guest-a', '123456');
+  expect(a).toMatch(/^[0-9a-f]{64}$/);
+  expect(await hashSignInCode('guest-b', '123456')).not.toBe(a);
+  expect(await hashSignInCode('guest-a', '123457')).not.toBe(a);
 });
