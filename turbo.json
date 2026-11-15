@@ -12,6 +12,8 @@
         "ADMIN_SESSION_SECRET",
         "RESEND_API_KEY",
         "ACCESS_REQUEST_FROM",
+        "GMAIL_USER",
+        "GMAIL_APP_PASSWORD",
         "SHOWCASE_ACCESS",
         "NEXT_PUBLIC_SITE_URL",
         "VERCEL",
