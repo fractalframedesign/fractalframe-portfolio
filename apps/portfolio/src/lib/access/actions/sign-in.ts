@@ -19,8 +19,6 @@ import {
 import { safeNext } from '@/lib/access/safe-next';
 import { guestSender, sendEmail } from '@/lib/access/send-email';
 import { getDb } from '@/lib/db/client';
-import { getAllProjects } from '@/lib/projects';
-import { getShowcaseProject } from '@/lib/showcase';
 import {
   GUEST_PASS_COOKIE,
   guestPassCookieOptions,
@@ -46,11 +44,6 @@ function readFields(formData: FormData) {
 /** True for a project that is locked right now (falls back to the seed levels) */
 function isLockedProject(slug: string) {
   return offersUnlock(slug, () => getStoredLevels(getDb()));
-}
-
-async function projectName(slug: string) {
-  const project = (await getAllProjects()).find((item) => item.slug === slug);
-  return project?.name ?? getShowcaseProject(slug)?.name ?? slug;
 }
 
 /** The page the guest came from, with their email filled in for the code step */
@@ -99,20 +92,19 @@ export async function startSignIn(
     };
   }
 
-  const name = await projectName(slug);
   const sent = await sendEmail({
     // Without a verified sender (local development) the test sender is used
     from: guestSender(),
     to: email,
     subject: `${issued.code} is your sign-in code`,
     ...renderEmail({
-      heading: 'Your sign-in code',
+      heading: 'FractalFrames sign-in code',
       paragraphs: [
-        `Enter it on ${name} to continue. It works for 10 minutes.`,
+        'Enter login code to continue. It works for 10 minutes.',
         'If you didn’t ask for this, you can ignore this email.',
       ],
       code: issued.code,
-      button: { label: `Open ${name}`, href: returnLink(slug, next, email) },
+      button: { label: 'Open FractalFrames', href: returnLink(slug, next, email) },
     }),
   });
   if (!sent) {

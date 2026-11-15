@@ -161,7 +161,9 @@ describe('startSignIn', () => {
       subject: `${code} is your sign-in code`,
     });
     expect(email?.html).toContain(`>${code}<`);
-    expect(email?.html).toContain('Enter it on Fintech Components');
+    expect(email?.html).toContain('FractalFrames sign-in code');
+    expect(email?.html).toContain('Enter login code to continue.');
+    expect(email?.html).toContain('Open FractalFrames');
     expect(email?.html).toContain(
       `href="https://example.com/showcase/${SLUG}/docs?email=Ada%40Example.com"`,
     );
