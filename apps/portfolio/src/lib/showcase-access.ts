@@ -19,13 +19,13 @@ export function accessCookieName(slug: string) {
   return `showcase-access-${slug}`;
 }
 
-/** Cookie set by a guest password from the database: one for every project */
+/** Cookie a guest gets after signing in with an email code: one for every project */
 export const GUEST_PASS_COOKIE = 'guest-pass';
 
 /**
- * Session cookies: no expiry, so the browser drops them when it closes and
- * the password is asked again on the next visit. Path `/` so one unlock
- * covers both /projects/<slug> and /showcase/<slug>.
+ * Session cookie for a SHOWCASE_ACCESS password: no expiry, so the browser
+ * drops it when it closes and the password is asked again on the next visit.
+ * Path `/` so one unlock covers both /projects/<slug> and /showcase/<slug>.
  */
 export function accessCookieOptions() {
   return {
@@ -34,6 +34,16 @@ export function accessCookieOptions() {
     sameSite: 'lax' as const,
     path: '/',
   };
+}
+
+export const GUEST_PASS_MAX_AGE_SECONDS = 365 * 24 * 60 * 60;
+
+/**
+ * The guest pass stays for a year, so a guest signs in once per device.
+ * Pausing, deleting or expiring them still locks the next page load.
+ */
+export function guestPassCookieOptions() {
+  return { ...accessCookieOptions(), maxAge: GUEST_PASS_MAX_AGE_SECONDS };
 }
 
 function getEntries(slug: string) {
