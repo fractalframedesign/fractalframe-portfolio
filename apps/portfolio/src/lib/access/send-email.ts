@@ -10,17 +10,19 @@ export function guestSender() {
     : undefined;
 }
 
-/** Sends a plain-text email through Resend; false (and logged) on any failure */
+/** Sends an email through Resend, with an HTML version when given; false (and logged) on any failure */
 export async function sendEmail({
   to,
   subject,
   text,
+  html,
   replyTo,
   from = process.env.ACCESS_REQUEST_FROM ?? TEST_SENDER,
 }: {
   to: string;
   subject: string;
   text: string;
+  html?: string;
   replyTo?: string;
   from?: string;
 }) {
@@ -37,7 +39,14 @@ export async function sendEmail({
         Authorization: `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ from, to, reply_to: replyTo, subject, text }),
+      body: JSON.stringify({
+        from,
+        to,
+        reply_to: replyTo,
+        subject,
+        text,
+        html,
+      }),
     });
     if (!response.ok) {
       console.error('Email failed', await response.text());
