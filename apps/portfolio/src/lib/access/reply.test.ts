@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
-import { copyReplyText } from './reply';
+import { copyReplyText, INVITE_SUBJECT } from './reply';
 
 const projects = [
   { name: 'Cactus Plant', link: 'https://example.com/projects/cactus-plant' },
@@ -11,17 +11,16 @@ const projects = [
 ];
 
 describe('copyReplyText', () => {
-  test('lists each project title with its link, then the password', () => {
+  test('lists each project title with its link, then how to sign in', () => {
     expect(
       copyReplyText({
         name: 'Jane Doe',
-        password: 'amber-river-42',
         expiresAt: new Date('2026-11-02T09:00:00Z'),
         projects,
       }),
     ).toBe(`Hi Jane,
 
-Kiran invited you to these private projects:
+You now have access to my private projects:
 
 Cactus Plant
 https://example.com/projects/cactus-plant
@@ -29,10 +28,10 @@ https://example.com/projects/cactus-plant
 Fintech Components
 https://example.com/projects/fintech-components
 
-Password: amber-river-42
+To open one, enter your email on the page and a 6-digit code will arrive.
+You stay signed in on that device until I end your access.
 
 It works until Nov 2, 2026, 18:00 JST.
-Open a link and enter the password. It's asked again after you close your browser.
 
 Kiran`);
   });
@@ -40,29 +39,27 @@ Kiran`);
   test('without an end date there is no end-date line', () => {
     const reply = copyReplyText({
       name: 'Sam',
-      password: 'amber-river-42',
       expiresAt: null,
       projects: projects.slice(0, 1),
     });
-    expect(reply).toContain('Password: amber-river-42');
     expect(reply).not.toContain('It works until');
+    expect(reply).toContain('until I end your access.\n\nKiran');
   });
 
-  test('resume and reminder messages point to the password they already have', () => {
+  test('resume and reminder messages keep their first lines and never mention a password', () => {
     const resume = copyReplyText({
       name: 'Sam',
-      password: null,
       expiresAt: null,
       projects,
       kind: 'resume',
     });
     expect(resume).toContain('Your access to my private projects is back on:');
-    expect(resume).toContain('Password: use the one I sent you before.');
+    expect(resume).toContain('a 6-digit code will arrive');
+    expect(resume).not.toContain('Password');
     expect(resume).toContain('https://example.com/projects/cactus-plant');
 
     const reminder = copyReplyText({
       name: 'Sam',
-      password: null,
       expiresAt: null,
       projects,
       kind: 'reminder',
@@ -70,5 +67,10 @@ Kiran`);
     expect(reminder).toContain(
       'Here are the links to my private projects again:',
     );
+    expect(reminder).not.toContain('Password');
+  });
+
+  test('the default subject no longer promises a password', () => {
+    expect(INVITE_SUBJECT).toBe('Access to my private projects');
   });
 });

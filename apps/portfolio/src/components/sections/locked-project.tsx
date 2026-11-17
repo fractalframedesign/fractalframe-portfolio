@@ -1,15 +1,6 @@
 import { Lock } from 'lucide-react';
 
-import RequestAccessDialog from '@/components/access/request-access-dialog';
-import UnlockForm from '@/components/access/unlock-form';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import SignInCard from '@/components/access/sign-in-card';
 
 type LockedProjectProps = {
   /** Frontmatter only: the case study itself is never passed in */
@@ -18,10 +9,15 @@ type LockedProjectProps = {
     name: string;
     description: string;
   };
+  /** From the link in the code email: start on the code step */
+  initialEmail?: string;
 };
 
-/** What a visitor sees in place of a password-protected case study: its name and the way in, nothing from inside it */
-export default function LockedProject({ project }: LockedProjectProps) {
+/** What a visitor sees in place of a private case study: its name and the way in, nothing from inside it */
+export default function LockedProject({
+  project,
+  initialEmail,
+}: LockedProjectProps) {
   return (
     <section className="hero-padding">
       <div className="container space-y-6 md:space-y-8">
@@ -36,29 +32,14 @@ export default function LockedProject({ project }: LockedProjectProps) {
           {project.description}
         </p>
 
-        <Card className="max-w-sm">
-          <CardHeader>
-            <CardTitle>
-              <h2 className="text-base font-semibold">Enter the password</h2>
-            </CardTitle>
-            <CardDescription>
-              One password opens all my private case studies.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <UnlockForm
-              project={project.slug}
-              next={`/projects/${project.slug}`}
-              autoFocus={false}
-            />
-          </CardContent>
-          <CardFooter className="text-muted-foreground gap-1 text-sm">
-            Don&apos;t have one?
-            <RequestAccessDialog
-              project={{ slug: project.slug, name: project.name }}
-            />
-          </CardFooter>
-        </Card>
+        <SignInCard
+          className="max-w-sm"
+          title="Log in to access"
+          project={{ slug: project.slug, name: project.name }}
+          next={`/projects/${project.slug}`}
+          initialEmail={initialEmail}
+          autoFocus={false}
+        />
       </div>
     </section>
   );

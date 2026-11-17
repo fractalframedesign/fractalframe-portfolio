@@ -31,29 +31,32 @@ const ProjectRow = ({ project }: { project: ListedProject }) => (
       })}
       className="group focus-visible:ring-ring focus-visible:ring-offset-background block space-y-5 rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-offset-4"
     >
-      {/* Centred, so a project can show a small logo (wrapperClassName) instead of a full image */}
-      <span className="bg-muted outline-foreground/10 flex aspect-video items-center justify-center overflow-hidden rounded-2xl outline -outline-offset-1">
-        <span className={cn('relative size-full', project.wrapperClassName)}>
-          {project.imagePlaceholder ? (
-            <ProjectImagePlaceholder
-              label="Project image placeholder"
-              decorative
-              className="size-full"
-            />
-          ) : (
-            <Image
-              src={project.image}
-              alt=""
-              fill
-              sizes="(min-width: 952px) 912px, 100vw"
-              className={cn(
-                'object-cover transition-transform duration-500 group-hover:scale-102',
-                project.imageClassName,
-              )}
-            />
-          )}
+      {/* Centred, so a project can show a small logo (wrapperClassName) instead
+          of a full image. A locked project shows no picture, like its locked page */}
+      {!project.locked && (
+        <span className="bg-muted outline-foreground/10 flex aspect-video items-center justify-center overflow-hidden rounded-2xl outline -outline-offset-1">
+          <span className={cn('relative size-full', project.wrapperClassName)}>
+            {project.imagePlaceholder ? (
+              <ProjectImagePlaceholder
+                label="Project image placeholder"
+                decorative
+                className="size-full"
+              />
+            ) : (
+              <Image
+                src={project.image}
+                alt=""
+                fill
+                sizes="(min-width: 952px) 912px, 100vw"
+                className={cn(
+                  'object-cover transition-transform duration-500 group-hover:scale-102',
+                  project.imageClassName,
+                )}
+              />
+            )}
+          </span>
         </span>
-      </span>
+      )}
 
       <span className="block space-y-2">
         <span className="flex items-baseline justify-between gap-6">

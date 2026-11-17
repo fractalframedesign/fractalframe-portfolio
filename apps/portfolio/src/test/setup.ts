@@ -26,3 +26,11 @@ vi.mock('next/font/google', () => {
   const font = () => ({ className: '', variable: '', style: {} });
   return { Rubik: font, Noto_Sans: font, Caveat: font, Source_Serif_4: font };
 });
+
+// input-otp looks for password-manager badges with elementFromPoint, which jsdom lacks
+if (
+  typeof document !== 'undefined' &&
+  typeof document.elementFromPoint !== 'function'
+) {
+  document.elementFromPoint = () => null;
+}

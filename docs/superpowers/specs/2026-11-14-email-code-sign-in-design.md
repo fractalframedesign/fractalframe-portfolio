@@ -1,6 +1,6 @@
 # Email code sign-in for guests
 
-Date: 2026-11-14 · Branch: `feat/email-code-sign-in` · Status: agreed with Kiran, not built
+Date: 2026-11-14 · Branch: `feat/email-code-sign-in` · Status: implemented on feat/email-code-sign-in, pending Kiran's check on Preview
 
 Builds on [2026-10-31-password-any-project-design.md](2026-10-31-password-any-project-design.md).
 Replaces the guest password with a code sent by email, and makes the guest

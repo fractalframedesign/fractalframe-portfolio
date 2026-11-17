@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm';
 import type { Db } from '@/lib/db/client';
 import { guests } from '@/lib/db/schema';
 
-import { generatePassword, passwordLookup } from '../passwords';
+import { generatePassKey } from '../passwords';
 
 // Access itself (invite, pause, expiry, the guest pass) lives in guest-access.ts.
 // The per-project `grants` table is kept for selling products later.
@@ -24,17 +24,12 @@ export async function updateGuest(
   await db.update(guests).set(set).where(eq(guests.id, guestId));
 }
 
-/** A new password; the old one and every pass signed with it stop working */
-export async function resetPassword(db: Db, guestId: string) {
-  return db.transaction(async (tx) => {
-    const password = generatePassword();
-    const lookup = await passwordLookup(password);
-    const updated = await tx
-      .update(guests)
-      .set({ passwordLookup: lookup })
-      .where(eq(guests.id, guestId))
-      .returning({ id: guests.id });
-    if (updated.length === 0) throw new Error('Guest not found');
-    return password;
-  });
+/** A new pass key: every guest pass signed with the old one stops working */
+export async function rotatePassKey(db: Db, guestId: string) {
+  const updated = await db
+    .update(guests)
+    .set({ passwordLookup: generatePassKey() })
+    .where(eq(guests.id, guestId))
+    .returning({ id: guests.id });
+  if (updated.length === 0) throw new Error('Guest not found');
 }
