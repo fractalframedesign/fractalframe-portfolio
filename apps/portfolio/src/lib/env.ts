@@ -52,16 +52,6 @@ export const ENV_VARS: Record<string, EnvVarSpec> = {
     requiredInProduction: false,
     hint: 'app password for GMAIL_USER (not the account password)',
   },
-  GMAIL_USER: {
-    schema: z.email(),
-    requiredInProduction: false,
-    hint: 'Gmail address that sends invitations and request alerts; used with GMAIL_APP_PASSWORD',
-  },
-  GMAIL_APP_PASSWORD: {
-    schema: z.string(),
-    requiredInProduction: false,
-    hint: 'app password for GMAIL_USER (not the account password)',
-  },
   SHOWCASE_ACCESS: {
     schema: z.string(),
     requiredInProduction: false,
