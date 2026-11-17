@@ -13,7 +13,7 @@ import ProjectImagePlaceholder from './project/project-image-placeholder';
 type ListedProject = ProjectFrontmatter & { locked?: boolean };
 
 /** Internal links (e.g. a showcase page) go there directly; others open the case study */
-const projectHref = (project: ListedProject) =>
+export const projectHref = (project: ListedProject) =>
   project.href.startsWith('/') ? project.href : `/projects/${project.slug}`;
 
 const ProjectRow = ({ project }: { project: ListedProject }) => (
