@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-const ROUTE_ORDER = ['/', '/projects', '/about', '/articles'];
+const ROUTE_ORDER = ['/', '/projects', '/about', '/articles', '/playground'];
 
 function routeIndex(path: string) {
   const exact = ROUTE_ORDER.indexOf(path);

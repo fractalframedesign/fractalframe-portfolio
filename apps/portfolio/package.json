@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@date-fns/tz": "^1.5.0",
+    "@kiran/playground": "*",
     "@neondatabase/serverless": "^1.2.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -28,6 +29,7 @@
     "@radix-ui/react-toggle": "^1.1.14",
     "@radix-ui/react-toggle-group": "^1.1.15",
     "@radix-ui/react-tooltip": "^1.2.8",
+    "@react-three/fiber": "^9.8.2",
     "@shikijs/rehype": "^3.21.0",
     "@styleglide/kit-view-provider": "^0.0.8",
     "class-variance-authority": "^0.7.1",
@@ -39,7 +41,7 @@
     "gray-matter": "^4.0.3",
     "lucide-react": "^0.562.0",
     "motion": "^12.26.2",
-    "next": "^16.2.9",
+    "next": "^16.4.6",
     "next-mdx-remote": "^6.0.0",
     "next-themes": "^0.4.6",
     "nodemailer": "^10.3.1",
@@ -51,6 +53,7 @@
     "recharts": "^3.10.1",
     "shiki": "^3.21.0",
     "tailwind-merge": "^3.4.0",
+    "three": "^0.187.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -65,6 +68,7 @@
     "@types/nodemailer": "^8.0.2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.187.0",
     "drizzle-kit": "^0.31.11",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",

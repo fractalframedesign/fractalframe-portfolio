@@ -32,6 +32,7 @@
 - Images organized by page: `public/images/home/`, `public/images/about/`, etc.
 - Project detail (case study) components go in `src/components/sections/project/`; their images go in `public/images/projects/<slug>/`
 - Showcase code and assets live in their own folders, never in the site folders above (see "Project details vs showcase")
+- Playground experiments live in `packages/playground`, never in `src/components/` (see "Playground")
 
 ## Typography
 
@@ -166,6 +167,33 @@ To add a showcase project:
 Status: all four projects (`fintech-components`, `finance-dashboard`, `smart-home-dashboard`, `rakuten-link`) follow these rules. The one remaining literal set is Rakuten's brand-colour swatches on its project detail page, which document the real brand hex values on purpose.
 
 A `[data-preview]` scope covers only the demo, never the page chrome around it (headings and captions use the showcase's own tokens). A project's `[data-project]` can appear twice on a page (layout wrapper and `ShowcaseShell`); the inner one wins, so test brand changes on the element closest to the demo.
+
+### Playground (`packages/playground`)
+
+The interface experiments on `/playground` are their own package, `@kiran/playground`, so they can use different libraries and be changed or deleted without touching the site.
+
+```
+packages/playground/
+  package.json            its own dependencies (matter-js, three and so on)
+  src/<experiment>/       one folder per experiment, with its component and any CSS
+  src/ui/                 its own primitives (copied from shadcn, not imported from the site)
+  src/lib/utils.ts        its own cn helper
+  src/icons/              its own icons
+```
+
+- **Independence.** Files in the package import only npm packages and their own folder. Nothing from `@/...` or `apps/`. Need a site part? Copy it into `src/ui/` or `src/lib/`.
+- **Direction.** The site imports the package (`import TagPile from '@kiran/playground/tag-pile'`), never the other way round. Site pages other than `/playground` may use an experiment too (the Projects page uses the tunnel gallery).
+- **Content stays in the site.** Experiments take their words, pictures and links as props. What `/playground` shows is listed in `apps/portfolio/src/lib/playground.ts`, because the pictures and project slugs belong to the site.
+- **Colours are shared on purpose.** Experiments use the semantic tokens (`bg-card`, `text-muted-foreground`), so they follow the theme of whichever page shows them. No theme or `@theme` rules in the package.
+- **A new library** goes in `packages/playground/package.json`, not the portfolio's. If the site itself also uses it (the home hero uses `three`), it is listed in both.
+- The portfolio reads the package through `transpilePackages` in `next.config.ts` and an `@source` line in `(site)/globals.css`. Both are needed; without the second, Tailwind classes in the package have no styles.
+- After `npm install` or any package change, restart the dev server. A server left running across an update keeps reloading the page.
+
+To add an experiment:
+
+1. Create `packages/playground/src/<name>/<name>.tsx` (default export, content through props).
+2. Add `"./<name>": "./src/<name>/<name>.tsx"` to `exports` in `packages/playground/package.json`.
+3. Add its content to `apps/portfolio/src/lib/playground.ts` and an `<article>` to `(site)/playground/page.tsx`.
 
 ### Checks
 

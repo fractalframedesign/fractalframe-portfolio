@@ -2,6 +2,8 @@
 @import 'tw-animate-css';
 @plugin '@tailwindcss/typography';
 @import '../../styles/drawing.css';
+/* The playground experiments live in a package, so Tailwind is told to read their classes */
+@source '../../../../../packages/playground/src';
 
 @custom-variant dark (&:is(.dark *, .drawing-dark *));
 

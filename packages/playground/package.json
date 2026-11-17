@@ -1,0 +1,51 @@
+{
+  "name": "@kiran/playground",
+  "version": "0.0.0",
+  "private": true,
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./audience-expand-cards": "./src/audience-expand-cards/audience-expand-cards.tsx",
+    "./depth-carousel": "./src/depth-carousel/depth-carousel.tsx",
+    "./dot-wordmark": "./src/dot-wordmark/dot-wordmark.tsx",
+    "./follow-accordion": "./src/follow-accordion/follow-accordion.tsx",
+    "./stage-slider": "./src/stage-slider/stage-slider.tsx",
+    "./tag-pile": "./src/tag-pile/tag-pile.tsx",
+    "./tunnel-gallery": "./src/tunnel-gallery/tunnel-gallery.tsx"
+  },
+  "scripts": {
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tooltip": "^1.2.8",
+    "@react-three/fiber": "^9.8.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.562.0",
+    "matter-js": "^0.20.0",
+    "motion": "^12.26.2",
+    "tailwind-merge": "^3.4.0",
+    "three": "^0.187.0"
+  },
+  "peerDependencies": {
+    "next": "^16",
+    "next-themes": "^0.4.6",
+    "react": "^19",
+    "react-dom": "^19"
+  },
+  "devDependencies": {
+    "@kiran/typescript-config": "*",
+    "@types/matter-js": "^0.20.2",
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/three": "^0.187.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
+    "typescript": "^5"
+  }
+}

@@ -5,6 +5,7 @@ import {
   House,
   type LucideIcon,
   PencilLine,
+  Shapes,
   UserRound,
 } from 'lucide-react';
 import Link from 'next/link';
@@ -18,6 +19,7 @@ const siteLinks: Array<{ href: string; label: string; icon: LucideIcon }> = [
   { href: '/projects', label: 'Projects', icon: GalleryVerticalEnd },
   { href: '/about', label: 'Profile', icon: UserRound },
   { href: '/articles', label: 'Stories', icon: PencilLine },
+  { href: '/playground', label: 'Playground', icon: Shapes },
 ];
 
 type NavLinkProps = {

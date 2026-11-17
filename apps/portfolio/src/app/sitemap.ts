@@ -16,7 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
   const isPublic = (slug: string) => resolveLevel(slug, levels) === 'public';
 
-  const staticRoutes = ['', '/about', '/articles', '/projects', '/showcase'];
+  const staticRoutes = ['', '/about', '/articles', '/projects', '/playground', '/showcase'];
 
   return [
     ...staticRoutes.map((route) => ({ url: `${baseUrl}${route}` })),
