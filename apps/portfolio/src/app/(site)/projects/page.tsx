@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 
+import ProjectsBrowser from '@/components/sections/projects-browser';
 import ProjectsList from '@/components/sections/projects-list';
 import { getProductLevels } from '@/lib/access/cached-levels';
 import { visibleProjects } from '@/lib/access/visible';
@@ -27,7 +29,10 @@ export default async function ProjectsPage() {
         </p>
       </div>
 
-      <ProjectsList projects={projects} />
+      {/* The view switch reads the address bar, which needs a fallback while it loads */}
+      <Suspense fallback={<ProjectsList projects={projects} />}>
+        <ProjectsBrowser projects={projects} />
+      </Suspense>
     </section>
   );
 }

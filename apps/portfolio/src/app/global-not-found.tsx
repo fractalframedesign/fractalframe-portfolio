@@ -3,8 +3,8 @@
 // its own and brings the site's styles and font itself.
 import './(site)/globals.css';
 
-import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 import Link from 'next/link';
 
 import { ThemeProvider } from '@/components/providers/theme-provider';
@@ -15,11 +15,13 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+
 export default function GlobalNotFound() {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`flex min-h-screen flex-col antialiased ${GeistSans.variable}`}
+        className={`flex min-h-screen flex-col antialiased ${inter.variable}`}
       >
         <ThemeProvider
           attribute="class"

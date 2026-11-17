@@ -2,6 +2,8 @@
 @import 'tw-animate-css';
 @plugin '@tailwindcss/typography';
 @import '../../styles/drawing.css';
+/* The playground experiments live in a package, so Tailwind is told to read their classes */
+@source '../../../../../packages/playground/src';
 
 @custom-variant dark (&:is(.dark *, .drawing-dark *));
 
@@ -9,8 +11,8 @@
   /* StyleGlide */
   --display-weight: 600;
   --text-weight: 500;
-  --font-display: var(--font-geist-sans);
-  --font-text: var(--font-geist-sans);
+  --font-display: var(--font-inter);
+  --font-text: var(--font-inter);
   --font-serif: var(--font-source-serif, 'Georgia', serif);
   --font-hand: var(--font-caveat, cursive);
 

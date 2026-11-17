@@ -1,7 +1,7 @@
 import './admin.css';
 
-import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
 import { ThemeProvider } from '@/components/providers/theme-provider';
 
@@ -13,12 +13,14 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+
 export default function AdminRootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} min-h-screen antialiased`}>
+      <body className={`${inter.variable} min-h-screen antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

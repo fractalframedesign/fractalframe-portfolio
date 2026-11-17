@@ -2,6 +2,7 @@ import Experience from '@/components/sections/experience';
 import Hero from '@/components/sections/hero';
 import Highlights from '@/components/sections/highlights';
 import { Principles } from '@/components/sections/principles';
+import WaveBackground from '@/components/sections/wave-background';
 import { WhatIDo } from '@/components/sections/what-i-do';
 import Writing from '@/components/sections/writing';
 import { getAllArticles } from '@/lib/articles';
@@ -19,7 +20,8 @@ export default async function Home() {
   });
 
   return (
-    <>
+    <div className="relative">
+      <WaveBackground />
       <Hero />
       <WhatIDo className="section-padding" />
       <div className="section-padding">
@@ -36,6 +38,6 @@ export default async function Home() {
       <div className="section-padding">
         <Experience />
       </div>
-    </>
+    </div>
   );
 }

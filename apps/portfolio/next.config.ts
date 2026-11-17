@@ -20,6 +20,8 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   outputFileTracingRoot: repoRoot,
+  // The playground experiments ship as source, so Next compiles them
+  transpilePackages: ['@kiran/playground'],
   turbopack: {
     root: repoRoot,
   },

@@ -29,6 +29,7 @@ describe('SiteHeader', () => {
       'Projects',
       'Profile',
       'Stories',
+      'Playground',
     ]);
     expect(links[0].getAttribute('href')).toBe('/');
   });

@@ -1,7 +1,7 @@
 import './showcase.css';
 
-import { GeistSans } from 'geist/font/sans';
 import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
 import DrawingInspector from '@/components/drawing/drawing-inspector';
 import { THEMES } from '@/components/drawing/drawing-theme';
@@ -17,6 +17,8 @@ export const metadata: Metadata = {
     'Interactive UI component showcases with live previews, documentation and case studies.',
 };
 
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+
 export default function ShowcaseRootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
@@ -25,7 +27,7 @@ export default function ShowcaseRootLayout({
       {/* Extensions like Grammarly add attributes to body before React loads */}
       <body
         suppressHydrationWarning
-        className={`${GeistSans.variable} min-h-screen antialiased`}
+        className={`${inter.variable} min-h-screen antialiased`}
       >
         <ThemeProvider
           attribute="class"
