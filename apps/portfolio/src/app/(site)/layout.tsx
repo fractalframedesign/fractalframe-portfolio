@@ -1,9 +1,8 @@
 import './globals.css';
 
-import { GeistSans } from 'geist/font/sans';
 import { MotionConfig } from 'motion/react';
 import type { Metadata } from 'next';
-import { Caveat, Source_Serif_4 } from 'next/font/google';
+import { Caveat, Inter, Source_Serif_4 } from 'next/font/google';
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 
 import DrawingInspector from '@/components/drawing/drawing-inspector';
@@ -24,6 +23,12 @@ const sourceSerif4 = Source_Serif_4({
   display: 'optional', // don't swap — use fallback if font not ready on first paint
   preload: true,
   adjustFontFallback: true, // size-adjust the fallback to match Source Serif 4 metrics
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
 });
 
 // Handwritten section titles (SectionTitle) only
@@ -119,7 +124,7 @@ export default async function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${GeistSans.variable} ${sourceSerif4.variable} ${caveat.variable}`}
+        className={`flex min-h-screen flex-col antialiased overflow-x-hidden ${inter.variable} ${sourceSerif4.variable} ${caveat.variable}`}
       >
         {/* Global dot grid background */}
         <div
