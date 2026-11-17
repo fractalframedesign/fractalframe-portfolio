@@ -2,9 +2,6 @@
   "name": "@kiran/playground",
   "version": "0.0.0",
   "private": true,
-  "sideEffects": [
-    "**/*.css"
-  ],
   "exports": {
     "./audience-expand-cards": "./src/audience-expand-cards/audience-expand-cards.tsx",
     "./depth-carousel": "./src/depth-carousel/depth-carousel.tsx",

@@ -49,7 +49,10 @@ export default async function PlaygroundPage() {
       </div>
 
       <article className="bigger-container section-padding space-y-5">
-        <AudienceExpandCards items={PLAYGROUND_AUDIENCES} />
+        <AudienceExpandCards
+          label="Choose your website audience"
+          items={PLAYGROUND_AUDIENCES}
+        />
         <div className="space-y-2">
           <h2 className="text-2xl leading-snug">Expand image cards</h2>
           <p className="text-muted-foreground leading-relaxed">

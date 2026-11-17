@@ -175,7 +175,7 @@ The interface experiments on `/playground` are their own package, `@kiran/playgr
 ```
 packages/playground/
   package.json            its own dependencies (matter-js, three and so on)
-  src/<experiment>/       one folder per experiment, with its component and any CSS
+  src/<experiment>/       one folder per experiment
   src/ui/                 its own primitives (copied from shadcn, not imported from the site)
   src/lib/utils.ts        its own cn helper
   src/icons/              its own icons
@@ -184,6 +184,7 @@ packages/playground/
 - **Independence.** Files in the package import only npm packages and their own folder. Nothing from `@/...` or `apps/`. Need a site part? Copy it into `src/ui/` or `src/lib/`.
 - **Direction.** The site imports the package (`import TagPile from '@kiran/playground/tag-pile'`), never the other way round. Site pages other than `/playground` may use an experiment too (the Projects page uses the tunnel gallery).
 - **Content stays in the site.** Experiments take their words, pictures and links as props. What `/playground` shows is listed in `apps/portfolio/src/lib/playground.ts`, because the pictures and project slugs belong to the site.
+- **Styling.** Tailwind classes and shadcn-style primitives from `src/ui/`, the same as the site. No stylesheets or hex colours.
 - **Colours are shared on purpose.** Experiments use the semantic tokens (`bg-card`, `text-muted-foreground`), so they follow the theme of whichever page shows them. No theme or `@theme` rules in the package.
 - **A new library** goes in `packages/playground/package.json`, not the portfolio's. If the site itself also uses it (the home hero uses `three`), it is listed in both.
 - The portfolio reads the package through `transpilePackages` in `next.config.ts` and an `@source` line in `(site)/globals.css`. Both are needed; without the second, Tailwind classes in the package have no styles.
