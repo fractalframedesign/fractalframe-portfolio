@@ -43,6 +43,8 @@ export default function TunnelGallery({
   const router = useRouter();
   const still = useReducedMotion() ?? false;
   const [onScreen, setOnScreen] = useState(false);
+  // The 3D code is only downloaded once the gallery has scrolled into view
+  const [seen, setSeen] = useState(false);
   const [hovered, setHovered] = useState<TunnelItem | null>(null);
   const [surprise, setSurprise] = useState(0);
   const id = useId();
@@ -63,9 +65,10 @@ export default function TunnelGallery({
   useEffect(() => {
     const element = frame.current;
     if (!element) return;
-    const observer = new IntersectionObserver(([entry]) =>
-      setOnScreen(entry.isIntersecting),
-    );
+    const observer = new IntersectionObserver(([entry]) => {
+      setOnScreen(entry.isIntersecting);
+      if (entry.isIntersecting) setSeen(true);
+    });
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
@@ -95,14 +98,16 @@ export default function TunnelGallery({
         className,
       )}
     >
-      <TunnelScene
-        items={items}
-        still={still}
-        paused={!onScreen}
-        onHover={setHovered}
-        onOpen={open}
-        surprise={surprise}
-      />
+      {seen && (
+        <TunnelScene
+          items={items}
+          still={still}
+          paused={!onScreen}
+          onHover={setHovered}
+          onOpen={open}
+          surprise={surprise}
+        />
+      )}
 
       <div className="pointer-events-none absolute inset-0 flex items-center justify-center px-6 text-center">
         {hovered ? (
